@@ -1,0 +1,103 @@
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+\newcommand{\sgn}{\mathrm{sgn}}
+
+\newcommand{\red}[1]{\color{red}{#1}}
+
+\newcommand{\mref}{{\color{red}0.0}} % missing ref
+\newcommand{\todo}{\noindent{\color{tabred}[To be continued\dots]}}
+
+\definecolor{tabred}{RGB}{214, 39, 40}
+\definecolor{tabblue}{HTML}{1f77b4}
+\definecolor{tabgreen}{HTML}{2ca02c}
+
+%\usepackage[usenames,dvipsnames]{color} % more flexible names for syntax highlighting colors
+
+\lstset{
+    basicstyle=\ttfamily, 
+    numbers=left, 
+    numberstyle=\small\ttfamily\color{ForestGreen},
+    stepnumber=1,              
+    numbersep=10pt, 
+    numberfirstline=true, 
+    numberblanklines=true, 
+    tabsize=4,
+    lineskip=0pt,
+    aboveskip=10pt,
+    belowskip=10pt,
+    extendedchars=true,
+    breaklines=true,
+    %backgroundcolor=\color{ForestGreen!10},
+    keywordstyle=\color{blue}\bfseries,
+    identifierstyle=, % using emph or index keywords
+    commentstyle=\color{ForestGreen},
+    stringstyle=\color{Maroon},
+    showstringspaces=false,
+    showtabs=false,
+    upquote=false,
+    texcl=true % interpet comments as LaTeX
+}
+
+\lstdefinelanguage{julia}
+{
+  keywordsprefix=\@,
+  morekeywords={
+    exit,whos,edit,load,is,isa,isequal,typeof,tuple,ntuple,uid,hash,finalizer,convert,promote,
+    subtype,typemin,typemax,realmin,realmax,sizeof,eps,promote_type,method_exists,applicable,
+    invoke,dlopen,dlsym,system,error,throw,assert,new,Inf,Nan,pi,im,begin,while,for,in,return,
+    break,continue,macro,quote,let,if,elseif,else,try,catch,end,bitstype,ccall,do,using,module,
+    import,export,importall,baremodule,immutable,local,global,const,Bool,Int,Int8,Int16,Int32,
+    Int64,Uint,Uint8,Uint16,Uint32,Uint64,Float32,Float64,Complex64,Complex128,Any,Nothing,None,MPO,MPS,
+    function,type,typealias,abstract
+  },
+  sensitive=true,
+  morecomment=[l]{\#},
+  morestring=[b]',
+  morestring=[b]" 
+}
+
+% Captions
+
+\newcommand*{\CaptionVLineWidth}{0.5pt}
+\newcommand*{\CaptionVLineSep}{.5em}
+
+\newcommand*{\CaptionVLine}{%
+	\noindent
+	\kern\dimexpr-\CaptionVLineSep-\CaptionVLineWidth\relax
+	\textcolor{tabblue}{\vline width\CaptionVLineWidth}%
+	\kern\CaptionVLineSep\relax
+}
+
+\DeclareCaptionFormat{vLine}[%
+#1#2\CaptionVLine#3\par % Single line captions
+]{% Multi-line captions
+	\caption@ifin@list\caption@lsepcrlist\caption@lsepname{%
+		\caption@Error{%
+			The option `labelsep=\caption@lsepname' does not work\MessageBreak
+			with `format=hang'}
+	}{%
+		\sbox0{%
+			\parbox[t]{\linewidth}{%
+				\@hangfrom{#1#2}%
+				\advance\caption@parindent\hangindent
+				\advance\caption@hangindent\hangindent
+				\xdef\CaptionHangIndent{\the\hangindent}%
+				\caption@@par#3\par
+			}%
+		}%
+		\noindent
+		\kern\CaptionHangIndent\relax
+		\CaptionVLine
+		\kern-\CaptionHangIndent\relax
+		\usebox0%
+	}%
+}
+
+\captionsetup{
+	labelsep=quad,
+	labelfont={color=tabblue},
+	format=vLine,
+}
+\captionsetup[sub]{
+	labelsep=quad,
+}

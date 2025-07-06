@@ -1,17 +1,26 @@
+% Chapter layout
+
+% Custom commands
 \newcommand{\beq}{\begin{equation}}
 \newcommand{\eeq}{\end{equation}}
 \newcommand{\sgn}{\mathrm{sgn}}
-
-\newcommand{\red}[1]{\color{red}{#1}}
-
-\newcommand{\mref}{{\color{red}0.0}} % missing ref
+\newcommand{\red}[1]{\color{tabred}{#1}}
+\newcommand{\mref}{{\color{red}[Missing]}} % missing ref
 \newcommand{\todo}{\noindent{\color{tabred}[To be continued\dots]}}
+\def\AF{$\mathrm{AF}$ }
 
 \definecolor{tabred}{RGB}{214, 39, 40}
 \definecolor{tabblue}{HTML}{1f77b4}
 \definecolor{tabgreen}{HTML}{2ca02c}
+\tikzfading[
+	name=fade out,
+	inner color=transparent!0,
+	outer color=transparent!100
+]
 
 %\usepackage[usenames,dvipsnames]{color} % more flexible names for syntax highlighting colors
+
+% Code
 
 \lstset{
     basicstyle=\ttfamily, 
@@ -93,10 +102,12 @@
 	}%
 }
 
+% Customize captions
+
 \captionsetup{
 	labelsep=quad,
 	labelfont={color=tabblue},
-	format=vLine,
+	format=vLine
 }
 \captionsetup[sub]{
 	labelsep=quad,

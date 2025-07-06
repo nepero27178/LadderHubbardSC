@@ -1,15 +1,16 @@
-\documentclass[a4paper]{article}
+\documentclass[a4paper]{memoir}
 
 \input{misc/packages}
 \input{misc/definitions}
 \addbibresource{misc/bibliography.bib}
 
 \begin{document}
+	
+\pagenumbering{gobble}
 
 \begin{center}
-    {\bfseries {\Large Numerical analysis of the Extended Hubbard Model}} \\[0.8em]
-    {\bfseries {\Large effective interaction as a source of unconventional}}\\[0.8em]
-    {\bfseries {\Large High-$T_c$ superconductivity}} \\[1em]
+    {\bfseries {\Large Numerical analysis of superconducting phases in the}} \\[0.8em]
+    {\bfseries {\Large extended Hubbard model with non-local pairing}} \\[1em]
     \large University of Pisa, a.y.~2025-2026 \\[0.8em]
     Alessandro Gori\footnote{\href{mailto:a.gori23@studenti.unipi.it}{a.gori23@studenti.unipi.it} / \href{https://github.com/nepero27178}{nepero27178@github.com}} \\[0.8em]
     \scriptsize Thesis for the Master's degree in Physics
@@ -23,9 +24,32 @@
     \todo
 \end{abstract}
 
-\tableofcontents
+\begin{KeepFromToc}		% No ToC entry in ToC
+	\tableofcontents
+\end{KeepFromToc}
 
+\vfill
+\begin{flushright}
+	\textit{Draft: \today}
+\end{flushright}
 \clearpage
+
+\input{misc/abbreviations}
+\clearpage
+%\isopage[12]
+%\checkandfixthelayout
+
+% Front matter
+\input{misc/introduction}
+
+% Main matter
+\pagenumbering{arabic}
+% \input{misc/foo} % Test chapter
+\input{chapters/theoretical-introduction/theoretical-introduction}
+
+% Back matter
+\appendix
+\input{appendices/superexchange-virtual-hopping/superexchange-virtual-hopping}
 
 \printbibliography \nocite{*}
 

@@ -1,0 +1,14 @@
+\lipsum[1-10]
+
+\let\oldmarginpar\marginpar
+\renewcommand{\marginpar}[1]{
+	\oldmarginpar{
+		\small
+		\textit{{#1}}
+	}
+}
+\lipsum[11]\marginpar{Lipsum 11}
+
+\lipsum[12-15]
+
+\epigraph{If you try and take a cat apart to see how it works, the first thing you have on your hands is a nonworking cat.}{Douglas Adams}

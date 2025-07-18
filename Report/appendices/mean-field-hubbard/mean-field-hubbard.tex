@@ -1,0 +1,95 @@
+\chapter{Mean-Field Theory in Hubbard lattices and magnetic ordering}\label{appendix:mean-field-hubbard}
+
+In this Appendix the Mean-Field solutions to the Hubbard hamiltonian,
+\[
+	\hat H = 
+	-t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	+ U \sum_i \hat n_{i\uparrow} \hat n_{i\downarrow}
+	\qquad
+	t, U  > 0
+\]
+are described.
+
+\section{Ferromagnetic solution}
+
+The two-dimensional square lattice extension of the two-sites model can be studied by the means of Mean Field Theory. We have:
+\[
+\begin{aligned}
+	\hat n_{i\uparrow} \hat n_{i\downarrow} &= \left( \ev{\hat n_{i\uparrow}} + \delta \hat n_{i\uparrow} \right) \left( \ev{\hat n_{i\downarrow}} + \delta \hat n_{i\downarrow} \right) \\
+	&\simeq \ev{\hat n_{i\uparrow}} \ev{\hat n_{i\downarrow}} +  \delta \hat n_{i\uparrow} \ev{\hat n_{i\downarrow}} + \ev{\hat n_{i\uparrow}} \delta \hat n_{i\downarrow} + \mathcal{O} \left(\delta n^2\right) \\
+	&= - \ev{\hat n_{i\uparrow}} \ev{\hat n_{i\downarrow}} + \hat n_{i\uparrow} \ev{\hat n_{i\downarrow}} + \ev{\hat n_{i\uparrow}} \hat n_{i\downarrow} + \mathcal{O} \left(\delta n^2\right)
+\end{aligned}
+\]
+where $\delta \hat n_{i\sigma} \equiv \hat n_{i\sigma} - \ev{\hat n_{i\sigma}}$ and orders higher than first have been ignored, assuming negligible fluctuations around the equilibrium magnetization. The first term of the above three can be neglected, being a pure energy shift. The Mean-Field Theory ferromagnetic solution prescribes an uniformly magnetized lattice,
+\[
+	\ev{\hat n_{i\uparrow}} = n+m
+	\qquad
+	\ev{\hat n_{i\downarrow}} = n-m
+\]
+where $n$ is the site electron density and $m$ is the density unbalance, leading to a magnetization per site $2m$. The mean-field hamiltonian with these substitutions becomes:
+\[
+\begin{aligned}
+	\hat H &\simeq 
+	-t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	+ U \sum_i \left[
+		\hat n_{i\uparrow} \ev{\hat n_{i\downarrow}} + \ev{\hat n_{i\uparrow}} \hat n_{i\downarrow} 
+	\right] \\
+	&= -t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	+ nU \sum_i \left[
+		\hat n_{i\uparrow} + \hat n_{i\downarrow} 
+	\right] + mU \sum_i \left[
+		\hat n_{i\uparrow} - \hat n_{i\downarrow} 
+	\right]
+\end{aligned}
+\]
+Fourier transforming,
+\[
+\begin{aligned}
+	-t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma} &= -2t \sum_{\mathbf{k}\sigma} \left[
+		\cos(k_x) + \cos(k_y)
+	\right] \hat n_{\mathbf{k}\sigma} \\
+	nU \sum_i \left[
+		\hat n_{i\uparrow} + \hat n_{i\downarrow} 
+	\right] &= nU \sum_{\mathbf{k}\sigma} \hat n_{\mathbf{k}\sigma} \\
+	mU \sum_i \left[
+		\hat n_{i\uparrow} - \hat n_{i\downarrow} 
+	\right] &= mU \sum_{\mathbf{k}\sigma} \left[
+		\hat n_{\mathbf{k}\uparrow} - \hat n_{\mathbf{k}\downarrow}
+	\right]
+\end{aligned}
+\]
+having used adimensional lattice momenta. For a square lattice, the Brillouin Zone is delimited by
+\[
+	\mathbf{k} \in [-\pi,\pi] \times [-\pi,\pi]
+\]
+The hopping single-state energy is given by
+\[
+	\epsilon_{\mathbf{k}}^{(0)} = -2t \left[
+		\cos(k_x) + \cos(k_y)
+	\right]
+\]
+represented as a band in Fig.~\ref{fig:ferromagnetic-3d-band}. At $U=0$, the mean-field ferromagnetic state fills the band bottom-up. The single-state energy becomes:
+\[
+\begin{aligned}
+	\epsilon_{\mathbf{k}\uparrow} &= U \left(
+		n+m
+	\right) - 2t \left[
+		\cos(k_x) + \cos(k_y)
+	\right] \\
+	\epsilon_{\mathbf{k}\downarrow} &= U \left(
+		n-m
+	\right) - 2t \left[
+		\cos(k_x) + \cos(k_y)
+	\right]
+\end{aligned}
+\]
+Now it is a matter of finding the optimal value for $m$, minimizing the total energy at fixed filling $\rho = 2n$. Consider the half-filling situation. An unpolarized system will have $n=1/4$, $m=0$. A perfectly up-ferromagnetic system, $n=1/4$, $m=1/4$. \todo
+
+\begin{figure}
+	\centering
+	\input{appendices/mean-field-hubbard/pictures/ferromagnetic-3d-band}
+	\caption{Depiction of the Hubbard square lattice hopping band $\epsilon_{\mathbf{k}}^{(0)} = -2t[\cos(k_x) + \cos(k_y)]$. The red lines mark the zero-energy intersection.}
+	\label{fig:ferromagnetic-3d-band}
+\end{figure}
+
+\section{Antiferromagnetic solution}

@@ -5,14 +5,14 @@
 \section{Antiferromagnetic ordering in the Hubbard model}
 
 Consider the ordinary Hubbard model:
-\[
+\begin{equation}\label{eq:hubbard-model}
 	\hat H = 
 	-t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
 	+ U \sum_i \hat n_{i\uparrow} \hat n_{i\downarrow}
 	\qquad
 	t, U  > 0
-\]
-The two competing mechanisms are site-hopping of amplitude $t$ and local repulsion of amplitude $U$. For this model defined \textbf{on a bipartite lattice at half filling} and fixed electron number, it is well known that below a certain critical temperature $T_c$ the ground-state acquires antiferromagnetic ($\mathrm{AF}$) long-range ordering. schematically depicted in Fig.~\ref{fig:antiferromagnet}. The mechanism for the formation of the $\mathrm{AF}$ phase takes advantage of virtual hopping, as described in App.~\ref{appendix:superexchange-virtual-hopping}. \todo
+\end{equation}
+The two competing mechanisms are site-hopping of amplitude $t$ and local repulsion of amplitude $U$. For this model defined \textbf{on a bipartite lattice at half filling} and fixed electron number, it is well known \mref{} that below a certain critical temperature $T_c$ the ground-state acquires antiferromagnetic ($\mathrm{AF}$) long-range ordering. schematically depicted in Fig.~\ref{fig:antiferromagnet}. The mechanism for the formation of the $\mathrm{AF}$ phase takes advantage of virtual hopping, as described in App.~\ref{appendix:superexchange-virtual-hopping}.
 
 \begin{figure}
 	\centering
@@ -21,13 +21,21 @@ The two competing mechanisms are site-hopping of amplitude $t$ and local repulsi
 	\label{fig:antiferromagnet}
 \end{figure}
 
+App.~\ref{appendix:mean-field-hubbard} describes the Mean-Field Theory description of ferromagnetic-antiferromagnetic orderings in $2\mathrm{D}$ Hubbard lattices.
+
 \section{The Extended Fermi-Hubbard model}
 
 The Extended Fermi-Hubbard model is defined by:
-\[
+\begin{equation}\label{eq:extended-hubbard-model}
 	\hat H = 
 	-t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
 	+ U \sum_i \hat n_{i\uparrow} \hat n_{i\downarrow}
 	- V \sum_{\langle ij \rangle} \sum_{\sigma \sigma'} \hat n_{i\sigma} \hat n_{j\sigma'}
-\]
+\end{equation}
 The last term represents an effective attraction between neighboring electrons, of amplitude $V$. Such an interaction is believed \cite{cao2025p-wave} to be a necessary ingredient to describe the insurgence of high-$T_c$ superconductivity in cuprate SCs. \todo
+
+{\color{tabred}
+\begin{enumerate}
+	\item Fourier transform and Brillouin zone;
+	\item Pairing operator;
+\end{enumerate}}

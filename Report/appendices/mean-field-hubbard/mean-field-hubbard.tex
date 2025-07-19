@@ -8,7 +8,7 @@ In this Appendix the Mean-Field solutions to the Hubbard hamiltonian,
 	\qquad
 	t, U  > 0
 \]
-are described.
+are described. The discussion is limited to the two-dimensional square lattice.
 
 \section{Ferromagnetic solution}
 
@@ -68,7 +68,7 @@ The hopping single-state energy is given by
 		\cos(k_x) + \cos(k_y)
 	\right]
 \]
-represented as a band in Fig.~\ref{fig:ferromagnetic-3d-band}. At $U=0$, the mean-field ferromagnetic state fills the band bottom-up. The single-state energy becomes:
+represented as a band in Fig.~\ref{appfig:ferromagnetic-3d-band}. At $U=0$, the mean-field ferromagnetic state fills the band bottom-up. The single-state energy becomes:
 \[
 \begin{aligned}
 	\epsilon_{\mathbf{k}\uparrow} &= U \left(
@@ -83,13 +83,21 @@ represented as a band in Fig.~\ref{fig:ferromagnetic-3d-band}. At $U=0$, the mea
 	\right]
 \end{aligned}
 \]
-Now it is a matter of finding the optimal value for $m$, minimizing the total energy at fixed filling $\rho = 2n$. Consider the half-filling situation. An unpolarized system will have $n=1/4$, $m=0$. A perfectly up-ferromagnetic system, $n=1/4$, $m=1/4$. \todo
+Now it is a matter of finding the optimal value for $m$, minimizing the total energy at fixed filling $\rho = 2n$. Notice that said minimization is performed parametrically varying the magnetization $m$, inside the ferromagnetic-polarized space. As it turns out, for strong local repulsion $U/t \gg 1$, antiferromagnetic ordering is preferred. Comparison is needed in order to assess which magnetic ordering is preferred.
+
+Consider the half-filling situation. An unpolarized system will have $n=1/4$, $m=0$: this implies $\ev{\hat n_{i\uparrow}} = \ev{\hat n_{i\downarrow}} = 1/4$. A perfectly up-ferromagnetic system, $n=1/4$, $m=1/4$: then $\ev{\hat n_{i\uparrow}} = 1/2$ and $\ev{\hat n_{i\downarrow}} = 0$. \todo
 
 \begin{figure}
 	\centering
 	\input{appendices/mean-field-hubbard/pictures/ferromagnetic-3d-band}
 	\caption{Depiction of the Hubbard square lattice hopping band $\epsilon_{\mathbf{k}}^{(0)} = -2t[\cos(k_x) + \cos(k_y)]$. The red lines mark the zero-energy intersection.}
-	\label{fig:ferromagnetic-3d-band}
+	\label{appfig:ferromagnetic-3d-band}
 \end{figure}
 
+{\color{tabred} Unclear: numerically, it turns out the paramagnetic phase ($m=0$) is preferred. Let $\Delta \equiv Um$ and ignore the constant contribution to energies $Un$: graphically, the $\uparrow$ band is shifted by $\Delta$, the $\downarrow$ band by $-\Delta$. At half-filling the Fermi energy remains fixed. For each quadrant (top view of the bands), the DoS is inversion-symmetric with respect to the anti-diagonal (red lines in Fig.~\ref{appfig:ferromagnetic-3d-band}), thus filling the bands bottom-up while performing the shifts should leave the total energy unchanged. Why is $m=0$ preferred?}
+
 \section{Antiferromagnetic solution}
+
+{\color{tabred}The calculation is similar to the ferromagnetic one. Two ways: use a bipartite lattice from the beginning, or use a simple square lattice with a sign modulation in $m$.}
+
+Consider now an AF mean-field solution. This amounts for a modulated magnetization,

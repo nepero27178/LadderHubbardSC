@@ -12,30 +12,80 @@ Consider the ordinary Hubbard model:
 	\qquad
 	t, U  > 0
 \end{equation}
-The two competing mechanisms are site-hopping of amplitude $t$ and local repulsion of amplitude $U$. For this model defined \textbf{on a bipartite lattice at half filling} and fixed electron number, it is well known \mref{} that below a certain critical temperature $T_c$ the ground-state acquires antiferromagnetic ($\mathrm{AF}$) long-range ordering. schematically depicted in Fig.~\ref{fig:antiferromagnet}. The mechanism for the formation of the $\mathrm{AF}$ phase takes advantage of virtual hopping, as described in App.~\ref{appendix:superexchange-virtual-hopping}.
+The two competing mechanisms are site-hopping of amplitude $t$ and local repulsion of amplitude $U$. For this model defined \textbf{on a bipartite lattice at half filling} and fixed electron number, it is well known \cite{hirsch1985hubbard} that, below a certain critical temperature $T_c$ and above some (small) critical repulsion $U_c/t$, the ground-state acquires antiferromagnetic ($\mathrm{AF}$) long-range ordering. schematically depicted in Fig.~\ref{subfig:antiferromagnet-phase}. The mechanism for the formation of the $\mathrm{AF}$ phase takes advantage of virtual hopping, as described in App.~\ref{appendix:superexchange-virtual-hopping}; the Mean-Field Theory treatment of ferromagnetic-antiferromagnetic orderings in $2\mathrm{D}$ Hubbard lattices is rapidly discussed in  App.~\ref{appendix:mean-field-hubbard}.
 
 \begin{figure}
 	\centering
-	\input{chapters/theoretical-introduction/antiferromagnet}
-	\caption{Schematic representation of the \AF phase.}
-	\label{fig:antiferromagnet}
+	\subfloat[Antiferromagnetic phase.]{
+		\input{chapters/theoretical-introduction/pictures/antiferromagnet-phase}
+		\label{subfig:antiferromagnet-phase}	
+	}
+	\hfil
+	\subfloat[Polarized sublattices.]{
+		\input{chapters/theoretical-introduction/pictures/antiferromagnet-sublattices}
+		\label{subfig:antiferromagnet-sublattices}	
+	}
+	\caption{Schematic representation of the \AF phase. Fig.~\ref{subfig:antiferromagnet-phase} shows a portion of the square lattice with explicit representation of the spin for each site. Fig.~\ref{subfig:antiferromagnet-sublattices} divides the square lattice $\mathcal{S}$ in two polarized sublattices $\mathcal{S}_\uparrow$, $\mathcal{S}_\downarrow$. The AF phase results from the interaction of two inversely polarized ``ferromagnetic'' square lattices.}
+	\label{fig:antiferromagnet-schemes}
 \end{figure}
-
-App.~\ref{appendix:mean-field-hubbard} describes the Mean-Field Theory description of ferromagnetic-antiferromagnetic orderings in $2\mathrm{D}$ Hubbard lattices.
 
 \section{The Extended Fermi-Hubbard model}
 
 The Extended Fermi-Hubbard model is defined by:
 \begin{equation}\label{eq:extended-hubbard-model}
-	\hat H = 
+	\hat H =
 	-t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
 	+ U \sum_i \hat n_{i\uparrow} \hat n_{i\downarrow}
 	- V \sum_{\langle ij \rangle} \sum_{\sigma \sigma'} \hat n_{i\sigma} \hat n_{j\sigma'}
 \end{equation}
-The last term represents an effective attraction between neighboring electrons, of amplitude $V$. Such an interaction is believed \cite{cao2025p-wave} to be a necessary ingredient to describe the insurgence of high-$T_c$ superconductivity in cuprate SCs. \todo
+The last term represents an effective attraction between neighboring electrons, of amplitude $V$. Such an interaction is believed \cite{cao2025p-wave} necessary to describe the insurgence of high-$T_c$ superconductivity in cuprate SCs. \todo
 
-{\color{tabred}
-\begin{enumerate}
-	\item Fourier transform and Brillouin zone;
-	\item Pairing operator;
-\end{enumerate}}
+\subsection{Mean-Field effective hamiltonian}
+
+{\color{tabred}[Why has this subsection no number?]}
+
+\begin{figure}
+	\centering
+	\input{chapters/theoretical-introduction/pictures/square-nearest-neighbors}
+	\caption{Schematic representation of the four NNs of a given site $i$ for a planar square lattice.}
+	\label{fig:square-nearest-neighbors}
+\end{figure}
+
+Consider the non-local term,
+\[
+	\hat H_V \equiv - V \sum_{\langle ij \rangle} \sum_{\sigma \sigma'} \hat n_{i\sigma} \hat n_{j\sigma'}
+\]
+{\color{tabred}Since the relevant values for $V$ are $\mathcal{O}(t)$, in this model $V \ll U$.} The ground-state leading contribution will be antiferromagnetic, with the square lattice decomposed in two oppositely polarized square lattices with spacing increased by a factor $\sqrt{2}$. The non-local interaction can be written as a sum of local terms on one of the two sublattices, say, the one up-polarized:
+\[
+	\hat H_V = \sum_{i \in \mathcal{S}_\uparrow} \hat h_V^{(i)}
+	\qquad
+	\hat h_V^{(i)} = -V \sum_{\ell = x,y} \left(
+		\hat n_{i\uparrow} \hat n_{i + \delta_\ell \downarrow} + \hat n_{i\uparrow} \hat n_{i - \delta_\ell \downarrow} 
+	\right) 
+\]
+Here the notation of Fig.~\ref{subfig:antiferromagnet-sublattices} is used. The two-dimensional lattice is regular-square. For each site $i$, the nearest neighbors sites are four. The notation used is $i \pm \delta_x$, $i \pm  \delta_y$ as in Fig.~\ref{fig:square-nearest-neighbors}; all of these sites are part of $\mathcal{S}_\downarrow$. Note finally that, using $i \in \mathcal{S}_\uparrow$, the sum $\sum_{\sigma \sigma'}$ has been omitted: this is because operators resulting from $(\sigma, \sigma') \neq \uparrow\downarrow$ are suppressed in a ground-state with antiferromagnetic leading contribution.
+
+Consider a single bond, say, the one connecting sites $i$ and $i+\delta_x$. Wick's Theorem states that, if the expectation value is performed onto a coherent state,
+\[
+\begin{aligned}
+	\langle 
+		\hat n_{i\uparrow} \hat n_{i + \delta_x \downarrow}
+	\rangle &= \langle 
+		\hat c_{i\uparrow}^\dagger \hat c_{i + \delta_x \downarrow}^\dagger \hat c_{i + \delta_x \downarrow} \hat c_{i\uparrow} 
+	\rangle \\
+	&= \langle 
+		\hat c_{i\uparrow}^\dagger \hat c_{i + \delta_x \downarrow}^\dagger
+	\rangle \langle	
+		\hat c_{i + \delta_x \downarrow} \hat c_{i\uparrow} 
+	\rangle - \langle 
+		\hat c_{i\uparrow}^\dagger \hat c_{i + \delta_x \downarrow}
+	\rangle \langle	
+		\hat c_{i + \delta_x \downarrow}^\dagger \hat c_{i\uparrow} 
+	\rangle + \langle 
+		\hat c_{i\uparrow}^\dagger \hat c_{i\uparrow}
+	\rangle \langle	
+		\hat c_{i + \delta_x \downarrow}^\dagger \hat c_{i + \delta_x \downarrow} 
+	\rangle
+\end{aligned}
+\]
+\todo

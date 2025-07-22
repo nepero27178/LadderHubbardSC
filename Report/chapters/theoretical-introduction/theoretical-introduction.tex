@@ -29,6 +29,8 @@ The two competing mechanisms are site-hopping of amplitude $t$ and local repulsi
 	\label{fig:antiferromagnet-schemes}
 \end{figure}
 
+In this chapter the discussion is limited to the two-dimensional square lattice Hubbard model. The lattice considered has $N$ sites per side, $N^2$ sites in total. All theoretical discussion neglects border effects, thus considering $N \to +\infty$.
+
 \section{The Extended Fermi-Hubbard model}
 
 The Extended Fermi-Hubbard model is defined by:
@@ -42,8 +44,6 @@ The last term represents an effective attraction between neighboring electrons, 
 
 \subsection{Mean-Field effective hamiltonian}
 
-{\color{tabred}[Why has this subsection no number?]}
-
 \begin{figure}
 	\centering
 	\input{chapters/theoretical-introduction/pictures/square-nearest-neighbors}
@@ -52,10 +52,10 @@ The last term represents an effective attraction between neighboring electrons, 
 \end{figure}
 
 Consider the non-local term,
-\[
+\begin{equation}\label{eq:extended-hubbard-nonlocal-interaction}
 	\hat H_V \equiv - V \sum_{\langle ij \rangle} \sum_{\sigma \sigma'} \hat n_{i\sigma} \hat n_{j\sigma'}
-\]
-{\color{tabred}Since the relevant values for $V$ are $\mathcal{O}(t)$, in this model $V \ll U$.} The ground-state leading contribution will be antiferromagnetic, with the square lattice decomposed in two oppositely polarized square lattices with spacing increased by a factor $\sqrt{2}$. The non-local interaction can be written as a sum of local terms on one of the two sublattices, say, the one up-polarized:
+\end{equation}
+{\color{tabred}Since the relevant values for $V$ are $\mathcal{O}(t)$, in this model $V \ll U$.} The ground-state leading contribution will be the antiferromagnetic state, with the square lattice decomposed in two oppositely polarized square lattices with spacing increased by a factor $\sqrt{2}$. The non-local interaction can be written as a sum of local terms on one of the two sublattices, say, the one up-polarized:
 \[
 	\hat H_V = \sum_{i \in \mathcal{S}_\uparrow} \hat h_V^{(i)}
 	\qquad
@@ -65,27 +65,145 @@ Consider the non-local term,
 \]
 Here the notation of Fig.~\ref{subfig:antiferromagnet-sublattices} is used. The two-dimensional lattice is regular-square. For each site $i$, the nearest neighbors sites are four. The notation used is $i \pm \delta_x$, $i \pm  \delta_y$ as in Fig.~\ref{fig:square-nearest-neighbors}; all of these sites are part of $\mathcal{S}_\downarrow$. Note finally that, using $i \in \mathcal{S}_\uparrow$, the sum $\sum_{\sigma \sigma'}$ has been omitted: this is because operators resulting from $(\sigma, \sigma') \neq \uparrow\downarrow$ are suppressed in a ground-state with antiferromagnetic leading contribution.
 
-Consider a single bond, say, the one connecting sites $i$ and $i+\delta_x$. Wick's Theorem states that, if the expectation value is performed onto a coherent state,
+The non-local interaction contribution to energy, as a function of the $T=0$ full hamiltonian ground-state $\ket{\Psi}$, is given by
+\[
+\begin{aligned}
+	E_V [\Psi] &= \mel{\Psi}{\hat H_V}{\Psi} \\
+	&= -V \sum_{i \in \mathcal{S}_\uparrow} \sum_{\ell = x,y} \langle
+	\hat n_{i\uparrow} \hat n_{i + \delta_\ell \downarrow} + \hat n_{i\uparrow} \hat n_{i - \delta_\ell \downarrow}
+	\rangle 
+\end{aligned}
+\]
+Shorthand notation has been used: $\mel{\Psi}{\cdot}{\Psi} = \langle \cdot \rangle$. Consider one specific term, say, $\hat n_{i\uparrow} \hat n_{i + \delta_x \downarrow}$. Wick's Theorem states that, if the expectation value is performed onto a coherent state,
 \[
 \begin{aligned}
 	\langle 
-		\hat n_{i\uparrow} \hat n_{i + \delta_x \downarrow}
+	\hat n_{i\uparrow} \hat n_{i + \delta_x \downarrow}
 	\rangle &= \langle 
-		\hat c_{i\uparrow}^\dagger \hat c_{i + \delta_x \downarrow}^\dagger \hat c_{i + \delta_x \downarrow} \hat c_{i\uparrow} 
+	\hat c_{i\uparrow}^\dagger \hat c_{i + \delta_x \downarrow}^\dagger \hat c_{i + \delta_x \downarrow} \hat c_{i\uparrow} 
 	\rangle \\
-	&= \langle 
-		\hat c_{i\uparrow}^\dagger \hat c_{i + \delta_x \downarrow}^\dagger
-	\rangle \langle	
-		\hat c_{i + \delta_x \downarrow} \hat c_{i\uparrow} 
-	\rangle - \langle 
-		\hat c_{i\uparrow}^\dagger \hat c_{i + \delta_x \downarrow}
-	\rangle \langle	
-		\hat c_{i + \delta_x \downarrow}^\dagger \hat c_{i\uparrow} 
-	\rangle + \langle 
-		\hat c_{i\uparrow}^\dagger \hat c_{i\uparrow}
-	\rangle \langle	
-		\hat c_{i + \delta_x \downarrow}^\dagger \hat c_{i + \delta_x \downarrow} 
-	\rangle
+	&= 
+	\underbrace{
+		\langle 
+			\hat c_{i\uparrow}^\dagger \hat c_{i + \delta_x \downarrow}^\dagger
+		\rangle \langle	
+			\hat c_{i + \delta_x \downarrow} \hat c_{i\uparrow} 
+		\rangle 
+	}_{\text{Bogoliubov}}
+	- 
+	\underbrace{
+		\langle 
+			\hat c_{i\uparrow}^\dagger \hat c_{i + \delta_x \downarrow}
+		\rangle \langle	
+			\hat c_{i + \delta_x \downarrow}^\dagger \hat c_{i\uparrow} 
+		\rangle 
+	}_{\text{Fock}}
+	+ 
+	\underbrace{
+		\langle 
+			\hat c_{i\uparrow}^\dagger \hat c_{i\uparrow}
+		\rangle \langle	
+			\hat c_{i + \delta_x \downarrow}^\dagger \hat c_{i + \delta_x \downarrow} 
+		\rangle
+	}_{\text{Hartree}}
 \end{aligned}
 \]
+As a first approximation, the theorem is assumed to hold (which, in a $\mathrm{BCS}$-like fashion, is equivalent to assuming for the ground-state to be a coherent state). The last two terms account for single-particle interactions with a background field; they are relevant in the Hartree-Fock scheme, being direct-exchange contributions to single particle energies. The first term accounts for non-local electrons pairing, mimicking the Bogoliubov term of $\mathrm{BCS}$ theory. {\color{tabred}I assume the ground-state to be realized such that the last two terms are suppressed, while the first survives.} Energy then is cast to the form
+\[
+	E_V[\Psi] = -V \sum_{i \in \mathcal{S}_\uparrow} \sum_{\ell = x,y}
+	\left[
+		\langle
+			\hat c_{i\uparrow}^\dagger \hat c_{i + \delta_\ell \downarrow}^\dagger
+		\rangle \langle	
+			\hat c_{i + \delta_\ell \downarrow} \hat c_{i\uparrow} 
+		\rangle + \langle 
+			\hat c_{i\uparrow}^\dagger \hat c_{i - \delta_\ell \downarrow}^\dagger
+		\rangle \langle	
+			\hat c_{i - \delta_\ell \downarrow} \hat c_{i\uparrow} 
+		\rangle
+	\right]
+\]
+
+The ground-state must realize the condition
+\[
+	\fdv{}{\bra{\Psi}} E[\Psi] = 0
+\]
+being $E[\Psi]$ the total energy (made up of the three terms of couplings $t$, $U$ and $V$). {\color{tabred}[Expand derivation?]} The functional derivative must be carried out in a variational fashion including a Lagrange multiplier, the latter accounting for state-norm conservation, as is done normally in deriving the Hartree-Fock approximation for the eigenenergies of the electron liquid \cite{grosso2014solid, giuliani2005quantum}. This approach leads to the conclusion that the (coherent) ground-state of the system must be an eigenstate of the mean-field effective hamiltonian:
+\begin{align}\label{eq:extended-hubbard-model-effective}
+	\hat H^{(\mathrm{e})} =
+	&-t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	+ U \sum_i \hat n_{i\uparrow} \hat n_{i\downarrow} \\
+	&- V \sum_{i \in \mathcal{S}_\uparrow} \sum_{\ell = x,y} \sum_{\delta = \pm \delta_\ell} \left[
+		\langle 
+			\hat c_{i\uparrow}^\dagger \hat c_{i + \delta \downarrow}^\dagger
+		\rangle
+		\hat c_{i + \delta \downarrow} \hat c_{i\uparrow} 
+		+ \mathrm{h}.~\mathrm{c}.
+	\right]
+\end{align}
 \todo
+
+\subsection{Fourier-transform of the non-local interaction}
+
+Let me take a step back and perform explicitly the Fourier-transform of the non-local interaction of Eq.~\ref{eq:extended-hubbard-nonlocal-interaction}. Consider a generic bond, say, the one connecting sites $j$ and $j\pm\delta_\ell$ (variable $i$ is here referred to as the imaginary unit to avoid confusion). $\mathbf{x}_j$ is the $2$D notation for the position of site $j$, while $\bm{\delta}_\ell$ is the $2$D notation for the lattice spacing previously indicated as $\delta_\ell$. Fourier transform it according to the convention
+\[
+	\hat c_{j\sigma} = \frac{1}{N} \sum_{\mathbf{q} \in \mathrm{BZ}} e^{-i \mathbf{q} \cdot \mathbf{x}_j} \hat c_{\mathbf{q}\sigma}
+\]
+Then:
+\[
+\begin{aligned}
+	\hat n_{j\uparrow} \hat n_{j \pm \delta_\ell \downarrow} &= \hat c_{j\uparrow}^\dagger \hat c_{j \pm \delta_\ell \downarrow}^\dagger \hat c_{j \pm \delta_\ell \downarrow} \hat c_{j\uparrow} \\
+	&= \frac{1}{N^4} \sum_{\nu=1}^4 \sum_{\mathbf{q}_\nu \in \mathrm{BZ}} e^{i \left[ (\mathbf{q}_1 + \mathbf{q}_2) - (\mathbf{q}_3 + \mathbf{q}_4) \right] \cdot \mathbf{x}_j} e^{\pm i(\mathbf{q}_2-\mathbf{q}_3) \cdot \bm{\delta}_\ell}  \hat c_{\mathbf{q}_1 \uparrow}^\dagger \hat c_{\mathbf{q}_2 \downarrow}^\dagger \hat c_{\mathbf{q}_3 \downarrow} \hat c_{\mathbf{q}_4\uparrow}
+\end{aligned}
+\]
+It follows,
+\[
+\begin{aligned}
+	\hat h_V^{(j)} &= -\frac{V}{N^4} \sum_{\ell = x,y} \sum_{\nu=1}^4 \sum_{\mathbf{q}_\nu \in \mathrm{BZ}} e^{i \left[ (\mathbf{q}_1 + \mathbf{q}_2) - (\mathbf{q}_3 + \mathbf{q}_4) \right] \cdot \mathbf{x}_j} 
+	\left(
+		e^{ i(\mathbf{q}_2-\mathbf{q}_3) \cdot \bm{\delta}_\ell} + e^{ -i(\mathbf{q}_2-\mathbf{q}_3) \cdot \bm{\delta}_\ell} 
+	\right)
+	\hat c_{\mathbf{q}_1 \uparrow}^\dagger \hat c_{\mathbf{q}_2 \downarrow}^\dagger \hat c_{\mathbf{q}_3 \downarrow} \hat c_{\mathbf{q}_4\uparrow} \\
+	&= -\frac{2V}{N^4} \sum_{\ell = x,y} \sum_{\nu=1}^4 \sum_{\mathbf{q}_\nu \in \mathrm{BZ}} e^{i \left[ (\mathbf{q}_1 + \mathbf{q}_2) - (\mathbf{q}_3 + \mathbf{q}_4) \right] \cdot \mathbf{x}_j} \cos\left[
+		(\mathbf{q}_2-\mathbf{q}_3) \cdot \bm{\delta}_\ell
+	\right]	\hat c_{\mathbf{q}_1 \uparrow}^\dagger \hat c_{\mathbf{q}_2 \downarrow}^\dagger \hat c_{\mathbf{q}_3 \downarrow} \hat c_{\mathbf{q}_4\uparrow}
+\end{aligned}
+\]
+The full non-local interaction is given by summing over all sites of one sublattice. This gives back momentum conservation,
+\[
+	\frac{1}{N^2} \sum_{j \in \mathcal{S}_\uparrow} e^{i \left[ (\mathbf{q}_1 + \mathbf{q}_2) - (\mathbf{q}_3 + \mathbf{q}_4) \right] \cdot \mathbf{x}_j} = \delta_{\mathbf{q}_1 + \mathbf{q}_2 = \mathbf{q}_3 + \mathbf{q}_4}
+\]
+Let $\mathbf{q}_1 + \mathbf{q}_2 = \mathbf{q}_3 + \mathbf{q}_4 = \mathbf{Q}$, and define $\mathbf{q}$, $\mathbf{q}'$ such that
+\[
+	\mathbf{q}_1 \equiv \mathbf{Q} + \mathbf{q} 
+	\qquad
+	\mathbf{q}_2 \equiv \mathbf{Q} - \mathbf{q} 
+	\qquad
+	\mathbf{q}_3 \equiv \mathbf{Q} - \mathbf{q}' 
+	\qquad
+	\mathbf{q}_4 \equiv \mathbf{Q} + \mathbf{q}'
+	\qquad
+	\Delta \mathbf{q} \equiv \mathbf{q}-\mathbf{q}'
+\]
+Sums over these variable must be intended as over the Brillouin Zone ($\mathrm{BZ}$). Then, finally
+\[
+\begin{aligned}
+	\hat H_V &= \sum_{j \in \mathcal{S}_\uparrow} \hat h_V^{(j)} \\
+	&= - \frac{2V}{N^2} \sum_{\ell = x,y} \sum_{\mathbf{Q}, \mathbf{q}, \mathbf{q}'} \cos\left(
+		\Delta \mathbf{q} \cdot \bm{\delta}_\ell
+	\right)	\hat c_{\mathbf{Q}+\mathbf{q} \uparrow}^\dagger \hat c_{\mathbf{Q}-\mathbf{q} \downarrow}^\dagger \hat c_{\mathbf{Q}-\mathbf{q}' \downarrow} \hat c_{\mathbf{Q}+\mathbf{q}'\uparrow} \\
+	&= -2V \sum_{\ell = x,y} \sum_{\mathbf{q}, \mathbf{q}'} \cos\left(
+	\Delta \mathbf{q} \cdot \bm{\delta}_\ell
+	\right)	\hat c_{\mathbf{q} \uparrow}^\dagger \hat c_{-\mathbf{q} \downarrow}^\dagger \hat c_{-\mathbf{q}' \downarrow} \hat c_{\mathbf{q}'\uparrow} \\
+	&= -2V \sum_{\mathbf{q}, \mathbf{q}'} 
+	\left[
+		\cos \left(
+			\Delta q_x \delta_x
+		\right)	+ \cos \left(
+			\Delta q_y \delta_y
+		\right)	
+	\right]
+	\hat c_{\mathbf{q} \uparrow}^\dagger \hat c_{-\mathbf{q} \downarrow}^\dagger \hat c_{-\mathbf{q}' \downarrow} \hat c_{\mathbf{q}'\uparrow}
+\end{aligned}
+\]
+In the second passage, a sum over $\mathbf{Q}$ has been absorbed recognizing that it generates $N^2$ identical terms. \todo

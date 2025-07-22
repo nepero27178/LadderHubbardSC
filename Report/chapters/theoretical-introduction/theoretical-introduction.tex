@@ -129,19 +129,92 @@ The ground-state must realize the condition
 	\fdv{}{\bra{\Psi}} E[\Psi] = 0
 \]
 being $E[\Psi]$ the total energy (made up of the three terms of couplings $t$, $U$ and $V$). {\color{tabred}[Expand derivation?]} The functional derivative must be carried out in a variational fashion including a Lagrange multiplier, the latter accounting for state-norm conservation, as is done normally in deriving the Hartree-Fock approximation for the eigenenergies of the electron liquid \cite{grosso2014solid, giuliani2005quantum}. This approach leads to the conclusion that the (coherent) ground-state of the system must be an eigenstate of the mean-field effective hamiltonian:
-\begin{align}\label{eq:extended-hubbard-model-effective}
+\begin{equation}\label{eq:extended-hubbard-model-effective-intermediate}
+	\begin{aligned}
+		\hat H^{(\mathrm{e})} =
+		&-t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+		+ U \sum_i \hat n_{i\uparrow} \hat n_{i\downarrow} \\
+		&- V \sum_{i \in \mathcal{S}_\uparrow} \sum_{\ell = x,y} \sum_{\delta = \pm \delta_\ell} \left[
+			\langle 
+				\hat c_{i\uparrow}^\dagger \hat c_{i + \delta \downarrow}^\dagger
+			\rangle
+			\hat c_{i + \delta \downarrow} \hat c_{i\uparrow} 
+			+ \mathrm{h}.\mathrm{c}.
+		\right]
+	\end{aligned}
+\end{equation}
+
+The gap function is defined across each bond as the pairing expectation
+\[
+	\Delta_{ij} \equiv \langle 
+		\hat c_{i\uparrow}^\dagger \hat c_{j \downarrow}^\dagger
+	\rangle
+\]
+while the pairing operator is defined as
+\[
+	\hat \phi_{ij} = \hat c_{j\downarrow} \hat c_{i\uparrow}
+\]
+The effective hamiltonian reads:
+\begin{equation}\label{eq:extended-hubbard-model-effective}
 	\hat H^{(\mathrm{e})} =
-	&-t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
-	+ U \sum_i \hat n_{i\uparrow} \hat n_{i\downarrow} \\
-	&- V \sum_{i \in \mathcal{S}_\uparrow} \sum_{\ell = x,y} \sum_{\delta = \pm \delta_\ell} \left[
-		\langle 
-			\hat c_{i\uparrow}^\dagger \hat c_{i + \delta \downarrow}^\dagger
-		\rangle
-		\hat c_{i + \delta \downarrow} \hat c_{i\uparrow} 
-		+ \mathrm{h}.~\mathrm{c}.
+	-t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	+ U \sum_i \hat n_{i\uparrow} \hat n_{i\downarrow}
+	- V \sum_{\langle ij \rangle} \left[
+		\Delta_{ij} \hat \phi_{ij} + \Delta_{ij}^* \hat \phi_{ij}^\dagger
 	\right]
-\end{align}
-\todo
+\end{equation}
+As in standard $\mathrm{BCS}$ theory, this hamiltonian -- being quadratic in the electronic operators -- can be diagonalized via a Bogoliubov rotation. Superconducting pairing can arise both from the local $U$ term and from the non-local $V$ term. In next sections it is assumed the $V$ term generates dominant superconductivity via its weak non-local pairing.
+
+\subsection{Topological superconducting parameters over the square lattice}
+
+\begin{figure}
+	\centering
+	\subfloat[Extended $s$-wave.]{
+		\input{chapters/theoretical-introduction/pictures/s-wave-gap}
+		\label{subfig:s-wave-gap}
+	}
+	\subfloat[$p_x$-wave.]{
+		\input{chapters/theoretical-introduction/pictures/px-wave-gap}
+		\label{subfig:px-wave-gap}
+	}
+	\subfloat[$p_y$-wave.]{
+		\input{chapters/theoretical-introduction/pictures/py-wave-gap}
+		\label{subfig:py-wave-gap}
+	}
+	\subfloat[$d_{x^2-y^2}$-wave.]{
+		\input{chapters/theoretical-introduction/pictures/d-wave-gap}
+		\label{subfig:d-wave-gap}
+	}
+	\caption{Different spatial structures of the gap function under planar rotations. The four figures show the first four NN contributions to the spatial structure of $\Delta_{ij}$. Each graph is a different contribution to the expansion of $\Delta_r$. Under each graph, each rim site contributes by a weight given by $\pm 1$ or $0$ times a constant, as specified in text.}
+	\label{fig:wave-gaps}
+\end{figure}
+
+Consider Eq.~\eqref{eq:extended-hubbard-model-effective}. $\Delta_{ij}$ is a function of position, specifically it is a function of its variables difference $r \equiv j-i$. Over the square lattice with NN interaction, the latter can assume four values: $\pm \delta_x$, $\pm \delta_y$. For a function of space defined over the four rim sites $i \pm \delta_\ell$ of Fig.~\ref{fig:square-nearest-neighbors}, different symmetry structure can be defined under the planar rotations group $\mathrm{SO}(2)$. In other words, the function $\Delta_r$  can be decomposed in planar harmonics (which are simply the sine-cosine basis). Fig.~\ref{fig:wave-gaps} show the first four spatial structures for the NN term. For each graph, the relative weight in the decomposition of $\Delta_r$ is given by a constant $\Delta^{(\ell)}$ times a sum of signs and zeros as indicated in the various subgraphs of Fig.~\ref{fig:wave-gaps}. Tab.~\ref{tab:wave-gaps} reports said gap function contributions explicitly.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{r E l l}
+		\textbf{Structure} & \multicolumn{2}{c}{\textbf{Gap function}} & \textbf{Graph} \\
+		\midrule
+		Extended $s$-wave & $\Delta^{(s)}_{ij}$ & $\Delta^{(s)} \left(
+		\delta_{j=i+\delta_x} + \delta_{j=i-\delta_x} + \delta_{j=i+\delta_y} + \delta_{j=i-\delta_y}
+		\right)$ & Fig.~\ref{subfig:s-wave-gap} \\
+		$p_x$-wave & $\Delta^{(p_x)}_{ij}$ & $ \Delta^{(p_x)} \left(
+		\delta_{j=i+\delta_x} - \delta_{j=i-\delta_x}
+		\right)$ & Fig.~\ref{subfig:px-wave-gap} \\
+		$p_y$-wave & $\Delta^{(p_y)}_{ij}$ & $ \Delta^{(p_y)} \left( \delta_{j=i+\delta_y} - \delta_{j=i-\delta_y}
+		\right)$ & Fig.~\ref{subfig:py-wave-gap} \\
+		$d_{x^2-y^2}$-wave & $\Delta^{(d_{x^2-y^2})}_{ij}$ & $ \Delta^{(d_{x^2-y^2})} \left(
+		\delta_{j=i+\delta_x} + \delta_{j=i-\delta_x} - \delta_{j=i+\delta_y} - \delta_{j=i-\delta_y}
+		\right)$ & Fig.~\ref{subfig:d-wave-gap} 
+	\end{tabular}
+	\caption{First four spatial structures for the gap function $\Delta_{ij}$. In the middle column, all spatial dependence is included in the $\delta$s, while $\Delta^{(\ell)} \in \mathbb{C}$. The last column indicates the graph representation of each contribution given in Fig.~\ref{fig:wave-gaps}.}
+	\label{tab:wave-gaps}
+\end{table}
+
+SC is established with a given predominant symmetry. Conventional $\mathrm{BCS}$ superconductivity arises from the only possible spatial structure of the local pairing, $s$-wave -- here extended as in Fig.~\ref{subfig:s-wave-gap}. Cuprates exhibit a tendency towards $d_{x^2-y^2}$ SC, while other materials towards $p$-wave types -- eventually with some chirality, as is the case for $p_x \pm i p_y$ SCs.
+
+In this $\mathrm{BCS}$-like approach, a self-consistent equation for the gap function must be retrieved in order to further investigate the model and extract the conditions for the formation of a superconducting phase with a given pairing topology.
 
 \subsection{Fourier-transform of the non-local interaction}
 
@@ -207,3 +280,7 @@ Sums over these variable must be intended as over the Brillouin Zone ($\mathrm{B
 \end{aligned}
 \]
 In the second passage, a sum over $\mathbf{Q}$ has been absorbed recognizing that it generates $N^2$ identical terms. \todo
+
+\subsection{Self-consistency equations}
+
+\todo

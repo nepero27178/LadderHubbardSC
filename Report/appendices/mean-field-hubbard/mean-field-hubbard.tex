@@ -1,4 +1,4 @@
-\chapter{Mean-Field Theory in Hubbard lattices and magnetic ordering}\label{appendix:mean-field-hubbard}
+\chapter{Mean-Field Theory in Hubbard lattices}\label{appendix:mean-field-hubbard}
 
 In this Appendix the Mean-Field solutions to the Hubbard hamiltonian,
 \[
@@ -8,11 +8,7 @@ In this Appendix the Mean-Field solutions to the Hubbard hamiltonian,
 	\qquad
 	t, U  > 0
 \]
-are described. The discussion is limited to the two-dimensional square lattice.
-
-\section{Ferromagnetic solution}
-
-The two-dimensional square lattice extension of the two-sites model can be studied by the means of Mean Field Theory. We have:
+are described. The discussion is limited to the two-dimensional square lattice. The two-dimensional square lattice extension of the two-sites model can be studied by the means of Mean Field Theory. We have:
 \[
 \begin{aligned}
 	\hat n_{i\uparrow} \hat n_{i\downarrow} &= \left( \ev{\hat n_{i\uparrow}} + \delta \hat n_{i\uparrow} \right) \left( \ev{\hat n_{i\downarrow}} + \delta \hat n_{i\downarrow} \right) \\
@@ -20,7 +16,11 @@ The two-dimensional square lattice extension of the two-sites model can be studi
 	&= - \ev{\hat n_{i\uparrow}} \ev{\hat n_{i\downarrow}} + \hat n_{i\uparrow} \ev{\hat n_{i\downarrow}} + \ev{\hat n_{i\uparrow}} \hat n_{i\downarrow} + \mathcal{O} \left(\delta n^2\right)
 \end{aligned}
 \]
-where $\delta \hat n_{i\sigma} \equiv \hat n_{i\sigma} - \ev{\hat n_{i\sigma}}$ and orders higher than first have been ignored, assuming negligible fluctuations around the equilibrium magnetization. The first term of the above three can be neglected, being a pure energy shift. The Mean-Field Theory ferromagnetic solution prescribes an uniformly magnetized lattice,
+where $\delta \hat n_{i\sigma} \equiv \hat n_{i\sigma} - \ev{\hat n_{i\sigma}}$ and orders higher than first have been ignored, assuming negligible fluctuations around the equilibrium single-site population. The first term of the above three can be neglected at fixed particles number, being a pure energy shift. 
+
+\section{Ferromagnetic solution}
+
+The Mean-Field Theory ferromagnetic solution prescribes an uniformly magnetized lattice,
 \[
 	\ev{\hat n_{i\uparrow}} = n+m
 	\qquad
@@ -98,6 +98,50 @@ Consider the half-filling situation. An unpolarized system will have $n=1/4$, $m
 
 \section{Antiferromagnetic solution}
 
-{\color{tabred}The calculation is similar to the ferromagnetic one. Two ways: use a bipartite lattice from the beginning, or use a simple square lattice with a sign modulation in $m$.}
-
-Consider now an AF mean-field solution. This amounts for a modulated magnetization,
+Consider now an AF mean-field solution. Let me change notation for a brief moment, indicating each site as
+\[
+	i \to \mathbf{r} = (x,y)
+	\qquad
+	x,y \in \mathbb{N}
+\]
+The mean-field AF solution at half-filling is the uniform-modulated magnetization
+\[
+	m_\mathbf{r} = (-1)^{x+y} m
+	\qquad
+	m \in [-1,1]
+\]
+and a mean-field Ansatz
+\[
+	\ev{\hat n_{\mathbf{r}\uparrow}} = n+m_\mathbf{r}
+	\qquad
+	\ev{\hat n_{\mathbf{r}\downarrow}} = n-m_\mathbf{r}
+\]
+With respect to the solution presented above, the only detail changing is the last term,
+\[
+	\hat H = -t \sum_{\langle \mathbf{r}\mathbf{r}' \rangle} \sum_\sigma \hat c_{\mathbf{r}\sigma}^\dagger \hat c_{\mathbf{r}'\sigma}
+	+ nU \sum_\mathbf{r} \left[
+		\hat n_{\mathbf{r}\uparrow} + \hat n_{\mathbf{r}\downarrow}
+	\right] + mU \sum_\mathbf{r} (-1)^{x+y} \left[
+		\hat n_{\mathbf{r}\uparrow} - \hat n_{\mathbf{r}\downarrow}
+	\right]
+\]
+Fourier-transforming, the phase factor can be absorbed in the destruction operator inside of $\hat n_{\mathbf{r}\sigma}$:
+\[
+\begin{aligned}
+	\sum_\mathbf{r} (-1)^{x+y} \hat n_{\mathbf{r}\sigma} &= \sum_\mathbf{r} (-1)^{x+y} \hat c_{\mathbf{r}\sigma}^\dagger \hat c_{\mathbf{r}\sigma} \\
+	&= 
+	\sum_\mathbf{r} e^{i \bm{\pi} \cdot \mathbf{r}}
+	\frac{1}{N} \sum_{\mathbf{k} \in \mathrm{BZ}} e^{i \mathbf{k} \cdot \mathbf{r}} \hat c_{\mathbf{k}\sigma}^\dagger \frac{1}{N} \sum_{\mathbf{k}' \in \mathrm{BZ}} e^{-i \mathbf{k}' \cdot \mathbf{r}} \hat c_{\mathbf{k}'\sigma} \\
+	&= \sum_{\mathbf{k} \in \mathrm{BZ}} \sum_{\mathbf{k}' \in \mathrm{BZ}} \hat c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}'\sigma} \frac{1}{N^2} \sum_\mathbf{r} e^{-i [\mathbf{k}' - (\mathbf{k} + \bm{\pi}) ] \cdot \mathbf{r}} \\
+	&= \sum_{\mathbf{k} \in \mathrm{BZ}} \hat c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\sigma}
+\end{aligned}
+\]
+where $\bm{\pi} = (\pi,\pi)$. It follows:
+\[
+	mU \sum_\mathbf{r} (-1)^{x+y} \left[
+		\hat n_{\mathbf{r}\uparrow} - \hat n_{\mathbf{r}\downarrow}
+	\right] = \Delta \sum_{\mathbf{k}} \left[
+		\hat c_{\mathbf{k}\uparrow}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\uparrow} - \hat c_{\mathbf{k}\downarrow}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\downarrow}
+	\right]
+\]
+Here $\Delta \equiv mU$. \todo

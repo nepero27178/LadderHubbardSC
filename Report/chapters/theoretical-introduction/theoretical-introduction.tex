@@ -42,7 +42,24 @@ The Extended Fermi-Hubbard model is defined by:
 \end{equation}
 The last term represents an effective attraction between neighboring electrons, of amplitude $V$. Such an interaction is believed \cite{cao2025p-wave} necessary to describe the insurgence of high-$T_c$ superconductivity in cuprate SCs. \todo
 
+\subsection{Experimental insight on NN attraction}
+
+{\color{tabred}Todo:
+\begin{itemize}
+	\item High $T_c$ SC in cuprates;
+	\item Experimental evidence of topological SC;
+	\item Insertion of the non-local attraction;
+\end{itemize}}
+
 \subsection{Mean-Field effective hamiltonian}
+
+This section is devoted to develop a rough mean field approximation of the Extended Hubbard model of Eq.~\eqref{eq:extended-hubbard-model}. First part focuses on the non-local interaction $V$, expected to be source of superconductivity; the second part on the local interaction $U$, known to be source of Slater-like anti-ferromagnetism, as described in App.~\ref{appendix:mean-field-hubbard}.
+
+\subsubsection{Mean-field treatment of the local term}
+
+The mean-field description of the local (on-site) $U$ interaction has been described in detail in App.~\ref{appendix:mean-field-hubbard}, along with a simple numerical analysis of the insurgence of antiferromagnetic ordering in a Hartree-Fock approximation scheme. Here are reported the main results. \todo
+
+\subsubsection{Mean-field treatment of the non-local term}
 
 \begin{figure}
 	\centering
@@ -146,20 +163,20 @@ being $E[\Psi]$ the total energy (made up of the three terms of couplings $t$, $
 
 The gap function is defined across each bond as the pairing expectation
 \[
-	\Delta_{ij} \equiv \langle 
+	\Delta_{ij} \equiv V \langle 
 		\hat c_{i\uparrow}^\dagger \hat c_{j \downarrow}^\dagger
 	\rangle
 \]
 while the pairing operator is defined as
 \[
-	\hat \phi_{ij} = \hat c_{j\downarrow} \hat c_{i\uparrow}
+	\hat \phi_{ij} \equiv \hat c_{j\downarrow} \hat c_{i\uparrow}
 \]
 The effective hamiltonian reads:
 \begin{equation}\label{eq:extended-hubbard-model-effective}
 	\hat H^{(\mathrm{e})} =
 	-t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
 	+ U \sum_i \hat n_{i\uparrow} \hat n_{i\downarrow}
-	- V \sum_{\langle ij \rangle} \left[
+	- \sum_{\langle ij \rangle} \left[
 		\Delta_{ij} \hat \phi_{ij} + \Delta_{ij}^* \hat \phi_{ij}^\dagger
 	\right]
 \end{equation}
@@ -212,9 +229,13 @@ Consider Eq.~\eqref{eq:extended-hubbard-model-effective}. $\Delta_{ij}$ is a fun
 	\label{tab:wave-gaps}
 \end{table}
 
-SC is established with a given predominant symmetry. Conventional $\mathrm{BCS}$ superconductivity arises from the only possible spatial structure of the local pairing, $s$-wave -- here extended as in Fig.~\ref{subfig:s-wave-gap}. Cuprates exhibit a tendency towards $d_{x^2-y^2}$ SC, while other materials towards $p$-wave types -- eventually with some chirality, as is the case for $p_x \pm i p_y$ SCs.
+SC is established with a given symmetry -- which means, symmetry breaking in the phase transition proceeds in a specific channel. Conventional $\mathrm{BCS}$ superconductivity arises from the only possible spatial structure of the local pairing, $s$-wave -- here extended as in Fig.~\ref{subfig:s-wave-gap}. Cuprates exhibit a tendency towards $d_{x^2-y^2}$ SC, while other materials towards $p$-wave types -- eventually with some chirality, as is the case for $p_x \pm i p_y$ SCs.
 
 In this $\mathrm{BCS}$-like approach, a self-consistent equation for the gap function must be retrieved in order to further investigate the model and extract the conditions for the formation of a superconducting phase with a given pairing topology.
+
+\subsection{Self-consistency equations}
+
+\todo
 
 \subsection{Fourier-transform of the non-local interaction}
 
@@ -280,7 +301,3 @@ Sums over these variable must be intended as over the Brillouin Zone ($\mathrm{B
 \end{aligned}
 \]
 In the second passage, a sum over $\mathbf{Q}$ has been absorbed recognizing that it generates $N^2$ identical terms. \todo
-
-\subsection{Self-consistency equations}
-
-\todo

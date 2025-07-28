@@ -146,6 +146,7 @@ mU \sum_\mathbf{r} (-1)^{x+y} \left[
 	\qq{where}
 	\Delta \equiv mU
 \]
+
 \begin{figure}
 	\centering
 	\subfloat[Alternative band.]{
@@ -177,8 +178,8 @@ Consider the band of Fig.~\ref{appfig:ferromagnetic-3d-band} at half-filling. As
 and the same applies for spin $\downarrow$. Periodicity by shifts $2\bm{\pi}$ has been used. Now, define the Nambu spinors:
 \[
 	\hat \Psi_{\mathbf{k}\sigma} \equiv \begin{bmatrix}
-		\hat c_{\mathbf{k}\sigma}^\dagger \\
-		\hat c_{\mathbf{k}+\bm{\pi}\sigma}^\dagger 
+		\hat c_{\mathbf{k}\sigma} \\
+		\hat c_{\mathbf{k}+\bm{\pi}\sigma} 
 	\end{bmatrix}
 \]
 and a spin-wise gap,
@@ -202,14 +203,136 @@ At fixed filling, the $U$ term is a pure energy shift, thus will be neglected. T
 \end{aligned}
 \]
 In the second passage, the sum over the full $\mathrm{BZ}$ was written considering that the entirety of the zone is given by all the points in the $\mathrm{MBZ}$ plus their conjugates obtained by a $\bm{\pi}$ shift in the flipped band. As depicted in Fig.~\ref{appsubfig:alternative-ferromagnetic-3d-band}, kinetic energy is anti-periodic in $\mathbf{k}$ space by a vector $\bm{\pi}$. This anti-periodicity accounts for the minus sign arising in the third passage. The hamiltonian is then given by:
-\[
-	\hat H = \sum_{\mathbf{k} \in \mathrm{MBZ}} \sum_\sigma \hat \Psi_{\mathbf{k}\sigma}^\dagger \hat h_{\mathbf{k}\sigma} \hat \Psi_{\mathbf{k}\sigma}
+\begin{equation}\label{appeq:hubbard-bogoliubov-hamiltonian}
+	\hat H = \sum_{\mathbf{k} \in \mathrm{MBZ}} \sum_\sigma \hat \Psi_{\mathbf{k}\sigma}^\dagger h_{\mathbf{k}\sigma} \hat \Psi_{\mathbf{k}\sigma}
 	\qq{being}
-	\hat h_{\mathbf{k}\sigma} \equiv \begin{bmatrix}
+	h_{\mathbf{k}\sigma} \equiv \begin{bmatrix}
 		\epsilon_\mathbf{k}^{(0)} & \Delta_\sigma \\
 		\Delta_\sigma & - \epsilon_\mathbf{k}^{(0)}
 	\end{bmatrix}
-\]
+\end{equation}
 Notice: the Nambu hamiltonian is a $2\times2$ matrix over the $\mathrm{MBZ}$ -- which is half the full $\mathrm{BZ}$, coherently with a solution which essentially bipartites the lattice giving back a double sized unit cell.
 
-The system ground-state \todo
+\begin{figure}
+	\centering
+	\input{appendices/mean-field-hubbard/pictures/pseudo-magnetic-field}
+	\caption{Pseudo-magnetic field originating from mean-field treatment of the square Hubbard hamiltonian.}
+	\label{appfig:pseudo-magnetic-field}
+\end{figure}
+
+The system ground-state is obtained by the means of a Bogoliubov rotation. The hamiltonian maps onto the simple one of a spin in a magnetic field,
+\[
+	h_{\mathbf{k}\sigma} = \epsilon_\mathbf{k}^{(0)} \tau^x + \Delta_\sigma \tau^z
+\]
+being $\tau^\alpha$ the Pauli matrices. Then, defining
+\[
+	\hat s_{\mathbf{k}\sigma}^\alpha \equiv \hat \Psi_{\mathbf{k}\sigma}^\dagger \tau^\alpha \hat \Psi_{\mathbf{k}\sigma}
+	\qq{and}
+	\mathbf{b}_{\mathbf{k}\sigma} \equiv \begin{bmatrix}
+		\epsilon_\mathbf{k}^{(0)} \\ 0 \\ \Delta_\sigma
+	\end{bmatrix}
+\]
+one gets:
+\[
+	\hat H = \sum_{\mathbf{k} \in \mathrm{MBZ}} \sum_\sigma \mathbf{b}_{\mathbf{k}\sigma} \cdot \hat{\mathbf{s}}_{\mathbf{k}\sigma}
+	\qq{where}
+	\hat{\mathbf{s}}_{\mathbf{k}\sigma} = \begin{bmatrix}
+		\hat s_{\mathbf{k}\sigma}^x \\
+		\hat s_{\mathbf{k}\sigma}^y \\
+		\hat s_{\mathbf{k}\sigma}^z
+	\end{bmatrix}
+\]
+The hamiltonian represents a magnetic field tilted by an angle $\tan(2\theta_{\mathbf{k}\sigma}) = \Delta_\sigma/\epsilon_{\mathbf{k}}^{(0)}$, as sketched in Fig.~\ref{appfig:pseudo-magnetic-field}. Diagonalization of each $h_{\mathbf{k}\sigma}$ is obtained trivially by a simple rotation around the $y$ axis:
+\[
+	d_{\mathbf{k}\sigma} = W_{\mathbf{k}\sigma} h_{\mathbf{k}\sigma} W_{\mathbf{k}\sigma}^\dagger
+\]
+where
+\[
+	d_{\mathbf{k}\sigma} = \begin{bmatrix}
+		E_\mathbf{k} & \\
+		& - E_\mathbf{k}
+	\end{bmatrix}
+	\qq{and}
+	W_{\mathbf{k}\sigma} = e^{i\theta_{\mathbf{k}}\tau^y}
+\]
+Eigenvalues are:
+\[
+	E_\mathbf{k} \equiv \sqrt{\epsilon_{\mathbf{k}}^2 + \abs{\Delta_\sigma}^2}
+\]
+(superscript ``$(0)$'' has been dropped momentarily). Notice that the presence of an absolute value makes the eigenvalues independent of the $\sigma$ index. Eigenvectors are obtained simply as:
+\[
+	\hat \Phi_{\mathbf{k}\sigma} = W_{\mathbf{k}\sigma} \hat \Psi_{\mathbf{k}\sigma}
+\]
+Next section describes a viable HF algorithm.
+
+\subsection{Hartree-Fock algorithm}
+
+A convergence algorithm can be designed to find the Hartree-Fock solution to the model. Ultimately, we aim to extract $m$ self-consistently. Since
+\[
+\begin{aligned}
+	m &= \frac{1}{N^2} \sum_\mathbf{r} \left\langle
+		\hat n_{\mathbf{r}\uparrow} - \hat n_{\mathbf{r}\downarrow}
+	\right\rangle \\
+	&= \frac{1}{N^2} \sum_{\mathbf{k} \in \mathrm{BZ}} \left\langle
+		\hat n_{\mathbf{k}\uparrow} - \hat n_{\mathbf{k}\downarrow}
+	\right\rangle \\
+	&= \frac{1}{N^2} \sum_{\mathbf{k} \in \mathrm{MBZ}} \left\langle
+		\left(
+			\hat n_{\mathbf{k}\uparrow} + \hat n_{\mathbf{k}+\bm{\pi}\uparrow}
+		\right) - \left( 
+			\hat n_{\mathbf{k}\downarrow} + \hat n_{\mathbf{k}+\bm{\pi}\downarrow}
+		\right)
+	\right\rangle
+\end{aligned}
+\]
+and evidently
+\[
+\begin{aligned}
+	\left\langle
+		\hat n_{\mathbf{k}\sigma} + \hat n_{\mathbf{k}+\bm{\pi}\sigma} 
+	\right\rangle &= \left\langle 
+		\hat \Psi_{\mathbf{k}\sigma}^\dagger \hat \Psi_{\mathbf{k}\sigma}
+	\right\rangle \\
+	&= \left\langle 
+		\hat \Phi_{\mathbf{k}\sigma}^\dagger W_{\mathbf{k}\sigma} W_{\mathbf{k}\sigma}^\dagger \hat \Phi_{\mathbf{k}\sigma}
+	\right\rangle \\
+	&= \left\langle 
+		\hat \Phi_{\mathbf{k}\sigma}^\dagger \hat \Phi_{\mathbf{k}\sigma}
+	\right\rangle
+\end{aligned}
+\]
+In last passage, orthogonality of the $W$ matrices has been used. Then magnetization can be computed simply by
+\begin{equation}\label{appeq:antiferromagnet-magnetization-self-consistence}
+	m = \frac{1}{N^2} \sum_{\mathbf{k} \in \mathrm{MBZ}} \left[
+		\left\langle 
+			\hat \Phi_{\mathbf{k}\uparrow}^\dagger \hat \Phi_{\mathbf{k}\uparrow}
+		\right\rangle - \left\langle 
+			\hat \Phi_{\mathbf{k}\downarrow}^\dagger \hat \Phi_{\mathbf{k}\downarrow}
+		\right\rangle
+	\right]
+\end{equation}
+The algorithm proceeds as follows:
+\begin{enumerate}
+	\setcounter{enumi}{-1}
+	\item Algorithm setup: fix
+	\begin{enumerate}
+		\item the coarse-graining of the $\mathrm{BZ}$ -- which is, fix $N_x$ and $N_y$;
+		\item the number of iterations $k \in \mathbb{N}$; 
+		\item the mixing parameter $g \in [0,1]$;
+		\item the tolerance parameter $\delta \in \mathbb{R}$;
+	\end{enumerate}
+	\item Select a random starting value $m_0 \in [-1,1]$;
+	\item Initialize each $h_{\mathbf{k}\sigma}$ matrix according to the initialized $m_0$;
+	\item Diagonalize each $h_{\mathbf{k}\sigma}$ matrix collecting the $\Phi$ eigenvectors;
+	\item Compute $m$ using Eq.~\eqref{appeq:antiferromagnet-magnetization-self-consistence};
+	\item Check if $\abs{m-m_0} \le \delta$;
+	\begin{itemize}
+		\item If yes, halt;
+		\item If not, define 
+		\[
+			m_0 = gm + (1-g)m_0
+		\]
+		(logical assignment notation used) and repeat from step 2.
+	\end{itemize}
+\end{enumerate}
+\todo

@@ -15,4 +15,5 @@
 \contentsline {appendix}{\chapternumberline {B}Mean-Field Theory in Hubbard lattices}{11}{appendix.B}%
 \contentsline {section}{\numberline {B.1}Ferromagnetic solution}{11}{section.B.1}%
 \contentsline {section}{\numberline {B.2}Antiferromagnetic solution}{12}{section.B.2}%
-\contentsline {chapter}{Bibliography}{15}{section*.15}%
+\contentsline {subsection}{\numberline {B.2.1}Hartree-Fock algorithm}{15}{subsection.B.2.1}%
+\contentsline {chapter}{Bibliography}{17}{section*.16}%

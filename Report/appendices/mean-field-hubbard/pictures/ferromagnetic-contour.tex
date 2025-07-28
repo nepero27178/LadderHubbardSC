@@ -1,4 +1,4 @@
-\begin{tikzpicture}[scale=0.8]
+\begin{tikzpicture}
 	\begin{axis}[
 			axis x line=center,
 			axis y line=center,
@@ -16,6 +16,8 @@
 			ylabel style={anchor=south},
 			view/az=0,
 			view/el=90,
+			width=0.4\textwidth,
+			height=0.4\textwidth
 		]
 		\addplot3[
 			domain=-1:0,
@@ -85,6 +87,6 @@
 
 	% Fine tuned
 	\fill[color=tabred]
-		(3.43,2.85) circle (1pt);
+		(2.21,2.21) circle (1pt);
 	
 \end{tikzpicture}

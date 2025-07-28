@@ -138,10 +138,78 @@ Fourier-transforming, the phase factor can be absorbed in the destruction operat
 \]
 where $\bm{\pi} = (\pi,\pi)$. It follows:
 \[
-	mU \sum_\mathbf{r} (-1)^{x+y} \left[
+mU \sum_\mathbf{r} (-1)^{x+y} \left[
 		\hat n_{\mathbf{r}\uparrow} - \hat n_{\mathbf{r}\downarrow}
-	\right] = \Delta \sum_{\mathbf{k}} \left[
+	\right] = \Delta \sum_{\mathbf{k} \in \mathrm{BZ}} \left[
 		\hat c_{\mathbf{k}\uparrow}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\uparrow} - \hat c_{\mathbf{k}\downarrow}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\downarrow}
 	\right]
+	\qq{where}
+	\Delta \equiv mU
 \]
-Here $\Delta \equiv mU$. \todo
+\begin{figure}
+	\centering
+	\subfloat[Alternative band.]{
+		\input{appendices/mean-field-hubbard/pictures/alternative-ferromagnetic-3d-band}
+		\label{appsubfig:alternative-ferromagnetic-3d-band}
+	}
+	\subfloat[Contour plot.]{
+		\input{appendices/mean-field-hubbard/pictures/ferromagnetic-contour}
+		\label{appsubfig:ferromagnetic-contour}
+	}
+	\caption{Alternative depiction of the Hubbard square lattice hopping band previously reported in Fig.~\ref{appfig:ferromagnetic-3d-band}. The Magnetic Brillouin Zone ($\mathrm{MBZ}$) is delimited by the zero-energy contour and is indicated in figure. As it is evident, energy sign flips by taking a $(\pi,\pi)$ translation in $\mathbf{k}$ space.}
+	\label{appfig:alternative-ferromagnetic-band}
+\end{figure}
+
+Consider the band of Fig.~\ref{appfig:ferromagnetic-3d-band} at half-filling. As does \citeauthor{fabrizio2022course} \cite{fabrizio2022course}, the area delimited externally by the solid lines at zero energy is denominated ``Magnetic Brillouin Zone'' ($\mathrm{MBZ}$). The periodicity of $\mathbf{k}$ space guarantees that the full $\mathrm{BZ}$ can be taken as well to be the one of Fig.~\ref{appsubfig:alternative-ferromagnetic-3d-band}. Then:
+\[
+\begin{aligned}
+	\sum_{\mathbf{k} \in \mathrm{BZ}}
+	\hat c_{\mathbf{k}\uparrow}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\uparrow} &= \sum_{\mathbf{k} \in \mathrm{MBZ}}
+	\left[
+		\hat c_{\mathbf{k}\uparrow}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\uparrow} + \hat c_{\mathbf{k}+\bm{\pi}\uparrow}^\dagger \hat c_{\mathbf{k}+2\bm{\pi}\uparrow}
+	\right] \\
+	&= \sum_{\mathbf{k} \in \mathrm{MBZ}}
+	\left[
+		\hat c_{\mathbf{k}\uparrow}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\uparrow} + \hat c_{\mathbf{k}+\bm{\pi}\uparrow}^\dagger \hat c_{\mathbf{k}\uparrow}
+	\right]
+\end{aligned}
+\]
+and the same applies for spin $\downarrow$. Periodicity by shifts $2\bm{\pi}$ has been used. Now, define the Nambu spinors:
+\[
+	\hat \Psi_{\mathbf{k}\sigma} \equiv \begin{bmatrix}
+		\hat c_{\mathbf{k}\sigma}^\dagger \\
+		\hat c_{\mathbf{k}+\bm{\pi}\sigma}^\dagger 
+	\end{bmatrix}
+\]
+and a spin-wise gap,
+\[
+	\Delta_\uparrow = \Delta
+	\qquad
+	\Delta_\downarrow = -\Delta
+\]
+At fixed filling, the $U$ term is a pure energy shift, thus will be neglected. The kinetic term transforms as
+\[
+\begin{aligned}
+	-t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma} &= \sum_{\mathbf{k} \in \mathrm{BZ}} \sum_\sigma \epsilon_\mathbf{k}^{(0)} \hat c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}\sigma} \\ 
+	&= \sum_{\mathbf{k} \in \mathrm{MBZ}} \sum_\sigma \left[
+		\epsilon_\mathbf{k}^{(0)} \hat c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}\sigma}
+		+ \epsilon_{\mathbf{k}+\bm{\pi}}^{(0)} \hat c_{\mathbf{k}+\bm{\pi}\sigma}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\sigma}
+	\right] \\
+	&= \sum_{\mathbf{k} \in \mathrm{MBZ}} \sum_\sigma \epsilon_{\mathbf{k}}^{(0)}  \left[
+		\hat c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}\sigma}
+		- \hat c_{\mathbf{k}+\bm{\pi}\sigma}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\sigma}
+	\right] \\ 
+\end{aligned}
+\]
+In the second passage, the sum over the full $\mathrm{BZ}$ was written considering that the entirety of the zone is given by all the points in the $\mathrm{MBZ}$ plus their conjugates obtained by a $\bm{\pi}$ shift in the flipped band. As depicted in Fig.~\ref{appsubfig:alternative-ferromagnetic-3d-band}, kinetic energy is anti-periodic in $\mathbf{k}$ space by a vector $\bm{\pi}$. This anti-periodicity accounts for the minus sign arising in the third passage. The hamiltonian is then given by:
+\[
+	\hat H = \sum_{\mathbf{k} \in \mathrm{MBZ}} \sum_\sigma \hat \Psi_{\mathbf{k}\sigma}^\dagger \hat h_{\mathbf{k}\sigma} \hat \Psi_{\mathbf{k}\sigma}
+	\qq{being}
+	\hat h_{\mathbf{k}\sigma} \equiv \begin{bmatrix}
+		\epsilon_\mathbf{k}^{(0)} & \Delta_\sigma \\
+		\Delta_\sigma & - \epsilon_\mathbf{k}^{(0)}
+	\end{bmatrix}
+\]
+Notice: the Nambu hamiltonian is a $2\times2$ matrix over the $\mathrm{MBZ}$ -- which is half the full $\mathrm{BZ}$, coherently with a solution which essentially bipartites the lattice giving back a double sized unit cell.
+
+The system ground-state \todo

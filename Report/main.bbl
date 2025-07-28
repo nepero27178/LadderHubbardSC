@@ -1,0 +1,257 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global/global}
+    \entry{cao2025p-wave}{misc}{}{}
+      \name{author}{5}{}{%
+        {{hash=d51247ca2869f2127e8bf79dd1f28ad3}{%
+           family={Cao},
+           familyi={C\bibinitperiod},
+           given={Zhangkai},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=eda2f86ac441afff7bdf9ec9def8721f}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Jianyu},
+           giveni={J\bibinitperiod}}}%
+        {{hash=61839e4934bb987a8088d8ec6a0f3033}{%
+           family={Su},
+           familyi={S\bibinitperiod},
+           given={Jiahao},
+           giveni={J\bibinitperiod}}}%
+        {{hash=ea52af0c4cb2af2791b7572c24b97f3f}{%
+           family={Ying},
+           familyi={Y\bibinitperiod},
+           given={Tao},
+           giveni={T\bibinitperiod}}}%
+        {{hash=cda704f00b3fa6f3244c48adeed70772}{%
+           family={Tang},
+           familyi={T\bibinitperiod},
+           given={Ho-Kin},
+           giveni={H\bibinithyphendelim K\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \list{publisher}{1}{%
+        {arXiv}%
+      }
+      \strng{namehash}{43991ff1ed7480fe36ba020e0fec100b}
+      \strng{fullhash}{5f2371c28625d4b83b8cbee2c4a711cd}
+      \strng{fullhashraw}{5f2371c28625d4b83b8cbee2c4a711cd}
+      \strng{bibnamehash}{43991ff1ed7480fe36ba020e0fec100b}
+      \strng{authorbibnamehash}{43991ff1ed7480fe36ba020e0fec100b}
+      \strng{authornamehash}{43991ff1ed7480fe36ba020e0fec100b}
+      \strng{authorfullhash}{5f2371c28625d4b83b8cbee2c4a711cd}
+      \strng{authorfullhashraw}{5f2371c28625d4b83b8cbee2c4a711cd}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The two-dimensional (2D) Hubbard model is widely believed to contain the key ingredients of high-temperature superconductivity in cuprate materials. Here, we report a constrained path quantum Monte Carlo (CPQMC) study of the square-lattice extended Hubbard model with on-site Coulomb repulsion U and nearest-neighbor (NN) electron attraction V. Upon doping \${\textbackslash}delta\$= 0.125, we find that the NN electron attraction V can notably drive an exotic spin-triplet (p-wave) superconducting (SC) phase, and enhance the p-wave SC correlations with the increase of V. But in the intermediate coupling regime, the \$d\_\{x{\textasciicircum}2-y{\textasciicircum}2\}\$-wave (d-wave) does not significantly increase with the increase of V, indicating that the d-wave is not affected by V in strongly correlated system. Besides the pairing phase, a spin density wave (SDW) only exists near the half-filling in the particle-hole channel, and doping disrupts the formation of SDW order. Especially, the NN electron attraction V has no significant effect on SDW, reflecting the consistent relationship between d-wave SC and spin correlation. Moreover, as doping increases, the dominant region of p-wave also expands, further suppressing the presence of d-wave, which may help explain the disappearance of d-wave SC in overdoped cuprate superconductors. We also find the d-wave exhibits a singular nonzero (near point (\$2\{{\textbackslash}pi\}/3, \{{\textbackslash}pi\}\$)) condensation structure in momentum space, resulting in a different staggered behavior in the x and y direction with distance in real space. On the contrary, the p-wave condensed at zero momentum, and the p-wave correlation exhibits exponential decay in real space. Our work suggests the p-wave SC region can be induced and further broadened by the NN electron attraction V, offering a feasible mechanism to realize p-wave superconductivity in realistic cuprate materials.}
+      \field{annotation}{Comment: 7 pages, 4 figures in the main text and 4 page, 4 figure in the supplemental material}
+      \field{month}{1}
+      \field{note}{arXiv:2408.01113 [cond-mat]}
+      \field{title}{p-wave superconductivity induced by nearest-neighbor attraction in the square-lattice extended {Hubbard} model}
+      \field{urlday}{15}
+      \field{urlmonth}{3}
+      \field{urlyear}{2025}
+      \field{year}{2025}
+      \field{urldateera}{ce}
+      \true{nocite}
+      \verb{doi}
+      \verb 10.48550/arXiv.2408.01113
+      \endverb
+      \verb{file}
+      \verb PDF:/home/nepero27178/snap/zotero-snap/common/Zotero/storage/XYJ3EHUC/Cao et al. - 2025 - p-wave superconductivity induced by nearest-neighbor attraction in the square-lattice extended Hubba.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb http://arxiv.org/abs/2408.01113
+      \endverb
+      \verb{url}
+      \verb http://arxiv.org/abs/2408.01113
+      \endverb
+      \keyw{Condensed Matter - Strongly Correlated Electrons,Condensed Matter - Superconductivity}
+    \endentry
+    \entry{coleman2015introduction}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=839b78b5dc56eff1101d23520a8b5000}{%
+           family={Coleman},
+           familyi={C\bibinitperiod},
+           given={Piers},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{839b78b5dc56eff1101d23520a8b5000}
+      \strng{fullhash}{839b78b5dc56eff1101d23520a8b5000}
+      \strng{fullhashraw}{839b78b5dc56eff1101d23520a8b5000}
+      \strng{bibnamehash}{839b78b5dc56eff1101d23520a8b5000}
+      \strng{authorbibnamehash}{839b78b5dc56eff1101d23520a8b5000}
+      \strng{authornamehash}{839b78b5dc56eff1101d23520a8b5000}
+      \strng{authorfullhash}{839b78b5dc56eff1101d23520a8b5000}
+      \strng{authorfullhashraw}{839b78b5dc56eff1101d23520a8b5000}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Introduction to Many-Body Physics}
+      \field{year}{2015}
+      \true{nocite}
+    \endentry
+    \entry{fabrizio2022course}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=d3adeab8eb268c3bfda7cf23d66058d3}{%
+           family={Fabrizio},
+           familyi={F\bibinitperiod},
+           given={Michele},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{d3adeab8eb268c3bfda7cf23d66058d3}
+      \strng{fullhash}{d3adeab8eb268c3bfda7cf23d66058d3}
+      \strng{fullhashraw}{d3adeab8eb268c3bfda7cf23d66058d3}
+      \strng{bibnamehash}{d3adeab8eb268c3bfda7cf23d66058d3}
+      \strng{authorbibnamehash}{d3adeab8eb268c3bfda7cf23d66058d3}
+      \strng{authornamehash}{d3adeab8eb268c3bfda7cf23d66058d3}
+      \strng{authorfullhash}{d3adeab8eb268c3bfda7cf23d66058d3}
+      \strng{authorfullhashraw}{d3adeab8eb268c3bfda7cf23d66058d3}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{A Course in Quantum Many-Body Theory}
+      \field{year}{2022}
+      \true{nocite}
+    \endentry
+    \entry{giuliani2005quantum}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=ed2346f05fe56333d9300d9267a9a2f9}{%
+           family={Giuliani},
+           familyi={G\bibinitperiod},
+           given={Gabriele},
+           giveni={G\bibinitperiod}}}%
+        {{hash=265dc1582c19bd4b2bc9d90486312e1b}{%
+           family={Vignale},
+           familyi={V\bibinitperiod},
+           given={Giovanni},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{5a93bb8a014b16b171dd2a5933887bb3}
+      \strng{fullhash}{5a93bb8a014b16b171dd2a5933887bb3}
+      \strng{fullhashraw}{5a93bb8a014b16b171dd2a5933887bb3}
+      \strng{bibnamehash}{5a93bb8a014b16b171dd2a5933887bb3}
+      \strng{authorbibnamehash}{5a93bb8a014b16b171dd2a5933887bb3}
+      \strng{authornamehash}{5a93bb8a014b16b171dd2a5933887bb3}
+      \strng{authorfullhash}{5a93bb8a014b16b171dd2a5933887bb3}
+      \strng{authorfullhashraw}{5a93bb8a014b16b171dd2a5933887bb3}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Quantum Theory of the Electron Liquid}
+      \field{year}{2005}
+      \true{nocite}
+    \endentry
+    \entry{grosso2014solid}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=c2ae1ee03fa8038dc22828639bfce5ed}{%
+           family={Grosso},
+           familyi={G\bibinitperiod},
+           given={Giuseppe},
+           giveni={G\bibinitperiod}}}%
+        {{hash=876a2d7a28251a4c84c808694401a76d}{%
+           family={Parravicini},
+           familyi={P\bibinitperiod},
+           given={Giuseppe\bibnamedelima Pastori},
+           giveni={G\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Academic Press}%
+      }
+      \strng{namehash}{7c6a5b46af900f359aae5993ec351219}
+      \strng{fullhash}{7c6a5b46af900f359aae5993ec351219}
+      \strng{fullhashraw}{7c6a5b46af900f359aae5993ec351219}
+      \strng{bibnamehash}{7c6a5b46af900f359aae5993ec351219}
+      \strng{authorbibnamehash}{7c6a5b46af900f359aae5993ec351219}
+      \strng{authornamehash}{7c6a5b46af900f359aae5993ec351219}
+      \strng{authorfullhash}{7c6a5b46af900f359aae5993ec351219}
+      \strng{authorfullhashraw}{7c6a5b46af900f359aae5993ec351219}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{Second Edition}
+      \field{title}{Solid State Physics}
+      \field{year}{2014}
+      \true{nocite}
+    \endentry
+    \entry{hirsch1985hubbard}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=36d434a8bf3ddfb566c22d141a82c22e}{%
+           family={Hirsch},
+           familyi={H\bibinitperiod},
+           given={J.\bibnamedelimi E.},
+           giveni={J\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society}%
+      }
+      \strng{namehash}{36d434a8bf3ddfb566c22d141a82c22e}
+      \strng{fullhash}{36d434a8bf3ddfb566c22d141a82c22e}
+      \strng{fullhashraw}{36d434a8bf3ddfb566c22d141a82c22e}
+      \strng{bibnamehash}{36d434a8bf3ddfb566c22d141a82c22e}
+      \strng{authorbibnamehash}{36d434a8bf3ddfb566c22d141a82c22e}
+      \strng{authornamehash}{36d434a8bf3ddfb566c22d141a82c22e}
+      \strng{authorfullhash}{36d434a8bf3ddfb566c22d141a82c22e}
+      \strng{authorfullhashraw}{36d434a8bf3ddfb566c22d141a82c22e}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issue}{7}
+      \field{journaltitle}{Phys. Rev. B}
+      \field{month}{4}
+      \field{title}{Two-dimensional Hubbard model: Numerical simulation study}
+      \field{volume}{31}
+      \field{year}{1985}
+      \true{nocite}
+      \field{pages}{4403\bibrangedash 4419}
+      \range{pages}{17}
+      \verb{doi}
+      \verb 10.1103/PhysRevB.31.4403
+      \endverb
+      \verb{urlraw}
+      \verb https://link.aps.org/doi/10.1103/PhysRevB.31.4403
+      \endverb
+      \verb{url}
+      \verb https://link.aps.org/doi/10.1103/PhysRevB.31.4403
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

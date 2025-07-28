@@ -19,7 +19,7 @@
 			zlabel style={anchor=south},
 			width=\textwidth,
 			view/az=15,
-			view/el=30
+			view/el=30,
 		]
 		\addplot3[
 			domain=-1:0,
@@ -67,9 +67,8 @@
 			samples=25,
 			smooth,
 			surf,
-			opacity=0.2
+			opacity=0.2,
+			colormap name=tab
 		] { -cos(deg(pi*x))-cos(deg(pi*y)) };
-		
-		
 	\end{axis}
 \end{tikzpicture}

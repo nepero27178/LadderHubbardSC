@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.12) (preloaded format=pdflatex 2025.4.28)  28 JUL 2025 22:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.12) (preloaded format=pdflatex 2025.4.28)  31 JUL 2025 09:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1719,16 +1719,31 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 [13] (appendices/mean-field-hubbard/pictures/pseudo-magnetic-field.tex)
 
 [14]
-Overfull \hbox (1.81018pt too wide) in paragraph at lines 270--271
+Overfull \hbox (1.81018pt too wide) in paragraph at lines 268--269
 \OT1/cmr/m/n/10 A convergence algorithm can be designed to find the Hartree-Foc
 k solution to the model. Ultimately,
  []
 
 
+Overfull \hbox (0.11685pt too wide) in paragraph at lines 318--319
+\OT1/cmr/m/n/10 consistent algorithmic extraction of the expected magnetization
+ is presented, following [[][]7[][]]. Consider
+ []
 
-[15])
+
+
+[15] (appendices/mean-field-hubbard/pictures/square-lattice-ordering.tex
+\xLength=\count541
+\yLength=\count542
+\xStop=\count543
+\yStop=\count544
+)
 
 [16]
+
+[17])
+
+[18]
 Overfull \hbox (5.7575pt too wide) in paragraph at lines 56--56
 \OT1/cmtt/m/n/10 48550 / arXiv . 2408 . 01113$[][]\OT1/cmr/m/n/10 . \OT1/cmr/m/
 sc/10 url\OT1/cmr/m/n/10 : [][]$\OT1/cmtt/m/n/10 http : / / arxiv . org / abs /
@@ -1737,7 +1752,7 @@ sc/10 url\OT1/cmr/m/n/10 : [][]$\OT1/cmtt/m/n/10 http : / / arxiv . org / abs /
 
 
 
-[17
+[19
 
 ]
 \tf@toc=\write8
@@ -1749,16 +1764,16 @@ LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2020/03/25>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 0AFDCACF841CDAED339956DABFB728C6;3988.
+(rerunfilecheck)             Checksum: CDE30CFEFEAD54CE600FE6CF87881E43;4373.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 48794 strings out of 475473
- 1092904 string characters out of 5766466
- 2675660 words of memory out of 5000000
- 70931 multiletter control sequences out of 15000+600000
+ 48829 strings out of 475473
+ 1094211 string characters out of 5766466
+ 2679828 words of memory out of 5000000
+ 70950 multiletter control sequences out of 15000+600000
  578681 words of font info for 108 fonts, out of 8000000 for 9000
  0 hyphenation exceptions out of 8191
  89i,15n,93p,2055b,2708s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1796,9 +1811,9 @@ s/install/fonts/type1/public/amsfonts/symbols/msbm10.pfb></home/nepero27178/.mi
 ktex/texmfs/install/fonts/type1/public/cm-super/sfrm0600.pfb></home/nepero27178
 /.miktex/texmfs/install/fonts/type1/public/cm-super/sfrm0800.pfb></home/nepero2
 7178/.miktex/texmfs/install/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on main.pdf (19 pages, 503435 bytes).
+Output written on main.pdf (21 pages, 525859 bytes).
 PDF statistics:
- 480 PDF objects out of 1000 (max. 8388607)
- 77 named destinations out of 1000 (max. 500000)
- 277 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 515 PDF objects out of 1000 (max. 8388607)
+ 90 named destinations out of 1000 (max. 500000)
+ 285 words of extra memory for PDF output out of 10000 (max. 10000000)
 

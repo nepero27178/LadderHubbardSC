@@ -1,0 +1,102 @@
+\newcount\xLength
+\xLength=4	% Even!
+\newcount\yLength
+\yLength=2	% Even!
+
+\newcount\xStop
+\xStop=\xLength
+\divide\xStop by 2 \advance\xStop by -1\relax
+
+\newcount\yStop
+\yStop=\yLength
+\divide\yStop by 2 \advance\yStop by -1\relax
+
+\def\angle{60}
+\def\arrowLength{0.5}
+
+\def\scale{2}
+\def\pointWidth{1.5/\scale}
+% For now I leave here unchanged, but I would
+% like to make the dimension of the points 
+% independent of the scale. Which is, use 
+% \pointWidth instead of a specific width in the 
+% points definition.
+
+\begin{tikzpicture}[scale=\scale]
+	\draw[
+		color=lightgray, dashed
+	] 
+		(0,0) grid ({\xLength+0.25}, {\yLength+0.25});
+	
+	% Nested, no indentation
+	\foreach \x in {
+		0,...,\xStop
+	}{
+		\foreach \y in {
+			0,...,\yStop
+		}{
+			% Up sites
+			\fill[color=tabred] 
+				({2*\x},{2*\y}) circle (0.75pt)
+				({2*\x+1},{2*\y+1}) circle (0.75pt)
+			;
+			
+			% Down sites
+			\fill[color=tabblue] 
+				({2*\x},{2*\y+1}) circle (0.75pt)
+				({2*\x+1},{2*\y}) circle (0.75pt)
+			;
+			
+		}
+	}
+	
+	% Border
+	\foreach \x in {
+		0, ..., \xStop
+	}{
+		\foreach \y in {
+			0, ..., \yStop
+		}{
+			
+			% Up sites
+			\fill[color=tabred] 
+				({2*\x},\yLength) circle (0.75pt)
+				(\xLength,{2*\y}) circle (0.75pt)
+			;
+			
+			% Down sites
+			\fill[color=tabblue] 
+				({2*\x+1},\yLength) circle (0.75pt)
+				(\xLength,{2*\y+1}) circle (0.75pt)
+			;
+			
+	}}
+	
+	% Topright
+	\fill[color=tabred] 
+		(\xLength,\yLength) circle (0.75pt);
+	
+	% Red labels
+	\node[color=tabred, anchor=south west, align=center] 
+		at (0,0)
+			{\small $1 (\uparrow)$ \\ \small $2 (\downarrow)$};
+	\node[color=tabred, anchor=south west, align=center] 
+		at (2,0)
+			{\small $5 (\uparrow)$ \\ \small $6 (\downarrow)$};
+	\node[color=tabred, anchor=south west, align=center] 
+		at (1,1)
+			{\small $L_x+3 (\uparrow)$ \\ \small $L_x+4 (\downarrow)$};
+	
+	% Red labels
+	\node[color=tabblue, anchor=south west, align=center] 
+		at (1,0)
+			{\small $3 (\uparrow)$ \\ \small $4 (\downarrow)$};
+	\node[color=tabblue, anchor=south west, align=center] 
+		at (0,1)
+			{\small $L_x+1 (\uparrow)$ \\ \small $L_x+2 (\downarrow)$};
+	\node[color=tabblue, anchor=south west, align=center] 
+		at (2,1)
+			{\small $L_x+5 (\uparrow)$ \\ \small $L_x+6 (\downarrow)$};
+	
+	
+\end{tikzpicture}

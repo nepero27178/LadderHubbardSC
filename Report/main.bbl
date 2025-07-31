@@ -142,7 +142,6 @@
       \field{labeltitlesource}{title}
       \field{title}{A Course in Quantum Many-Body Theory}
       \field{year}{2022}
-      \true{nocite}
     \endentry
     \entry{giuliani2005quantum}{book}{}{}
       \name{author}{2}{}{%
@@ -249,6 +248,62 @@
       \endverb
       \verb{url}
       \verb https://link.aps.org/doi/10.1103/PhysRevB.31.4403
+      \endverb
+    \endentry
+    \entry{scholle2023comprehensive}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=50ce22642db5593d76639d8a2cfa9dae}{%
+           family={Scholle},
+           familyi={S\bibinitperiod},
+           given={Robin},
+           giveni={R\bibinitperiod}}}%
+        {{hash=cbcd421a3a238b6cf1fbab590b59fb47}{%
+           family={Bonetti},
+           familyi={B\bibinitperiod},
+           given={Pietro\bibnamedelima M.},
+           giveni={P\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=f0b706bf1ceb5cde111b500890cd8d5c}{%
+           family={Vilardi},
+           familyi={V\bibinitperiod},
+           given={Demetrio},
+           giveni={D\bibinitperiod}}}%
+        {{hash=4a1296519da4fa86e33bce9b6e96e70e}{%
+           family={Metzner},
+           familyi={M\bibinitperiod},
+           given={Walter},
+           giveni={W\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society}%
+      }
+      \strng{namehash}{dc011048fa68889ce26df989c977b64a}
+      \strng{fullhash}{4ac58b919fec2d0f74865d6df303aca9}
+      \strng{fullhashraw}{4ac58b919fec2d0f74865d6df303aca9}
+      \strng{bibnamehash}{dc011048fa68889ce26df989c977b64a}
+      \strng{authorbibnamehash}{dc011048fa68889ce26df989c977b64a}
+      \strng{authornamehash}{dc011048fa68889ce26df989c977b64a}
+      \strng{authorfullhash}{4ac58b919fec2d0f74865d6df303aca9}
+      \strng{authorfullhashraw}{4ac58b919fec2d0f74865d6df303aca9}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issue}{3}
+      \field{journaltitle}{Phys. Rev. B}
+      \field{month}{7}
+      \field{title}{Comprehensive mean-field analysis of magnetic and charge orders in the two-dimensional Hubbard model}
+      \field{volume}{108}
+      \field{year}{2023}
+      \field{pages}{035139}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1103/PhysRevB.108.035139
+      \endverb
+      \verb{urlraw}
+      \verb https://link.aps.org/doi/10.1103/PhysRevB.108.035139
+      \endverb
+      \verb{url}
+      \verb https://link.aps.org/doi/10.1103/PhysRevB.108.035139
       \endverb
     \endentry
   \enddatalist

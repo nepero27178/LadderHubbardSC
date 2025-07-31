@@ -37,7 +37,7 @@ where $n$ is the site electron density and $m$ is the density unbalance, leading
 	&= -t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
 	+ nU \sum_i \left[
 		\hat n_{i\uparrow} + \hat n_{i\downarrow} 
-	\right] + mU \sum_i \left[
+	\right] - mU \sum_i \left[
 		\hat n_{i\uparrow} - \hat n_{i\downarrow} 
 	\right]
 \end{aligned}
@@ -72,12 +72,12 @@ represented as a band in Fig.~\ref{appfig:ferromagnetic-3d-band}. At $U=0$, the 
 \[
 \begin{aligned}
 	\epsilon_{\mathbf{k}\uparrow} &= U \left(
-		n+m
+		n-m
 	\right) - 2t \left[
 		\cos(k_x) + \cos(k_y)
 	\right] \\
 	\epsilon_{\mathbf{k}\downarrow} &= U \left(
-		n-m
+		n+m
 	\right) - 2t \left[
 		\cos(k_x) + \cos(k_y)
 	\right]
@@ -117,14 +117,14 @@ and a mean-field Ansatz
 	\ev{\hat n_{\mathbf{r}\downarrow}} = n-m_\mathbf{r}
 \]
 With respect to the solution presented above, the only detail changing is the last term,
-\[
+\begin{equation}\label{appeq:hubbard-mean-field-hamiltonian}
 	\hat H = -t \sum_{\langle \mathbf{r}\mathbf{r}' \rangle} \sum_\sigma \hat c_{\mathbf{r}\sigma}^\dagger \hat c_{\mathbf{r}'\sigma}
 	+ nU \sum_\mathbf{r} \left[
 		\hat n_{\mathbf{r}\uparrow} + \hat n_{\mathbf{r}\downarrow}
-	\right] + mU \sum_\mathbf{r} (-1)^{x+y} \left[
+	\right] - mU \sum_\mathbf{r} (-1)^{x+y} \left[
 		\hat n_{\mathbf{r}\uparrow} - \hat n_{\mathbf{r}\downarrow}
 	\right]
-\]
+\end{equation}
 Fourier-transforming, the phase factor can be absorbed in the destruction operator inside of $\hat n_{\mathbf{r}\sigma}$:
 \[
 \begin{aligned}
@@ -162,19 +162,17 @@ mU \sum_\mathbf{r} (-1)^{x+y} \left[
 \end{figure}
 
 Consider the band of Fig.~\ref{appfig:ferromagnetic-3d-band} at half-filling. As does \citeauthor{fabrizio2022course} \cite{fabrizio2022course}, the area delimited externally by the solid lines at zero energy is denominated ``Magnetic Brillouin Zone'' ($\mathrm{MBZ}$). The periodicity of $\mathbf{k}$ space guarantees that the full $\mathrm{BZ}$ can be taken as well to be the one of Fig.~\ref{appsubfig:alternative-ferromagnetic-3d-band}. Then:
-\[
-\begin{aligned}
+\begin{align}
 	\sum_{\mathbf{k} \in \mathrm{BZ}}
 	\hat c_{\mathbf{k}\uparrow}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\uparrow} &= \sum_{\mathbf{k} \in \mathrm{MBZ}}
 	\left[
 		\hat c_{\mathbf{k}\uparrow}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\uparrow} + \hat c_{\mathbf{k}+\bm{\pi}\uparrow}^\dagger \hat c_{\mathbf{k}+2\bm{\pi}\uparrow}
-	\right] \\
+	\right] \nonumber \\
 	&= \sum_{\mathbf{k} \in \mathrm{MBZ}}
 	\left[
 		\hat c_{\mathbf{k}\uparrow}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\uparrow} + \hat c_{\mathbf{k}+\bm{\pi}\uparrow}^\dagger \hat c_{\mathbf{k}\uparrow}
-	\right]
-\end{aligned}
-\]
+	\right] \label{appeq:mixed-cc-term-intermediate-passage}
+\end{align}
 and the same applies for spin $\downarrow$. Periodicity by shifts $2\bm{\pi}$ has been used. Now, define the Nambu spinors:
 \[
 	\hat \Psi_{\mathbf{k}\sigma} \equiv \begin{bmatrix}
@@ -207,8 +205,8 @@ In the second passage, the sum over the full $\mathrm{BZ}$ was written consideri
 	\hat H = \sum_{\mathbf{k} \in \mathrm{MBZ}} \sum_\sigma \hat \Psi_{\mathbf{k}\sigma}^\dagger h_{\mathbf{k}\sigma} \hat \Psi_{\mathbf{k}\sigma}
 	\qq{being}
 	h_{\mathbf{k}\sigma} \equiv \begin{bmatrix}
-		\epsilon_\mathbf{k}^{(0)} & \Delta_\sigma \\
-		\Delta_\sigma & - \epsilon_\mathbf{k}^{(0)}
+		\epsilon_\mathbf{k}^{(0)} & -\Delta_\sigma \\
+		-\Delta_\sigma & - \epsilon_\mathbf{k}^{(0)}
 	\end{bmatrix}
 \end{equation}
 Notice: the Nambu hamiltonian is a $2\times2$ matrix over the $\mathrm{MBZ}$ -- which is half the full $\mathrm{BZ}$, coherently with a solution which essentially bipartites the lattice giving back a double sized unit cell.
@@ -216,24 +214,24 @@ Notice: the Nambu hamiltonian is a $2\times2$ matrix over the $\mathrm{MBZ}$ -- 
 \begin{figure}
 	\centering
 	\input{appendices/mean-field-hubbard/pictures/pseudo-magnetic-field}
-	\caption{Pseudo-magnetic field originating from mean-field treatment of the square Hubbard hamiltonian.}
+	\caption{Pseudo-magnetic field originating from mean-field treatment of the square Hubbard hamiltonian. Here, only the $\sigma=\uparrow$}
 	\label{appfig:pseudo-magnetic-field}
 \end{figure}
 
 The system ground-state is obtained by the means of a Bogoliubov rotation. The hamiltonian maps onto the simple one of a spin in a magnetic field,
 \[
-	h_{\mathbf{k}\sigma} = \epsilon_\mathbf{k}^{(0)} \tau^x + \Delta_\sigma \tau^z
+	h_{\mathbf{k}\sigma} = \epsilon_\mathbf{k}^{(0)} \tau^x - \Delta_\sigma \tau^z
 \]
 being $\tau^\alpha$ the Pauli matrices. Then, defining
 \[
 	\hat s_{\mathbf{k}\sigma}^\alpha \equiv \hat \Psi_{\mathbf{k}\sigma}^\dagger \tau^\alpha \hat \Psi_{\mathbf{k}\sigma}
 	\qq{and}
 	\mathbf{b}_{\mathbf{k}\sigma} \equiv \begin{bmatrix}
-		\epsilon_\mathbf{k}^{(0)} \\ 0 \\ \Delta_\sigma
+		\epsilon_\mathbf{k}^{(0)} \\ 0 \\ -\Delta_\sigma
 	\end{bmatrix}
 \]
 one gets:
-\[
+\begin{equation}\label{appeq:hubbard-bogoliubov-hamiltonian-pseudofields}
 	\hat H = \sum_{\mathbf{k} \in \mathrm{MBZ}} \sum_\sigma \mathbf{b}_{\mathbf{k}\sigma} \cdot \hat{\mathbf{s}}_{\mathbf{k}\sigma}
 	\qq{where}
 	\hat{\mathbf{s}}_{\mathbf{k}\sigma} = \begin{bmatrix}
@@ -241,8 +239,8 @@ one gets:
 		\hat s_{\mathbf{k}\sigma}^y \\
 		\hat s_{\mathbf{k}\sigma}^z
 	\end{bmatrix}
-\]
-The hamiltonian represents a magnetic field tilted by an angle $\tan(2\theta_{\mathbf{k}\sigma}) = \Delta_\sigma/\epsilon_{\mathbf{k}}^{(0)}$, as sketched in Fig.~\ref{appfig:pseudo-magnetic-field}. Diagonalization of each $h_{\mathbf{k}\sigma}$ is obtained trivially by a simple rotation around the $y$ axis:
+\end{equation}
+The hamiltonian represents a system of spins subject to local magnetic fields, each tilted by an angle $\tan(2\theta_{\mathbf{k}\sigma}) = \Delta_\sigma/\epsilon_{\mathbf{k}}^{(0)}$, as sketched in Fig.~\ref{appfig:pseudo-magnetic-field}. At any finite temperature, the ground-state of such a system is well-known. Diagonalization of each $h_{\mathbf{k}\sigma}$ is obtained trivially by a simple rotation around the $y$ axis:
 \[
 	d_{\mathbf{k}\sigma} = W_{\mathbf{k}\sigma} h_{\mathbf{k}\sigma} W_{\mathbf{k}\sigma}^\dagger
 \]
@@ -263,68 +261,168 @@ Eigenvalues are:
 \[
 	\hat \Phi_{\mathbf{k}\sigma} = W_{\mathbf{k}\sigma} \hat \Psi_{\mathbf{k}\sigma}
 \]
-Next section describes a viable HF algorithm.
+\todo
 
-\subsection{Hartree-Fock algorithm}
+\subsection{Theoretical mean-field solution}
 
 A convergence algorithm can be designed to find the Hartree-Fock solution to the model. Ultimately, we aim to extract $m$ self-consistently. Since
 \[
 \begin{aligned}
-	m &= \frac{1}{N^2} \sum_\mathbf{r} \left\langle
+	m &= \frac{1}{2L^2} \sum_\mathbf{r} (-1)^{x+y} \left\langle
 		\hat n_{\mathbf{r}\uparrow} - \hat n_{\mathbf{r}\downarrow}
 	\right\rangle \\
-	&= \frac{1}{N^2} \sum_{\mathbf{k} \in \mathrm{BZ}} \left\langle
-		\hat n_{\mathbf{k}\uparrow} - \hat n_{\mathbf{k}\downarrow}
+	&= \frac{1}{2L^2} \sum_{\mathbf{k} \in \mathrm{BZ}} \left\langle
+		\hat c_{\mathbf{k}\uparrow}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\uparrow} - \hat c_{\mathbf{k}\downarrow}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\downarrow}
 	\right\rangle \\
-	&= \frac{1}{N^2} \sum_{\mathbf{k} \in \mathrm{MBZ}} \left\langle
-		\left(
-			\hat n_{\mathbf{k}\uparrow} + \hat n_{\mathbf{k}+\bm{\pi}\uparrow}
-		\right) - \left( 
-			\hat n_{\mathbf{k}\downarrow} + \hat n_{\mathbf{k}+\bm{\pi}\downarrow}
-		\right)
-	\right\rangle
+	&= \frac{1}{2L^2} \sum_{\mathbf{k} \in \mathrm{MBZ}} \left\langle
+			\left(
+				\hat c_{\mathbf{k}\uparrow}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\uparrow} + \hat c_{\mathbf{k}+\bm{\pi}\uparrow}^\dagger \hat c_{\mathbf{k}\uparrow}	
+			\right) - \left(
+				\hat c_{\mathbf{k}\downarrow}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\downarrow} + \hat c_{\mathbf{k}+\bm{\pi}\downarrow}^\dagger \hat c_{\mathbf{k}\downarrow}	
+			\right)
+		\right\rangle
 \end{aligned}
 \]
-and evidently
-\[
-\begin{aligned}
-	\left\langle
-		\hat n_{\mathbf{k}\sigma} + \hat n_{\mathbf{k}+\bm{\pi}\sigma} 
-	\right\rangle &= \left\langle 
-		\hat \Psi_{\mathbf{k}\sigma}^\dagger \hat \Psi_{\mathbf{k}\sigma}
-	\right\rangle \\
-	&= \left\langle 
-		\hat \Phi_{\mathbf{k}\sigma}^\dagger W_{\mathbf{k}\sigma} W_{\mathbf{k}\sigma}^\dagger \hat \Phi_{\mathbf{k}\sigma}
-	\right\rangle \\
-	&= \left\langle 
-		\hat \Phi_{\mathbf{k}\sigma}^\dagger \hat \Phi_{\mathbf{k}\sigma}
-	\right\rangle
-\end{aligned}
-\]
-In last passage, orthogonality of the $W$ matrices has been used. Then magnetization can be computed simply by
-\begin{equation}\label{appeq:antiferromagnet-magnetization-self-consistence}
-	m = \frac{1}{N^2} \sum_{\mathbf{k} \in \mathrm{MBZ}} \left[
+In the last passage, Eq.~\eqref{appeq:mixed-cc-term-intermediate-passage} has been used. Then magnetization can be computed simply as
+\begin{equation}\label{appeq:antiferromagnet-magnetization-self-consistence-abstract}
+	m = \frac{1}{2L^2} \sum_{\mathbf{k} \in \mathrm{MBZ}} \left[
 		\left\langle 
-			\hat \Phi_{\mathbf{k}\uparrow}^\dagger \hat \Phi_{\mathbf{k}\uparrow}
+			\hat \Psi_{\mathbf{k}\uparrow}^\dagger \tau^x \hat \Psi_{\mathbf{k}\uparrow}
 		\right\rangle - \left\langle 
-			\hat \Phi_{\mathbf{k}\downarrow}^\dagger \hat \Phi_{\mathbf{k}\downarrow}
+			\hat \Psi_{\mathbf{k}\downarrow}^\dagger \tau^x \hat \Psi_{\mathbf{k}\downarrow}
 		\right\rangle
 	\right]
 \end{equation}
+In this equation, spin expectation values appear:
+\[
+	\left\langle 
+		\hat \Psi_{\mathbf{k}\sigma}^\dagger \tau^x \hat \Psi_{\mathbf{k}\sigma}
+	\right\rangle = \ev{\hat s_{\mathbf{k}\sigma}^x}
+\]
+For a spin system at zero temperature, the spin operator expectation value anti-aligns with the external field,
+\[
+	\ev{\hat s_{\mathbf{k}\sigma}^x} = \sin(2\theta_{\mathbf{k}\sigma})
+\]
+(see Fig.~\ref{appfig:pseudo-magnetic-field}). Now, since $\Delta_\downarrow = - \Delta_\uparrow$, it follows
+\[
+	\theta_{\mathbf{k}\downarrow} = -\theta_{\mathbf{k}\uparrow}
+\]
+Then, from Eq.~\eqref{appeq:antiferromagnet-magnetization-self-consistence-abstract} finally:
+\begin{equation}\label{appeq:antiferromagnet-magnetization-self-consistence-final}
+	m = \frac{1}{L^2} \sum_{\mathbf{k} \in \mathrm{MBZ}} \sin(2\theta_{\mathbf{k}\sigma})
+\end{equation}
+\todo
+
+\subsection{Real space mean-field iterative algorithmic solution}
+
+The theoretical derivation of the above paragraph offers a simple description of the system anti-ferromagnetic instability as the instauration of a ground-state of quasiparticles. Here a self-consistent algorithmic extraction of the expected magnetization is presented, following \cite{scholle2023comprehensive}. Consider a square lattice of $L_x \times L_y$ sites: the hamiltonian will be a matrix of dimension $2L_x L_y \times 2L_x L_y$,
+\[
+	[ \hat H ]_{(\mathbf{r}\sigma)(\mathbf{r}'\sigma')} = \mel{\Omega}{ \hat c_{\mathbf{r}\sigma} \hat H \hat c_{\mathbf{r}'\sigma'}^\dagger}{\Omega}
+\]
+For simplicity, in the following $D \equiv 2L_x L_y$. In this context, the following convention is used: the rows/column index entry $\alpha=(\mathbf{r}\sigma)$ is associated to a specific site $\mathbf{r}=(x,y)$ and spin $\sigma$ through the relation
+\[
+	\alpha = 2j_\mathbf{r}-\delta_{\sigma=\uparrow}
+	\qq{where}
+	j_\mathbf{r} = x+(y-1)L_x 
+\]
+Let me break this through. For each site $\mathbf{r}$, two sequential indices are provided ($2j_\mathbf{r}-1$, hosting spin $\uparrow$, and $2j_\mathbf{r}$, hosting spin $\downarrow$). $j_\mathbf{r}$ just orders the site rows-wise. This way, $(x,1)$ is assigned to $j_{(x,1)}=x$, while its NN one site above $(x,2)$ is assigned to an entry shifted by $L_x$, $j_{(x,2)}=x+L_x$. This is just a way of counting the site of a finite square lattice by sweeping along a row and then moving to the row above. Fig.~\ref{appfig:square-lattice-ordering} reports a scheme of the used site ordering.
+
+\begin{figure}
+	\centering
+	\input{appendices/mean-field-hubbard/pictures/square-lattice-ordering}
+	\caption{Schematics of the site ordering on a square lattice performed by sweeping along rows. Left-bottom side is one corner of the lattice. Red sites are characterized by $x+y$ being odd, blue sites by being even. The number reported near to each site is the $\alpha$ entry in the matrix representation for a finite square lattice.}
+	\label{appfig:square-lattice-ordering}
+\end{figure}
+
+Within this convention, matrix elements $H_{\alpha\beta}$ are defined by:
+\begin{itemize}
+	\item If $\sigma=\sigma'$ and $\mathbf{r}$, $\mathbf{r}'$ are NN, the matrix entry is $-t$. In terms of the used greek indices, $\alpha$ and $\beta$ satisfy said requirement if $\abs{\alpha-\beta}=2$ (horizontal hopping) or $\abs{\alpha-\beta}=2L_x$ (vertical hopping). Along column $\alpha$ of the hamiltonian matrix, the elements $-t$ appear at positions 
+	\[
+		( \alpha \pm 2L_x ) \mod 4L_xL_y
+		\qq{and}
+		( \alpha \pm 2 ) \mod 4L_xL_y
+	\]
+	\item If $\mathbf{r} = \mathbf{r}'$ and $\sigma=\sigma'$ (along the diagonal), the local interaction with the mean field is given by the matrix element 
+	\[
+		-mU \times (-1)^{x+y} \times (-1)^{\delta_{\sigma=\downarrow}}
+	\]
+	Starting from a given entry $\alpha$, $j_\mathbf{r}$ is retrieved simply by $j_\mathbf{r}=\lfloor \alpha/2 \rfloor$, and then
+	\[
+		x+y = (j_\mathbf{r}+1) - \left\lfloor
+			\frac{j_\mathbf{r}}{L_x}
+		\right\rfloor (L_x-1)
+	\]
+	Then the $j_\mathbf{r}$-th $2 \times 2$ block along the diagonal will be given by
+	\[
+		(-1)^{x+y} \begin{bmatrix}
+			-mU & \\ & mU
+		\end{bmatrix}
+	\]
+\end{itemize}
+These prescriptions allow to build from scratch the hamiltonian matrix. After that, diagonalization provides $D$ orthonormal eigenvectors $\mathbf{v}^\ell \in \mathbb{C}^{D \times D}$ with $\ell=1,\cdots,D$, each associated to a precise eigenvalue $\epsilon^\ell \in \mathbb{R}$. Let $f$ be the Fermi-Dirac distribution at inverse temperature $\beta$ and chemical potential $\mu$,
+\[
+	f(\epsilon;\beta,\mu) = \frac{1}{e^{\beta(\epsilon-\mu)}+1}
+\]
+At equilibrium, electrons will fill up the energy eigenstates according to,
+\[
+	\langle
+		\hat n_{\mathbf{r}\sigma}
+	\rangle = \sum_{\ell=1}^D \abs{v_\alpha^\ell}^2 f(\epsilon^\ell;\beta,\mu)
+	\qq{where}
+	\alpha = (\mathbf{r}\sigma)
+\]
+For a fixed density $n = N/D$, the chemical potential must satisfy
+\[
+\begin{aligned}
+	n &= \frac{1}{D} \sum_{\mathbf{r}\sigma} \langle
+		\hat n_{\mathbf{r}\sigma}
+	\rangle \\
+	&= \frac{1}{D} \sum_{\mathbf{r}\sigma} \sum_{\ell=1}^D \abs{v_\alpha^\ell}^2 f(\epsilon^\ell;\beta,\mu) \\
+	&= \frac{1}{D} \sum_{\ell=1}^D f(\epsilon^\ell;\beta,\mu)
+\end{aligned} 
+\]
+since the $\mathbf{v}^\ell$ eigenvectors are orthonormal. The chemical potential for the half-filled model is already known to be
+\[
+	\mu \big|_{n=1/2} = -\frac{U}{2}
+\]
+as evident from Eq.~\eqref{appeq:hubbard-mean-field-hamiltonian}. Average magnetization is then given by
+\begin{align}
+	m &= \frac{1}{D} \sum_{\mathbf{r}} \left[
+		\langle
+			\hat n_{\mathbf{r}\uparrow}
+			\rangle - \langle
+			\hat n_{\mathbf{r}\downarrow}
+		\rangle
+	\right] \nonumber \\
+	&= \frac{1}{D} \sum_{\lambda=1}^{D/2} \sum_{\ell=1}^D \left[
+		\abs{v_{2\lambda-1}^\ell}^2 - \abs{v_{2\lambda}^\ell}^2
+	\right] f(\epsilon^\ell;\beta,\mu) \nonumber \\
+	&= \frac{1}{D} \sum_{\ell=1}^D \left[
+		1 - 2 \sum_{\lambda=1}^{D/2} \abs{v_{2\lambda}^\ell}^2
+	\right] f(\epsilon^\ell;\beta,\mu) \nonumber \\
+	&= n - \frac{2}{D} \sum_{\ell=1}^D \sum_{\lambda=1}^{D/2} \abs{v_{2\lambda}^\ell}^2 f(\epsilon^\ell;\beta,\mu) \label{appeq:average-magnetization-hf-expression}
+\end{align}
+since $\mathbf{r}\uparrow$ is associated to an odd index entry, while $\mathbf{r}\downarrow$ to the following even entry. \todo
+
+\subsubsection{Hartree-Fock algorithm}
+
 The algorithm proceeds as follows:
 \begin{enumerate}
 	\setcounter{enumi}{-1}
 	\item Algorithm setup: fix
 	\begin{enumerate}
-		\item the coarse-graining of the $\mathrm{BZ}$ -- which is, fix $N_x$ and $N_y$;
-		\item the number of iterations $k \in \mathbb{N}$; 
+		\item the coarse-graining of the $\mathrm{BZ}$ -- which is, fix $L_x$ and $L_y$;
+		\item the desired density $n$ {\color{tabred}
+			(I still have some doubts on how to treat the $n\neq 1/2$ situation; for now, this algorithm works for $n=1/2$)
+		};
+		\item the number of iterations $p \in \mathbb{N}$; 
 		\item the mixing parameter $g \in [0,1]$;
 		\item the tolerance parameter $\delta \in \mathbb{R}$;
 	\end{enumerate}
 	\item Select a random starting value $m_0 \in [-1,1]$;
-	\item Initialize each $h_{\mathbf{k}\sigma}$ matrix according to the initialized $m_0$;
-	\item Diagonalize each $h_{\mathbf{k}\sigma}$ matrix collecting the $\Phi$ eigenvectors;
-	\item Compute $m$ using Eq.~\eqref{appeq:antiferromagnet-magnetization-self-consistence};
+	\item Initialize the hamiltonian matrix $H_{\alpha\beta}$ matrix according to the initialized $m_0$ and the site indexing rules of Fig.~\ref{appfig:square-lattice-ordering};
+	\item Diagonalize $H_{\alpha\beta}$ matrix collecting the $\mathbf{v}^\ell$ eigenvectors;
+	\item Compute $m$ using Eq.~\eqref{appeq:average-magnetization-hf-expression}
 	\item Check if $\abs{m-m_0} \le \delta$;
 	\begin{itemize}
 		\item If yes, halt;
@@ -335,4 +433,8 @@ The algorithm proceeds as follows:
 		(logical assignment notation used) and repeat from step 2.
 	\end{itemize}
 \end{enumerate}
+{\color{tabred}}
+\todo
+
+\subsubsection{Results}
 \todo

@@ -15,5 +15,8 @@
 \contentsline {appendix}{\chapternumberline {B}Mean-Field Theory in Hubbard lattices}{11}{appendix.B}%
 \contentsline {section}{\numberline {B.1}Ferromagnetic solution}{11}{section.B.1}%
 \contentsline {section}{\numberline {B.2}Antiferromagnetic solution}{12}{section.B.2}%
-\contentsline {subsection}{\numberline {B.2.1}Hartree-Fock algorithm}{15}{subsection.B.2.1}%
-\contentsline {chapter}{Bibliography}{17}{section*.16}%
+\contentsline {subsection}{\numberline {B.2.1}Theoretical mean-field solution}{15}{subsection.B.2.1}%
+\contentsline {subsection}{\numberline {B.2.2}Real space mean-field iterative algorithmic solution}{16}{subsection.B.2.2}%
+\contentsline {subsubsection}{Hartree-Fock algorithm}{17}{section*.16}%
+\contentsline {subsubsection}{Results}{18}{section*.17}%
+\contentsline {chapter}{Bibliography}{19}{section*.19}%

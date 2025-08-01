@@ -89,7 +89,7 @@ Consider the half-filling situation. An unpolarized system will have $n=1/4$, $m
 
 \begin{figure}
 	\centering
-	\input{appendices/mean-field-hubbard/pictures/ferromagnetic-3d-band}
+%	\input{appendices/mean-field-hubbard/pictures/ferromagnetic-3d-band}
 	\caption{Depiction of the Hubbard square lattice hopping band $\epsilon_{\mathbf{k}}^{(0)} = -2t[\cos(k_x) + \cos(k_y)]$. The red lines mark the zero-energy intersection.}
 	\label{appfig:ferromagnetic-3d-band}
 \end{figure}
@@ -150,11 +150,11 @@ mU \sum_\mathbf{r} (-1)^{x+y} \left[
 \begin{figure}
 	\centering
 	\subfloat[Alternative band.]{
-		\input{appendices/mean-field-hubbard/pictures/alternative-ferromagnetic-3d-band}
+%		\input{appendices/mean-field-hubbard/pictures/alternative-ferromagnetic-3d-band}
 		\label{appsubfig:alternative-ferromagnetic-3d-band}
 	}
 	\subfloat[Contour plot.]{
-		\input{appendices/mean-field-hubbard/pictures/ferromagnetic-contour}
+%		\input{appendices/mean-field-hubbard/pictures/ferromagnetic-contour}
 		\label{appsubfig:ferromagnetic-contour}
 	}
 	\caption{Alternative depiction of the Hubbard square lattice hopping band previously reported in Fig.~\ref{appfig:ferromagnetic-3d-band}. The Magnetic Brillouin Zone ($\mathrm{MBZ}$) is delimited by the zero-energy contour and is indicated in figure. As it is evident, energy sign flips by taking a $(\pi,\pi)$ translation in $\mathbf{k}$ space.}
@@ -213,7 +213,7 @@ Notice: the Nambu hamiltonian is a $2\times2$ matrix over the $\mathrm{MBZ}$ -- 
 
 \begin{figure}
 	\centering
-	\input{appendices/mean-field-hubbard/pictures/pseudo-magnetic-field}
+%	\input{appendices/mean-field-hubbard/pictures/pseudo-magnetic-field}
 	\caption{Pseudo-magnetic field originating from mean-field treatment of the square Hubbard hamiltonian. Here, only the $\sigma=\uparrow$}
 	\label{appfig:pseudo-magnetic-field}
 \end{figure}
@@ -251,7 +251,10 @@ where
 		& - E_\mathbf{k}
 	\end{bmatrix}
 	\qq{and}
-	W_{\mathbf{k}\sigma} = e^{i\theta_{\mathbf{k}}\tau^y}
+	W_{\mathbf{k}\sigma} = e^{i\theta_{\mathbf{k}\sigma}\tau^y} = \begin{bmatrix}
+		\cos\theta_{\mathbf{k}\sigma} & \sin\theta_{\mathbf{k}\sigma} \\
+		-\sin\theta_{\mathbf{k}\sigma} & \cos\theta_{\mathbf{k}\sigma}
+ 	\end{bmatrix}
 \]
 Eigenvalues are:
 \[
@@ -299,23 +302,130 @@ In this equation, spin expectation values appear:
 		\hat \Psi_{\mathbf{k}\sigma}^\dagger \tau^x \hat \Psi_{\mathbf{k}\sigma}
 	\right\rangle = \ev{\hat s_{\mathbf{k}\sigma}^x}
 \]
+Now discussion is divided in two parts: zero temperature and finite temperature.
+
+\subsubsection{Zero temperature solution}
+
 For a spin system at zero temperature, the spin operator expectation value anti-aligns with the external field,
 \[
 	\ev{\hat s_{\mathbf{k}\sigma}^x} = \sin(2\theta_{\mathbf{k}\sigma})
 \]
 (see Fig.~\ref{appfig:pseudo-magnetic-field}). Now, since $\Delta_\downarrow = - \Delta_\uparrow$, it follows
 \[
-	\theta_{\mathbf{k}\downarrow} = -\theta_{\mathbf{k}\uparrow}
+	\theta_{\mathbf{k}\downarrow} = -\theta_{\mathbf{k}\uparrow} \equiv \theta_\mathbf{k}
 \]
-Then, from Eq.~\eqref{appeq:antiferromagnet-magnetization-self-consistence-abstract} finally:
-\begin{equation}\label{appeq:antiferromagnet-magnetization-self-consistence-final}
-	m = \frac{1}{L^2} \sum_{\mathbf{k} \in \mathrm{MBZ}} \sin(2\theta_{\mathbf{k}\sigma})
+Then, from Eq.~\eqref{appeq:antiferromagnet-magnetization-self-consistence-abstract}
+\[
+\begin{aligned}
+	m &= \frac{1}{L^2} \sum_{\mathbf{k} \in \mathrm{MBZ}} \sin(2\theta_\mathbf{k}) \\
+	&= \frac{1}{2L^2} \sum_{\mathbf{k} \in \mathrm{BZ}} \sin(2\theta_\mathbf{k})
+\end{aligned}
+\]
+The last passage is due to the fact that the sum over the $\mathrm{MBZ}$ can be performed identically over $\mathrm{BZ}\setminus\mathrm{MBZ}$ and yield the same result. This is because of the lattice periodicity in reciprocal space. Then, finally:
+\begin{equation}\label{appeq:antiferromagnet-magnetization-self-consistence-zero-temperature}
+	m = \frac{1}{L^2} \sum_{\mathbf{k} \in \mathrm{BZ}} [ W_{\mathbf{k}\uparrow} ]_{11} [ W_{\mathbf{k}\uparrow}^\dagger ]_{21}
 \end{equation}
+where $\sin(2\theta_\mathbf{k}) = 2 \sin\theta_\mathbf{k} \cos\theta_\mathbf{k}$ has been used. As will become clear in next section, the sudden appearance of matrix elements of $W$ is not casual.
+
+\subsubsection{Finite temperature solution}
+
+At finite temperature $\beta$, discussion is analogous to the section above. Here will be treated somewhat more theoretically. Define the generic order parameter:
+\[
+	\Delta_{ij} (\mathbf{k}\sigma) \equiv \left\langle
+		[
+			\hat \Psi_{\mathbf{k}\sigma}^\dagger
+		]_i [
+			\hat \Psi_{\mathbf{k}\sigma}
+		]_j
+	\right\rangle
+\]
+In last section, the relevant indices $(i,j)$ were $(1,2)$ and $(2,1)$. Transform this order parameter,
+\begin{align}
+	\Delta_{ij} (\mathbf{k}\sigma) &= \sum_{i'j'} \left\langle
+		[
+			\hat \Phi_{\mathbf{k}\sigma}^\dagger
+		]_{i'} 
+		[
+			W_{\mathbf{k}\sigma}
+		]_{i'i} [
+			W_{\mathbf{k}\sigma}^\dagger
+		]_{jj'}
+		[
+			\hat \Phi_{\mathbf{k}\sigma}
+		]_{j'}
+	\right\rangle \nonumber \\
+	&= 
+	\sum_{i'j'} [
+		W_{\mathbf{k}\sigma}
+	]_{i'i} [
+		W_{\mathbf{k}\sigma}^\dagger
+	]_{jj'}
+	\left\langle
+		[
+			\hat \Phi_{\mathbf{k}\sigma}^\dagger
+		]_{i'} 
+		[
+			\hat \Phi_{\mathbf{k}\sigma}
+		]_{j'}
+	\right\rangle \nonumber \\
+	&= 
+	\sum_{i'j'} [
+		W_{\mathbf{k}\sigma}
+	]_{i'i} [
+		W_{\mathbf{k}\sigma}^\dagger
+	]_{jj'}
+	\delta_{i'j'} f\left(
+		[h_{\mathbf{k}\sigma}]_{i'i'}; \beta,\mu
+	\right) \nonumber \\
+	&= 
+	\sum_{\ell=1}^2 [
+		W_{\mathbf{k}\sigma}
+	]_{\ell i} [
+		W_{\mathbf{k}\sigma}^\dagger
+	]_{j\ell}
+	f\left(
+		(-1)^{\ell+1} E_{\mathbf{k}\sigma}; \beta,\mu
+	\right) \nonumber \\
+	&= 
+	[
+		W_{\mathbf{k}\sigma}
+	]_{1 i} [
+		W_{\mathbf{k}\sigma}^\dagger
+	]_{j 1} f\left(
+		-E_{\mathbf{k}\sigma}; \beta,\mu
+	\right) + [
+		W_{\mathbf{k}\sigma}
+	]_{2 i} [
+		W_{\mathbf{k}\sigma}^\dagger
+	]_{j 2} f\left(
+		E_{\mathbf{k}\sigma}; \beta,\mu
+	\right) \label{appeq:finite-temperature-order-parameter-derivation-intermediate}
+\end{align}
+being $f$ be the Fermi-Dirac distribution at inverse temperature $\beta$ and chemical potential $\mu$,
+\[
+	f(\epsilon;\beta,\mu) = \frac{1}{e^{\beta(\epsilon-\mu)}+1} 
+\]
+In the second passage this distribution appeared because an expectation value over a gas of free $\Phi$ fermions was taken. Such an expectation value admits no off-diagonal values, hence the $\delta_{i'j'}$. The diagonal entries are precisely the definition of the Fermi-Dirac distribution for the given energy. At zero temperature and half-filling, the lower band $-E_\mathbf{k}$ is completely filled while the upper band $E_\mathbf{k}$ is empty. Substituting $f=1$ in the first term of line \eqref{appeq:finite-temperature-order-parameter-derivation-intermediate}, $f=0$ in the second and summing $\Delta_{12}$ and $\Delta_{21}$ as done in Eq.~\eqref{appeq:antiferromagnet-magnetization-self-consistence-abstract}, it's easy to derive the result of Eq.~\eqref{appeq:antiferromagnet-magnetization-self-consistence-zero-temperature}. At finite temperature, following the lead of the above paragraph, the antiferromagnetic instability order parameter $m$ will be given simply by
+\begin{equation}\label{appeq:antiferromagnet-magnetization-self-consistence-finite-temperature}
+	m = \frac{1}{2L^2} \sum_{\mathbf{k} \in \mathrm{BZ}} \sum_{\ell=1}^2 
+	[
+		W_{\mathbf{k}\uparrow}
+	]_{\ell 1} [
+		W_{\mathbf{k}\uparrow}^\dagger
+	]_{2 \ell}
+	f\left(
+		(-1)^{\ell+1} E_{\mathbf{k}\sigma}; \beta,\mu
+	\right)
+\end{equation}
+Then: mean-field approximations yield an estimate for the magnetization at a given temperature and chemical potential just by carefully combining the elements of the diagonalizing matrix $W$ of each Bogoliubov matrix $h_{\mathbf{k}\sigma}$.
+
+\subsection{Reciprocal space mean-field iterative algorithmic solution}
+
 \todo
 
 \subsection{Real space mean-field iterative algorithmic solution}
 
-The theoretical derivation of the above paragraph offers a simple description of the system anti-ferromagnetic instability as the instauration of a ground-state of quasiparticles. Here a self-consistent algorithmic extraction of the expected magnetization is presented, following \cite{scholle2023comprehensive}. Consider a square lattice of $L_x \times L_y$ sites: the hamiltonian will be a matrix of dimension $2L_x L_y \times 2L_x L_y$,
+The theoretical derivation of the above paragraphs offers a simple description of the system anti-ferromagnetic instability as the instauration of a ground-state of quasiparticles. Here a self-consistent algorithmic extraction of the expected magnetization is presented, following \cite{scholle2023comprehensive}. Note that this algorithm is by far the least efficient, being performed in real space with dimensional exponential scaling in terms of computational time. It is here presented just for completeness as an alternative derivation. Consider a square lattice of $L_x \times L_y$ sites: the hamiltonian will be a matrix of dimension $2L_x L_y \times 2L_x L_y$,
 \[
 	[ \hat H ]_{(\mathbf{r}\sigma)(\mathbf{r}'\sigma')} = \mel{\Omega}{ \hat c_{\mathbf{r}\sigma} \hat H \hat c_{\mathbf{r}'\sigma'}^\dagger}{\Omega}
 \]
@@ -329,7 +439,7 @@ Let me break this through. For each site $\mathbf{r}$, two sequential indices ar
 
 \begin{figure}
 	\centering
-	\input{appendices/mean-field-hubbard/pictures/square-lattice-ordering}
+%	\input{appendices/mean-field-hubbard/pictures/square-lattice-ordering}
 	\caption{Schematics of the site ordering on a square lattice performed by sweeping along rows. Left-bottom side is one corner of the lattice. Red sites are characterized by $x+y$ being odd, blue sites by being even. The number reported near to each site is the $\alpha$ entry in the matrix representation for a finite square lattice.}
 	\label{appfig:square-lattice-ordering}
 \end{figure}
@@ -338,9 +448,9 @@ Within this convention, matrix elements $H_{\alpha\beta}$ are defined by:
 \begin{itemize}
 	\item If $\sigma=\sigma'$ and $\mathbf{r}$, $\mathbf{r}'$ are NN, the matrix entry is $-t$. In terms of the used greek indices, $\alpha$ and $\beta$ satisfy said requirement if $\abs{\alpha-\beta}=2$ (horizontal hopping) or $\abs{\alpha-\beta}=2L_x$ (vertical hopping). Along column $\alpha$ of the hamiltonian matrix, the elements $-t$ appear at positions 
 	\[
-		( \alpha \pm 2L_x ) \mod 4L_xL_y
+		( \alpha \pm 2L_x ) \mod D
 		\qq{and}
-		( \alpha \pm 2 ) \mod 4L_xL_y
+		( \alpha \pm 2 ) \mod D
 	\]
 	\item If $\mathbf{r} = \mathbf{r}'$ and $\sigma=\sigma'$ (along the diagonal), the local interaction with the mean field is given by the matrix element 
 	\[
@@ -354,16 +464,32 @@ Within this convention, matrix elements $H_{\alpha\beta}$ are defined by:
 	\]
 	Then the $j_\mathbf{r}$-th $2 \times 2$ block along the diagonal will be given by
 	\[
-		(-1)^{x+y} \begin{bmatrix}
+		(-1)^{x+y} \underbrace{\begin{bmatrix}
 			-mU & \\ & mU
-		\end{bmatrix}
+		\end{bmatrix}}_{\mathcal{B}}
 	\]
+	Note that the resulting block diagonal contribution to the hamiltonian is shaped like follows (assume $L_x$ to be even):
+	\[
+		\begin{bNiceMatrix}[
+				first-row, 
+				first-col,
+				code-for-first-row = \color{tabred},
+				code-for-first-col = \color{tabred}
+			]
+			 & 1 & 2 & \cdots & L_x-1 & L_x & L_x+1 & L_x+2  & \cdots \\
+			 1 & \mathcal{B} \hfil \\
+			 2 & & -\mathcal{B} \hfil \\
+			 \vdots & & & \ddots \hfil \\
+			 L_x-1 & & & & \mathcal{B} \hfil \\
+			 L_x & & & & & - \mathcal{B} \hfil \\
+			 L_x+1 & & & & & & - \mathcal{B} \hfil \\
+			 L_x+2 & & & & & & & \mathcal{B} \hfil \\
+			 \vdots & & & & & & & & \ddots
+		\end{bNiceMatrix}
+	\]
+	Along the same row, on the diagonal the $2\times2$ blocks $\mathcal{B}$ alternate signs; changing row (in the example above, at positions $L_x,L_x+1$), due to the anti-ferromagnetic configuration of local mean-fields, an additional $-1$ is included. If $L_x$ is taken to be odd, the diagonal blocks just alternate signs all the way.
 \end{itemize}
-These prescriptions allow to build from scratch the hamiltonian matrix. After that, diagonalization provides $D$ orthonormal eigenvectors $\mathbf{v}^\ell \in \mathbb{C}^{D \times D}$ with $\ell=1,\cdots,D$, each associated to a precise eigenvalue $\epsilon^\ell \in \mathbb{R}$. Let $f$ be the Fermi-Dirac distribution at inverse temperature $\beta$ and chemical potential $\mu$,
-\[
-	f(\epsilon;\beta,\mu) = \frac{1}{e^{\beta(\epsilon-\mu)}+1}
-\]
-At equilibrium, electrons will fill up the energy eigenstates according to,
+These prescriptions allow to build from scratch the hamiltonian matrix. After that, diagonalization provides $D$ orthonormal eigenvectors $\mathbf{v}^\ell \in \mathbb{C}^{D \times D}$ with $\ell=1,\cdots,D$, each associated to a precise eigenvalue $\epsilon^\ell \in \mathbb{R}$. At equilibrium, electrons will fill up the energy eigenstates according to,
 \[
 	\langle
 		\hat n_{\mathbf{r}\sigma}
@@ -371,7 +497,7 @@ At equilibrium, electrons will fill up the energy eigenstates according to,
 	\qq{where}
 	\alpha = (\mathbf{r}\sigma)
 \]
-For a fixed density $n = N/D$, the chemical potential must satisfy
+For a fixed filling $n = N/D$, the chemical potential must satisfy
 \[
 \begin{aligned}
 	n &= \frac{1}{D} \sum_{\mathbf{r}\sigma} \langle
@@ -387,20 +513,24 @@ since the $\mathbf{v}^\ell$ eigenvectors are orthonormal. The chemical potential
 \]
 as evident from Eq.~\eqref{appeq:hubbard-mean-field-hamiltonian}. Average magnetization is then given by
 \begin{align}
-	m &= \frac{1}{D} \sum_{\mathbf{r}} \left[
+	m &= \frac{1}{D} \sum_{\mathbf{r}} (-1)^{x+y} \left[
 		\langle
 			\hat n_{\mathbf{r}\uparrow}
 			\rangle - \langle
 			\hat n_{\mathbf{r}\downarrow}
 		\rangle
 	\right] \nonumber \\
-	&= \frac{1}{D} \sum_{\lambda=1}^{D/2} \sum_{\ell=1}^D \left[
+	&= \frac{1}{D} \sum_{\lambda=1}^{D/2} (-1)^{
+		(\lambda+1) - \left\lfloor
+			\lambda / L_x
+		\right\rfloor (L_x-1)
+	} \sum_{\ell=1}^D \left[
 		\abs{v_{2\lambda-1}^\ell}^2 - \abs{v_{2\lambda}^\ell}^2
-	\right] f(\epsilon^\ell;\beta,\mu) \nonumber \\
-	&= \frac{1}{D} \sum_{\ell=1}^D \left[
-		1 - 2 \sum_{\lambda=1}^{D/2} \abs{v_{2\lambda}^\ell}^2
-	\right] f(\epsilon^\ell;\beta,\mu) \nonumber \\
-	&= n - \frac{2}{D} \sum_{\ell=1}^D \sum_{\lambda=1}^{D/2} \abs{v_{2\lambda}^\ell}^2 f(\epsilon^\ell;\beta,\mu) \label{appeq:average-magnetization-hf-expression}
+	\right] f(\epsilon^\ell;\beta,\mu) \label{appeq:average-magnetization-hf-expression}
+%	&= \frac{1}{D} \sum_{\ell=1}^D \left[
+%		1 - 2 \sum_{\lambda=1}^{D/2} \abs{v_{2\lambda}^\ell}^2
+%	\right] f(\epsilon^\ell;\beta,\mu) \nonumber \\
+%	&= n - \frac{2}{D} \sum_{\ell=1}^D \sum_{\lambda=1}^{D/2} \abs{v_{2\lambda}^\ell}^2 f(\epsilon^\ell;\beta,\mu) 
 \end{align}
 since $\mathbf{r}\uparrow$ is associated to an odd index entry, while $\mathbf{r}\downarrow$ to the following even entry. \todo
 
@@ -409,28 +539,37 @@ since $\mathbf{r}\uparrow$ is associated to an odd index entry, while $\mathbf{r
 The algorithm proceeds as follows:
 \begin{enumerate}
 	\setcounter{enumi}{-1}
-	\item Algorithm setup: fix
-	\begin{enumerate}
+	\item Algorithm setup: initialize a counter $i=1$ and choose:
+	\begin{itemize}
 		\item the coarse-graining of the $\mathrm{BZ}$ -- which is, fix $L_x$ and $L_y$;
 		\item the desired density $n$ {\color{tabred}
 			(I still have some doubts on how to treat the $n\neq 1/2$ situation; for now, this algorithm works for $n=1/2$)
 		};
 		\item the number of iterations $p \in \mathbb{N}$; 
 		\item the mixing parameter $g \in [0,1]$;
-		\item the tolerance parameter $\delta \in \mathbb{R}$;
-	\end{enumerate}
+		\item the tolerance parameters $\delta_m, \delta_n \in \mathbb{R}$ (respectively for magnetization and density);
+	\end{itemize}
 	\item Select a random starting value $m_0 \in [-1,1]$;
 	\item Initialize the hamiltonian matrix $H_{\alpha\beta}$ matrix according to the initialized $m_0$ and the site indexing rules of Fig.~\ref{appfig:square-lattice-ordering};
-	\item Diagonalize $H_{\alpha\beta}$ matrix collecting the $\mathbf{v}^\ell$ eigenvectors;
-	\item Compute $m$ using Eq.~\eqref{appeq:average-magnetization-hf-expression}
-	\item Check if $\abs{m-m_0} \le \delta$;
+	\item For the given hamiltonian, find the optimal chemical potential $\mu$ as follows:
+	\begin{enumerate}
+		\item Define the generic matrix $A[m_0, \mu]$ dependent on $m_0$ and $\mu$;
+		\item Define the density as a function of the chemical potential $\mu$,
+	\end{enumerate}
+	\item Diagonalize the matrix associated to the operator $\hat H_{\alpha\beta}-\mu \hat N$ collecting the $\mathbf{v}^\ell$ eigenvectors;
+	\item Compute $m$ using Eq.~\eqref{appeq:average-magnetization-hf-expression} and update the counter, $i \to i+1$;
+	\item Check if $\abs{m-m_0} \le \delta_m$:
 	\begin{itemize}
 		\item If yes, halt;
-		\item If not, define 
-		\[
-			m_0 = gm + (1-g)m_0
-		\]
-		(logical assignment notation used) and repeat from step 2.
+		\item If not: check if $i > p$
+		\begin{itemize}
+			\item If yes, halt and consider choosing better tolerance and model parameters;
+			\item If not, define 
+			\[
+				m_0 = gm + (1-g)m_0
+			\]
+			(logical assignment notation used) and repeat from step 2.
+		\end{itemize}
 	\end{itemize}
 \end{enumerate}
 {\color{tabred}}

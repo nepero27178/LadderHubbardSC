@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.12) (preloaded format=pdflatex 2025.4.28)  31 JUL 2025 09:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.12) (preloaded format=pdflatex 2025.4.28)  1 AUG 2025 19:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -463,6 +463,8 @@ Package: multirow 2024/11/12 v2.9 Span multiple rows of a table
 \multirow@dima=\skip192
 \bigstrutjot=\dimen260
 )
+(/home/nepero27178/.miktex/texmfs/install/tex/latex/nicematrix/nicematrix.sty
+(/home/nepero27178/.miktex/texmfs/install/tex/latex/pgf/basiclayer/pgfcore.sty
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
 
@@ -483,30 +485,7 @@ File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
 \Gin@req@height=\dimen261
 \Gin@req@width=\dimen262
 )
-(/home/nepero27178/.miktex/texmfs/install/tex/latex/xcolor/xcolor.sty
-Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
-
-(/home/nepero27178/.miktex/texmfs/install/tex/latex/graphics-cfg/color.cfg
-File: color.cfg 2016/01/02 v1.6 sample color configuration
-)
-Package xcolor Info: Driver file: pdftex.def on input line 274.
-
-(/home/nepero27178/.miktex/texmfs/install/tex/latex/graphics/mathcolor.ltx)
-Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
-Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
-Package xcolor Info: Model `RGB' extended on input line 1365.
-Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
-Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
-Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
-Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
-Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
-Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
-)
-(/home/nepero27178/.miktex/texmfs/install/tex/latex/graphics/dvipsnam.def
-File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
-)
-(/home/nepero27178/.miktex/texmfs/install/tex/latex/pgf/frontendlayer/tikz.sty
-(/home/nepero27178/.miktex/texmfs/install/tex/latex/pgf/basiclayer/pgf.sty
+(/home/nepero27178/.miktex/texmfs/install/tex/latex/pgf/systemlayer/pgfsys.sty
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/pgf/utilities/pgfrcs.sty
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgf/utilities/pgfutil-com
 mon.tex
@@ -523,10 +502,6 @@ ex.def
 )
 Package: pgfrcs 2023-01-15 v3.1.10 (3.1.10)
 ))
-Package: pgf 2023-01-15 v3.1.10 (3.1.10)
-
-(/home/nepero27178/.miktex/texmfs/install/tex/latex/pgf/basiclayer/pgfcore.sty
-(/home/nepero27178/.miktex/texmfs/install/tex/latex/pgf/systemlayer/pgfsys.sty
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgf/systemlayer/pgfsys.co
 de.tex
 Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
@@ -584,6 +559,25 @@ File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
 tocol.code.tex
 File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ))
+(/home/nepero27178/.miktex/texmfs/install/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+
+(/home/nepero27178/.miktex/texmfs/install/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 274.
+
+(/home/nepero27178/.miktex/texmfs/install/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+)
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgf/basiclayer/pgfcore.co
 de.tex
 Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
@@ -731,6 +725,167 @@ es.code.tex
 File: pgfmoduleshapes.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfnodeparttextbox=\box63
 )
+Package: nicematrix 2025/07/18 v7.1e Enhanced arrays with the help of PGF/TikZ
+
+(/home/nepero27178/.miktex/texmfs/install/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2024/11/05 v2.17t AMS math features
+\@mathmargin=\skip193
+
+For additional information on amsmath, use the `?' option.
+(/home/nepero27178/.miktex/texmfs/install/tex/latex/amsmath/amstext.sty
+Package: amstext 2021/08/26 v2.01 AMS text
+
+(/home/nepero27178/.miktex/texmfs/install/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks38
+\ex@=\dimen300
+))
+(/home/nepero27178/.miktex/texmfs/install/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen301
+)
+(/home/nepero27178/.miktex/texmfs/install/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count345
+LaTeX Info: Redefining \frac on input line 233.
+\uproot@=\count346
+\leftroot@=\count347
+LaTeX Info: Redefining \overline on input line 398.
+LaTeX Info: Redefining \colon on input line 409.
+\classnum@=\count348
+\DOTSCASE@=\count349
+LaTeX Info: Redefining \ldots on input line 495.
+LaTeX Info: Redefining \dots on input line 498.
+LaTeX Info: Redefining \cdots on input line 619.
+\Mathstrutbox@=\box64
+\strutbox@=\box65
+LaTeX Info: Redefining \big on input line 721.
+LaTeX Info: Redefining \Big on input line 722.
+LaTeX Info: Redefining \bigg on input line 723.
+LaTeX Info: Redefining \Bigg on input line 724.
+\big@size=\dimen302
+LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
+\macc@depth=\count350
+LaTeX Info: Redefining \bmod on input line 904.
+LaTeX Info: Redefining \pmod on input line 909.
+LaTeX Info: Redefining \smash on input line 939.
+LaTeX Info: Redefining \relbar on input line 969.
+LaTeX Info: Redefining \Relbar on input line 970.
+\c@MaxMatrixCols=\count351
+\dotsspace@=\muskip17
+\c@parentequation=\count352
+\dspbrk@lvl=\count353
+\tag@help=\toks39
+\row@=\count354
+\column@=\count355
+\maxfields@=\count356
+\andhelp@=\toks40
+\eqnshift@=\dimen303
+\alignsep@=\dimen304
+\tagshift@=\dimen305
+\tagwidth@=\dimen306
+\totwidth@=\dimen307
+\lineht@=\dimen308
+\@envbody=\toks41
+\multlinegap=\skip194
+\multlinetaggap=\skip195
+\mathdisplay@stack=\toks42
+LaTeX Info: Redefining \[ on input line 2953.
+LaTeX Info: Redefining \] on input line 2954.
+)
+\l__nicematrix_tmpc_dim=\dimen309
+\l__nicematrix_tmpd_dim=\dimen310
+\l__nicematrix_tmpe_dim=\dimen311
+\l__nicematrix_tmpf_dim=\dimen312
+\l__nicematrix_tmpc_int=\count357
+\g__nicematrix_env_int=\count358
+\g__nicematrix_NiceMatrixBlock_int=\count359
+\g__nicematrix_notes_caption_int=\count360
+\l__nicematrix_columns_width_dim=\dimen313
+\l__nicematrix_col_width_dim=\dimen314
+\g__nicematrix_row_total_int=\count361
+\g__nicematrix_col_total_int=\count362
+\g__nicematrix_last_row_node_int=\count363
+\l__nicematrix_key_nb_rows_int=\count364
+\g__nicematrix_blocks_wd_dim=\dimen315
+\g__nicematrix_blocks_ht_dim=\dimen316
+\g__nicematrix_blocks_dp_dim=\dimen317
+\l__nicematrix_width_dim=\dimen318
+\l__nicematrix_tabular_width_dim=\dimen319
+\l__nicematrix_rule_width_dim=\dimen320
+\l__nicematrix_old_iRow_int=\count365
+\l__nicematrix_old_jCol_int=\count366
+\l__nicematrix_X_columns_dim=\dimen321
+\l__nicematrix_x_initial_dim=\dimen322
+\l__nicematrix_y_initial_dim=\dimen323
+\l__nicematrix_x_final_dim=\dimen324
+\l__nicematrix_y_final_dim=\dimen325
+\g__nicematrix_dp_row_zero_dim=\dimen326
+\g__nicematrix_ht_row_zero_dim=\dimen327
+\g__nicematrix_ht_row_one_dim=\dimen328
+\g__nicematrix_dp_ante_last_row_dim=\dimen329
+\g__nicematrix_ht_last_row_dim=\dimen330
+\g__nicematrix_dp_last_row_dim=\dimen331
+\g__nicematrix_width_last_col_dim=\dimen332
+\g__nicematrix_width_first_col_dim=\dimen333
+\g__nicematrix_ddots_int=\count367
+\g__nicematrix_iddots_int=\count368
+\g__nicematrix_delta_x_one_dim=\dimen334
+\g__nicematrix_delta_y_one_dim=\dimen335
+\g__nicematrix_delta_x_two_dim=\dimen336
+\g__nicematrix_delta_y_two_dim=\dimen337
+\l__nicematrix_row_min_int=\count369
+\l__nicematrix_row_max_int=\count370
+\l__nicematrix_col_min_int=\count371
+\l__nicematrix_col_max_int=\count372
+\l__nicematrix_initial_i_int=\count373
+\l__nicematrix_initial_j_int=\count374
+\l__nicematrix_final_i_int=\count375
+\l__nicematrix_final_j_int=\count376
+\l__nicematrix_start_int=\count377
+\l__nicematrix_end_int=\count378
+\l__nicematrix_local_start_int=\count379
+\l__nicematrix_local_end_int=\count380
+\g__nicematrix_static_num_of_col_int=\count381
+\l__nicematrix_rounded_corners_dim=\dimen338
+\l__nicematrix_tab_rounded_corners_dim=\dimen339
+\l__nicematrix_offset_dim=\dimen340
+\l__nicematrix_line_width_dim=\dimen341
+\g__nicematrix_block_box_int=\count382
+\l__nicematrix_submatrix_extra_height_dim=\dimen342
+\l__nicematrix_submatrix_left_xshift_dim=\dimen343
+\l__nicematrix_submatrix_right_xshift_dim=\dimen344
+\l__nicematrix_first_row_int=\count383
+\l__nicematrix_first_col_int=\count384
+\l__nicematrix_last_row_int=\count385
+\l__nicematrix_last_col_int=\count386
+\c@tabularnote=\count387
+\g__nicematrix_tabularnote_int=\count388
+\c@nicematrix_draft=\count389
+\l__nicematrix_cell_space_top_limit_dim=\dimen345
+\l__nicematrix_cell_space_bottom_limit_dim=\dimen346
+\l__nicematrix_xdots_inter_dim=\dimen347
+\l__nicematrix_xdots_shorten_start_dim=\dimen348
+\l__nicematrix_xdots_shorten_end_dim=\dimen349
+\l__nicematrix_xdots_radius_dim=\dimen350
+\l__nicematrix_left_margin_dim=\dimen351
+\l__nicematrix_right_margin_dim=\dimen352
+\l__nicematrix_extra_left_margin_dim=\dimen353
+\l__nicematrix_extra_right_margin_dim=\dimen354
+\c__nicematrix_max_l_dim=\dimen355
+\l__nicematrix_position_int=\count390
+\l__nicematrix_multiplicity_int=\count391
+\l__nicematrix_brace_yshift_dim=\dimen356
+)
+(/home/nepero27178/.miktex/texmfs/install/tex/latex/graphics/dvipsnam.def
+File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
+)
+(/home/nepero27178/.miktex/texmfs/install/tex/latex/pgf/frontendlayer/tikz.sty
+(/home/nepero27178/.miktex/texmfs/install/tex/latex/pgf/basiclayer/pgf.sty
+Package: pgf 2023-01-15 v3.1.10 (3.1.10)
+
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgf/modules/pgfmoduleplot
 .code.tex
 File: pgfmoduleplot.code.tex 2023-01-15 v3.1.10 (3.1.10)
@@ -738,8 +893,8 @@ File: pgfmoduleplot.code.tex 2023-01-15 v3.1.10 (3.1.10)
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/pgf/compatibility/pgfcomp-v
 ersion-0-65.sty
 Package: pgfcomp-version-0-65 2023-01-15 v3.1.10 (3.1.10)
-\pgf@nodesepstart=\dimen300
-\pgf@nodesepend=\dimen301
+\pgf@nodesepstart=\dimen357
+\pgf@nodesepend=\dimen358
 )
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/pgf/compatibility/pgfcomp-v
 ersion-1-18.sty
@@ -755,10 +910,10 @@ e.tex))
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgf/utilities/pgffor.code
 .tex
 Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
-\pgffor@iter=\dimen302
-\pgffor@skip=\dimen303
-\pgffor@stack=\toks38
-\pgffor@toks=\toks39
+\pgffor@iter=\dimen359
+\pgffor@skip=\dimen360
+\pgffor@stack=\toks43
+\pgffor@toks=\toks44
 ))
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgf/frontendlayer/tikz/ti
 kz.code.tex
@@ -767,34 +922,34 @@ Package: tikz 2023-01-15 v3.1.10 (3.1.10)
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgf/libraries/pgflibraryp
 lothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@plot@mark@count=\count345
-\pgfplotmarksize=\dimen304
+\pgf@plot@mark@count=\count392
+\pgfplotmarksize=\dimen361
 )
-\tikz@lastx=\dimen305
-\tikz@lasty=\dimen306
-\tikz@lastxsaved=\dimen307
-\tikz@lastysaved=\dimen308
-\tikz@lastmovetox=\dimen309
-\tikz@lastmovetoy=\dimen310
-\tikzleveldistance=\dimen311
-\tikzsiblingdistance=\dimen312
-\tikz@figbox=\box64
-\tikz@figbox@bg=\box65
-\tikz@tempbox=\box66
-\tikz@tempbox@bg=\box67
-\tikztreelevel=\count346
-\tikznumberofchildren=\count347
-\tikznumberofcurrentchild=\count348
-\tikz@fig@count=\count349
+\tikz@lastx=\dimen362
+\tikz@lasty=\dimen363
+\tikz@lastxsaved=\dimen364
+\tikz@lastysaved=\dimen365
+\tikz@lastmovetox=\dimen366
+\tikz@lastmovetoy=\dimen367
+\tikzleveldistance=\dimen368
+\tikzsiblingdistance=\dimen369
+\tikz@figbox=\box66
+\tikz@figbox@bg=\box67
+\tikz@tempbox=\box68
+\tikz@tempbox@bg=\box69
+\tikztreelevel=\count393
+\tikznumberofchildren=\count394
+\tikznumberofcurrentchild=\count395
+\tikz@fig@count=\count396
 
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgf/modules/pgfmodulematr
 ix.code.tex
 File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfmatrixcurrentrow=\count350
-\pgfmatrixcurrentcolumn=\count351
-\pgf@matrix@numberofcolumns=\count352
+\pgfmatrixcurrentrow=\count397
+\pgfmatrixcurrentcolumn=\count398
+\pgf@matrix@numberofcolumns=\count399
 )
-\tikz@expandcount=\count353
+\tikz@expandcount=\count400
 
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgf/frontendlayer/tikz/li
 braries/tikzlibrarytopaths.code.tex
@@ -809,12 +964,12 @@ Package: pgfplots 2021/05/15 v1.18.1 Data Visualization (1.18.1)
 x
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgfplots/pgfplotscore.cod
 e.tex
-\t@pgfplots@toka=\toks40
-\t@pgfplots@tokb=\toks41
-\t@pgfplots@tokc=\toks42
-\pgfplots@tmpa=\dimen313
-\c@pgfplots@coordindex=\count354
-\c@pgfplots@scanlineindex=\count355
+\t@pgfplots@toka=\toks45
+\t@pgfplots@tokb=\toks46
+\t@pgfplots@tokc=\toks47
+\pgfplots@tmpa=\dimen370
+\c@pgfplots@coordindex=\count401
+\c@pgfplots@scanlineindex=\count402
 
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgfplots/sys/pgfplotssysg
 eneric.code.tex))
@@ -825,9 +980,9 @@ gfplotsoldpgfsupp_loader.code.tex
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgf/libraries/pgflibraryf
 pu.code.tex)
 Package pgfplots: loading complementary utilities for your pgf version...
-\t@pgf@toka=\toks43
-\t@pgf@tokb=\toks44
-\t@pgf@tokc=\toks45
+\t@pgf@toka=\toks48
+\t@pgf@tokb=\toks49
+\t@pgf@tokc=\toks50
 
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgfplots/oldpgfcompatib/p
 gfplotsoldpgfsupp_pgfutil-common-lists.tex))
@@ -839,14 +994,14 @@ fplotsliststructure.code.tex)
 fplotsliststructureext.code.tex)
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgfplots/liststructure/pg
 fplotsarray.code.tex
-\c@pgfplotsarray@tmp=\count356
+\c@pgfplotsarray@tmp=\count403
 )
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgfplots/liststructure/pg
 fplotsmatrix.code.tex)
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgfplots/numtable/pgfplot
 stableshared.code.tex
-\c@pgfplotstable@counta=\count357
-\t@pgfplotstable@a=\toks46
+\c@pgfplotstable@counta=\count404
+\t@pgfplotstable@a=\toks51
 )
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgfplots/liststructure/pg
 fplotsdeque.code.tex)
@@ -858,7 +1013,7 @@ ary.data.code.tex))
 l.verb.code.tex)
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgfplots/libs/pgflibraryp
 gfplots.surfshading.code.tex
-\c@pgfplotslibrarysurf@no=\count358
+\c@pgfplotslibrarysurf@no=\count405
 
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgfplots/sys/pgflibrarypg
 fplots.surfshading.pgfsys-pdftex.def)))
@@ -890,16 +1045,16 @@ ode.tex)
 braries/tikzlibrarydecorations.code.tex
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgf/modules/pgfmoduledeco
 rations.code.tex
-\pgfdecoratedcompleteddistance=\dimen314
-\pgfdecoratedremainingdistance=\dimen315
-\pgfdecoratedinputsegmentcompleteddistance=\dimen316
-\pgfdecoratedinputsegmentremainingdistance=\dimen317
-\pgf@decorate@distancetomove=\dimen318
-\pgf@decorate@repeatstate=\count359
-\pgfdecorationsegmentamplitude=\dimen319
-\pgfdecorationsegmentlength=\dimen320
+\pgfdecoratedcompleteddistance=\dimen371
+\pgfdecoratedremainingdistance=\dimen372
+\pgfdecoratedinputsegmentcompleteddistance=\dimen373
+\pgfdecoratedinputsegmentremainingdistance=\dimen374
+\pgf@decorate@distancetomove=\dimen375
+\pgf@decorate@repeatstate=\count406
+\pgfdecorationsegmentamplitude=\dimen376
+\pgfdecorationsegmentlength=\dimen377
 )
-\tikz@lib@dec@box=\box68
+\tikz@lib@dec@box=\box70
 )
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgf/frontendlayer/tikz/li
 braries/tikzlibrarydecorations.pathmorphing.code.tex
@@ -911,13 +1066,13 @@ braries/tikzlibrarydecorations.pathreplacing.code.tex
 /pgflibrarydecorations.pathreplacing.code.tex))
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgfplots/libs/tikzlibrary
 pgfplots.contourlua.code.tex)
-\pgfplots@numplots=\count360
-\pgfplots@xmin@reg=\dimen321
-\pgfplots@xmax@reg=\dimen322
-\pgfplots@ymin@reg=\dimen323
-\pgfplots@ymax@reg=\dimen324
-\pgfplots@zmin@reg=\dimen325
-\pgfplots@zmax@reg=\dimen326
+\pgfplots@numplots=\count407
+\pgfplots@xmin@reg=\dimen378
+\pgfplots@xmax@reg=\dimen379
+\pgfplots@ymin@reg=\dimen380
+\pgfplots@ymax@reg=\dimen381
+\pgfplots@zmin@reg=\dimen382
+\pgfplots@zmax@reg=\dimen383
 )
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgf/frontendlayer/tikz/li
 braries/tikzlibraryplotmarks.code.tex
@@ -931,74 +1086,6 @@ File: pgflibraryplotmarks.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \CommentStream=\write5
 
 Excluding comment 'comment')
-(/home/nepero27178/.miktex/texmfs/install/tex/latex/amsmath/amsmath.sty
-Package: amsmath 2024/11/05 v2.17t AMS math features
-\@mathmargin=\skip193
-
-For additional information on amsmath, use the `?' option.
-(/home/nepero27178/.miktex/texmfs/install/tex/latex/amsmath/amstext.sty
-Package: amstext 2021/08/26 v2.01 AMS text
-
-(/home/nepero27178/.miktex/texmfs/install/tex/latex/amsmath/amsgen.sty
-File: amsgen.sty 1999/11/30 v2.0 generic functions
-\@emptytoks=\toks47
-\ex@=\dimen327
-))
-(/home/nepero27178/.miktex/texmfs/install/tex/latex/amsmath/amsbsy.sty
-Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen328
-)
-(/home/nepero27178/.miktex/texmfs/install/tex/latex/amsmath/amsopn.sty
-Package: amsopn 2022/04/08 v2.04 operator names
-)
-\inf@bad=\count361
-LaTeX Info: Redefining \frac on input line 233.
-\uproot@=\count362
-\leftroot@=\count363
-LaTeX Info: Redefining \overline on input line 398.
-LaTeX Info: Redefining \colon on input line 409.
-\classnum@=\count364
-\DOTSCASE@=\count365
-LaTeX Info: Redefining \ldots on input line 495.
-LaTeX Info: Redefining \dots on input line 498.
-LaTeX Info: Redefining \cdots on input line 619.
-\Mathstrutbox@=\box69
-\strutbox@=\box70
-LaTeX Info: Redefining \big on input line 721.
-LaTeX Info: Redefining \Big on input line 722.
-LaTeX Info: Redefining \bigg on input line 723.
-LaTeX Info: Redefining \Bigg on input line 724.
-\big@size=\dimen329
-LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
-LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
-\macc@depth=\count366
-LaTeX Info: Redefining \bmod on input line 904.
-LaTeX Info: Redefining \pmod on input line 909.
-LaTeX Info: Redefining \smash on input line 939.
-LaTeX Info: Redefining \relbar on input line 969.
-LaTeX Info: Redefining \Relbar on input line 970.
-\c@MaxMatrixCols=\count367
-\dotsspace@=\muskip17
-\c@parentequation=\count368
-\dspbrk@lvl=\count369
-\tag@help=\toks48
-\row@=\count370
-\column@=\count371
-\maxfields@=\count372
-\andhelp@=\toks49
-\eqnshift@=\dimen330
-\alignsep@=\dimen331
-\tagshift@=\dimen332
-\tagwidth@=\dimen333
-\totwidth@=\dimen334
-\lineht@=\dimen335
-\@envbody=\toks50
-\multlinegap=\skip194
-\multlinetaggap=\skip195
-\mathdisplay@stack=\toks51
-LaTeX Info: Redefining \[ on input line 2953.
-LaTeX Info: Redefining \] on input line 2954.
-)
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
@@ -1024,26 +1111,26 @@ Package bm Info: No bold for \U/msb/m/n, using \pmb.
 LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 149.
 )
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/listings/listings.sty
-\lst@mode=\count373
+\lst@mode=\count408
 \lst@gtempboxa=\box71
 \lst@token=\toks52
-\lst@length=\count374
-\lst@currlwidth=\dimen336
-\lst@column=\count375
-\lst@pos=\count376
-\lst@lostspace=\dimen337
-\lst@width=\dimen338
-\lst@newlines=\count377
-\lst@lineno=\count378
-\lst@maxwidth=\dimen339
+\lst@length=\count409
+\lst@currlwidth=\dimen384
+\lst@column=\count410
+\lst@pos=\count411
+\lst@lostspace=\dimen385
+\lst@width=\dimen386
+\lst@newlines=\count412
+\lst@lineno=\count413
+\lst@maxwidth=\dimen387
 
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/listings/lstpatch.sty
 File: lstpatch.sty 2024/09/23 1.10c (Carsten Heinz)
 )
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
-\c@lstnumber=\count379
-\lst@skipnumbers=\count380
+\c@lstnumber=\count414
+\lst@skipnumbers=\count415
 \lst@framebox=\box72
 )
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/listings/listings.cfg
@@ -1074,9 +1161,9 @@ Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
 Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
 )
 )
-\@linkdim=\dimen340
-\Hy@linkcounter=\count381
-\Hy@pagecounter=\count382
+\@linkdim=\dimen388
+\Hy@linkcounter=\count416
+\Hy@pagecounter=\count417
 
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2024-11-05 v7.01l Hyperref: PDFDocEncoding definition (HO)
@@ -1086,7 +1173,7 @@ Now handling font encoding PD1 ...
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
-\Hy@SavedSpaceFactor=\count383
+\Hy@SavedSpaceFactor=\count418
 
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/hyperref/puenc.def
 File: puenc.def 2024-11-05 v7.01l Hyperref: PDF Unicode definition (HO)
@@ -1100,14 +1187,14 @@ Package hyperref Info: Plain pages OFF on input line 4172.
 Package hyperref Info: Backreferencing OFF on input line 4177.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4424.
-\c@Hy@tempcnt=\count384
+\c@Hy@tempcnt=\count419
 
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/url/url.sty
 \Urlmuskip=\muskip18
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4763.
-\XeTeXLinkMargin=\dimen341
+\XeTeXLinkMargin=\dimen389
 
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
@@ -1116,9 +1203,9 @@ Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
-\Fld@menulength=\count385
-\Field@Width=\dimen342
-\Fld@charsize=\dimen343
+\Fld@menulength=\count420
+\Field@Width=\dimen390
+\Fld@charsize=\dimen391
 Package hyperref Info: Hyper figures OFF on input line 6042.
 Package hyperref Info: Link nesting OFF on input line 6047.
 Package hyperref Info: Hyper index ON on input line 6050.
@@ -1130,9 +1217,9 @@ Package hyperref Info: PDF/A mode OFF on input line 6072.
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-\Hy@abspage=\count386
-\c@Item=\count387
-\c@Hfootnote=\count388
+\Hy@abspage=\count421
+\c@Item=\count422
+\c@Hfootnote=\count423
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
@@ -1144,8 +1231,8 @@ Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
 kage
 with kernel methods
 )
-\Fld@listcount=\count389
-\c@bookmark@seq@number=\count390
+\Fld@listcount=\count424
+\c@bookmark@seq@number=\count425
 
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/rerunfilecheck/rerunfileche
 ck.sty
@@ -1162,17 +1249,17 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/memoir/memhfixc.sty
 Package: memhfixc 2025/03/06 v1.23 hyperref package fixes for memoir class
-\c@memhycontfloat=\count391
-\c@mem@Hpagenote=\count392
+\c@memhycontfloat=\count426
+\c@mem@Hpagenote=\count427
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 36.
+Package hyperref Info: Option `colorlinks' set `true' on input line 37.
 
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/biblatex/biblatex.sty
 Package: biblatex 2024/03/21 v3.20 programmable bibliographies (PK/MW)
 
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/logreq/logreq.sty
 Package: logreq 2010/08/04 v1.0 xml request logger
-\lrq@indent=\count393
+\lrq@indent=\count428
 
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/logreq/logreq.def
 File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
@@ -1180,49 +1267,49 @@ File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/base/ifthen.sty
 Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
 )
-\c@tabx@nest=\count394
-\c@listtotal=\count395
-\c@listcount=\count396
-\c@liststart=\count397
-\c@liststop=\count398
-\c@citecount=\count399
-\c@citetotal=\count400
-\c@multicitecount=\count401
-\c@multicitetotal=\count402
-\c@instcount=\count403
-\c@maxnames=\count404
-\c@minnames=\count405
-\c@maxitems=\count406
-\c@minitems=\count407
-\c@citecounter=\count408
-\c@maxcitecounter=\count409
-\c@savedcitecounter=\count410
-\c@uniquelist=\count411
-\c@uniquename=\count412
-\c@refsection=\count413
-\c@refsegment=\count414
-\c@maxextratitle=\count415
-\c@maxextratitleyear=\count416
-\c@maxextraname=\count417
-\c@maxextradate=\count418
-\c@maxextraalpha=\count419
-\c@abbrvpenalty=\count420
-\c@highnamepenalty=\count421
-\c@lownamepenalty=\count422
-\c@maxparens=\count423
-\c@parenlevel=\count424
-\blx@tempcnta=\count425
-\blx@tempcntb=\count426
-\blx@tempcntc=\count427
-\c@blx@maxsection=\count428
-\blx@maxsegment@0=\count429
-\blx@notetype=\count430
-\blx@parenlevel@text=\count431
-\blx@parenlevel@foot=\count432
-\blx@sectionciteorder@0=\count433
-\blx@sectionciteorderinternal@0=\count434
-\blx@entrysetcounter=\count435
-\blx@biblioinstance=\count436
+\c@tabx@nest=\count429
+\c@listtotal=\count430
+\c@listcount=\count431
+\c@liststart=\count432
+\c@liststop=\count433
+\c@citecount=\count434
+\c@citetotal=\count435
+\c@multicitecount=\count436
+\c@multicitetotal=\count437
+\c@instcount=\count438
+\c@maxnames=\count439
+\c@minnames=\count440
+\c@maxitems=\count441
+\c@minitems=\count442
+\c@citecounter=\count443
+\c@maxcitecounter=\count444
+\c@savedcitecounter=\count445
+\c@uniquelist=\count446
+\c@uniquename=\count447
+\c@refsection=\count448
+\c@refsegment=\count449
+\c@maxextratitle=\count450
+\c@maxextratitleyear=\count451
+\c@maxextraname=\count452
+\c@maxextradate=\count453
+\c@maxextraalpha=\count454
+\c@abbrvpenalty=\count455
+\c@highnamepenalty=\count456
+\c@lownamepenalty=\count457
+\c@maxparens=\count458
+\c@parenlevel=\count459
+\blx@tempcnta=\count460
+\blx@tempcntb=\count461
+\blx@tempcntc=\count462
+\c@blx@maxsection=\count463
+\blx@maxsegment@0=\count464
+\blx@notetype=\count465
+\blx@parenlevel@text=\count466
+\blx@parenlevel@foot=\count467
+\blx@sectionciteorder@0=\count468
+\blx@sectionciteorderinternal@0=\count469
+\blx@entrysetcounter=\count470
+\blx@biblioinstance=\count471
 \labelnumberwidth=\skip197
 \labelalphawidth=\skip198
 \biblabelsep=\skip199
@@ -1233,9 +1320,9 @@ Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
 \blx@bcfin=\read4
 \blx@bcfout=\write6
 \blx@langwohyphens=\language1
-\c@mincomprange=\count437
-\c@maxcomprange=\count438
-\c@mincompwidth=\count439
+\c@mincomprange=\count472
+\c@maxcomprange=\count473
+\c@mincompwidth=\count474
 Package biblatex Info: Trying to load biblatex default data model...
 Package biblatex Info: ... file 'blx-dm.def' found.
 
@@ -1246,74 +1333,74 @@ Package biblatex Info: Trying to load biblatex citestyle data model...
 Package biblatex Info: ... file 'numeric-comp.dbx' not found.
 Package biblatex Info: Trying to load biblatex custom data model...
 Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
-\c@afterword=\count440
-\c@savedafterword=\count441
-\c@annotator=\count442
-\c@savedannotator=\count443
-\c@author=\count444
-\c@savedauthor=\count445
-\c@bookauthor=\count446
-\c@savedbookauthor=\count447
-\c@commentator=\count448
-\c@savedcommentator=\count449
-\c@editor=\count450
-\c@savededitor=\count451
-\c@editora=\count452
-\c@savededitora=\count453
-\c@editorb=\count454
-\c@savededitorb=\count455
-\c@editorc=\count456
-\c@savededitorc=\count457
-\c@foreword=\count458
-\c@savedforeword=\count459
-\c@holder=\count460
-\c@savedholder=\count461
-\c@introduction=\count462
-\c@savedintroduction=\count463
-\c@namea=\count464
-\c@savednamea=\count465
-\c@nameb=\count466
-\c@savednameb=\count467
-\c@namec=\count468
-\c@savednamec=\count469
-\c@translator=\count470
-\c@savedtranslator=\count471
-\c@shortauthor=\count472
-\c@savedshortauthor=\count473
-\c@shorteditor=\count474
-\c@savedshorteditor=\count475
-\c@labelname=\count476
-\c@savedlabelname=\count477
-\c@institution=\count478
-\c@savedinstitution=\count479
-\c@lista=\count480
-\c@savedlista=\count481
-\c@listb=\count482
-\c@savedlistb=\count483
-\c@listc=\count484
-\c@savedlistc=\count485
-\c@listd=\count486
-\c@savedlistd=\count487
-\c@liste=\count488
-\c@savedliste=\count489
-\c@listf=\count490
-\c@savedlistf=\count491
-\c@location=\count492
-\c@savedlocation=\count493
-\c@organization=\count494
-\c@savedorganization=\count495
-\c@origlocation=\count496
-\c@savedoriglocation=\count497
-\c@origpublisher=\count498
-\c@savedorigpublisher=\count499
-\c@publisher=\count500
-\c@savedpublisher=\count501
-\c@language=\count502
-\c@savedlanguage=\count503
-\c@origlanguage=\count504
-\c@savedoriglanguage=\count505
-\c@pageref=\count506
-\c@savedpageref=\count507
+\c@afterword=\count475
+\c@savedafterword=\count476
+\c@annotator=\count477
+\c@savedannotator=\count478
+\c@author=\count479
+\c@savedauthor=\count480
+\c@bookauthor=\count481
+\c@savedbookauthor=\count482
+\c@commentator=\count483
+\c@savedcommentator=\count484
+\c@editor=\count485
+\c@savededitor=\count486
+\c@editora=\count487
+\c@savededitora=\count488
+\c@editorb=\count489
+\c@savededitorb=\count490
+\c@editorc=\count491
+\c@savededitorc=\count492
+\c@foreword=\count493
+\c@savedforeword=\count494
+\c@holder=\count495
+\c@savedholder=\count496
+\c@introduction=\count497
+\c@savedintroduction=\count498
+\c@namea=\count499
+\c@savednamea=\count500
+\c@nameb=\count501
+\c@savednameb=\count502
+\c@namec=\count503
+\c@savednamec=\count504
+\c@translator=\count505
+\c@savedtranslator=\count506
+\c@shortauthor=\count507
+\c@savedshortauthor=\count508
+\c@shorteditor=\count509
+\c@savedshorteditor=\count510
+\c@labelname=\count511
+\c@savedlabelname=\count512
+\c@institution=\count513
+\c@savedinstitution=\count514
+\c@lista=\count515
+\c@savedlista=\count516
+\c@listb=\count517
+\c@savedlistb=\count518
+\c@listc=\count519
+\c@savedlistc=\count520
+\c@listd=\count521
+\c@savedlistd=\count522
+\c@liste=\count523
+\c@savedliste=\count524
+\c@listf=\count525
+\c@savedlistf=\count526
+\c@location=\count527
+\c@savedlocation=\count528
+\c@organization=\count529
+\c@savedorganization=\count530
+\c@origlocation=\count531
+\c@savedoriglocation=\count532
+\c@origpublisher=\count533
+\c@savedorigpublisher=\count534
+\c@publisher=\count535
+\c@savedpublisher=\count536
+\c@language=\count537
+\c@savedlanguage=\count538
+\c@origlanguage=\count539
+\c@savedoriglanguage=\count540
+\c@pageref=\count541
+\c@savedpageref=\count542
 \shorthandwidth=\skip260
 \shortjournalwidth=\skip261
 \shortserieswidth=\skip262
@@ -1339,19 +1426,19 @@ Package biblatex Info: ... file 'biblatex.def' found.
 
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/biblatex/biblatex.def
 File: biblatex.def 2024/03/21 v3.20 biblatex compatibility (PK/MW)
-\c@textcitecount=\count508
-\c@textcitetotal=\count509
-\c@textcitemaxnames=\count510
-\c@biburlbigbreakpenalty=\count511
-\c@biburlbreakpenalty=\count512
-\c@biburlnumpenalty=\count513
-\c@biburlucpenalty=\count514
-\c@biburllcpenalty=\count515
+\c@textcitecount=\count543
+\c@textcitetotal=\count544
+\c@textcitemaxnames=\count545
+\c@biburlbigbreakpenalty=\count546
+\c@biburlbreakpenalty=\count547
+\c@biburlnumpenalty=\count548
+\c@biburlucpenalty=\count549
+\c@biburllcpenalty=\count550
 \biburlbigskip=\muskip19
 \biburlnumskip=\muskip20
 \biburlucskip=\muskip21
 \biburllcskip=\muskip22
-\c@smartand=\count516
+\c@smartand=\count551
 )
 Package biblatex Info: Trying to load bibliography style 'numeric'...
 Package biblatex Info: ... file 'numeric.bbx' found.
@@ -1363,8 +1450,8 @@ Package biblatex Info: ... file 'standard.bbx' found.
 
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/biblatex/bbx/standard.bbx
 File: standard.bbx 2024/03/21 v3.20 biblatex bibliography style (PK/MW)
-\c@bbx:relatedcount=\count517
-\c@bbx:relatedtotal=\count518
+\c@bbx:relatedcount=\count552
+\c@bbx:relatedtotal=\count553
 ))
 Package biblatex Info: Trying to load citation style 'numeric-comp'...
 Package biblatex Info: ... file 'numeric-comp.cbx' found.
@@ -1372,10 +1459,10 @@ Package biblatex Info: ... file 'numeric-comp.cbx' found.
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/biblatex/cbx/numeric-comp.c
 bx
 File: numeric-comp.cbx 2024/03/21 v3.20 biblatex citation style (PK/MW)
-\c@cbx@tempcnta=\count519
-\c@cbx@tempcntb=\count520
-\c@cbx@tempcntc=\count521
-\c@cbx@tempcntd=\count522
+\c@cbx@tempcnta=\count554
+\c@cbx@tempcntb=\count555
+\c@cbx@tempcntc=\count556
+\c@cbx@tempcntd=\count557
 Package biblatex Info: Redefining '\cite'.
 Package biblatex Info: Redefining '\parencite'.
 Package biblatex Info: Redefining '\footcite'.
@@ -1410,7 +1497,7 @@ File: tikzlibraryarrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgf/libraries/pgflibrarya
 rrows.code.tex
 File: pgflibraryarrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\arrowsize=\dimen344
+\arrowsize=\dimen392
 ))
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgf/frontendlayer/tikz/li
 braries/tikzlibrary3d.code.tex
@@ -1456,7 +1543,7 @@ ibraryfillbetween.code.tex
 braries/tikzlibraryintersections.code.tex
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgf/libraries/pgflibraryi
 ntersections.code.tex
-\pgf@intersect@solutions=\count523
+\pgf@intersect@solutions=\count558
 ))
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgfplots/pgfcontrib/tikzl
 ibrarydecorations.softclip.code.tex
@@ -1464,8 +1551,8 @@ ibrarydecorations.softclip.code.tex
 braryfillbetween.code.tex)))
 (/home/nepero27178/.miktex/texmfs/install/tex/generic/pgfplots/libs/tikzlibrary
 pgfplots.decorations.softclip.code.tex))) (misc/definitions.tex)
-\@quotelevel=\count524
-\@quotereset=\count525
+\@quotelevel=\count559
+\@quotereset=\count560
  (main.aux)
 \openout1 = `main.aux'.
 
@@ -1528,16 +1615,16 @@ Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 (/home/nepero27178/.miktex/texmfs/install/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count526
-\scratchdimen=\dimen345
+\scratchcounter=\count561
+\scratchdimen=\dimen393
 \scratchbox=\box75
-\nofMPsegments=\count527
-\nofMParguments=\count528
+\nofMPsegments=\count562
+\nofMParguments=\count563
 \everyMPshowfont=\toks53
-\MPscratchCnt=\count529
-\MPscratchDim=\dimen346
-\MPnumerator=\count530
-\makeMPintoPDFobject=\count531
+\MPscratchCnt=\count564
+\MPscratchDim=\dimen394
+\MPnumerator=\count565
+\makeMPintoPDFobject=\count566
 \everyMPtoPDFconversion=\toks54
 )
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/epstopdf-pkg/epstopdf-base.
@@ -1549,10 +1636,12 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 (/home/nepero27178/.miktex/texmfs/install/tex/latex/00miktex/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
+\c__nicematrix_shift_Ldots_last_row_dim=\dimen395
+\c__nicematrix_innersep_middle_dim=\dimen396
 Package pgfplots notification 'compat/show suggested version=true': document ha
 s been generated with the most recent feature set (\pgfplotsset{compat=1.18}).
 
-\c@lstlisting=\count532
+\c@lstlisting=\count567
 Package hyperref Info: Link coloring ON on input line 7.
 (main.out) (main.out)
 \@outlinefile=\write7
@@ -1591,159 +1680,60 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 {/home/nepero27178/.miktex/texmfs/data/fonts/map/pdftex/pdftex.map}{/home/neper
 o27178/.miktex/texmfs/install/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
-(misc/abbreviations.tex
-*geometry* verbose mode - [ newgeometry ] result:
-* driver: pdftex
-* paper: a4paper
-* layout: <same size as paper>
-* layoutoffset:(h,v)=(0.0pt,0.0pt)
-* modes: twoside 
-* h-part:(L,W,R)=(71.13188pt, 455.24411pt, 71.13188pt)
-* v-part:(T,H,B)=(101.40665pt, 591.5302pt, 152.11pt)
-* \paperwidth=597.50787pt
-* \paperheight=845.04684pt
-* \textwidth=455.24411pt
-* \textheight=591.5302pt
-* \oddsidemargin=-1.1381pt
-* \evensidemargin=-1.1381pt
-* \topmargin=-0.93083pt
-* \headheight=12.0pt
-* \headsep=18.06749pt
-* \topskip=10.0pt
-* \footskip=25.29494pt
-* \marginparwidth=117.0pt
-* \marginparsep=7.0pt
-* \columnsep=10.0pt
-* \skip\footins=12.0pt plus 4.0pt minus 4.0pt
-* \hoffset=0.0pt
-* \voffset=0.0pt
-* \mag=1000
-* \@twocolumnfalse
-* \@twosidetrue
-* \@mparswitchtrue
-* \@reversemarginfalse
-* (1in=72.27pt=25.4mm, 1cm=28.453pt)
-
-
-
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.18 \restoregeometry
-                      [2]) (misc/introduction.tex)
-(chapters/theoretical-introduction/theoretical-introduction.tex
+(appendices/mean-field-hubbard/mean-field-hubbard.tex
 
 [1
 
 
-
-
 ]
+Overfull \hbox (52.71347pt too wide) in paragraph at lines 155--155
+[]|\OT1/cmr/m/n/9 Alternative
+ []
 
-[2
 
-] (chapters/theoretical-introduction/pictures/antiferromagnet-phase.tex
-\xLength=\count533
-\yLength=\count534
-\xStop=\count535
-\yStop=\count536
-)
-(chapters/theoretical-introduction/pictures/antiferromagnet-sublattices.tex
-\xLength=\count537
-\yLength=\count538
-\xStop=\count539
-\yStop=\count540
-)
+Overfull \hbox (29.81921pt too wide) in paragraph at lines 155--155
+\OT1/cmr/m/n/9 band.[][]| 
+ []
 
-[3] (chapters/theoretical-introduction/pictures/square-nearest-neighbors.tex)
-Overfull \hbox (5.9872pt too wide) in paragraph at lines 74--76
-\OT1/cmr/m/n/10 contribution will be the antiferromagnetic state, with the squa
-re lattice decomposed in two oppositely
+
+Overfull \hbox (40.88858pt too wide) in paragraph at lines 159--159
+[]|\OT1/cmr/m/n/9 Contour
+ []
+
+
+Overfull \hbox (26.22202pt too wide) in paragraph at lines 159--159
+\OT1/cmr/m/n/9 plot.[][]| 
  []
 
 
 
-[4] (chapters/theoretical-introduction/pictures/s-wave-gap.tex)
-(chapters/theoretical-introduction/pictures/px-wave-gap.tex)
-(chapters/theoretical-introduction/pictures/py-wave-gap.tex)
-(chapters/theoretical-introduction/pictures/d-wave-gap.tex)
+[2]
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-
-[5]
-Overfull \hbox (13.59839pt too wide) in paragraph at lines 234--235
-\OT1/cmr/m/n/10 order to further investigate the model and extract the conditio
-ns for the formation of a superconducting
- []
-
-
-Underfull \vbox (badness 1184) has occurred while \output is active []
-
-
-
-[6])
-(appendices/superexchange-virtual-hopping/superexchange-virtual-hopping.tex
-
-[7]
-
-[8
-
-]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 5.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 5.
-
-(appendices/superexchange-virtual-hopping/pictures/two-sites-hubbard-model.tex)
-
-
-[9]) (appendices/mean-field-hubbard/mean-field-hubbard.tex
-
-[10]
-
-[11
-
-] (appendices/mean-field-hubbard/pictures/ferromagnetic-3d-band.tex)
-
-[12]
-(appendices/mean-field-hubbard/pictures/alternative-ferromagnetic-3d-band.tex)
-(appendices/mean-field-hubbard/pictures/ferromagnetic-contour.tex)
-
-[13] (appendices/mean-field-hubbard/pictures/pseudo-magnetic-field.tex)
-
-[14]
-Overfull \hbox (1.81018pt too wide) in paragraph at lines 268--269
+[3]
+Overfull \hbox (1.81018pt too wide) in paragraph at lines 271--272
 \OT1/cmr/m/n/10 A convergence algorithm can be designed to find the Hartree-Foc
 k solution to the model. Ultimately,
  []
 
 
-Overfull \hbox (0.11685pt too wide) in paragraph at lines 318--319
-\OT1/cmr/m/n/10 consistent algorithmic extraction of the expected magnetization
- is presented, following [[][]7[][]]. Consider
- []
+
+[4]
+
+[5]
+
+[6]
+\g__nicematrix_max_cell_width_dim=\dimen397
+\c@iRow=\count568
+\c@jCol=\count569
+\l__nicematrix_cell_box=\box76
+\l__nicematrix_the_array_box=\box77
+\l__nicematrix_left_delim_dim=\dimen398
+\l__nicematrix_right_delim_dim=\dimen399
 
 
+[7])
 
-[15] (appendices/mean-field-hubbard/pictures/square-lattice-ordering.tex
-\xLength=\count541
-\yLength=\count542
-\xStop=\count543
-\yStop=\count544
-)
-
-[16]
-
-[17])
-
-[18]
+[8]
 Overfull \hbox (5.7575pt too wide) in paragraph at lines 56--56
 \OT1/cmtt/m/n/10 48550 / arXiv . 2408 . 01113$[][]\OT1/cmr/m/n/10 . \OT1/cmr/m/
 sc/10 url\OT1/cmr/m/n/10 : [][]$\OT1/cmtt/m/n/10 http : / / arxiv . org / abs /
@@ -1752,7 +1742,7 @@ sc/10 url\OT1/cmr/m/n/10 : [][]$\OT1/cmtt/m/n/10 http : / / arxiv . org / abs /
 
 
 
-[19
+[9
 
 ]
 \tf@toc=\write8
@@ -1764,19 +1754,19 @@ LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2020/03/25>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: CDE30CFEFEAD54CE600FE6CF87881E43;4373.
+(rerunfilecheck)             Checksum: BA7BC229A57A3244F2B28975A3C38606;1626.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 48829 strings out of 475473
- 1094211 string characters out of 5766466
- 2679828 words of memory out of 5000000
- 70950 multiletter control sequences out of 15000+600000
- 578681 words of font info for 108 fonts, out of 8000000 for 9000
+ 50663 strings out of 475473
+ 1151487 string characters out of 5766466
+ 2163016 words of memory out of 5000000
+ 72882 multiletter control sequences out of 15000+600000
+ 575315 words of font info for 95 fonts, out of 8000000 for 9000
  0 hyphenation exceptions out of 8191
- 89i,15n,93p,2055b,2708s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 92i,13n,96p,2055b,1341s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </home/nepero27178/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmbx
 10.pfb></home/nepero27178/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm
 /cmbx12.pfb></home/nepero27178/.miktex/texmfs/install/fonts/type1/public/amsfon
@@ -1787,33 +1777,28 @@ ublic/amsfonts/cm/cmcsc10.pfb></home/nepero27178/.miktex/texmfs/install/fonts/t
 ype1/public/amsfonts/cm/cmex10.pfb></home/nepero27178/.miktex/texmfs/install/fo
 nts/type1/public/amsfonts/cm/cmmi10.pfb></home/nepero27178/.miktex/texmfs/insta
 ll/fonts/type1/public/amsfonts/cm/cmmi5.pfb></home/nepero27178/.miktex/texmfs/i
-nstall/fonts/type1/public/amsfonts/cm/cmmi6.pfb></home/nepero27178/.miktex/texm
-fs/install/fonts/type1/public/amsfonts/cm/cmmi7.pfb></home/nepero27178/.miktex/
-texmfs/install/fonts/type1/public/amsfonts/cm/cmmi9.pfb></home/nepero27178/.mik
-tex/texmfs/install/fonts/type1/public/amsfonts/cm/cmmib10.pfb></home/nepero2717
-8/.miktex/texmfs/install/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></home/
-nepero27178/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr10.pfb></h
-ome/nepero27178/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr12.pfb
-></home/nepero27178/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr5.
-pfb></home/nepero27178/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cm
-r6.pfb></home/nepero27178/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm
-/cmr7.pfb></home/nepero27178/.miktex/texmfs/install/fonts/type1/public/amsfonts
-/cm/cmr8.pfb></home/nepero27178/.miktex/texmfs/install/fonts/type1/public/amsfo
-nts/cm/cmr9.pfb></home/nepero27178/.miktex/texmfs/install/fonts/type1/public/am
-sfonts/cm/cmsy10.pfb></home/nepero27178/.miktex/texmfs/install/fonts/type1/publ
-ic/amsfonts/cm/cmsy5.pfb></home/nepero27178/.miktex/texmfs/install/fonts/type1/
-public/amsfonts/cm/cmsy6.pfb></home/nepero27178/.miktex/texmfs/install/fonts/ty
-pe1/public/amsfonts/cm/cmsy7.pfb></home/nepero27178/.miktex/texmfs/install/font
-s/type1/public/amsfonts/cm/cmsy9.pfb></home/nepero27178/.miktex/texmfs/install/
-fonts/type1/public/amsfonts/cm/cmti10.pfb></home/nepero27178/.miktex/texmfs/ins
-tall/fonts/type1/public/amsfonts/cm/cmtt10.pfb></home/nepero27178/.miktex/texmf
-s/install/fonts/type1/public/amsfonts/symbols/msbm10.pfb></home/nepero27178/.mi
-ktex/texmfs/install/fonts/type1/public/cm-super/sfrm0600.pfb></home/nepero27178
-/.miktex/texmfs/install/fonts/type1/public/cm-super/sfrm0800.pfb></home/nepero2
-7178/.miktex/texmfs/install/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on main.pdf (21 pages, 525859 bytes).
+nstall/fonts/type1/public/amsfonts/cm/cmmi7.pfb></home/nepero27178/.miktex/texm
+fs/install/fonts/type1/public/amsfonts/cm/cmmib10.pfb></home/nepero27178/.mikte
+x/texmfs/install/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></home/nepero27
+178/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr10.pfb></home/nepe
+ro27178/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr5.pfb></home/n
+epero27178/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr7.pfb></hom
+e/nepero27178/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr8.pfb></
+home/nepero27178/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr9.pfb
+></home/nepero27178/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmsl1
+0.pfb></home/nepero27178/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/
+cmsy10.pfb></home/nepero27178/.miktex/texmfs/install/fonts/type1/public/amsfont
+s/cm/cmsy5.pfb></home/nepero27178/.miktex/texmfs/install/fonts/type1/public/ams
+fonts/cm/cmsy7.pfb></home/nepero27178/.miktex/texmfs/install/fonts/type1/public
+/amsfonts/cm/cmti10.pfb></home/nepero27178/.miktex/texmfs/install/fonts/type1/p
+ublic/amsfonts/cm/cmtt10.pfb></home/nepero27178/.miktex/texmfs/install/fonts/ty
+pe1/public/amsfonts/symbols/msbm10.pfb></home/nepero27178/.miktex/texmfs/instal
+l/fonts/type1/public/cm-super/sfrm0600.pfb></home/nepero27178/.miktex/texmfs/in
+stall/fonts/type1/public/cm-super/sfrm0800.pfb></home/nepero27178/.miktex/texmf
+s/install/fonts/type1/public/cm-super/sfrm1000.pfb>
+Output written on main.pdf (10 pages, 371842 bytes).
 PDF statistics:
- 515 PDF objects out of 1000 (max. 8388607)
- 90 named destinations out of 1000 (max. 500000)
- 285 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 330 PDF objects out of 1000 (max. 8388607)
+ 54 named destinations out of 1000 (max. 500000)
+ 177 words of extra memory for PDF output out of 10000 (max. 10000000)
 

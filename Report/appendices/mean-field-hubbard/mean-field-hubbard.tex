@@ -419,11 +419,55 @@ In the second passage this distribution appeared because an expectation value ov
 \end{equation}
 Then: mean-field approximations yield an estimate for the magnetization at a given temperature and chemical potential just by carefully combining the elements of the diagonalizing matrix $W$ of each Bogoliubov matrix $h_{\mathbf{k}\sigma}$.
 
-\subsection{Reciprocal space mean-field iterative algorithmic solution}
+\subsection{Hartree-Fock algorithm in $\mathbf{k}$ space}\label{appsubsec:hartree-fock-algorithm}
 
+The above sections offers a self-consistency equation for the magnetization $m$; $W$ is determined by $m$ indeed. Then a self-consistent algorithm to search for a self consistent estimate for $m$ may be sketched:
+\begin{enumerate}
+	\setcounter{enumi}{-1}
+	\item Algorithm setup: initialize a counter $i=1$ and choose:
+	\begin{itemize}
+		\item the coarse-graining of the $\mathrm{BZ}$, which is, fix $L_x$ and $L_y$. Then 
+		\[ 
+			k_x = 2\pi n_x/L_x
+			\qquad
+			k_y = 2\pi n_y/L_y 
+		\]
+		where $-L_j/2 \le n_j \le L_j/2$, $n_j \in \mathbb{Z}$;
+		\item the desired density $n$;
+		\item the number of iterations $p \in \mathbb{N}$; 
+		\item the mixing parameter $g \in [0,1]$;
+		\item the tolerance parameters $\delta_m, \delta_n \in \mathbb{R}$ (respectively for magnetization and density);
+	\end{itemize}
+	\item Select a random starting value $m_0 \in [-(1-n),1-n]$;
+	\item For each slot of the $\mathrm{BZ}$, initialize the appropriate $2\times2$ matrix $h_{\mathbf{k}\sigma}$;
+	\item For the given hamiltonian, find the optimal chemical potential $\mu$ as follows:
+	\begin{enumerate}
+		\item Define the generic matrix $A[m_0, \mu]$ dependent on $m_0$ and $\mu$;
+		\item Define the density as a function of the chemical potential $\mu$,
+		\[
+			
+		\]
+	\end{enumerate}
+	\item Diagonalize the matrix $h_{\mathbf{k}\sigma} - \mu n_{\mathbf{k}\sigma}$;
+	\item Compute $m$ using Eq.~\eqref{appeq:antiferromagnet-magnetization-self-consistence-finite-temperature} and update the counter, $i \to i+1$;
+	\item Check if $\abs{m-m_0} \le \delta_m$:
+	\begin{itemize}
+		\item If yes, halt;
+		\item If not: check if $i > p$
+		\begin{itemize}
+			\item If yes, halt and consider choosing better tolerance and model parameters;
+			\item If not, define 
+			\[
+				m_0 = gm + (1-g)m_0
+			\]
+			(logical assignment notation used) and repeat from step 2.
+		\end{itemize}
+	\end{itemize}
+\end{enumerate}
+{\color{tabred}}
 \todo
 
-\subsection{Real space mean-field iterative algorithmic solution}
+\subsection{An alternative (less efficient) real-space approach}
 
 The theoretical derivation of the above paragraphs offers a simple description of the system anti-ferromagnetic instability as the instauration of a ground-state of quasiparticles. Here a self-consistent algorithmic extraction of the expected magnetization is presented, following \cite{scholle2023comprehensive}. Note that this algorithm is by far the least efficient, being performed in real space with dimensional exponential scaling in terms of computational time. It is here presented just for completeness as an alternative derivation. Consider a square lattice of $L_x \times L_y$ sites: the hamiltonian will be a matrix of dimension $2L_x L_y \times 2L_x L_y$,
 \[
@@ -532,48 +576,12 @@ as evident from Eq.~\eqref{appeq:hubbard-mean-field-hamiltonian}. Average magnet
 %	\right] f(\epsilon^\ell;\beta,\mu) \nonumber \\
 %	&= n - \frac{2}{D} \sum_{\ell=1}^D \sum_{\lambda=1}^{D/2} \abs{v_{2\lambda}^\ell}^2 f(\epsilon^\ell;\beta,\mu) 
 \end{align}
-since $\mathbf{r}\uparrow$ is associated to an odd index entry, while $\mathbf{r}\downarrow$ to the following even entry. \todo
-
-\subsubsection{Hartree-Fock algorithm}
-
-The algorithm proceeds as follows:
+since $\mathbf{r}\uparrow$ is associated to an odd index entry, while $\mathbf{r}\downarrow$ to the following even entry. The associated $\mathrm{HF}$ algorithm is identical to the one presented in Sec.~\ref{appsubsec:hartree-fock-algorithm}, with the following substitutions:
 \begin{enumerate}
-	\setcounter{enumi}{-1}
-	\item Algorithm setup: initialize a counter $i=1$ and choose:
-	\begin{itemize}
-		\item the coarse-graining of the $\mathrm{BZ}$ -- which is, fix $L_x$ and $L_y$;
-		\item the desired density $n$ {\color{tabred}
-			(I still have some doubts on how to treat the $n\neq 1/2$ situation; for now, this algorithm works for $n=1/2$)
-		};
-		\item the number of iterations $p \in \mathbb{N}$; 
-		\item the mixing parameter $g \in [0,1]$;
-		\item the tolerance parameters $\delta_m, \delta_n \in \mathbb{R}$ (respectively for magnetization and density);
-	\end{itemize}
-	\item Select a random starting value $m_0 \in [-1,1]$;
-	\item Initialize the hamiltonian matrix $H_{\alpha\beta}$ matrix according to the initialized $m_0$ and the site indexing rules of Fig.~\ref{appfig:square-lattice-ordering};
-	\item For the given hamiltonian, find the optimal chemical potential $\mu$ as follows:
-	\begin{enumerate}
-		\item Define the generic matrix $A[m_0, \mu]$ dependent on $m_0$ and $\mu$;
-		\item Define the density as a function of the chemical potential $\mu$,
-	\end{enumerate}
-	\item Diagonalize the matrix associated to the operator $\hat H_{\alpha\beta}-\mu \hat N$ collecting the $\mathbf{v}^\ell$ eigenvectors;
-	\item Compute $m$ using Eq.~\eqref{appeq:average-magnetization-hf-expression} and update the counter, $i \to i+1$;
-	\item Check if $\abs{m-m_0} \le \delta_m$:
-	\begin{itemize}
-		\item If yes, halt;
-		\item If not: check if $i > p$
-		\begin{itemize}
-			\item If yes, halt and consider choosing better tolerance and model parameters;
-			\item If not, define 
-			\[
-				m_0 = gm + (1-g)m_0
-			\]
-			(logical assignment notation used) and repeat from step 2.
-		\end{itemize}
-	\end{itemize}
+	\item[2.] Initialize the hamiltonian matrix $H_{\alpha\beta}$ matrix according to the initialized $m_0$ and the site indexing rules of Fig.~\ref{appfig:square-lattice-ordering};
+	\item[4.] Diagonalize the matrix associated to the operator $\hat H_{\alpha\beta}-\mu \hat N$ collecting the $\mathbf{v}^\ell$ eigenvectors;
+	\item[5.] Compute $m$ using Eq.~\eqref{appeq:average-magnetization-hf-expression} and update the counter, $i \to i+1$;
 \end{enumerate}
-{\color{tabred}}
-\todo
 
 \subsubsection{Results}
 \todo

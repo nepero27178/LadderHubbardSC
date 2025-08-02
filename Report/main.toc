@@ -4,8 +4,7 @@
 \contentsline {subsection}{\numberline {A.2.1}Theoretical mean-field solution}{4}{subsection.A.2.1}%
 \contentsline {subsubsection}{Zero temperature solution}{5}{section*.5}%
 \contentsline {subsubsection}{Finite temperature solution}{5}{section*.6}%
-\contentsline {subsection}{\numberline {A.2.2}Reciprocal space mean-field iterative algorithmic solution}{6}{subsection.A.2.2}%
-\contentsline {subsection}{\numberline {A.2.3}Real space mean-field iterative algorithmic solution}{6}{subsection.A.2.3}%
-\contentsline {subsubsection}{Hartree-Fock algorithm}{8}{section*.8}%
-\contentsline {subsubsection}{Results}{8}{section*.9}%
-\contentsline {chapter}{Bibliography}{9}{section*.11}%
+\contentsline {subsection}{\numberline {A.2.2}Hartree-Fock algorithm in $\mathbf {k}$ space}{6}{subsection.A.2.2}%
+\contentsline {subsection}{\numberline {A.2.3}An alternative (less efficient) real-space approach}{7}{subsection.A.2.3}%
+\contentsline {subsubsection}{Results}{8}{section*.8}%
+\contentsline {chapter}{Bibliography}{9}{section*.10}%

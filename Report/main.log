@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.12) (preloaded format=pdflatex 2025.4.28)  1 AUG 2025 19:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.12) (preloaded format=pdflatex 2025.4.28)  2 AUG 2025 12:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1721,6 +1721,15 @@ k solution to the model. Ultimately,
 
 [5]
 
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 422.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 422.
+
+
+
 [6]
 \g__nicematrix_max_cell_width_dim=\dimen397
 \c@iRow=\count568
@@ -1754,16 +1763,16 @@ LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2020/03/25>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: BA7BC229A57A3244F2B28975A3C38606;1626.
+(rerunfilecheck)             Checksum: C586D83814B9FFCD7905EAD8DBFB7C2A;1499.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
  50663 strings out of 475473
- 1151487 string characters out of 5766466
- 2163016 words of memory out of 5000000
- 72882 multiletter control sequences out of 15000+600000
+ 1151510 string characters out of 5766466
+ 2164087 words of memory out of 5000000
+ 72883 multiletter control sequences out of 15000+600000
  575315 words of font info for 95 fonts, out of 8000000 for 9000
  0 hyphenation exceptions out of 8191
  92i,13n,96p,2055b,1341s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1796,9 +1805,9 @@ pe1/public/amsfonts/symbols/msbm10.pfb></home/nepero27178/.miktex/texmfs/instal
 l/fonts/type1/public/cm-super/sfrm0600.pfb></home/nepero27178/.miktex/texmfs/in
 stall/fonts/type1/public/cm-super/sfrm0800.pfb></home/nepero27178/.miktex/texmf
 s/install/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on main.pdf (10 pages, 371842 bytes).
+Output written on main.pdf (10 pages, 373257 bytes).
 PDF statistics:
- 330 PDF objects out of 1000 (max. 8388607)
- 54 named destinations out of 1000 (max. 500000)
+ 331 PDF objects out of 1000 (max. 8388607)
+ 53 named destinations out of 1000 (max. 500000)
  177 words of extra memory for PDF output out of 10000 (max. 10000000)
 

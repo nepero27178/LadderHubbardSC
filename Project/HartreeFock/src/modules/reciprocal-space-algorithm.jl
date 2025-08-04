@@ -1,3 +1,4 @@
+#!/usr/bin/julia
 using LinearAlgebra
 using Optim
 
@@ -8,7 +9,7 @@ function GetHoppingEnergy(
 )::Float64
 
 Returns: the hopping energy at hopping amplitude `t` and wavevector (`k[1]`, 
-`k[2]`).
+`k[2]`) for the 2D monatomic regular square lattice.
 """
 function GetHoppingEnergy(
     k::Vector{Float64},         # [kx, ky]
@@ -91,24 +92,36 @@ function FindOptimalμ(
     Ky::Vector{Float64},        # BZ y grid
     t::Float64,                 # t/U
     m0::Float64,                # Magnetization
-    n0::Float64,                # Target density
+    nt::Float64,                # Target density
     β::Float64;                 # Inverse temperature
-    Δn::Float64=0.0             # Tolerance in density estimation
+    Δn::Float64=0.0,            # Tolerance in density estimation
+    debug::Bool=false
 )::Float64
 
-    Ek = zeros(length(Kx),length(Ky))
+    Ek = zeros(length(Kx), length(Ky))
+    D = 2 * length(Kx) * length(Ky)
+
     for (i,kx) in enumerate(Kx), (j,ky) in enumerate(Ky)
         k = [kx,ky]
         Ek[i,j] = sqrt( GetHoppingEnergy(k,t)^2 + m0^2 )
     end
-    δn(μ) = abs( sum(FermiDirac.(Ek,μ[1],β) + FermiDirac.(-Ek,μ[1],β)) - n0 )
+
+    δn(μ) = abs( sum(FermiDirac.(Ek,μ[1],β)+FermiDirac.(-Ek,μ[1],β))/D - nt )
     G = optimize(
-        δn, [n0],
-        method = Newton(),
+        δn, [0.5],
+#        method = Newton(),
         f_abstol = Δn
     )
 
-    return G.minimum
+    μ0 = G.minimizer[1]
+
+    if debug
+        println("Optimal chemical potential: $(μ0)")    
+        n = sum( FermiDirac.(Ek,μ0,β) + FermiDirac.(-Ek,μ0,β) ) / D
+        println("Obtained density: $(n)") #δn([μ0]) )
+    end
+
+    return μ0[1]
 end
 
 @doc raw"""
@@ -118,7 +131,8 @@ function PerformHFStep(
     t::Float64,
     m0::Float64,
     n0::Float64,
-    β::Float64
+    β::Float64;
+    debug::Bool=false
 )::Float64
 
 Returns: HF estimation for AF instability parameter based on input.
@@ -135,18 +149,24 @@ function PerformHFStep(
     t::Float64,                 # t/U
     m0::Float64,                # Mean-field magnetization
     n0::Float64,                # Density
-    β::Float64,                 # Inverse temperature
+    β::Float64;                 # Inverse temperature
+    debug::Bool=false
 )::Float64
     m = 0
 
     μ = FindOptimalμ(Kx,Ky,t,m0,n0,β)
+    if debug
+        println("μ=$μ") # Debug
+    end
+
     for kx in Kx, ky in Ky
         k = [kx,ky]
         hk = GetHamiltonian(k,t,m0) - μ * I(2)
         F = eigen(hk)
         W = F.vectors
         E = reverse(F.values)   # First +, then -
-        m += sum( [W[l,1] * W[2,l] * FermiDirac(E[l],μ,β) for l in 1:2] )
+        # In FermiDirac set the chemical potential to zero (already in E)
+        m += sum( [W[l,1] * W[2,l] * FermiDirac(E[l],0.0,β) for l in 1:2] )
     end
     
     m /= 2 * length(Kx) * length(Ky)
@@ -162,10 +182,12 @@ function RunHFAlgorithm(
     p::Int64,
     Δm::Float64,
     Δn::Float64;
-    verbose::Bool=false
-)::Float64
+    verbose::Bool=false,
+    debug::Bool=false
+)::Tuple{Float64, Float64, Float64}
 
-Returns: HF converged estimation for AF instability parameter.
+Returns: HF estimation for m, sequential relative convergence parameter Q and
+computational time T.
 
 `RunHFAlgorithm` performs an iterative Hartree-Fock (HF) analysis over a 2D
 square lattice whose dimensions are given by `L`. All the function's positional
@@ -180,8 +202,9 @@ function RunHFAlgorithm(
     p::Int64,                   # Number of iterations
     Δm::Float64,                # Tolerance on magnetization
     Δn::Float64;                # Tolerance on density difference
-    verbose::Bool=false
-)::Float64
+    verbose::Bool=false,
+    debug::Bool=false
+)::Tuple{Float64, Float64, Float64}
 
     #TODO Assert that every variable used is positive-defined
     
@@ -197,21 +220,35 @@ function RunHFAlgorithm(
 
     m = 1-n                    # Initializer
     m0 = m    
+    Q = 0.0
     i=1
-    while i<=p
-        m = PerformHFStep(Kx,Ky,t,m0,n,β)
-        if abs(m-m0) <= Δm
-            if verbose
-                printstyled("Converged at step $i\n", color=:green)
-            end
-            i = p+1
-        elseif abs(m-m0) > Δm
-            m0 = m
-            i += 1      
-        end    
-    end
 
-    Q = abs(m-m0) / Δm
+    ΔT = @elapsed begin
+        while i<=p
+
+            if debug
+                println("Step $i")
+            end
+
+            m = PerformHFStep(Kx,Ky,t,m0,n,β;debug)
+
+            if debug
+                println("m0=$(m0), m=$(m)\n")
+            end
+
+            Q = abs(m-m0) / Δm
+
+            if Q <= 1
+                if verbose
+                    printstyled("Converged at step $i\n", color=:green)
+                end
+                i = p+1
+            elseif Q > 1
+                m0 = m
+                i += 1      
+            end    
+        end
+    end
     
     if verbose
         if Q <= 1
@@ -221,5 +258,5 @@ function RunHFAlgorithm(
         end
     end
 
-    return m
+    return m,Q,ΔT
 end

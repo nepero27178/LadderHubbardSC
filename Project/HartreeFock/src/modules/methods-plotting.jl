@@ -1,48 +1,109 @@
 #!/usr/bin/julia
 using DelimitedFiles
 
-function PlotHFData(
+function PlotUm(
     FilePathIn::String,
-    DirPathOut::String;
-    CustomLL::Vector{Any}=[],
-    Customββ::Vector{Any}=[],
+    DirPathOut::String
 )
+
+    DirPathOut *= "uM-Setup=$(Setup)/"
+    mkpath(DirPathOut)
 
     DataIn = true
     open(FilePathIn) do io
         DataIn = readdlm(FilePathIn, ',', comments=true)
     end
 
-    if length(CustomLL)>0
-        LL = CustomLL
-    elseif length(CustomLL)==0
-        LL = unique(Int64.(DataIn[:,1]))
-    end
+    UU = unique(DataIn[:,1])
+    LL = unique(Int64.(DataIn[:,3]))
+    ββ = unique(DataIn[:,4])
+    δδ = unique(DataIn[:,5])
 
-    if length(Customββ)>0
-        ββ = Customββ
-    elseif length(Customββ)==0
-        ββ = unique(DataIn[:,2])
-    end
-
-    for (b,β) in enumerate(ββ)
-        printstyled("\e[2K\e[1GPlotting HF data for β=$β", color=:yellow)
-        FilePathOut = DirPathOut * "/t=$(t)_β=$(β).pdf"
+    # Cycler
+    for (b,β) in enumerate(ββ), (l,L) in enumerate(LL)
+        printstyled("\e[2K\e[1GPlotting HF mU data for β=$β", color=:yellow)
+        FilePathOut = DirPathOut * "/L=$(L)_β=$(β).pdf"
         P = plot(
-            xlabel = L"$\delta = n-0.5$",
+            size = (600,400),
+            xlabel = L"$U/t$",
             ylabel = L"$m$",
-            ylims = (-0.5,0.5)
+            ylims = (0.0,0.5),
+            legend = :topleft
         )
-        for (l,L) in enumerate(LL)
-            title!(L"Magnetization ($t/U=%$(t), \beta=%$(β)$)")
-            Selections = (DataIn[:,1] .== L) .* (DataIn[:,2] .== β)
-            (δδ, mm, QQ, ΔTΔT) = [DataIn[Selections,i] for i in 3:6]
+        if β==Inf
+            title!(L"Magnetization ($L=%$(L), \beta=\infty$)")
+        elseif β<Inf
+            title!(L"Magnetization ($L=%$(L), \beta=%$(β)$)")
+        end
+        for (d,δ) in enumerate(δδ)
+            
+            Selections = (DataIn[:,4] .== β) .* (DataIn[:,5] .== δ)
+            UU = DataIn[Selections,1]
+            (mm, QQ, ΔTΔT) = [DataIn[Selections,i] for i in 6:8]
+
+            plot!(
+                UU, mm,
+                markershape = :circle,
+                markercolor = TabColors[d],
+                markersize = 1.5,
+                label = L"$\delta=%$(δ)$"
+            )
+        end
+        savefig(P, FilePathOut)
+    end
+
+    printstyled("\e[2K\e[1GDone! Plots saved at $(DirPathOut)\n", color=:green)
+
+end
+
+function Plotδm(
+    FilePathIn::String,
+    DirPathOut::String
+)
+
+    DirPathOut *= "δM-Setup=$(Setup)/"
+    mkpath(DirPathOut)
+
+    DataIn = true
+    open(FilePathIn) do io
+        DataIn = readdlm(FilePathIn, ',', comments=true)
+    end
+
+    UU = unique(DataIn[:,1])
+    LL = unique(Int64.(DataIn[:,3]))
+    ββ = unique(DataIn[:,4])
+    δδ = unique(DataIn[:,5])
+
+    UU = UU[end-6:2:end]
+
+    # Cycler
+    for (b,β) in enumerate(ββ), (l,L) in enumerate(LL)
+        printstyled("\e[2K\e[1GPlotting HF δM data for β=$β", color=:yellow)
+        FilePathOut = DirPathOut * "/L=$(L)_β=$(β).pdf"
+        P = plot(
+            size = (600,400),
+            xlabel = L"$\delta$",
+            ylabel = L"$m$",
+            ylims = (0.0,0.5),
+            legend = :bottomleft
+        )
+        if β==Inf
+            title!(L"Magnetization ($L=%$(L), \beta=\infty$)")
+        elseif β<Inf
+            title!(L"Magnetization ($L=%$(L), \beta=%$(β)$)")
+        end
+        for (u,U) in enumerate(UU)
+            
+            Selections = (DataIn[:,1] .== U) .* (DataIn[:,4] .== β)
+            δδ = DataIn[Selections,5]
+            (mm, QQ, ΔTΔT) = [DataIn[Selections,i] for i in 6:8]
 
             plot!(
                 δδ, mm,
                 markershape = :circle,
-                markercolor = TabColors[l],
-                label = L"$L=%$(L)$"
+                markercolor = TabColors[u],
+                markersize = 1.5,
+                label = L"$U/t=%$(Int64(U))$"
             )
         end
         savefig(P, FilePathOut)

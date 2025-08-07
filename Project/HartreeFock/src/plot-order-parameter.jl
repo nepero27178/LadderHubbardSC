@@ -7,10 +7,11 @@ include(PROJECT_ROOT * "/src/modules/methods-plotting.jl")
 
 function main()
     DirPathIn = PROJECT_ROOT * "/simulations/hubbard/p=$(p)_Δm=$(Δm)_Δn=$(Δn)/"
-    FilePathIn = DirPathIn * "/t=$(t)_ββ=$(ββ).txt"
+    FilePathIn = DirPathIn * "/Setup=$(Setup).txt"
     DirPathOut = PROJECT_ROOT * "/analysis/hubbard/p=$(p)_Δm=$(Δm)_Δn=$(Δn)/"
     mkpath(DirPathOut)
-    PlotHFData(FilePathIn, DirPathOut)
+    PlotUm(FilePathIn, DirPathOut)  # m vs U
+    Plotδm(FilePathIn, DirPathOut)  # m vs δ
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__

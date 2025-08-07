@@ -89,7 +89,7 @@ Consider the half-filling situation. An unpolarized system will have $n=1/4$, $m
 
 \begin{figure}
 	\centering
-%	\input{appendices/mean-field-hubbard/pictures/ferromagnetic-3d-band}
+	\input{appendices/mean-field-hubbard/pictures/ferromagnetic-3d-band}
 	\caption{Depiction of the Hubbard square lattice hopping band $\epsilon_{\mathbf{k}}^{(0)} = -2t[\cos(k_x) + \cos(k_y)]$. The red lines mark the zero-energy intersection.}
 	\label{appfig:ferromagnetic-3d-band}
 \end{figure}
@@ -150,11 +150,11 @@ mU \sum_\mathbf{r} (-1)^{x+y} \left[
 \begin{figure}
 	\centering
 	\subfloat[Alternative band.]{
-%		\input{appendices/mean-field-hubbard/pictures/alternative-ferromagnetic-3d-band}
+		\input{appendices/mean-field-hubbard/pictures/alternative-ferromagnetic-3d-band}
 		\label{appsubfig:alternative-ferromagnetic-3d-band}
 	}
 	\subfloat[Contour plot.]{
-%		\input{appendices/mean-field-hubbard/pictures/ferromagnetic-contour}
+		\input{appendices/mean-field-hubbard/pictures/ferromagnetic-contour}
 		\label{appsubfig:ferromagnetic-contour}
 	}
 	\caption{Alternative depiction of the Hubbard square lattice hopping band previously reported in Fig.~\ref{appfig:ferromagnetic-3d-band}. The Magnetic Brillouin Zone ($\mathrm{MBZ}$) is delimited by the zero-energy contour and is indicated in figure. As it is evident, energy sign flips by taking a $(\pi,\pi)$ translation in $\mathbf{k}$ space.}
@@ -213,7 +213,7 @@ Notice: the Nambu hamiltonian is a $2\times2$ matrix over the $\mathrm{MBZ}$ -- 
 
 \begin{figure}
 	\centering
-%	\input{appendices/mean-field-hubbard/pictures/pseudo-magnetic-field}
+	\input{appendices/mean-field-hubbard/pictures/pseudo-magnetic-field}
 	\caption{Pseudo-magnetic field originating from mean-field treatment of the square Hubbard hamiltonian. Here, only the $\sigma=\uparrow$}
 	\label{appfig:pseudo-magnetic-field}
 \end{figure}
@@ -271,11 +271,29 @@ Eigenvalues are:
 \[
 	E_\mathbf{k} \equiv \sqrt{\epsilon_{\mathbf{k}}^2 + \abs{\Delta_\sigma}^2}
 \]
-(superscript ``$(0)$'' has been dropped momentarily). Notice that the presence of an absolute value makes the eigenvalues independent of the $\sigma$ index. Eigenvectors are obtained simply as:
+(superscript ``$(0)$'' has been dropped momentarily). Notice that the presence of an absolute value makes the eigenvalues independent of the $\sigma$ index. Eigenvector fermion operators are obtained simply as:
 \[
 	\hat \Phi_{\mathbf{k}\sigma} = W_{\mathbf{k}\sigma} \hat \Psi_{\mathbf{k}\sigma}
 \]
-\todo
+The $\hat \Phi$ spinor operators are effectively free fermionic spinor fields and as such must be treated. Note that:
+\begin{align}
+	N &= \sum_{\mathbf{k}\sigma} \ev{\hat n_{\mathbf{k}\sigma}} \nonumber \\
+	&= \sum_\sigma \sum_{\mathbf{k} \in \mathrm{MBZ}} \left\langle
+		\hat n_{\mathbf{k}\sigma} + \hat n_{\mathbf{k}+\bm{\pi}\sigma}
+	\right\rangle \nonumber \\
+	&= \sum_\sigma \sum_{\mathbf{k} \in \mathrm{MBZ}} \left\langle
+		\hat \Phi_{\mathbf{k}\sigma}^\dagger
+		\hat \Phi_{\mathbf{k}\sigma}
+	\right\rangle \nonumber \\
+	&= 2 \left[
+		f\left(-E_{\mathbf{k}\sigma}; \beta,\mu \right) + f \left( E_{\mathbf{k}\sigma}; \beta,\mu \right)
+	\right] \label{appeq:spinor-particle-number-formula}
+\end{align}
+being $f$ be the Fermi-Dirac distribution at inverse temperature $\beta$ and chemical potential $\mu$,
+\[
+	f(\epsilon;\beta,\mu) = \frac{1}{e^{\beta(\epsilon-\mu)}+1} 
+\]
+Eq.~\eqref{appeq:spinor-particle-number-formula}holds because the $\Phi$ fields represent free fermions and the spin DoF is just a degeneracy factor. Next sections are devoted to simplify the above theoretical results in order to obtain an algorithmic estimation for the magnetization $m$, which is just the AF instability order parameter. 
 
 \subsection{Theoretical mean-field solution}
 
@@ -412,10 +430,6 @@ In last section, the relevant indices $(i,j)$ were $(1,2)$ and $(2,1)$. Transfor
 		E_{\mathbf{k}\sigma}; \beta,\mu
 	\right) \label{appeq:finite-temperature-order-parameter-derivation-intermediate}
 \end{align}
-being $f$ be the Fermi-Dirac distribution at inverse temperature $\beta$ and chemical potential $\mu$,
-\[
-	f(\epsilon;\beta,\mu) = \frac{1}{e^{\beta(\epsilon-\mu)}+1} 
-\]
 In the second passage this distribution appeared because an expectation value over a gas of free $\Phi$ fermions was taken. Such an expectation value admits no off-diagonal values, hence the $\delta_{i'j'}$. The diagonal entries are precisely the definition of the Fermi-Dirac distribution for the given energy. At zero temperature and half-filling, the lower band $-E_\mathbf{k}$ is completely filled while the upper band $E_\mathbf{k}$ is empty. Substituting $f=1$ in the first term of line \eqref{appeq:finite-temperature-order-parameter-derivation-intermediate}, $f=0$ in the second and summing $\Delta_{12}$ and $\Delta_{21}$ as done in Eq.~\eqref{appeq:antiferromagnet-magnetization-self-consistence-abstract}, it's easy to derive the result of Eq.~\eqref{appeq:antiferromagnet-magnetization-self-consistence-zero-temperature}. At finite temperature, following the lead of the above paragraph, the antiferromagnetic instability order parameter $m$ will be given simply by
 \begin{equation}\label{appeq:antiferromagnet-magnetization-self-consistence-finite-temperature}
 	m = \frac{1}{2L^2} \sum_{\mathbf{k} \in \mathrm{BZ}} \sum_{\ell=1}^2 
@@ -430,13 +444,14 @@ In the second passage this distribution appeared because an expectation value ov
 \end{equation}
 Then: mean-field approximations yield an estimate for the magnetization at a given temperature and chemical potential just by carefully combining the elements of the diagonalizing matrix $W$ of each Bogoliubov matrix $h_{\mathbf{k}\sigma}$.
 
-\subsection{Hartree-Fock algorithm in $\mathbf{k}$ space}\label{appsubsec:hartree-fock-algorithm}
+\subsection{Hartree-Fock algorithm in reciprocal space}\label{appsubsec:hartree-fock-algorithm}
 
 The above sections offers a self-consistency equation for the magnetization $m$; $W$ is determined by $m$ indeed. Then a self-consistent algorithm to search for a self consistent estimate for $m$ may be sketched:
 \begin{enumerate}
 	\setcounter{enumi}{-1}
 	\item Algorithm setup: initialize a counter $i=1$ and choose:
 	\begin{itemize}
+		\item the local repulsion $U/t$ or equivalently the hopping amplitude $t/U$;
 		\item the coarse-graining of the $\mathrm{BZ}$, which is, fix $L_x$ and $L_y$. Then 
 		\[ 
 			k_x = 2\pi n_x/L_x
@@ -444,23 +459,35 @@ The above sections offers a self-consistency equation for the magnetization $m$;
 			k_y = 2\pi n_y/L_y 
 		\]
 		where $-L_j/2 \le n_j \le L_j/2$, $n_j \in \mathbb{Z}$;
-		\item the desired density $n$;
+		\item the density $n$ or equivalently the doping $\delta \equiv n-0.5$;
+		\item the inverse temperature $\beta$;
 		\item the number of iterations $p \in \mathbb{N}$; 
 		\item the mixing parameter $g \in [0,1]$;
-		\item the tolerance parameters $\delta_m, \delta_n \in \mathbb{R}$ (respectively for magnetization and density);
+		\item the tolerance parameters $\Delta_m, \Delta_n \in \mathbb{R}$ (respectively for magnetization and density);
 	\end{itemize}
-	\item Select a random starting value $m_0 \in [-(1-n),1-n]$;
-	\item For each slot of the $\mathrm{BZ}$, initialize the appropriate $2\times2$ matrix $h_{\mathbf{k}\sigma}$;
+	\item {\color{tabred}
+		Select a rreater than tildeandom starting value $m_0 \in [-(1-n),1-n]$
+	};
+	\item For each slot of the $\mathrm{BZ}$, initialize the appropriate $2\times2$ matrix $h_{\mathbf{k}\uparrow}$ as in Eq.~\eqref{appeq:hubbard-bogoliubov-hamiltonian};
 	\item For the given hamiltonian, find the optimal chemical potential $\mu$ as follows:
 	\begin{enumerate}
-		\item Define the generic matrix $A[m_0, \mu]$ dependent on $m_0$ and $\mu$;
-		\item Define the density as a function of the chemical potential $\mu$,
+		\item Diagonalize $h_{\mathbf{k}\uparrow}[m_0, U]$ and obtain its eigenvalues $\pm E_k[m_0, U$]; 
+		\item Define the function of the chemical potential $\mu$,
 		\[
-			\cdots
+			\delta n(\mu; \beta, m_0, U) \equiv 2 \left[
+			f\left(-E_{\mathbf{k}\sigma}[U,m_0]; \beta,\mu \right) + f \left( E_{\mathbf{k}\sigma}[U,m_0]; \beta,\mu \right)
+			\right] - n
 		\]
+		\item Find the root of $\delta n$, 
+		\[
+			\delta n(\mu_0) = 0
+		\]
+		Then $\mu_0$ is the chemical potential which, at magnetization $m_0$, realizes the best approximation of density $n$;
 	\end{enumerate}
-	\item Diagonalize the matrix $h_{\mathbf{k}\sigma} - \mu n_{\mathbf{k}\sigma}$;
-	\item Compute $m$ using Eq.~\eqref{appeq:antiferromagnet-magnetization-self-consistence-finite-temperature} and update the counter, $i \to i+1$;
+	\item {\color{tabred}
+		Diagonalize the matrix $h_{\mathbf{k}\uparrow}$ and obtain $d_{\mathbf{k}\uparrow}$
+	};
+	\item Compute $m$ using Eq.~\eqref{appeq:antiferromagnet-magnetization-self-consistence-finite-temperature} with chemical potential $\mu_0$ and update the counter, $i \to i+1$;
 	\item Check if $\abs{m-m_0} \le \delta_m$:
 	\begin{itemize}
 		\item If yes, halt;
@@ -475,12 +502,40 @@ The above sections offers a self-consistency equation for the magnetization $m$;
 		\end{itemize}
 	\end{itemize}
 \end{enumerate}
-{\color{tabred}}
-\todo
+In next section some results are briefly shown.
+
+\subsubsection{Results}
+
+\begin{figure}
+	\centering
+	\subfloat[Local repulsion $U/t$ depencence.]{
+		\includegraphics[width=0.45\textwidth]{../Project/HartreeFock/analysis/hubbard/p=100_Δm=0.0001_Δn=0.01/uM-Setup=A/L=128_β=Inf.pdf}
+		\label{appsubfig:mU-beta=Inf}
+	}
+	\subfloat[Doping $\delta = n-0.5$ dependence.]{
+		\includegraphics[width=0.45\textwidth]{../Project/HartreeFock/analysis/hubbard/p=100_Δm=0.0001_Δn=0.01/δM-Setup=A/L=128_β=Inf.pdf}
+		\label{appsubfig:dU-beta=Inf}
+	}	
+	\caption{Plots of the zero-temperature AF instability order parameter $m$ as a function of both the local repulsion $U/t$ (Fig.~\ref{appsubfig:mU-beta=Inf}) and the doping $\delta = n-1/2$ (Fig.~\ref{appsubfig:dU-beta=Inf}).}
+	\label{appfig:mdU-beta=Inf}
+\end{figure}
+
+The algorithm sketched in the above paragraph was ran with the following setup:
+\begin{lstlisting}[language=julia]
+UU = [U for U in 0.5:0.5:10.0]      # Local repulsions
+LL = [2^x for x in 5:7]             # Lattice sizes
+dd = [d for d in 0.0:0.05:0.5]      # Dopings
+bb = [0.1, 1.0, 10.0, 50.0, Inf]    # Inverse temperatures
+p = 100                             # Max number of iterations
+dm = 1e-4                           # Tolerance on magnetization
+dn = 1e-2                           # Tolerance on density
+g = 0.5                             # Mixing parameter
+\end{lstlisting}
+In Fig.~\ref{appfig:mdU-beta=Inf} plots at $\beta=\infty$ of the magnetization $m$ are reported. As is evident in Fig.~\ref{appsubfig:mU-beta=Inf}, disrupts AF ordering; the horizontal asymptote lowers as $\delta$ gets bigger, a mere consequence of the fact that the free space at each single-particle state in $k$-space shrinks as density increases; also, for $\delta > 0$, a finite magnetization $m$ exists only for $U \ge U_c[\delta]$ (a critical value parametrically dependent on doping). Fig.~\ref{appsubfig:dU-beta=Inf} shows the dependence of magnetization on doping at various fixed local repulsions $U$: once again, to dope the material disrupt AF ordering. Identical analysis have been performed for finite temperatures, leading to analogous results as long as $\beta \gtrsim 10$ and to $m \simeq 0$ for higher temperatures (predictably).
 
 \subsection{An alternative (less efficient) real-space approach}
 
-The theoretical derivation of the above paragraphs offers a simple description of the system anti-ferromagnetic instability as the instauration of a ground-state of quasiparticles. Here a self-consistent algorithmic extraction of the expected magnetization is presented, following \cite{scholle2023comprehensive}. Note that this algorithm is by far the least efficient, being performed in real space with dimensional exponential scaling in terms of computational time. It is here presented just for completeness as an alternative derivation. Consider a square lattice of $L_x \times L_y$ sites: the hamiltonian will be a matrix of dimension $2L_x L_y \times 2L_x L_y$,
+The theoretical derivation of the above paragraphs offers a simple description of the system anti-ferromagnetic instability as the instauration of a ground-state of quasiparticles. Here a self-consistent algorithmic extraction of the expected magnetization is presented, following \cite{scholle2023comprehensive}. Note that this algorithm is by far the least efficient, being performed in real space with dimensional exponential scaling in terms of computational time. It is here presented just for completeness as an alternative derivation. This algorithm can become useful for simulations not preserving space-translational invariance, e.g. introducing some degree of disorder. Consider a square lattice of $L_x \times L_y$ sites: the hamiltonian will be a matrix of dimension $2L_x L_y \times 2L_x L_y$,
 \[
 	[ \hat H ]_{(\mathbf{r}\sigma)(\mathbf{r}'\sigma')} = \mel{\Omega}{ \hat c_{\mathbf{r}\sigma} \hat H \hat c_{\mathbf{r}'\sigma'}^\dagger}{\Omega}
 \]
@@ -494,7 +549,7 @@ Let me break this through. For each site $\mathbf{r}$, two sequential indices ar
 
 \begin{figure}
 	\centering
-%	\input{appendices/mean-field-hubbard/pictures/square-lattice-ordering}
+	\input{appendices/mean-field-hubbard/pictures/square-lattice-ordering}
 	\caption{Schematics of the site ordering on a square lattice performed by sweeping along rows. Left-bottom side is one corner of the lattice. Red sites are characterized by $x+y$ being odd, blue sites by being even. The number reported near to each site is the $\alpha$ entry in the matrix representation for a finite square lattice.}
 	\label{appfig:square-lattice-ordering}
 \end{figure}
@@ -593,6 +648,3 @@ since $\mathbf{r}\uparrow$ is associated to an odd index entry, while $\mathbf{r
 	\item[4.] Diagonalize the matrix associated to the operator $\hat H_{\alpha\beta}-\mu \hat N$ collecting the $\mathbf{v}^\ell$ eigenvectors;
 	\item[5.] Compute $m$ using Eq.~\eqref{appeq:average-magnetization-hf-expression} and update the counter, $i \to i+1$;
 \end{enumerate}
-
-\subsubsection{Results}
-\todo

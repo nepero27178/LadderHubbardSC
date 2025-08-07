@@ -37,7 +37,8 @@ function PlotUm(
         end
         for (d,δ) in enumerate(δδ)
             
-            Selections = (DataIn[:,4] .== β) .* (DataIn[:,5] .== δ)
+            Selections = (DataIn[:,3] .== L) .* (DataIn[:,4] .== β) .* 
+                (DataIn[:,5] .== δ) # Logical intersection
             UU = DataIn[Selections,1]
             (mm, QQ, ΔTΔT) = [DataIn[Selections,i] for i in 6:8]
 
@@ -46,7 +47,9 @@ function PlotUm(
                 markershape = :circle,
                 markercolor = TabColors[d],
                 markersize = 1.5,
-                label = L"$\delta=%$(δ)$"
+                linecolor = TabColors[d],
+                label = L"$\delta=%$(δ)$",
+                legendfonthalign = :left
             )
         end
         savefig(P, FilePathOut)
@@ -82,7 +85,7 @@ function Plotδm(
         FilePathOut = DirPathOut * "/L=$(L)_β=$(β).pdf"
         P = plot(
             size = (600,400),
-            xlabel = L"$\delta$",
+            xlabel = L"$\delta \vphantom{U/t}$",
             ylabel = L"$m$",
             ylims = (0.0,0.5),
             legend = :bottomleft
@@ -94,7 +97,8 @@ function Plotδm(
         end
         for (u,U) in enumerate(UU)
             
-            Selections = (DataIn[:,1] .== U) .* (DataIn[:,4] .== β)
+            Selections = (DataIn[:,1] .== U) .* (DataIn[:,3] .== L) .* 
+                (DataIn[:,4] .== β) # Logical intersection
             δδ = DataIn[Selections,5]
             (mm, QQ, ΔTΔT) = [DataIn[Selections,i] for i in 6:8]
 
@@ -103,7 +107,9 @@ function Plotδm(
                 markershape = :circle,
                 markercolor = TabColors[u],
                 markersize = 1.5,
-                label = L"$U/t=%$(Int64(U))$"
+                linecolor = TabColors[u],
+                label = L"$U/t=%$(Int64(U))$",
+                legendfonthalign = :left
             )
         end
         savefig(P, FilePathOut)

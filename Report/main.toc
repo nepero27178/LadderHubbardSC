@@ -1,10 +1,24 @@
-\contentsline {appendix}{\chapternumberline {A}Mean-Field Theory in Hubbard lattices}{1}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Ferromagnetic solution}{1}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Antiferromagnetic solution}{2}{section.A.2}%
-\contentsline {subsection}{\numberline {A.2.1}Theoretical mean-field solution}{4}{subsection.A.2.1}%
-\contentsline {subsubsection}{Zero temperature solution}{5}{section*.5}%
-\contentsline {subsubsection}{Finite temperature solution}{5}{section*.6}%
-\contentsline {subsection}{\numberline {A.2.2}Hartree-Fock algorithm in $\mathbf {k}$ space}{6}{subsection.A.2.2}%
-\contentsline {subsection}{\numberline {A.2.3}An alternative (less efficient) real-space approach}{7}{subsection.A.2.3}%
-\contentsline {subsubsection}{Results}{8}{section*.8}%
-\contentsline {chapter}{Bibliography}{9}{section*.10}%
+\contentsline {chapter}{\chapternumberline {1}Theoretical introduction}{3}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Antiferromagnetic ordering in the Hubbard model}{3}{section.1.1}%
+\contentsline {section}{\numberline {1.2}The Extended Fermi-Hubbard model}{3}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Experimental insight on NN attraction}{4}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Mean-Field effective hamiltonian}{4}{subsection.1.2.2}%
+\contentsline {subsubsection}{Mean-field treatment of the local term}{4}{section*.5}%
+\contentsline {subsubsection}{Mean-field treatment of the non-local term}{4}{section*.6}%
+\contentsline {subsection}{\numberline {1.2.3}Topological superconducting parameters over the square lattice}{5}{subsection.1.2.3}%
+\contentsline {subsection}{\numberline {1.2.4}Self-consistency equations}{6}{subsection.1.2.4}%
+\contentsline {subsection}{\numberline {1.2.5}Fourier-transform of the non-local interaction}{6}{subsection.1.2.5}%
+\contentsline {appendix}{\chapternumberline {A}Superexchange and virtual hopping in Hubbard lattices}{9}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Virtual hopping in the $2$-sites Hubbard lattice}{9}{section.A.1}%
+\contentsline {subsection}{\numberline {A.1.1}Exact solution of the half-filled model}{10}{subsection.A.1.1}%
+\contentsline {subsection}{\numberline {A.1.2}Virtual hopping}{10}{subsection.A.1.2}%
+\contentsline {appendix}{\chapternumberline {B}Mean-Field Theory in Hubbard lattices}{11}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Ferromagnetic solution}{11}{section.B.1}%
+\contentsline {section}{\numberline {B.2}Antiferromagnetic solution}{12}{section.B.2}%
+\contentsline {subsection}{\numberline {B.2.1}Theoretical mean-field solution}{15}{subsection.B.2.1}%
+\contentsline {subsubsection}{Zero temperature solution}{16}{section*.15}%
+\contentsline {subsubsection}{Finite temperature solution}{16}{section*.16}%
+\contentsline {subsection}{\numberline {B.2.2}Hartree-Fock algorithm in reciprocal space}{17}{subsection.B.2.2}%
+\contentsline {subsubsection}{Results}{18}{section*.17}%
+\contentsline {subsection}{\numberline {B.2.3}An alternative (less efficient) real-space approach}{18}{subsection.B.2.3}%
+\contentsline {chapter}{Bibliography}{21}{section*.21}%

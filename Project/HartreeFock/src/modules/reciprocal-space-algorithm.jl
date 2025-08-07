@@ -295,7 +295,8 @@ function RunHFAlgorithm(
     β::Float64,
     p::Int64,
     Δm::Float64,
-    Δn::Float64;
+    Δn::Float64,
+    g::Float64;
     verbose::Bool=false,
     debug::Bool=false
 )::Tuple{Float64, Float64, Float64}
@@ -306,11 +307,11 @@ parameter `Q` and computational time `ΔT`.
 `RunHFAlgorithm` takes as input `t` (hopping amplitude), `L` (square lattice
 dimensions), `n` (density), `β` (inverse temperature), `p` (maximum number of
 HF iterations), `Δm` (tolerance on magnetization) and `Δn` (tolerance on density
-in chemical potential estimation). It performs an iterative HF  analysis over a 
-2D square lattice whose dimensions are given by `L`. All the  function's
-positional arguments must be positive defined. The algorithm is iterative and 
-runs at most `p` times using at each reiteration the result of the previous 
-computation.
+in chemical potential estimation), `g` (mixing parameter). It performs an
+iterative HF analysis over a  2D square lattice whose dimensions are given by
+`L`. All the  function's positional arguments must be positive defined. The 
+algorithm is iterative and  runs at most `p` times using at each reiteration the
+result of the previous computation.
 """
 function RunHFAlgorithm(
     t::Float64,                 # t/U
@@ -319,7 +320,8 @@ function RunHFAlgorithm(
     β::Float64,                 # Inverse temperature
     p::Int64,                   # Number of iterations
     Δm::Float64,                # Tolerance on magnetization
-    Δn::Float64;                # Tolerance on density difference
+    Δn::Float64,                # Tolerance on density difference
+    g::Float64;                 # Mixing parameter
     verbose::Bool=false,
     debug::Bool=false
 )::Tuple{Float64, Float64, Float64}
@@ -362,7 +364,7 @@ function RunHFAlgorithm(
                 end
                 i = p+1
             elseif Q > 1
-                m0 = m
+                m0 = g*m + (1-g)*m0
                 i += 1      
             end    
         end

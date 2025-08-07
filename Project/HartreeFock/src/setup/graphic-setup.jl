@@ -7,10 +7,10 @@ using ColorSchemes
 using LaTeXStrings
 
 # Get color scheme
-TabColors = ColorSchemes.tab10
+TabColors = ColorSchemes.tab20 # .tab10
 tabblue = TabColors[1]
-tabgreen = TabColors[3]
-tabred = TabColors[4]
+tabgreen = TabColors[5] # TabColors[3] # tab10 -> 3; tab20 -> 5
+tabred = TabColors[7] # TabColors[4] # tab10 -> 4; tab20 -> 7
 
 Plots.default(
     size = (440, 320),

@@ -3,18 +3,23 @@
 	(0,0) circle (1.5pt)
 	(1,0) circle (1.5pt)
 		node[anchor=west, color=black]
-			{$+$}
+			{$0$}
 	(-1,0) circle (1.5pt)
 		node[anchor=east, color=black]
-			{$+$}
+			{$0$}
 	(0,1) circle (1.5pt)
 		node[anchor=south, color=black]
-			{$+$}
+			{$g^{(p_y)}$}
+		node[anchor=south, opacity=0] 
+			{$g^{(d_{x^2-y^2})}$} 	% Alignment
 	(0,-1) circle (1.5pt)
 		node[anchor=north, color=black]
-			{$+$};
+			{$-g^{(p_y)}$}
+		node[anchor=north, opacity=0] 
+			{$g^{(d_{x^2-y^2})}$};	% Alignment;
 	
-	\draw[color=lightgray]
-		(-1,0) -- (1,0)
+	\draw[color=lightgray, dashed] 
+		(-1,0) -- (1,0);
+	\draw[color=lightgray] 
 		(0,-1) -- (0,1);
 \end{tikzpicture}

@@ -220,14 +220,14 @@ Notice: the Nambu hamiltonian is a $2\times2$ matrix over the $\mathrm{MBZ}$ -- 
 
 The system ground-state is obtained by the means of a Bogoliubov rotation. The hamiltonian maps onto the simple one of a spin in a magnetic field,
 \[
-	h_{\mathbf{k}\sigma} = \epsilon_\mathbf{k}^{(0)} \tau^x - \Delta_\sigma \tau^z
+	h_{\mathbf{k}\sigma} = \epsilon_\mathbf{k}^{(0)} \tau^z - \Delta_\sigma \tau^x
 \]
 being $\tau^\alpha$ the Pauli matrices. Then, defining
 \[
 	\hat s_{\mathbf{k}\sigma}^\alpha \equiv \hat \Psi_{\mathbf{k}\sigma}^\dagger \tau^\alpha \hat \Psi_{\mathbf{k}\sigma}
 	\qq{and}
 	\mathbf{b}_{\mathbf{k}\sigma} \equiv \begin{bmatrix}
-		\epsilon_\mathbf{k}^{(0)} \\ 0 \\ -\Delta_\sigma
+		-\Delta_\sigma \\ 0 \\ \epsilon_\mathbf{k}^{(0)} 
 	\end{bmatrix}
 \]
 one gets:
@@ -509,11 +509,11 @@ In next section some results are briefly shown.
 \begin{figure}
 	\centering
 	\subfloat[Local repulsion $U/t$ depencence.]{
-		\includegraphics[width=0.45\textwidth]{../Project/HartreeFock/analysis/hubbard/p=100_Δm=0.0001_Δn=0.01/uM-Setup=A/L=128_β=Inf.pdf}
+		\includegraphics[width=0.45\textwidth]{../Project/HartreeFockAF/analysis/hubbard/p=100_Δm=0.0001_Δn=0.01/uM-Setup=A/L=128_β=Inf.pdf}
 		\label{appsubfig:mU-beta=Inf}
 	}
 	\subfloat[Doping $\delta = n-0.5$ dependence.]{
-		\includegraphics[width=0.45\textwidth]{../Project/HartreeFock/analysis/hubbard/p=100_Δm=0.0001_Δn=0.01/δM-Setup=A/L=128_β=Inf.pdf}
+		\includegraphics[width=0.45\textwidth]{../Project/HartreeFockAF/analysis/hubbard/p=100_Δm=0.0001_Δn=0.01/δM-Setup=A/L=128_β=Inf.pdf}
 		\label{appsubfig:dU-beta=Inf}
 	}	
 	\caption{Plots of the zero-temperature AF instability order parameter $m$ as a function of both the local repulsion $U/t$ (Fig.~\ref{appsubfig:mU-beta=Inf}) and the doping $\delta = n-1/2$ (Fig.~\ref{appsubfig:dU-beta=Inf}).}

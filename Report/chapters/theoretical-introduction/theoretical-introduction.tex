@@ -418,22 +418,22 @@ Defining appropriately the gap function,
 		\hat c_{\mathbf{k}'\uparrow}^\dagger \hat c_{-\mathbf{k}' \downarrow}^\dagger
 	\rangle
 \end{equation}
-one gets immediately
+{\color{tabred}[I'm surely missing a volume divisor here, control everything.]} one gets immediately
 \begin{equation}\label{eq:extended-hubbard-nonlocal-interaction-mean-field-reciprocal}
 	\hat H_V \simeq - \sum_\mathbf{k} \left[
 		\Delta_\mathbf{k} \hat \phi_\mathbf{k} + \Delta_\mathbf{k}^* \hat \phi_\mathbf{k}^\dagger
 	\right]	
 \end{equation}
-\todo
+The non-local interaction has been reduced, by mean-field theory, to particle-background interaction for the $\phi$-fermions.
 
 \subsubsection*{Local interaction}
 
 A very similar argument can be carried out for the local $U$ term. Without delving in too many details, the local gap $\Sigma_{\mathbf{k}\sigma}$ is given by
-\[
+\begin{equation}\label{eq:sgap-function-definition}
 	\Sigma_\mathbf{k} \equiv U \sum_{\mathbf{k}'} \langle 
 	\hat c_{\mathbf{k}'\uparrow}^\dagger \hat c_{-\mathbf{k}' \downarrow}^\dagger
 	\rangle
-\]
+\end{equation}
 evidently independent of $\mathbf{k}$, correctly. The local part of the hamiltonian then gets
 \begin{equation}\label{eq:extended-hubbard-local-interaction-mean-field-reciprocal}
 	\hat H_U = \sum_\mathbf{k} \left[
@@ -442,7 +442,7 @@ evidently independent of $\mathbf{k}$, correctly. The local part of the hamilton
 \end{equation}
 Within this structure, we are finally able to move to Nambu formalism.
 
-\subsection{Nambu formalism and Bogoliubov transform}
+\subsection{Nambu formalism, Bogoliubov transform and self-consistency}\label{subsec:nambu-formalism-mean-field-extended-hubbard}
 
 Define the Nambu spinor\footnote{
 	Notice that the spinor is here differently defined with respect to App.~\ref{appendix:mean-field-hubbard}, where because of the HF prevalence in mean-field decoupling the spinor components were homogeneously fermions creations or destructions.
@@ -454,7 +454,7 @@ Define the Nambu spinor\footnote{
 	\end{bmatrix}
 \]
 Evidently,
-\[
+\begin{equation}\label{eq:extended-hubbard-phi-psi-expressions}
 	\phi_\mathbf{k} = \hat \Psi_\mathbf{k}^\dagger \begin{bmatrix}
 		0 & 1 \\ 0 & 0
 	\end{bmatrix} \hat \Psi_\mathbf{k}
@@ -462,24 +462,107 @@ Evidently,
 	\phi_\mathbf{k}^\dagger = \hat \Psi_\mathbf{k}^\dagger \begin{bmatrix}
 		0 & 0 \\ 1 & 0
 	\end{bmatrix} \hat \Psi_\mathbf{k}
-\]
+\end{equation}
 The full hamiltonian is then given by:
 \begin{equation}\label{eq:extended-hubbard-hamiltonian-nambu-bogoliubov}
 	\hat H = \sum_\mathbf{k} \hat \Psi_\mathbf{k} h_\mathbf{k} \hat \Psi_\mathbf{k}
 	\qquad
 	h_\mathbf{k} \equiv \begin{bmatrix}
-		\epsilon_\mathbf{k} & \Sigma_\mathbf{k} + \Delta_\mathbf{k} \\
-		\Sigma_\mathbf{k}^* + \Delta_\mathbf{k}^* & - \epsilon_\mathbf{k}
+		\epsilon_\mathbf{k} & \Sigma_\mathbf{k} - \Delta_\mathbf{k} \\
+		\Sigma_\mathbf{k}^* - \Delta_\mathbf{k}^* & - \epsilon_\mathbf{k}
 	\end{bmatrix}
 \end{equation}
+Let $\tau^\alpha$ for $\alpha = x,y,z$ be the Pauli matrices. Define:
+\[
+	\hat s_\mathbf{k}^\alpha \equiv \hat \Psi_\mathbf{k}^\dagger \tau^\alpha \hat \Psi_\mathbf{k}
+	\qq{and}
+	\mathbf{b}_\mathbf{k} \equiv \begin{bmatrix}
+		\Re{\Sigma_\mathbf{k}-\Delta_\mathbf{k}} \\
+		\Im{\Sigma_\mathbf{k}-\Delta_\mathbf{k}} \\ \epsilon_\mathbf{k}
+	\end{bmatrix}
+\]
+This hamiltonian behaves as an ensemble of spins in local magnetic fields (precisely as in Eq.~\eqref{appeq:hubbard-bogoliubov-hamiltonian-pseudofields}),
+\begin{equation}\label{eq:extended-hubbard-bogoliubov-hamiltonian-pseudofields}
+	\hat H = \sum_{\mathbf{k} \in \mathrm{BZ}} \mathbf{b}_\mathbf{k} \cdot \hat{\mathbf{s}}_\mathbf{k}
+	\qq{where}
+	\hat{\mathbf{s}}_{\mathbf{k}\sigma} = \begin{bmatrix}
+		\hat s_\mathbf{k}^x \\
+		\hat s_\mathbf{k}^y \\
+		\hat s_\mathbf{k}^z
+	\end{bmatrix}
+\end{equation}
+
 Proceed as in App.~\ref{app:mean-field-hubbard} and diagonalize via a rotation,
 \[
 	d_\mathbf{k} \equiv \begin{bmatrix}
 		-E_\mathbf{k} & \\ & E_\mathbf{k}
 	\end{bmatrix}
 	\qq{being}
-	E_\mathbf{k} \equiv \sqrt{\epsilon_\mathbf{k}^2 + \abs{\Sigma_\mathbf{k} + \Delta_\mathbf{k}}^2}
+	E_\mathbf{k} \equiv \sqrt{\epsilon_\mathbf{k}^2 + \abs{\Sigma_\mathbf{k} - \Delta_\mathbf{k}}^2}
 \]
+An HF algorithm requires iterative update of the order parameter. The general strategy here is to try different symmetry breaking structures via a set of self-consistency equations. From Eqns.~\eqref{eq:gap-function-definition}, \eqref{eq:sgap-function-definition} we have formulas to calculate $\Delta_\mathbf{k}$ and $\Sigma_\mathbf{k}$. Given the pseudoangles
+\[
+	\tan(2\theta_\mathbf{k}) \equiv \frac{\abs{\Delta_\mathbf{k}-\Sigma_\mathbf{k}}}{\epsilon_\mathbf{k}}
+	\qquad
+	\tan(2\varphi_\mathbf{k}) \equiv \frac{\Im{\Delta_\mathbf{k}-\Sigma_\mathbf{k}}}{\Re{\Delta_\mathbf{k}-\Sigma_\mathbf{k}}}
+\]
+the general diagonalizer will be an orthogonal rotation matrix
+\[
+\begin{aligned}
+	W_\mathbf{k} &= e^{i \left(\theta_\mathbf{k} - \frac{\pi}{2}\right) \tau^y} e^{i \varphi_\mathbf{k} \tau^z} \\
+	&= \begin{bmatrix}
+		-\sin\theta_\mathbf{k}  & -\cos\theta_\mathbf{k}  \\ 
+		\cos\theta_\mathbf{k}  & -\sin\theta_\mathbf{k} 
+	\end{bmatrix} \begin{bmatrix}
+		e^{i\varphi_\mathbf{k} } & \\ & e^{-i\varphi_\mathbf{k} }
+	\end{bmatrix} \\
+	&= \begin{bmatrix}
+		-\sin\theta_\mathbf{k}  e^{i\varphi_\mathbf{k} } & -\cos\theta_\mathbf{k}  e^{-i\varphi_\mathbf{k} }  \\ 
+		\cos\theta_\mathbf{k}  e^{i\varphi_\mathbf{k} } & -\sin\theta_\mathbf{k}  e^{-i\varphi_\mathbf{k} } 
+	\end{bmatrix}
+\end{aligned}
+\]
+given by a rotation of angle $\varphi_\mathbf{k}$ around the $z$ axis, to align the $x$ axis with the field projection onto the $xy$ plane, followed by a rotation around the $y$ axis to anti-align with the pseudo-field. The diagonalization operators are given by
+\[
+	\hat\Phi_\mathbf{k} \equiv W_\mathbf{k} \hat\Psi_\mathbf{k}
+\]
+then, using Eq.~\eqref{appeq:finite-temperature-order-parameter-derivation-intermediate}, 
+\[
+	\left\langle [\hat \Psi_{\mathbf{k}\sigma}^\dagger]_i [\hat \Psi_{\mathbf{k}\sigma}]_j \right\rangle = [W_{\mathbf{k}\sigma}]_{1 i} [W_{\mathbf{k}\sigma}^\dagger]_{j 1} f\left( -E_{\mathbf{k}\sigma}; \beta,\mu \right) + [W_{\mathbf{k}\sigma}]_{2 i} [W_{\mathbf{k}\sigma}^\dagger]_{j 2} f\left( E_{\mathbf{k}\sigma}; \beta,\mu \right)
+\]
+Recalling Eq.~\eqref{eq:extended-hubbard-phi-psi-expressions}, it follows
+\begin{align}
+	\langle \phi_\mathbf{k} \rangle &= [W_{\mathbf{k}\sigma}]_{12} [W_{\mathbf{k}\sigma}^\dagger]_{11} f\left( -E_{\mathbf{k}\sigma}; \beta,\mu \right) + [W_{\mathbf{k}\sigma}]_{22} [W_{\mathbf{k}\sigma}^\dagger]_{12} f\left( E_{\mathbf{k}\sigma}; \beta,\mu \right) \label{eq:pairing-expectation} \\
+	\langle \phi_\mathbf{k}^\dagger \rangle &= [W_{\mathbf{k}\sigma}]_{11} [W_{\mathbf{k}\sigma}^\dagger]_{21} f\left( -E_{\mathbf{k}\sigma}; \beta,\mu \right) + [W_{\mathbf{k}\sigma}]_{21} [W_{\mathbf{k}\sigma}^\dagger]_{22} f\left( E_{\mathbf{k}\sigma}; \beta,\mu \right) \label{eq:pairing-dagger-expectation}
+\end{align}
+These equations give us the formulas to compute the order parameters in the HF approach, directly by their definitions of Eqns.~\eqref{eq:gap-function-definition}, \eqref{eq:sgap-function-definition}. At each point in $k$-space $(k_x,k_y)$, the matrix $h_\mathbf{k}$ is diagonalized and the diagonalizer entries $[W_\mathbf{k}]_{ij}$ are combined in this fashion to recover the pairing expectation. By the same means, it's easy to see that the $z$ component of the pseudo-spin is related to the expected density,
+\[
+\begin{aligned}
+	\ev{\hat s_\mathbf{k}^z} &= \langle \hat\Psi_\mathbf{k}^\dagger \tau^z \hat\Psi_\mathbf{k} \rangle \\
+	&= \langle
+		\hat c_{\mathbf{k}\uparrow}^\dagger \hat c_{\mathbf{k}\uparrow}
+	\rangle - \langle
+		c_{-\mathbf{k}\downarrow} c_{-\mathbf{k}\downarrow}^\dagger
+	\rangle \\
+	&= \langle \hat n_\mathbf{k} \rangle
+\end{aligned}
+\]
+and again using Eq.~\eqref{appeq:finite-temperature-order-parameter-derivation-intermediate},
+\[
+	\langle \hat\Psi_\mathbf{k}^\dagger \tau^z \hat\Psi_\mathbf{k} \rangle = \left\langle [\hat \Psi_{\mathbf{k}\sigma}^\dagger]_1 [\hat \Psi_{\mathbf{k}\sigma}]_1 \right\rangle - \left\langle [\hat \Psi_{\mathbf{k}\sigma}^\dagger]_2 [\hat \Psi_{\mathbf{k}\sigma}]_2 \right\rangle
+\]
+then
+\begin{equation}\label{eq:density-expectation}
+\begin{aligned}
+	\langle \hat n_\mathbf{k} \rangle = \left(
+		\abs{[W_{\mathbf{k}\sigma}]_{11}}^2 - \abs{[W_{\mathbf{k}\sigma}]_{12}}^2
+	\right) f\left( -E_{\mathbf{k}\sigma}; \beta,\mu \right)\\
+	+ \left(
+		\abs{[W_{\mathbf{k}\sigma}]_{21}}^2 - \abs{[W_{\mathbf{k}\sigma}]_{22}}^2
+	\right) f\left( E_{\mathbf{k}\sigma}; \beta,\mu \right)
+\end{aligned}
+\end{equation}
+The expectation value for the density is needed in order to extract the optimal chemical potential $\mu$ for the target density we aim to simulate at the given parametrization.
 
 \subsection{Non-local gap structures}
 
@@ -500,7 +583,7 @@ Contributions to $C_\sigma(i,j)$ from $\abs{i-j}>1$ are assumed to be subdominan
 		e^{i \mathbf{k} \cdot \bm{\delta_\ell}} g_{\bm{\delta}_\ell\sigma} + e^{- i \mathbf{k} \cdot \bm{\delta_\ell}} g_{-\bm{\delta}_\ell\sigma}
 	\right]
 \end{equation}
-By using the simple structures of Fig.~\ref{fig:wave-correlators} this expression simplifies a lot. Moreover, considering the terms of Eq.~\eqref{eq:gap-function-definition},
+Here, the simple uniform Ansatz for the $f$ term has been included. By using the simple structures of Fig.~\ref{fig:wave-correlators} for the $g$ function, this expression simplifies a lot. Moreover, considering the terms of Eq.~\eqref{eq:gap-function-definition},
 \begin{multline*}
 	\cos \left( \delta k_x \delta_x \right)	+ \cos \left( \delta k_y \delta_y \right) = \cos \left( k_x \delta_x \right) \cos \left( k_x' \delta_x \right) + \sin \left( k_x \delta_x \right) \sin \left( k_x' \delta_x \right) \\ 
 	+ \cos \left( k_y \delta_y \right) \cos \left( k_y' \delta_y \right) + \sin \left( k_y \delta_y \right) \sin \left( k_y' \delta_y \right)
@@ -531,12 +614,13 @@ Since sums on $\mathbf{k}$, $\mathbf{k}'$ are carried out, based on the specific
 	\begin{tabular}{r E l l}
 		\textbf{Structure} & \multicolumn{2}{c}{\textbf{Gap function}} & \textbf{Graph} \\
 		\midrule
-		Extended $s$-wave & $\Delta_{\mathbf{k}\sigma}^{(s)}$ & $\Delta^{(s)} \left[
+		$s$-wave & $\Sigma_\mathbf{k}$ & $\Sigma^{(s)}$ & Fig.~\ref{subfig:s-wave-correlator} \\
+		Extended $s$-wave & $\Delta_\mathbf{k}^{(s)}$ & $\Delta^{(s)} \left[
 			\cos(k_x) + \cos(k_y)
 		\right]$ & Fig.~\ref{subfig:s*-wave-correlator} \\
-		$p_x$-wave & $\Delta_{\mathbf{k}\sigma}^{(p_x)}$ & $ i\Delta^{(p_x)} \sin(k_x) $ & Fig.~\ref{subfig:px-wave-correlator} \\
-		$p_y$-wave & $\Delta_{\mathbf{k}\sigma}^{(p_y)}$ & $ i\Delta^{(p_y)} \sin(k_y) $ & Fig.~\ref{subfig:py-wave-correlator} \\
-		$d_{x^2-y^2}$-wave & $\Delta_{\mathbf{k}\sigma}^{(d)}$ & $\Delta^{(d)} \left[
+		$p_x$-wave & $\Delta_\mathbf{k}^{(p_x)}$ & $ i\Delta^{(p_x)} \sin(k_x) $ & Fig.~\ref{subfig:px-wave-correlator} \\
+		$p_y$-wave & $\Delta_\mathbf{k}^{(p_y)}$ & $ i\Delta^{(p_y)} \sin(k_y) $ & Fig.~\ref{subfig:py-wave-correlator} \\
+		$d_{x^2-y^2}$-wave & $\Delta_\mathbf{k}^{(d)}$ & $\Delta^{(d)} \left[
 			\cos(k_x) - \cos(k_y)
 		\right]$ & Fig.~\ref{subfig:d-wave-correlator}
 	\end{tabular}
@@ -546,19 +630,24 @@ Since sums on $\mathbf{k}$, $\mathbf{k}'$ are carried out, based on the specific
 
 \subsubsection*{Extended $s$-wave gap structure}\label{subsubsec:swave-gap-structure}
 
-{\color{tabred}Fix from here...}
-
-The standard $s$-wave structure of the gap function in BCS theory is given by the local interaction. Consider its NN extension of Fig.~\ref{subfig:s*-wave-correlator}, we will refer to also as ``$s^*$-wave''. It is completely symmetric under rotations and inversions, thus it couples trivially to the symmetric part of the decoupling \eqref{eq:sym-asym-couplings-gap}. Eq.~\eqref{eq:correlation-fourier} becomes:
+The standard $s$-wave structure of the gap function in BCS theory is given by the local interaction of Fig.~\ref{subfig:s-wave-correlator}. Consider also its NN extension of Fig.~\ref{subfig:s*-wave-correlator}, we will refer to also as ``$s^*$-wave''. It is completely symmetric under rotations and inversions, thus it couples trivially to the symmetric part of the decoupling \eqref{eq:sym-asym-couplings-gap}. Eq.~\eqref{eq:correlation-fourier} becomes:
 \[
 	\langle 
 	\hat c_{\mathbf{k}\sigma}^\dagger \hat c_{-\mathbf{k} \overline{\sigma}}^\dagger
-	\rangle = 2g^{(s)} (c_x + c_y)
+	\rangle = f^{(s)} + 2g^{(s)} (c_x + c_y)
 \]
 Performing the computation of Eq.~\eqref{eq:gap-function-definition} within this approximation, we get:
 \[
-	\Delta_{\mathbf{k}\sigma}^{(s)} = 2g^{(s)}V \sum_{\mathbf{k}'} (c_x c_x' + c_y c_y') (c_x' + c_y')
+\begin{aligned}
+	\Delta_\mathbf{k}^{(s)} &= V \sum_{\mathbf{k}'} (c_x c_x' + c_y c_y') \left[
+		f^{(s)} + 2g^{(s)}(c_x' + c_y')
+	\right] \\
+	\Sigma_\mathbf{k}^{(s)} &= U \sum_{\mathbf{k}'} \left[
+		f^{(s)} + 2g^{(s)}(c_x' + c_y')
+	\right]
+\end{aligned}
 \]
-Take a continuum approximation,
+Evidently $\sum_{\mathbf{k}'} c_\ell' = 0$. Take a continuum approximation,
 \[
 \begin{aligned}
 	\frac{1}{L_x L _y}\sum_{\mathbf{k}'} c_\ell (c_\ell')^2 &\simeq c_\ell \int_{-\pi}^\pi \frac{ds}{2\pi} \cos^2 s = \frac{c_\ell}{2} \\
@@ -567,9 +656,11 @@ Take a continuum approximation,
 \]
 It follows:
 \begin{equation}\label{eq:swave-gap}
-	\Delta_{\mathbf{k}\sigma}^{(s)} = \Delta^{(s)} (c_x + c_y)
+	\Delta_\mathbf{k}^{(s)} = \Delta^{(s)} (c_x + c_y)
+	\qquad
+	\Sigma_\mathbf{k}^{(s)} = \Sigma^{(s)}
 \end{equation}
-where $\Delta^{(s)} \equiv L_x L_y V g^{(s)}$. The quantity $\Delta^{(s)}$ is the order parameter in our HF scheme.
+where $\Delta^{(s)} \equiv L_x L_y V g^{(s)}$ and $\Sigma^{(s)} \equiv L_x L_y V f^{(s)}$. The quantity $\Delta^{(s)}$ is the order parameter in our HF scheme.
 
 \subsubsection{$p_\ell$-wave gap structure}
 
@@ -581,11 +672,11 @@ Take $\ell \in \lbrace x,y \rbrace$ and consider the $p_\ell$-wave correlation i
 \]
 and then from Eq.~\eqref{eq:gap-function-definition}
 \[
-	\Delta_{\mathbf{k}\sigma}^{(p_\ell)} = 2i g^{(p_\ell)} V \sum_{\mathbf{k}'} (s_x s_x' + s_y s_y') s_\ell'
+	\Delta_\mathbf{k}^{(p_\ell)} = 2i g^{(p_\ell)} V \sum_{\mathbf{k}'} (s_x s_x' + s_y s_y') s_\ell'
 \]
 Using identical reasoning as above,
 \[
-	\Delta_{\mathbf{k}\sigma}^{(p_\ell)} = i \Delta^{(p_\ell)} s_\ell
+	\Delta_\mathbf{k}^{(p_\ell)} = i \Delta^{(p_\ell)} s_\ell
 \]
 where $\Delta^{(p_\ell)} \equiv L_x L_y V g^{(p_\ell)}$.
 
@@ -599,6 +690,22 @@ Consider a $d_{x^2 - y^2}$-wave structured gap function as in Fig.~\ref{subfig:d
 \]
 Then the $d$-wave gap has the structure
 \begin{equation}\label{eq:dwave-gap}
-	\Delta_{\mathbf{k}\sigma}^{(d)} = \Delta^{(d)} (c_x - c_y)
+	\Delta_\mathbf{k}^{(d)} = \Delta^{(d)} (c_x - c_y)
 \end{equation}
 where $\Delta^{(d)} \equiv L_x L_y V g^{(d)}$. Subscript $x^2 - y^2$ has been omitted for reasons of clarity.
+
+\subsection{Algorithmic reconstruction of the gap topology}
+
+Proceeding as in Sec.~\ref{subsec:nambu-formalism-mean-field-extended-hubbard}, at each step we are able to recover $\Sigma_\mathbf{k}$ and $\Delta_\mathbf{k}$. Indeed, simply diagonalizing $h_\mathbf{k}$ and using Eq.~\eqref{eq:pairing-dagger-expectation} we recover $\langle \hat \phi_\mathbf{k} \rangle$; then, by reconstruction, we use Eqns.~\eqref{eq:gap-function-definition} and \eqref{eq:sgap-function-definition} to get $\Sigma_\mathbf{k}$ and $\Delta_\mathbf{k}$. Last step is to distinguish different topologies. From Tab.~\ref{tab:wave-gaps}, we see
+\[
+	\Gamma_\mathbf{k} = \Gamma^{(\ell)} f_\ell (\mathbf{k})
+	\qquad
+	\Gamma = \Sigma, \Delta
+	\qquad
+	\ell = s,p_x,p_y,d_{x^2-y^2}
+\]
+being $f_\ell(\mathbf{k})$ the structure factor at topology $\ell$. Evidently,
+\[
+	\frac{1}{L_x L_y} \sum_{\mathbf{k} \in \mathrm{BZ}} \Gamma_\mathbf{k} f_{\ell'} (\mathbf{k}) \simeq \int_\mathrm{BZ} \frac{d\mathbf{k}}{(2\pi)^2} \Gamma_\mathbf{k} f_{\ell'} (\mathbf{k}) = \Gamma^{(\ell)} \delta_{\ell\ell'}
+\]
+thus, in order to recover $\Gamma^{\ell}$ for a generic $\ell$, using wave decomposition orthogonality rules it suffices to multiply the measured $\Gamma_\mathbf{k}$ by the appropriate structure factor, sum over the BZ and finally divide by the lattice volume.

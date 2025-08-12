@@ -99,7 +99,10 @@ function GetQuasiParticlesEnergies(
 
 Returns:
 
-`GetQuasiParticlesEnergies` takes as input
+`GetQuasiParticlesEnergies` takes as input `Kx` (k-points in the x direction) ,
+`Ky` (k-points in the y direction), `t` (hopping amplitude), `m0` 
+(magnetization), `μ0` (chemical potential). It computes a matrix of energies
+for quasiparticles at all wavevectors in MBZ.
 """
 function GetQuasiParticlesEnergies(
     Kx::Vector{Float64},        # BZ x grid

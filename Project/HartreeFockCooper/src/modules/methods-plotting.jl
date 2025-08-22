@@ -1,12 +1,12 @@
 #!/usr/bin/julia
 using DelimitedFiles
 
-function PlotUm(
+function PlotUΔ(
     FilePathIn::String,
     DirPathOut::String
 )
 
-    DirPathOut *= "uM-Setup=$(Setup)/"
+    DirPathOut *= "UΔ-Setup=$(Setup)/"
     mkpath(DirPathOut)
 
     DataIn = true
@@ -15,30 +15,31 @@ function PlotUm(
     end
 
     UU = unique(DataIn[:,1])
+    VV = unique(DataIn[:,2])
     LL = unique(Int64.(DataIn[:,3]))
     ββ = unique(DataIn[:,4])
     δδ = unique(DataIn[:,5])
 
     # Cycler
-    for (b,β) in enumerate(ββ), (l,L) in enumerate(LL)
-        printstyled("\e[2K\e[1GPlotting HF mU data for β=$β", color=:yellow)
-        FilePathOut = DirPathOut * "/L=$(L)_β=$(β).pdf"
+    for (v,V) in enumerate(VV), (b,β) in enumerate(ββ), (l,L) in enumerate(LL)
+        printstyled("\e[2K\e[1GPlotting HF d-wave data for β=$β", color=:yellow)
+        FilePathOut = DirPathOut * "/V=$(V)_L=$(L)_β=$(β).pdf"
         P = plot(
             size = (600,400),
             xlabel = L"$U/t$",
-            ylabel = L"$m$",
+            ylabel = L"$\Delta^{(d)}$",
             ylims = (0.0,0.5),
             legend = :topleft
         )
         if β==Inf
-            title!(L"Magnetization ($L=%$(L), \beta=\infty$)")
+            title!(L"d-wave order parameter ($V=%$(V), L=%$(L), \beta=\infty$)")
         elseif β<Inf
-            title!(L"Magnetization ($L=%$(L), \beta=%$(β)$)")
+            title!(L"d-wave order parameter ($V=%$(V), L=%$(L), \beta=%$(β)$)")
         end
         for (d,δ) in enumerate(δδ)
             
-            Selections = (DataIn[:,3] .== L) .* (DataIn[:,4] .== β) .* 
-                (DataIn[:,5] .== δ) # Logical intersection
+            Selections = (DataIn[:,2] .== V) .* (DataIn[:,3] .== L) .* 
+            	(DataIn[:,4] .== β) .* (DataIn[:,5] .== δ) # Logical intersection
             UU = DataIn[Selections,1]
             (mm, QQ, ΔTΔT) = [DataIn[Selections,i] for i in 6:8]
 
@@ -59,12 +60,12 @@ function PlotUm(
 
 end
 
-function Plotδm(
+function PlotδΔ(
     FilePathIn::String,
     DirPathOut::String
 )
 
-    DirPathOut *= "δM-Setup=$(Setup)/"
+    DirPathOut *= "δΔ-Setup=$(Setup)/"
     mkpath(DirPathOut)
 
     DataIn = true
@@ -73,6 +74,7 @@ function Plotδm(
     end
 
     UU = unique(DataIn[:,1])
+    VV = unique(DataIn[:,2])
     LL = unique(Int64.(DataIn[:,3]))
     ββ = unique(DataIn[:,4])
     δδ = unique(DataIn[:,5])
@@ -80,20 +82,20 @@ function Plotδm(
     UU = UU[end-6:2:end]
 
     # Cycler
-    for (b,β) in enumerate(ββ), (l,L) in enumerate(LL)
-        printstyled("\e[2K\e[1GPlotting HF δM data for β=$β", color=:yellow)
-        FilePathOut = DirPathOut * "/L=$(L)_β=$(β).pdf"
+    for (v,V) in enumerate(VV), (b,β) in enumerate(ββ), (l,L) in enumerate(LL)
+        printstyled("\e[2K\e[1GPlotting HF δΔ data for β=$β", color=:yellow)
+        FilePathOut = DirPathOut * "/V=$(V)_L=$(L)_β=$(β).pdf"
         P = plot(
             size = (600,400),
             xlabel = L"$\delta \vphantom{U/t}$",
-            ylabel = L"$m$",
+            ylabel = L"$\Delta^{(d)}$",
             ylims = (0.0,0.5),
             legend = :bottomleft
         )
         if β==Inf
-            title!(L"Magnetization ($L=%$(L), \beta=\infty$)")
+            title!(L"d-wave order parameter ($V=%$(V), L=%$(L), \beta=\infty$)")
         elseif β<Inf
-            title!(L"Magnetization ($L=%$(L), \beta=%$(β)$)")
+            title!(L"d-wave order parameter ($V=%$(V), L=%$(L), \beta=%$(β)$)")
         end
         for (u,U) in enumerate(UU)
             

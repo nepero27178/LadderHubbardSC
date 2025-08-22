@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.6.18)  12 AUG 2025 19:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.6.18)  20 AUG 2025 19:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1640,7 +1640,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.19 \restoregeometry
+l.20 \restoregeometry
                       [2]) (./misc/introduction.tex)
 (./chapters/theoretical-introduction/theoretical-introduction.tex [1
 
@@ -1673,69 +1673,71 @@ nput line 15.
 [3]
 
 LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 4 undefined on i
-nput line 56.
+nput line 62.
 
 (./chapters/theoretical-introduction/pictures/square-nearest-neighbors.tex)
 [4]
 
 LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 5 undefined on i
-nput line 148.
+nput line 161.
 
 [5]
 
 LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 6 undefined on i
-nput line 203.
+nput line 216.
 
 (./chapters/theoretical-introduction/pictures/s-wave-correlator.tex)
 (./chapters/theoretical-introduction/pictures/s*-wave-correlator.tex)
 (./chapters/theoretical-introduction/pictures/px-wave-correlator.tex)
 (./chapters/theoretical-introduction/pictures/py-wave-correlator.tex)
 (./chapters/theoretical-introduction/pictures/d-wave-correlator.tex) [6]
+[7]
 
-LaTeX Warning: Reference `app:mean-field-hubbard' on page 7 undefined on input 
-line 298.
+LaTeX Warning: Reference `app:mean-field-hubbard' on page 8 undefined on input 
+line 311.
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [7]
 [8]
 
 LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 9 undefined on i
-nput line 449.
-
-
-LaTeX Warning: Reference `appeq:hubbard-bogoliubov-hamiltonian-pseudofields' on
- page 9 undefined on input line 484.
+nput line 479.
 
 [9]
 
 LaTeX Warning: Reference `app:mean-field-hubbard' on page 10 undefined on input
- line 495.
+ line 511.
 
 
-LaTeX Warning: Reference `appeq:finite-temperature-order-parameter-derivation-i
-ntermediate' on page 10 undefined on input line 529.
+LaTeX Warning: Reference `appeq:hubbard-bogoliubov-hamiltonian-pseudofields' on
+ page 10 undefined on input line 531.
 
 
-LaTeX Warning: Reference `appeq:finite-temperature-order-parameter-derivation-i
-ntermediate' on page 10 undefined on input line 550.
+LaTeX Warning: Reference `app:mean-field-hubbard' on page 10 undefined on input
+ line 541.
 
 [10]
 
-LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 11 undefined on 
-input line 578.
+LaTeX Warning: Reference `appeq:finite-temperature-order-parameter-derivation-i
+ntermediate' on page 11 undefined on input line 573.
 
-[11]) [12] [13] [14
 
-]
+LaTeX Warning: Reference `appeq:finite-temperature-order-parameter-derivation-i
+ntermediate' on page 11 undefined on input line 583.
+
+[11]
+
+LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 12 undefined on 
+input line 651.
+
+[12] [13]) [14]
 Overfull \hbox (5.7575pt too wide) in paragraph at lines 56--56
 \OT1/cmtt/m/n/10 48550 / arXiv . 2408 . 01113$[][]\OT1/cmr/m/n/10 . \OT1/cmr/m/
 sc/10 url\OT1/cmr/m/n/10 : [][]$\OT1/cmtt/m/n/10 http : / / arxiv . org / abs /
  2408 . 01113$[][] \OT1/cmr/m/n/10 (vis-ited on 03/15/2025). 
  []
 
-[15]
+[15
+
+]
 \tf@toc=\write8
 \openout8 = `main.toc'.
 
@@ -1744,7 +1746,7 @@ sc/10 url\OT1/cmr/m/n/10 : [][]$\OT1/cmtt/m/n/10 http : / / arxiv . org / abs /
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: B182BE6CD113DF2C8D1649CBDFC2D54E;3368.
+(rerunfilecheck)             Checksum: 4EA691A3A0C9871896CE608006C3FD8E;3524.
 
 Package biblatex Warning: Please (re)run Biber on the file:
 (biblatex)                main
@@ -1755,13 +1757,13 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 49350 strings out of 478287
- 1115165 string characters out of 5849289
- 2005985 words of memory out of 5000000
- 66740 multiletter control sequences out of 15000+600000
+ 49359 strings out of 478287
+ 1115428 string characters out of 5849289
+ 2004170 words of memory out of 5000000
+ 66745 multiletter control sequences out of 15000+600000
  487243 words of font info for 93 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,15n,93p,2046b,1330s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 90i,15n,93p,2046b,1332s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dis
@@ -1793,10 +1795,10 @@ ype1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
 ublic/amsfonts/symbols/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super
 /sfrm0600.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/
 share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on main.pdf (17 pages, 412996 bytes).
+Output written on main.pdf (17 pages, 419762 bytes).
 PDF statistics:
- 488 PDF objects out of 1000 (max. 8388607)
- 377 compressed objects within 4 object streams
- 77 named destinations out of 1000 (max. 500000)
- 225 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 503 PDF objects out of 1000 (max. 8388607)
+ 392 compressed objects within 4 object streams
+ 81 named destinations out of 1000 (max. 500000)
+ 233 words of extra memory for PDF output out of 10000 (max. 10000000)
 

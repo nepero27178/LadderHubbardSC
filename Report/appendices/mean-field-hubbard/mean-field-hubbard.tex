@@ -273,17 +273,17 @@ Eigenvalues are:
 \]
 (superscript ``$(0)$'' has been dropped momentarily). Notice that the presence of an absolute value makes the eigenvalues independent of the $\sigma$ index. Eigenvector fermion operators are obtained simply as:
 \[
-	\hat \Phi_{\mathbf{k}\sigma} = W_{\mathbf{k}\sigma} \hat \Psi_{\mathbf{k}\sigma}
+	\hat\Gamma_{\mathbf{k}\sigma} = W_{\mathbf{k}\sigma} \hat \Psi_{\mathbf{k}\sigma}
 \]
-The $\hat \Phi$ spinor operators are effectively free fermionic spinor fields and as such must be treated. Note that:
+The $\hat\Gamma$ spinor operators are effectively free fermionic spinor fields and as such must be treated. Note that:
 \begin{align}
 	N &= \sum_{\mathbf{k}\sigma} \ev{\hat n_{\mathbf{k}\sigma}} \nonumber \\
 	&= \sum_\sigma \sum_{\mathbf{k} \in \mathrm{MBZ}} \left\langle
 		\hat n_{\mathbf{k}\sigma} + \hat n_{\mathbf{k}+\bm{\pi}\sigma}
 	\right\rangle \nonumber \\
 	&= \sum_\sigma \sum_{\mathbf{k} \in \mathrm{MBZ}} \left\langle
-		\hat \Phi_{\mathbf{k}\sigma}^\dagger
-		\hat \Phi_{\mathbf{k}\sigma}
+		\hat\Gamma_{\mathbf{k}\sigma}^\dagger
+		\hat\Gamma_{\mathbf{k}\sigma}
 	\right\rangle \nonumber \\
 	&= 2 \left[
 		f\left(-E_{\mathbf{k}\sigma}; \beta,\mu \right) + f \left( E_{\mathbf{k}\sigma}; \beta,\mu \right)
@@ -372,7 +372,7 @@ In last section, the relevant indices $(i,j)$ were $(1,2)$ and $(2,1)$. Transfor
 \begin{align}
 	\Delta_{ij} (\mathbf{k}\sigma) &= \sum_{i'j'} \left\langle
 		[
-			\hat \Phi_{\mathbf{k}\sigma}^\dagger
+			\hat\Gamma_{\mathbf{k}\sigma}^\dagger
 		]_{i'} 
 		[
 			W_{\mathbf{k}\sigma}
@@ -380,7 +380,7 @@ In last section, the relevant indices $(i,j)$ were $(1,2)$ and $(2,1)$. Transfor
 			W_{\mathbf{k}\sigma}^\dagger
 		]_{jj'}
 		[
-			\hat \Phi_{\mathbf{k}\sigma}
+			\hat\Gamma_{\mathbf{k}\sigma}
 		]_{j'}
 	\right\rangle \nonumber \\
 	&= 
@@ -391,10 +391,10 @@ In last section, the relevant indices $(i,j)$ were $(1,2)$ and $(2,1)$. Transfor
 	]_{jj'}
 	\left\langle
 		[
-			\hat \Phi_{\mathbf{k}\sigma}^\dagger
+			\hat\Gamma_{\mathbf{k}\sigma}^\dagger
 		]_{i'} 
 		[
-			\hat \Phi_{\mathbf{k}\sigma}
+			\hat\Gamma_{\mathbf{k}\sigma}
 		]_{j'}
 	\right\rangle \nonumber \\
 	&= 
@@ -466,7 +466,7 @@ The above sections offers a self-consistency equation for the magnetization $m$;
 		\item the tolerance parameters $\Delta_m, \Delta_n \in \mathbb{R}$ (respectively for magnetization and density);
 	\end{itemize}
 	\item {\color{tabred}
-		Select a rreater than tildeandom starting value $m_0 \in [-(1-n),1-n]$
+		Select a random starting value $m_0 \in [-(1-n),1-n]$
 	};
 	\item For each slot of the $\mathrm{BZ}$, initialize the appropriate $2\times2$ matrix $h_{\mathbf{k}\uparrow}$ as in Eq.~\eqref{appeq:hubbard-bogoliubov-hamiltonian};
 	\item For the given hamiltonian, find the optimal chemical potential $\mu$ as follows:

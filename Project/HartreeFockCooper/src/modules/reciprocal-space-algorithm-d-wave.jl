@@ -16,13 +16,13 @@ hopping energy for the 2D monatomic regular square lattice.
 function GetHoppingEnergy(
     k::Vector{Float64},					# [kx, ky]
 )::Float64
-    return -2 * ( cos(k[1]) + cos(k[2]) )
+    return -2 * sum( cos.(k) )
 end
 
 @doc raw"""
 function GetHamiltonian(
     k::Vector{Float64},
-    m::Vector{Float64}
+    Δ::Float64
 )::Matrix{Float64}
 
 Returns: the 2×2 Nambu-Bogoliubov hamiltonian at wavevector (`k[1]`, `k[2]`).
@@ -37,8 +37,8 @@ function GetHamiltonian(
 	Δ::Float64							# HF parameter
 )::Matrix{Float64}
 
-    hk = zeros(Float64,2,2)    # Empty hamiltonian
-	Δk 	= Δ * sum( cos.(k) .* [1,-1] )
+    hk = zeros(Float64,2,2)
+	Δk 	= Δ * sum( cos.(k) .* [1,-1] )	# d-wave
 
     # Diagonal elements
     εk = GetHoppingEnergy(k)
@@ -121,11 +121,12 @@ function GetSingleStatePopulation(
         	@info "FermiDirac" E FermiDirac.(E,μ,β)
         end
         
-        V = ( abs(W[1,2])^2 - abs(W[1,1])^2 ) * tanh( β*E[2]/2 )
+        Tmp = 0.0 # Escape
+        V = ( abs(W[1,1])^2 - abs(W[1,2])^2 ) * tanh( β*E[2]/2 )
         if E[2]==0.0 && β==Inf
-        	Tmp = 0.0	# Escape
+        	V = Tmp # Escape
         end
-        Nk[i] = 1 - V
+        Nk[i] = 1 + V
     end
 
     return Nk
@@ -227,7 +228,7 @@ function PerformHFStep(
     n::Float64,                 		# Density
     β::Float64;                 		# Inverse temperature
     debug::Bool=false
-)::Float64
+)#::Float64
 
 	ϕ = zeros(Float64, size(K))
 	m = m0
@@ -237,7 +238,7 @@ function PerformHFStep(
     for (i,k) in enumerate(K)
         hk = GetHamiltonian(k,m0)
         hk[1,1] -= μ # Include chemical potential
-        hk[2,2] += μ # Include chemical potential
+        hk[2,2] += μ # Include chemical potential    
         F = eigen(hk)
         W = F.vectors
         Wd = W'
@@ -245,15 +246,24 @@ function PerformHFStep(
         	ϕ[i] += sum( [W[l,1] * Wd[2,l] * FermiDirac(E[l],0.0,β) for l in 1:2] )
     end
 
+#    for (i,k) in enumerate(K)
+#        ek = GetHoppingEnergy(k)
+#        xk = ek - μ
+#        dk = m0 * sum( cos.(k) .* [1,-1] )
+#        Ek = sqrt(xk^2 + dk^2)
+#        
+#        if Ek!==0.0
+#		    s2 = dk/Ek
+#		    c2 = xk/Ek
+#		    	ϕ[i] = s2/2 * tanh(β*Ek/2)
+#		elseif Ek==0.0
+#			ϕ[i] = 0.0
+#		end
+#    end
+    
   	# Structure factors
-    fs(k::Vector{Float64}) = sum( cos.(k) )				# s*-wave
     fd(k::Vector{Float64}) = sum( cos.(k) .* [1,-1] )	# d-wave  
-    Δk = zeros(Float64, size(K))
-	for (i,k) in enumerate(K)
-		Δk[i] = sum( fs.([k] .- K) .* ϕ )
-	end
-    Δk *= 2 * V / LxLy  
-    m = sum(Δk .* fd.(K)) / LxLy						# d-wave
+    m = sum(fd.(K) .* ϕ) * 2*V / LxLy
 
     return m
 end

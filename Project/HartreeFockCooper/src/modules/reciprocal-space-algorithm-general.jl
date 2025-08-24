@@ -285,6 +285,7 @@ function PerformHFStep(
         hk = GetHamiltonian(k,m0)
         hk[1,1] -= μ # Include chemical potential
         hk[2,2] += μ # Include chemical potential
+        
         F = eigen(hk)
         W = F.vectors
         Wd = adjoint(W)
@@ -292,7 +293,11 @@ function PerformHFStep(
         	ϕ[i] += sum( [W[l,1] * Wd[2,l] * FermiDirac(E[l],0.0,β) for l in 1:2] )
     end
     
-    display( ϕ )
+    HardDebug = false
+    if HardDebug
+		@info "ϕ"
+	    display(ϕ)
+	end
     
   	# Structure factors
     fs(k::Vector{Float64}) = sum( cos.(k) )				# s*-wave

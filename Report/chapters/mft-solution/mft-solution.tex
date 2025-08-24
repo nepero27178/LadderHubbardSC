@@ -1,0 +1,805 @@
+\chapter{Mean-field theory solution}\label{chap:mft-solution}
+
+This chapter is devoted to develop a rough mean field approximation of the Extended Hubbard model of Eq.~\eqref{eq:extended-hubbard-model},
+\[
+	\hat H =
+	\underbrace{
+		-t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	}_{\hat H_t} + \underbrace{
+		U \sum_i \hat n_{i\uparrow} \hat n_{i\downarrow}
+	}_{\hat H_U}
+	- \underbrace{
+		V \sum_{\langle ij \rangle} \sum_{\sigma \sigma'} \hat n_{i\sigma} \hat n_{j\sigma'}
+	}_{- \hat H_V}
+\]
+Mean Field Theory (MFT) is a widely used and simple theoretical tool, often sufficient to describe the leading orders in phase transition phenomena of Many-Body Physics. Here MFT is employed following the path of Bardeen-Cooper-Schrieffer (BCS) theory in describing conventional $s$-wave superconductivity. As will be thoroughly described, the lattice spatial structure directly influences the topology of the gap function, giving rise to anisotropic pairing. Sec.~\ref{sec:mft-solution-real-space} studies the non-local attraction in real-space, while Sec.~\ref{sec:mft-solution-reciprocal-space} moves to reciprocal space and gives a self-consistent MFT solution. Finally, numerical results are exposed in Sec.~\ref{sec:mft-solution-hf-results}.
+
+\section{Mean-Field theory real space description}\label{sec:mft-solution-real-space}
+
+In this section, an analytic discussion of the real-space hamiltonian of Eq.~\eqref{eq:extended-hubbard-model} is given. The first part focuses on the non-local interaction $V$, expected to be source of superconductivity; the second part on the local interaction $U$, known to be source of Slater-like anti-ferromagnetism, as described in App.~\ref{appendix:mean-field-hubbard}.
+
+\subsection{Mean-field treatment of the non-local term}
+
+\begin{figure}
+	\centering
+	\input{chapters/mft-solution/pictures/square-nearest-neighbors}
+	\caption{Schematic representation of the four NNs of a given site $i$ for a planar square lattice.}
+	\label{fig:square-nearest-neighbors}
+\end{figure}
+
+Consider the non-local term,
+\begin{equation}\label{eq:extended-hubbard-nonlocal-interaction}
+	\hat H_V \equiv - V \sum_{\langle ij \rangle} \sum_{\sigma \sigma'} \hat n_{i\sigma} \hat n_{j\sigma'}
+\end{equation}
+Evidently the hamiltonian can be decomposed in various spin terms,
+\[
+\begin{aligned}
+	\hat H_V &= \sum_{\sigma \sigma'} \hat H_V^{\sigma\sigma'} \\
+	&= \underbrace{
+		\hat H_V^{\uparrow\uparrow} + \hat H_V^{\downarrow\downarrow}
+	}_\text{Ferromagnetic} + \underbrace{
+		\hat H_V^{\uparrow\downarrow} + \hat H_V^{\downarrow\uparrow}
+	}_\text{Anti-ferromagnetic}
+\end{aligned}
+\]
+Evidently, to carry out a summation over nearest neighbors $\ev{ij}$ of a square lattice means precisely to sum over all links of the lattice. Then we can identify the generic AF term $\hat H_V^{\sigma \overline{\sigma}}$ as the one collecting the $\sigma$ operators of sublattice $\mathcal{S}_a$ and $\overline{\sigma}$ operators of sublattice $\mathcal{S}_b$. At half-filling, as described in Sec.~\ref{sec:antiferromagnetic-ordering-hubbard}, the ground-state leading contribution will be the antiferromagnetic state, with the square lattice decomposed in two oppositely polarized square lattices with spacing increased by a factor $\sqrt{2}$. Then, it is to be expected that on this configuration the ferromagnetic contributions are suppressed\footnote{
+	This is also due to superexchange stabilization: the triplet contribution to hamiltonian is suppressed, and this cancels out the ferromagnetic terms $\hat H_V^{\sigma\sigma}$ while privileging the singlet configuration of the anti-ferromagnetic terms $\hat H_V^{\sigma\overline{\sigma}}$.
+}. Anyways, the calculation will be carried out considering both terms.
+The AF non-local interactions can be written as a sum of terms over just one of the two sublattices $\mathcal{S}_a$ and $\mathcal{S}_b$, oppositely polarized in the AF configuration (see Fig.~\ref{subfig:antiferromagnet-sublattices})
+\[
+	\begin{aligned}
+		\hat H_V^{(\mathrm{AF})} &= \overbrace{
+			\sum_{i \in \mathcal{S}_a} \hat h_V^{(i)}
+		}^{\hat H_V^{\uparrow\downarrow}} + \overbrace{
+			\sum_{i \in \mathcal{S}_b} \hat h_V^{(i)}
+		}^{\hat H_V^{\downarrow\uparrow}} \\
+		&= \sum_{i \in \mathcal{S}} \hat h_V^{(i)}
+	\end{aligned}
+	\hspace{0.1\textwidth}
+	\hat h_V^{(i)} = -V \sum_{\ell = x,y} \left(
+		\hat n_{i\uparrow} \hat n_{i+\delta_\ell \downarrow} + \hat n_{i\uparrow} \hat n_{i-\delta_\ell \downarrow} 
+	\right) 
+\]
+Here the notation of Fig.~\ref{subfig:antiferromagnet-sublattices} is used. The two-dimensional lattice is regular-square. For each site $i$ in a given sublattice, the nearest neighbors sites are four -- all in the other sublattice. The notation used is $i \pm \delta_x$, $i \pm  \delta_y$ as in Fig.~\ref{fig:square-nearest-neighbors}. Similarly, the Ferromagnetic hamiltonian decomposes as
+\[
+	\hat H_V^{(\mathrm{F})} = -V \sum_{i \in \mathcal{S}_a} \sum_{\ell = x,y} \sum_\sigma \left(
+		\hat n_{i\sigma} \hat n_{i + \delta_\ell \sigma} + \hat n_{i\sigma} \hat n_{i - \delta_\ell \sigma} 
+	\right) 
+\]
+Note here the summation only on one sublattice. As will be shown in Sec.~\ref{subsec:mft-self-consitency-cooper-decomposition}, under MFT it makes sense to approximate
+\[
+	\hat H_V \simeq \hat{H}_V^{(\mathrm{AF})}
+\]
+thus neglecting ferromagnetic contribution to Cooper instability. The non-local interaction contribution to energy, as a function of the $T=0$ full hamiltonian ground-state\footnote{
+	Extensions to finite temperatures is simple: minimization must be carried out on free energy, while expectation values must be taken in a thermodynamic fashion.
+} $\ket{\Psi}$, is given by
+\[
+\begin{aligned}
+	E_V [\Psi] &= \mel{\Psi}{\hat H_V}{\Psi} \\
+	&= -V \sum_{i \in \mathcal{S}} \sum_{\ell = x,y} \langle
+	\hat n_{i\uparrow} \hat n_{i + \delta_\ell \downarrow} + \hat n_{i\uparrow} \hat n_{i - \delta_\ell \downarrow}
+	\rangle 
+\end{aligned}
+\]
+Shorthand notation has been used: $\mel{\Psi}{\cdot}{\Psi} = \langle \cdot \rangle$. Consider one specific term, say, $\hat n_{i\uparrow} \hat n_{i + \delta_x \downarrow}$. Wick's Theorem states that, if the expectation value is performed onto a coherent state,
+\[
+\begin{aligned}
+	\langle 
+		\hat n_{i\uparrow} \hat n_{i + \delta_x \downarrow}
+	\rangle &= \langle 
+		\hat c_{i\uparrow}^\dagger \hat c_{i + \delta_x \downarrow}^\dagger \hat c_{i + \delta_x \downarrow} \hat c_{i\uparrow} 
+	\rangle \\
+	&= 
+	\underbrace{
+		\langle 
+			\hat c_{i\uparrow}^\dagger \hat c_{i + \delta_x \downarrow}^\dagger
+		\rangle \langle	
+			\hat c_{i + \delta_x \downarrow} \hat c_{i\uparrow} 
+		\rangle 
+	}_{\text{Cooper}}
+	- 
+	\underbrace{
+		\langle 
+			\hat c_{i\uparrow}^\dagger \hat c_{i + \delta_x \downarrow}
+		\rangle \langle	
+			\hat c_{i + \delta_x \downarrow}^\dagger \hat c_{i\uparrow} 
+		\rangle 
+	}_{\text{Fock}}
+	+ 
+	\underbrace{
+		\langle 
+			\hat c_{i\uparrow}^\dagger \hat c_{i\uparrow}
+		\rangle \langle	
+			\hat c_{i + \delta_x \downarrow}^\dagger \hat c_{i + \delta_x \downarrow} 
+		\rangle
+	}_{\text{Hartree}}
+\end{aligned}
+\]
+As a first approximation, the theorem is assumed to hold (which, in a $\mathrm{BCS}$-like fashion, is equivalent to assuming for the ground-state to be a coherent state). The last two terms account for single-particle interactions with a background field; they are relevant in the Hartree-Fock scheme, being direct-exchange contributions to single particle energies. The first term accounts for non-local electrons pairing, mimicking the Cooper term of $\mathrm{BCS}$ theory. The core assumption, here, is that only one of the HF and Bogoliubov pairings survive. Appendix \ref{appendix:mean-field-hubbard} shows a situation dominated by HF terms. Here, I assume the symmetry to be broken by a Cooper term. Energy then is cast to the form
+\[
+	E_V[\Psi] = -V \sum_{i \in \mathcal{S}} \sum_{\ell = x,y}
+	\left[
+		\langle
+			\hat c_{i\uparrow}^\dagger \hat c_{i + \delta_\ell \downarrow}^\dagger
+		\rangle \langle	
+			\hat c_{i + \delta_\ell \downarrow} \hat c_{i\uparrow} 
+		\rangle + \langle 
+			\hat c_{i\uparrow}^\dagger \hat c_{i - \delta_\ell \downarrow}^\dagger
+		\rangle \langle	
+			\hat c_{i - \delta_\ell \downarrow} \hat c_{i\uparrow} 
+		\rangle
+	\right]
+\]
+
+The ground-state must realize the condition
+\[
+	\fdv{}{\bra{\Psi}} E[\Psi] = 0
+\]
+being $E[\Psi]$ the total energy (made up of the three terms of couplings $t$, $U$ and $V$). {\color{tabred}[Expand derivation?]} The functional derivative must be carried out in a variational fashion including a Lagrange multiplier, the latter accounting for state-norm conservation, as is done normally in deriving the Hartree-Fock approximation for the eigenenergies of the electron liquid \cite{grosso2014solid, giuliani2005quantum}. This approach leads to the conclusion that the (coherent) ground-state of the system must be an eigenstate of the mean-field effective hamiltonian:
+\begin{equation}\label{eq:extended-hubbard-model-effective-intermediate}
+	\begin{aligned}
+		\hat H^{(\mathrm{e})} =
+		&-t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+		+ U \sum_{i \in \mathcal{S}} \hat n_{i\uparrow} \hat n_{i\downarrow} \\
+		&- V \sum_{i \in \mathcal{S}} \sum_{\ell = x,y} \sum_{\delta = \pm \delta_\ell} \left[
+			\langle 
+				\hat c_{i\uparrow}^\dagger \hat c_{i + \delta \downarrow}^\dagger
+			\rangle
+			\hat c_{i + \delta \downarrow} \hat c_{i\uparrow} 
+			+ \mathrm{h}.\mathrm{c}.
+		\right]
+	\end{aligned}
+\end{equation}
+The pairing correlation function is defined across each bond as the pairing expectation
+\[
+	g_{ij} \equiv \langle 
+		\hat c_{i\uparrow}^\dagger \hat c_{j\downarrow}^\dagger
+	\rangle
+\]
+The effective hamiltonian reads:
+\begin{equation}\label{eq:extended-hubbard-model-effective-intermediate-2}
+	\hat H^{(\mathrm{e})} =
+	-t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	+ U \sum_{i \in \mathcal{S}} \hat n_{i\uparrow} \hat n_{i\downarrow}
+	- V \sum_{\langle ij \rangle} \left[
+		g_{ij} \hat c_{j\downarrow} \hat c_{i\uparrow} + g_{ij}^* \hat c_{i\uparrow}^\dagger \hat c_{j\downarrow}^\dagger
+	\right]
+\end{equation}
+As in standard $\mathrm{BCS}$ theory, this hamiltonian -- being quadratic in the electronic operators -- can be diagonalized via a Bogoliubov rotation. Superconducting pairing can arise both from the local $U$ term and from the non-local $V$ term. In next sections it is assumed the $V$ term generates dominant superconductivity via its weak non-local pairing.
+
+\subsection{Mean-field treatment of the local term}
+
+The mean-field description of the local (on-site) $U$ interaction is given in detail in App.~\ref{appendix:mean-field-hubbard}, along with a simple numerical analysis of the insurgence of antiferromagnetic ordering in a Hartree-Fock approximation scheme. Here the Cooper pairing is likewise assumed to dominate. Performing an analysis analogous to the one carried out in last section, we get the decoupling
+\[
+	U \sum_{i \in \mathcal{S}} \hat n_{i\uparrow} \hat n_{i\downarrow} \simeq U \sum_{i\sigma} \left[
+		f_i \hat c_{i\downarrow} \hat c_{i\uparrow} + f_i^* \hat c_{i\uparrow}^\dagger \hat c_{i\downarrow}^\dagger
+	\right]
+\]
+being
+\[
+	f_i \equiv \langle \hat c_{i\uparrow}^\dagger \hat c_{i\downarrow}^\dagger \rangle
+\]
+Collect $f$ and $g$ in the unique function of two variables:
+\[
+	C(i,j) = \begin{cases}
+		f_i &\qq{if} i=j \\
+		g_{ij} &\qq{if} \abs{i-j}=1 \\
+		(\cdots) &\qq{otherwise}
+	\end{cases}
+\]
+which expresses the generic correlator $\langle \hat c_{i\uparrow}^\dagger \hat c_{j\downarrow}^\dagger \rangle$. The correlator for $\abs{i-j}>1$ is left unexpressed, and supposed to be subdominant. The decoupled hamiltonian, apart from pure energy shifts and suppressed terms, is given by
+\begin{align}
+	\hat H^{(\mathrm{e})} =
+	-t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	&+ U \sum_i \left[
+	f_i \hat c_{i\downarrow} \hat c_{i\uparrow} + f_i^* \hat c_{i\uparrow}^\dagger \hat c_{i\downarrow}^\dagger
+	\right] \nonumber \\
+	&- V \sum_{\langle ij \rangle} \left[
+	g_{ij} \hat c_{j\downarrow} \hat c_{i\uparrow} + g_{ij}^* \hat c_{i\uparrow}^\dagger \hat c_{j\downarrow}^\dagger
+	\right] \label{eq:extended-hubbard-model-effective}
+\end{align}
+\todo
+
+\subsection{Topological correlations}
+
+\begin{figure}
+	\centering
+	\subfloat[Local $s$-wave]{
+		\input{chapters/mft-solution/pictures/s-wave-correlator}
+		\label{subfig:s-wave-correlator}
+	}
+	\hspace{2em}
+	\subfloat[Extended $s$-wave.]{
+		\input{chapters/mft-solution/pictures/s*-wave-correlator}
+		\label{subfig:s*-wave-correlator}
+	}\\[3em]
+	\subfloat[$p_x$-wave.]{
+		\input{chapters/mft-solution/pictures/px-wave-correlator}
+		\label{subfig:px-wave-correlator}
+	}
+	\hspace{2em}
+	\subfloat[$p_y$-wave.]{
+		\input{chapters/mft-solution/pictures/py-wave-correlator}
+		\label{subfig:py-wave-correlator}
+	}
+	\hspace{2em}
+	\subfloat[$d_{x^2-y^2}$-wave.]{
+		\input{chapters/mft-solution/pictures/d-wave-correlator}
+		\label{subfig:d-wave-correlator}
+	}
+	\caption{Form factors at different topologies, as listed in Tab.~\ref{tab:x-wave-real-factors}. In figures five sites are represented: the hub site $i$ and its four NN. Solid lines represent non-zero values for $\varphi_{\bm{\delta}}$, while dashed lines represent vanishing factors.}
+	\label{fig:x-wave-real-factors}
+\end{figure}
+
+Topology plays an important role in establishing SC, giving rise to anisotropic pairing as well as real space structures for the Cooper pairs. The correlator $g_{ij}$ is a function of position, specifically of its variables difference $\bm{\delta} \equiv \mathbf{x}_j-\mathbf{x}_i$. Over the square lattice with NN interaction, the latter can assume four values: $\bm{\delta} = \pm \bm{\delta}_x$, $\pm \bm{\delta}_y$. For a function of space defined over the four rim sites $\mathbf{x}_i \pm \bm{\delta}_\ell$ of Fig.~\ref{fig:square-nearest-neighbors}, various symmetry structures can be defined under the planar rotations group $\mathrm{SO}(2)$. In other words, the function $g_{\bm{\delta}}$  can be decomposed in planar harmonics (which are simply the sine-cosine basis). Equivalently, given two NN sites $i$, $j$
+\[
+	g_{ij} = \sum_\gamma g^{(\gamma)} \varphi_{ij}^{(\gamma)}
+\]
+where $g^{(\gamma)}$ are the $g_{ij}$ symmetries-decomposition coefficients while $\varphi_{ij}^{(\gamma)}$ are the form factors listed in Tab.~\ref{tab:x-wave-real-factors}, a simple orthonormal rearrangement of the harmonics basis.
+
+\setlength{\extrarowheight}{0.5em}
+\begin{table}
+	\centering
+	\begin{tabular}{r E l l}
+		\textbf{Structure} & \multicolumn{2}{c}{\textbf{Form factor}} & \textbf{Graph} \\
+		\midrule
+		$s$-wave & $\varphi^{(s)}_{ij}$ & $\delta_{ij}$ & Fig.~\ref{subfig:s-wave-correlator} \\
+		Extended $s$-wave & $\varphi^{(s^*)}_{ij}$ &
+		$\delta_{j=i+\delta_x} + \delta_{j=i-\delta_x} + \delta_{j=i+\delta_y} + \delta_{j=i-\delta_y}$ & Fig.~\ref{subfig:s*-wave-correlator} \\
+		$p_x$-wave & $\varphi^{(p_x)}_{ij}$ & $ 
+		\delta_{j=i+\delta_x} - \delta_{j=i-\delta_x}$ & Fig.~\ref{subfig:px-wave-correlator} \\
+		$p_y$-wave & $\varphi^{(p_y)}_{ij}$ & $ \delta_{j=i+\delta_y} - \delta_{j=i-\delta_y}$ & Fig.~\ref{subfig:py-wave-correlator} \\
+		$d_{x^2-y^2}$-wave & $\varphi^{(d)}_{ij}$ & $
+		\delta_{j=i+\delta_x} + \delta_{j=i-\delta_x} - \delta_{j=i+\delta_y} - \delta_{j=i-\delta_y}$ & Fig.~\ref{subfig:d-wave-correlator} 
+	\end{tabular}
+	\caption{First four spatial structures for the correlation function $C(i,j)$. In the middle column, all spatial dependence is included in the $\delta$s, while $f^{s}, g^{(\gamma)} \in \mathbb{C}$. The last column indicates the graph representation of each contribution given in Fig.~\ref{fig:wave-correlators}. Subscript $x^2-y^2$ is omitted for notational clarity.}
+	\label{tab:x-wave-real-factors}
+\end{table}
+\setlength{\extrarowheight}{0em}
+
+SC is established with a given symmetry -- which means, symmetry breaking in the phase transition proceeds in a specific channel. Conventional $\mathrm{BCS}$ superconductivity arises from the only possible spatial structure of the local pairing, $s$-wave -- here appearing as a local term (Fig.~\ref{subfig:s-wave-correlator}) and extended on a non-local term (Fig.~\ref{subfig:s*-wave-correlator}). Cuprates exhibit a tendency towards $d_{x^2-y^2}$ SC, while other materials towards $p$-wave types -- eventually with some chirality, as is the case for $p_x \pm i p_y$ SCs. To establish SC under a certain symmetry $\gamma$ means that Cooper pairs acquire said symmetry -- which implies, for correlations, $g^{(\gamma')} = g^{(\gamma)} \delta_{\gamma\gamma'}$. and $g_{ij} \propto \varphi_{ij}^{(\gamma)}$.
+
+\section{Mean-Field theory reciprocal space description}\label{sec:mft-solution-reciprocal-space}
+
+In this $\mathrm{BCS}$-like approach, a self-consistent equation for the gap function must be retrieved in order to further investigate the model and extract the conditions for the formation of a superconducting phase with a given pairing topology. In order to do so, let me take a step back and perform explicitly the Fourier-transform of the various terms of Eq.~\ref{eq:extended-hubbard-model}.
+
+\subsection{Kinetic term}
+
+The kinetic part is trivial to transform. The followed convention is
+\[
+	\hat c_{j\sigma} = \frac{1}{\sqrt{L_xL_y}} \sum_{\mathbf{k} \in \mathrm{BZ}} e^{-i \mathbf{k} \cdot \mathbf{x}_j} \hat c_{\mathbf{k}\sigma}
+\]
+Calculation is carried out in App.~\ref{app:mean-field-hubbard}. Let
+\[
+	\epsilon_\mathbf{k} \equiv -2t \left[
+	\cos(k_x \delta_x) + \cos(k_y \delta_y)
+	\right]
+\]
+then we have
+\[
+\begin{aligned}
+	-t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma} &= \sum_{\mathbf{k}\sigma} \epsilon_\mathbf{k} \hat c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}\sigma} \\
+	&= \sum_\mathbf{k} \epsilon_\mathbf{k} \left[
+	\hat c_{\mathbf{k}\uparrow}^\dagger \hat c_{\mathbf{k}\uparrow} + \hat c_{\mathbf{k}\downarrow}^\dagger \hat c_{\mathbf{k}\downarrow}
+	\right] \\
+	&= \sum_\mathbf{k} \epsilon_\mathbf{k} \left[
+	\hat c_{\mathbf{k}\uparrow}^\dagger \hat c_{\mathbf{k}\uparrow}- \hat c_{-\mathbf{k}\downarrow} \hat c_{-\mathbf{k}\downarrow}^\dagger 
+	\right]
+\end{aligned}
+\]
+In last passage I used fermionic anti-commutation rules and reversed the sign of the mute variable. This will become useful later.
+
+\subsection{Non-local attraction}
+
+Consider a generic bond, say, the one connecting sites $j$ and $j\pm\delta_\ell$ (variable $i$ is here referred to as the imaginary unit to avoid confusion). $\mathbf{x}_j$ is the $2$D notation for the position of site $j$, while $\bm{\delta}_\ell$ is the $2$D notation for the lattice spacing previously indicated as $\delta_\ell$. Fourier transform it according to the convention
+\[
+	\hat c_{j\sigma} = \frac{1}{\sqrt{L_xL_y}} \sum_{\mathbf{k} \in \mathrm{BZ}} e^{-i \mathbf{k} \cdot \mathbf{x}_j} \hat c_{\mathbf{k}\sigma}
+\]
+Then:
+\[
+\begin{aligned}
+	\hat n_{j\uparrow} \hat n_{j \pm \delta_\ell \downarrow} &= \hat c_{j\uparrow}^\dagger \hat c_{j \pm \delta_\ell \downarrow}^\dagger \hat c_{j \pm \delta_\ell \downarrow} \hat c_{j\uparrow} \\
+	&= \frac{1}{(L_xL_y)^2} \sum_{\nu=1}^4 \sum_{\mathbf{k}_\nu \in \mathrm{BZ}} e^{i \left[ (\mathbf{k}_1 + \mathbf{k}_2) - (\mathbf{k}_3 + \mathbf{k}_4) \right] \cdot \mathbf{x}_j} e^{\pm i(\mathbf{k}_2-\mathbf{k}_3) \cdot \bm{\delta}_\ell}  \hat c_{\mathbf{k}_1 \uparrow}^\dagger \hat c_{\mathbf{k}_2 \downarrow}^\dagger \hat c_{\mathbf{k}_3 \downarrow} \hat c_{\mathbf{k}_4\uparrow}
+\end{aligned}
+\]
+It follows,
+\[
+\begin{aligned}
+	\hat h_V^{(j)} &= -\frac{V}{(L_xL_y)^2} \sum_{\ell = x,y} \sum_{\nu=1}^4 \sum_{\mathbf{k}_\nu \in \mathrm{BZ}} e^{i \left[ (\mathbf{k}_1 + \mathbf{k}_2) - (\mathbf{k}_3 + \mathbf{k}_4) \right] \cdot \mathbf{x}_j} \\
+	&\hspace{0.3\textwidth} \times \left(
+	e^{ i(\mathbf{k}_2-\mathbf{k}_3) \cdot \bm{\delta}_\ell} + e^{ -i(\mathbf{k}_2-\mathbf{k}_3) \cdot \bm{\delta}_\ell} 
+	\right)
+	\hat c_{\mathbf{k}_1 \uparrow}^\dagger \hat c_{\mathbf{k}_2 \downarrow}^\dagger \hat c_{\mathbf{k}_3 \downarrow} \hat c_{\mathbf{k}_4\uparrow} \\
+	&= -\frac{2V}{(L_xL_y)^2} \sum_{\ell = x,y} \sum_{\nu=1}^4 \sum_{\mathbf{k}_\nu \in \mathrm{BZ}} e^{i \left[ (\mathbf{k}_1 + \mathbf{k}_2) - (\mathbf{k}_3 + \mathbf{k}_4) \right] \cdot \mathbf{x}_j} \cos\left[
+	(\mathbf{k}_2-\mathbf{k}_3) \cdot \bm{\delta}_\ell
+	\right]	\hat c_{\mathbf{k}_1 \uparrow}^\dagger \hat c_{\mathbf{k}_2 \downarrow}^\dagger \hat c_{\mathbf{k}_3 \downarrow} \hat c_{\mathbf{k}_4\uparrow}
+\end{aligned}
+\]
+The full non-local interaction is given by summing over all sites of $\mathcal{S}$. This gives back momentum conservation,
+\[
+	\frac{1}{L_xL_y} \sum_{j \in \mathcal{S}} e^{i \left[ (\mathbf{k}_1 + \mathbf{k}_2) - (\mathbf{k}_3 + \mathbf{k}_4) \right] \cdot \mathbf{x}_j} = \delta_{\mathbf{k}_1 + \mathbf{k}_2 = \mathbf{k}_3 + \mathbf{k}_4}
+\]
+Let $\mathbf{k}_1 + \mathbf{k}_2 = \mathbf{k}_3 + \mathbf{k}_4 = \mathbf{K}$, and define $\mathbf{k}$, $\mathbf{k}'$ such that
+\[
+	\mathbf{k}_1 \equiv \mathbf{K} + \mathbf{k} 
+	\qquad
+	\mathbf{k}_2 \equiv \mathbf{K} - \mathbf{k} 
+	\qquad
+	\mathbf{k}_3 \equiv \mathbf{K} - \mathbf{k}' 
+	\qquad
+	\mathbf{k}_4 \equiv \mathbf{K} + \mathbf{k}'
+	\qquad
+	\delta \mathbf{k} \equiv \mathbf{k}-\mathbf{k}'
+\]
+Sums over these variables must be intended as over the Brillouin Zone ($\mathrm{BZ}$). Then, finally
+\[
+\begin{aligned}
+	\hat H_V &\simeq \sum_{j \in \mathcal{S}} \hat h_V^{(j)} \\
+	&= - \frac{2V}{L_x L_y} \sum_{\ell = x,y} \sum_{\mathbf{K}, \mathbf{k}, \mathbf{k}'} \cos\left(
+	\delta \mathbf{k} \cdot \bm{\delta}_\ell
+	\right)	\hat c_{\mathbf{K}+\mathbf{k} \uparrow}^\dagger \hat c_{\mathbf{K}-\mathbf{k} \downarrow}^\dagger \hat c_{\mathbf{K}-\mathbf{k}' \downarrow} \hat c_{\mathbf{K}+\mathbf{k}'\uparrow} \\
+	&= - \frac{2V}{L_x L_y} \sum_{\ell = x,y} \sum_{\mathbf{K}, \mathbf{k}, \mathbf{k}'} \left[
+		\cos \left(
+			\delta k_x \delta_x
+		\right)	+ \cos \left(
+			\delta k_y \delta_y
+		\right)	
+	\right]	\hat c_{\mathbf{K}+\mathbf{k} \uparrow}^\dagger \hat c_{\mathbf{K}-\mathbf{k} \downarrow}^\dagger \hat c_{\mathbf{K}-\mathbf{k}' \downarrow} \hat c_{\mathbf{K}+\mathbf{k}'\uparrow} \\
+\end{aligned}
+\]
+Eventually, in the second passage the prefactor $2$ can be absorbed by reintroducing the spin DoF\footnote{
+	Justification can be given in two ways: either commutating appropriately the $\hat c$ operators, or by carrying out the previous space sums independently over the two sublattices.
+}. Taking in the mean-field approximation (with Cooper pair symmetry breaking), we get
+\[
+	\hat c_{\mathbf{K}+\mathbf{k} \uparrow}^\dagger \hat c_{\mathbf{K}-\mathbf{k} \downarrow}^\dagger \hat c_{\mathbf{K}-\mathbf{k}' \downarrow} \hat c_{\mathbf{K}+\mathbf{k}'\uparrow} \simeq \langle
+		\hat c_{\mathbf{K}+\mathbf{k} \uparrow}^\dagger \hat c_{\mathbf{K}-\mathbf{k} \downarrow}^\dagger
+	\rangle \hat c_{\mathbf{K}-\mathbf{k}' \downarrow} \hat c_{\mathbf{K}+\mathbf{k}'\uparrow} + \hat c_{\mathbf{K}+\mathbf{k} \uparrow}^\dagger \hat c_{\mathbf{K}-\mathbf{k} \downarrow}^\dagger \langle 
+		\hat c_{\mathbf{K}-\mathbf{k}' \downarrow} \hat c_{\mathbf{K}+\mathbf{k}'\uparrow}
+	\rangle + \cdots
+\]
+Take e.g. $\langle \hat c_{\mathbf{K}+\mathbf{k} \uparrow}^\dagger \hat c_{\mathbf{K}-\mathbf{k} \downarrow}^\dagger \rangle$: the only non-zero contribution can come from the $\mathbf{K}=\mathbf{0}$ term, as will be discussed self-consistently in Sec.~\ref{subsec:mft-self-consitency-cooper-decomposition}. Then finally:
+\[
+\begin{aligned}
+	\hat H_V \simeq \sum_{\mathbf{k}, \mathbf{k}'}
+	- V_{\mathbf{k}\mathbf{k}'} \left[
+		\langle 
+			\hat \phi_\mathbf{k}^\dagger
+		\rangle \hat \phi_{\mathbf{k}'} + \langle 
+			\hat \phi_\mathbf{k}
+		\rangle \hat \phi_{\mathbf{k}'}^\dagger
+	\right]	
+\end{aligned}
+\]
+having I defined the pairing operator 
+\[
+	\hat \phi_\mathbf{k} \equiv \hat c_{-\mathbf{k}\downarrow} \hat c_{\mathbf{k} \uparrow}
+	\qquad
+	\hat \phi_\mathbf{k}^\dagger \equiv \hat c_{\mathbf{k} \uparrow}^\dagger \hat c_{-\mathbf{k}\downarrow}^\dagger
+\]
+and the two-body potential
+\[
+	V_{\mathbf{k}\mathbf{k}'} = \frac{2V}{L_x L_y} \left[
+		\cos \left(
+			\delta k_x \delta_x
+			\right)	+ \cos \left(
+			\delta k_y \delta_y
+		\right)	
+	\right]
+\]
+Now, consider the term
+\begin{multline*}
+	\cos \left( \delta k_x \delta_x \right)	+ \cos \left( \delta k_y \delta_y \right) = \cos \left( k_x \delta_x \right) \cos \left( k_x' \delta_x \right) + \sin \left( 
+		k_x \delta_x \right) \sin \left( k_x' \delta_x
+	\right) \\ 
+	+ \cos \left(
+		k_y \delta_y \right) \cos \left( k_y' \delta_y
+	\right) + \sin \left( 
+		k_y \delta_y 
+	\right) \sin \left( 
+		k_y' \delta_y
+	\right)
+\end{multline*}
+For the sake of readability, the notations
+\[
+	c_\ell \equiv \cos\left(
+		k_\ell \delta_\ell
+	\right)
+	\qquad
+	s_\ell \equiv \sin \left(
+		k_\ell \delta_\ell
+	\right)
+	\qquad
+	c_\ell' \equiv \cos\left(
+		k_\ell' \delta_\ell
+	\right)
+	\qquad
+	s_\ell' \equiv \sin \left(
+		k_\ell' \delta_\ell
+	\right)
+\]
+are used. Group the four terms above,
+\begin{equation}\label{eq:sym-asym-couplings-gap}
+	\underbrace{
+		\left(c_x c_x' + c_y c_y' \right) 
+	}_\text{Symmetric}
+	+ \underbrace{
+		\left(s_x s_x' + s_y s_y' \right)
+	}_\text{Anti-symmetric}
+\end{equation}
+The first two exhibit inversion symmetry for both arguments $\mathbf{k}$, $\mathbf{k}'$; the second two exhibit anti-symmetry. Decoupling the symmetric part,
+\[
+	c_x c_x' + c_y c_y' = (c_x + c_y)(c_x' + c_y') + (c_x - c_y)(c_x' - c_y')
+\]
+which finally gives:
+\[
+\begin{aligned}
+	\cos \left( \delta k_x \delta_x \right)	+ \cos \left( \delta k_y \delta_y \right) &= (c_x + c_y)(c_x' + c_y') &&\qquad\text{($s^*$-wave)} \\
+	&\hphantom{=}+ s_x s_x' &&\qquad\text{($p_x$-wave)} \\
+	&\hphantom{=}+ s_y s_y' &&\qquad\text{($p_y$-wave)} \\
+	&\hphantom{=}+ (c_x - c_y)(c_x' - c_y') &&\qquad\text{($d_{x^2-y^2}$-wave)}
+\end{aligned}
+\]
+In other words, the two-body potential decomposes as
+\[
+\begin{aligned}
+	V_{\mathbf{k}\mathbf{k}'} &= \sum_\gamma V^{(\gamma)} \varphi_\mathbf{k}^{(\gamma)} \varphi_{\mathbf{k}'}^{(\gamma)*}
+	\hspace{5em}\qq{where}
+	\gamma = s^*, p_x, p_y, d_{x^2-y^2} \\
+	&= \frac{2V}{L_xL_y} \sum_\gamma \varphi_\mathbf{k}^{(\gamma)} \varphi_{\mathbf{k}'}^{(\gamma)*}
+\end{aligned}
+\]
+being $\varphi_\mathbf{k}^{(\gamma)}$ the reciprocal-space expressions for the form factors of Tab.~\ref{tab:x-wave-real-factors}, listed explicitly in Tab.~\ref{tab:x-wave-reciprocal-factors}, and $V_{\mathbf{k}\mathbf{k}'}^{(\gamma)}$ the symmetry-resolved components of the non-local attraction. Then the two-body potential has been decomposed in its planar symmetry components, each of which will naturally couple only to identically structured parameters in the full hamiltonian.
+
+\setlength{\extrarowheight}{0.5em}
+\begin{table}
+	\centering
+	\begin{tabular}{r E l l}
+		\textbf{Structure} & \multicolumn{2}{c}{\textbf{Structure factor}} & \textbf{Graph} \\
+		\midrule
+		$s$-wave & $\varphi_\mathbf{k}^{(s)}$ & $1$ & Fig.~\ref{subfig:s-wave-correlator} \\
+		Extended $s$-wave & $\varphi^{(s^*)}_{\mathbf{k}}$ & $ 	\cos k_x + \cos k_y$ & Fig.~\ref{subfig:s*-wave-correlator} \\
+		$p_x$-wave & $\varphi_\mathbf{k}^{(p_x)}$ & $i\sin k_x $ & Fig.~\ref{subfig:px-wave-correlator} \\
+		$p_y$-wave & $\varphi_\mathbf{k}^{(p_y)}$ & $i\sin k_y$ & Fig.~\ref{subfig:py-wave-correlator} \\
+		$d_{x^2-y^2}$-wave & $\varphi_\mathbf{k}^{(d)}$ & $		\cos k_x - \cos k_y$ & Fig.~\ref{subfig:d-wave-correlator} 
+	\end{tabular}
+	\caption{Structure factors derived from the correlation structures of Tab.~\ref{tab:wave-correlators}. The functions hereby defined are orthogonal, and define the non-local topological effective potential as $V_{\mathbf{k}-\mathbf{k}'}^{(\gamma)} \equiv V \varphi_{\mathbf{k}-\mathbf{k}'}^{(\gamma)}/L_xL_y$.}
+	\label{tab:x-wave-reciprocal-factors}
+\end{table}
+\setlength{\extrarowheight}{0em}
+
+Define now the non-local gap function
+\begin{equation}\label{eq:self-consistency-equation-intermediate}
+	\mathcal{V}_\mathbf{k} \equiv \sum_{\mathbf{k}'}
+	V_{\mathbf{k}\mathbf{k}'}
+	\langle
+	\hat \phi_{\mathbf{k}'}^\dagger
+	\rangle
+\end{equation}
+one gets immediately
+\begin{equation}\label{eq:extended-hubbard-nonlocal-interaction-mean-field-reciprocal}
+	\hat H_V \simeq -\sum_\mathbf{k} \left[
+	\mathcal{V}_\mathbf{k} \hat \phi_\mathbf{k} + \mathcal{V}_\mathbf{k}^* \hat \phi_\mathbf{k}^\dagger
+	\right]	
+\end{equation}
+To assume symmetry is broken in a specific symmetry channel $\gamma$ means precisely to assume $g_{ij} \propto \varphi_{ij}^{(\gamma)}$, which in turn implies $\langle \hat \phi_\mathbf{k} \rangle \propto \varphi_\mathbf{k}^{(\gamma)}$. Of course, in Eq.~\eqref{eq:self-consistency-equation-intermediate} only the $\gamma$ component of the potential survives, implying the gap function acquires the same symmetry,
+\[
+\begin{aligned}
+	\mathcal{V}_\mathbf{k} &\propto \sum_{\mathbf{k}'}
+	\frac{2V}{L_xL_y} \varphi_\mathbf{k}^{(\gamma)} \varphi_{\mathbf{k}'}^{(\gamma)*}
+	\varphi_{\mathbf{k}'}^{(\gamma)} \\
+	&\propto \varphi_\mathbf{k}^{(\gamma)}
+\end{aligned}
+\]
+where I used orthonormality of the $\varphi_\mathbf{k}^{(\gamma)}$ functions.
+
+\subsection{Local interaction and gap function}
+
+A very similar argument can be carried out for the local $U$ term. Without delving in too many details, the local gap $\mathcal{U}_\mathbf{k}$ is given by
+\begin{equation}\label{eq:sgap-function-definition}
+	\mathcal{U}_\mathbf{k} \equiv \frac{U}{2 L_x L_y} \sum_{\mathbf{k}} \langle 
+	\hat \phi_\mathbf{k}
+	\rangle
+\end{equation}
+evidently independent of $\mathbf{k}$, correctly. Identical considerations as in the above section hold for the local gap. The local part of the hamiltonian then gets
+\begin{equation}\label{eq:extended-hubbard-local-interaction-mean-field-reciprocal}
+	\hat H_U \simeq \sum_\mathbf{k} \left[
+	\mathcal{U}_\mathbf{k} \hat \phi_\mathbf{k} + \mathcal{U}_\mathbf{k}^* \hat \phi_\mathbf{k}^\dagger
+	\right]	
+\end{equation}
+and the full gap function is simply
+\begin{equation}\label{eq:gap-function-definition}
+	\Delta_\mathbf{k} \equiv \mathcal{V}_\mathbf{k} - \mathcal{U}_\mathbf{k}
+\end{equation}
+Notice here that the only possible topology here is $s$-wave; define trivially the $s$-wave component of the total two-body interaction,
+\[
+V^{(s)} = - \frac{U}{2L_xL_y}
+\]
+Then the full effective interaction is collected in
+\[
+\begin{aligned}
+	\hat H_U +\hat H_V &\simeq - \sum_\gamma \sum_{\mathbf{k}, \mathbf{k}'}
+	V^{(\gamma)} \varphi_\mathbf{k}^{(\gamma)} \varphi_{\mathbf{k}'}^{(\gamma)*} \left[
+		\langle 
+			\hat \phi_\mathbf{k}^\dagger
+		\rangle \hat \phi_{\mathbf{k}'} + 	\langle 
+			\hat \phi_\mathbf{k}
+		\rangle \hat \phi_{\mathbf{k}'}^\dagger
+	\right]	\\
+	&= - \sum_\mathbf{k} \left[
+	\Delta_\mathbf{k} \hat \phi_\mathbf{k} + \Delta_\mathbf{k}^* \hat \phi_\mathbf{k}^\dagger
+	\right]	
+\end{aligned}
+\]
+
+The full self-consistency equation is given by
+\begin{equation}\label{eq:self-consistency-equation}
+	\Delta_\mathbf{k} \equiv \sum_{\mathbf{k}'}
+	\left[
+		V^{(s)} +
+		V_{\mathbf{k}\mathbf{k}'}
+	\right]
+	\langle
+		\hat \phi_{\mathbf{k}'}^\dagger
+	\rangle
+\end{equation}
+The gap function decomposes in symmetry channels as well,
+\[
+\Delta_\mathbf{k} = \sum_\gamma \Delta^{(\gamma)} \varphi_\mathbf{k}^{(\gamma)}
+\]
+If SC arises in a specific symmetry channel, $\Delta_\mathbf{k}$ will show the same symmetry. It follows, due to orthonormality and using Eq.~\eqref{eq:self-consistency-equation},
+\begin{align}
+	\Delta^{(\gamma)} &= \frac{1}{L_xL_y} \sum_{\mathbf{k}} \varphi_\mathbf{k}^{(\gamma)*} \Delta_\mathbf{k} \nonumber \\
+	&= \frac{1}{L_xL_y} \sum_{\mathbf{k}} \varphi_\mathbf{k}^{(\gamma)*} \sum_{\mathbf{k}'}
+	\left[
+		V^{(s)} +
+	V_{\mathbf{k}\mathbf{k}'}
+	\right]
+	\langle
+		\hat \phi_{\mathbf{k}'}^\dagger
+	\rangle \nonumber \\
+	&= \frac{1}{L_xL_y} \sum_{\mathbf{k}} \varphi_\mathbf{k}^{(\gamma)*} \sum_{\mathbf{k}'}
+	V^{(\gamma')} \varphi_\mathbf{k}^{(\gamma')} \varphi_{\mathbf{k}'}^{(\gamma')*}
+	\langle
+		\hat \phi_{\mathbf{k}'}^\dagger
+	\rangle \nonumber \\
+	&= V^{(\gamma)} \sum_{\mathbf{k}} \varphi_\mathbf{k}^{(\gamma)*} \langle
+		\hat \phi_{\mathbf{k}}^\dagger
+	\rangle \label{eq:self-consistency-equation-explicit}
+\end{align}
+This result provides a set of self-consistency equations for each symmetry channel, listed in Tab.~\ref{tab:x-wave-self-consistency-equation}. Notice that to reconstruct self-consistently the full $s$-wave phase transition, the actual gap function is given by
+\[
+	\Delta^{(s)} + \Delta^{(s^*)} (c_x + c_y)
+\]
+The $s$-wave transition is the only one equipped of both the local and the non-local parts. Within this structure, we are finally able to move to Nambu formalism.
+
+\setlength{\extrarowheight}{1em}
+\begin{table}
+	\centering
+	\begin{tabular}{r E l l}
+		\textbf{Structure} & \multicolumn{2}{c}{\textbf{Self-consistency equation}} & \textbf{Graph} \\
+		\midrule
+		$s$-wave & $\Delta^{(s)}$ & $\displaystyle -\frac{U}{2L_xL_y} \sum_{\mathbf{k}} \langle
+		\hat \phi_{\mathbf{k}}^\dagger
+		\rangle $ & Fig.~\ref{subfig:s-wave-correlator} \\
+		Extended $s$-wave & $\Delta^{(s^*)}$ & $\displaystyle \frac{2V}{L_xL_y} \sum_{\mathbf{k}} (c_x + c_y) \langle
+		\hat \phi_{\mathbf{k}}^\dagger
+		\rangle$ & Fig.~\ref{subfig:s*-wave-correlator} \\
+		$p_x$-wave & $\Delta^{(p_x)}$ & $\displaystyle -\frac{2iV}{L_xL_y} \sum_{\mathbf{k}} s_x \langle
+		\hat \phi_{\mathbf{k}}^\dagger
+		\rangle$ & Fig.~\ref{subfig:px-wave-correlator} \\
+		$p_y$-wave & $\Delta^{(p_y)}$ & $\displaystyle -\frac{2iV}{L_xL_y} \sum_{\mathbf{k}} s_y \langle
+		\hat \phi_{\mathbf{k}}^\dagger
+		\rangle$ & Fig.~\ref{subfig:py-wave-correlator} \\
+		$d_{x^2-y^2}$-wave & $\Delta^{(d)}$ & $\displaystyle \frac{2V}{L_xL_y} \sum_{\mathbf{k}} (c_x - c_y) \langle
+		\hat \phi_{\mathbf{k}}^\dagger
+		\rangle$ & Fig.~\ref{subfig:d-wave-correlator} 
+	\end{tabular}
+	\caption{Symmetry resolved self-consistency equations for the MFT parameters $\Delta^{(\gamma)}$, based on Eq.~\eqref{eq:self-consistency-equation} and \eqref{eq:self-consistency-equation-explicit}. By computing $\langle \hat \phi_{\mathbf{k}}^\dagger \rangle$, it is possible to reconstruct the various components of the gap function.}
+	\label{tab:x-wave-self-consistency-equation}
+\end{table}
+\setlength{\extrarowheight}{0em}
+
+\subsection{Nambu formalism and Bogoliubov transform}\label{subsec:nambu-formalism-mean-field-extended-hubbard}
+
+Define the Nambu spinor\footnote{
+	Notice that the spinor is here differently defined with respect to App.~\ref{appendix:mean-field-hubbard}, where because of the HF prevalence in mean-field decoupling the spinor components were homogeneously fermions creations or destructions.
+} as in BCS
+\[
+\hat \Psi_\mathbf{k} \equiv \begin{bmatrix}
+	\hat c_{\mathbf{k}\uparrow} \\
+	\hat c_{-\mathbf{k}\downarrow}^\dagger
+\end{bmatrix}
+\]
+Evidently,
+\begin{equation}\label{eq:extended-hubbard-phi-psi-expressions}
+	\phi_\mathbf{k} = \hat \Psi_\mathbf{k}^\dagger \begin{bmatrix}
+		0 & 1 \\ 0 & 0
+	\end{bmatrix} \hat \Psi_\mathbf{k}
+	\qquad
+	\phi_\mathbf{k}^\dagger = \hat \Psi_\mathbf{k}^\dagger \begin{bmatrix}
+		0 & 0 \\ 1 & 0
+	\end{bmatrix} \hat \Psi_\mathbf{k}
+\end{equation}
+The full hamiltonian is then given by:
+\begin{equation}\label{eq:extended-hubbard-hamiltonian-nambu-bogoliubov}
+	\hat H = \sum_\mathbf{k} \hat \Psi_\mathbf{k} h_\mathbf{k} \hat \Psi_\mathbf{k}
+	\qquad
+	h_\mathbf{k} \equiv \begin{bmatrix}
+		\epsilon_\mathbf{k} & - \Delta_\mathbf{k}^* \\
+		- \Delta_\mathbf{k} & - \epsilon_\mathbf{k}
+	\end{bmatrix}
+\end{equation}
+Let $\tau^\alpha$ for $\alpha = x,y,z$ be the Pauli matrices. Define:
+\[
+\hat s_\mathbf{k}^\alpha \equiv \hat \Psi_\mathbf{k}^\dagger \tau^\alpha \hat \Psi_\mathbf{k}
+\qq{for}
+\alpha = x,y,z
+\]
+As can be shown easily, these operators realize spin-$1/2$ algebra. $\hat H$ represents an ensemble of $L_x L_y$ independent spins subject to pseudo-magnetic fields. Note that, differently form App.~\ref{app:mean-field-hubbard} where the chemical potential is inserted later (because in Nambu formalism it accounts for a diagonal term) here the chemical potential is part of the $z$ component of the pseudo-magnetic field, since
+\begin{align}
+	\hat n_{\mathbf{k}\uparrow} + \hat n_{-\mathbf{k}\downarrow} &= \hat c_{\mathbf{k}\uparrow}^\dagger \hat c_{\mathbf{k}\uparrow} + \hat c_{-\mathbf{k}\downarrow}^\dagger \hat c_{-\mathbf{k}\downarrow} \nonumber \\
+	&= \hat c_{\mathbf{k}\uparrow}^\dagger \hat c_{\mathbf{k}\uparrow} - \hat c_{-\mathbf{k}\downarrow} \hat c_{-\mathbf{k}\downarrow}^\dagger + \mathbb{I} \nonumber \\
+	&=  \hat \Psi_\mathbf{k}^\dagger \tau^z \hat \Psi_\mathbf{k} + \mathbb{I} \label{eq:number-operator-z-spin-relation}
+\end{align}
+and then it follows
+\[
+\begin{aligned}
+	-\mu\hat N &= -\mu \sum_{\mathbf{k} \in \mathrm{BZ}} \left[ 
+		\hat n_{\mathbf{k}\uparrow} + \hat n_{-\mathbf{k}\downarrow} 
+	\right] \\
+	&= -\mu \sum_{\mathbf{k} \in \mathrm{BZ}} \hat \Psi_\mathbf{k}^\dagger \tau^z \hat \Psi_\mathbf{k} -\mu L_x L_y
+\end{aligned}
+\]
+Then, adding a term $-\mu \hat N$ to $\hat H$, apart from an irrelevant total energy increase, changes the pseudo-field whose explicit form becomes
+\begin{equation} \label{eq:extended-hubbard-pseudo-magnetic-field}
+	\mathbf{b}_\mathbf{k} \equiv \begin{bmatrix}
+		-\Re{\Delta_\mathbf{k}} \\
+		-\Im{\Delta_\mathbf{k}} \\ \epsilon_\mathbf{k} - \mu
+	\end{bmatrix}
+\end{equation}
+This hamiltonian behaves as an ensemble of spins in local magnetic fields precisely as in Eq.~\eqref{appeq:hubbard-bogoliubov-hamiltonian-pseudofields},
+\begin{equation}\label{eq:extended-hubbard-bogoliubov-hamiltonian-pseudofields}
+	\hat H -\mu \hat N = \sum_{\mathbf{k} \in \mathrm{BZ}} \mathbf{b}_\mathbf{k} \cdot \hat{\mathbf{s}}_\mathbf{k}
+	\qq{where}
+	\hat{\mathbf{s}}_{\mathbf{k}\sigma} = \begin{bmatrix}
+		\hat s_\mathbf{k}^x \\
+		\hat s_\mathbf{k}^y \\
+		\hat s_\mathbf{k}^z
+	\end{bmatrix}
+\end{equation}
+Proceed as in App.~\ref{app:mean-field-hubbard} and diagonalize via a rotation,
+\[
+	d_\mathbf{k} \equiv \begin{bmatrix}
+		-E_\mathbf{k} & \\ & E_\mathbf{k}
+	\end{bmatrix}
+	\qq{being}
+	E_\mathbf{k} \equiv \sqrt{\xi_\mathbf{k}^2 + \abs{\Delta_\mathbf{k}}^2}
+\]
+and $\xi_\mathbf{k} \equiv \epsilon_\mathbf{k} - \mu$. Given the pseudoangles
+\[
+	\tan(2\theta_\mathbf{k}) \equiv \frac{\abs{\Delta_\mathbf{k}}}{\epsilon_\mathbf{k}}
+	\qquad
+	\tan(2\zeta_\mathbf{k}) \equiv \frac{\Im{\Delta_\mathbf{k}}}{\Re{\Delta_\mathbf{k}}}
+\]
+the general diagonalizer will be an orthogonal rotation matrix
+\begin{align}
+	W_\mathbf{k} &= e^{i \left(\theta_\mathbf{k} - \frac{\pi}{2}\right) \tau^y} e^{i \zeta_\mathbf{k} \tau^z} \nonumber \\
+	&= \begin{bmatrix}
+		-\sin\theta_\mathbf{k}  & -\cos\theta_\mathbf{k}  \\ 
+		\cos\theta_\mathbf{k}  & -\sin\theta_\mathbf{k} 
+	\end{bmatrix} \begin{bmatrix}
+		e^{i\zeta_\mathbf{k} } & \\ & e^{-i\zeta_\mathbf{k} }
+	\end{bmatrix} \nonumber \\
+	&= \begin{bmatrix}
+		-\sin\theta_\mathbf{k}  e^{i\zeta_\mathbf{k} } & -\cos\theta_\mathbf{k}  e^{-i\zeta_\mathbf{k} }  \\ 
+		\cos\theta_\mathbf{k}  e^{i\zeta_\mathbf{k} } & -\sin\theta_\mathbf{k}  e^{-i\zeta_\mathbf{k} } 
+	\end{bmatrix} \label{eq:extended-hubbard-bogoliubov-W-diagonalizer-explicit}
+\end{align}
+given by a rotation of angle $\zeta_\mathbf{k}$ around the $z$ axis, to align the $x$ axis with the field projection onto the $xy$ plane, followed by a rotation around the $y$ axis to anti-align with the pseudo-field. The MFT-BCS solution is given by a degenerate Fermi gas at ground state, whose quasi-particles occupy two bands $\pm E_\mathbf{k}$ and their fermionic operators are given by
+\[
+	\hat \gamma_\mathbf{k}^{(-)} \equiv \left[
+		W_\mathbf{k} \hat \Psi_\mathbf{k}
+	\right]_1
+	\qquad
+	\hat \gamma_\mathbf{k}^{(+)} \equiv \left[
+		W_\mathbf{k} \hat \Psi_\mathbf{k}
+	\right]_2
+\]
+The diagonalization operators are given by
+\[
+	\hat\Gamma_\mathbf{k} \equiv W_\mathbf{k} \hat\Psi_\mathbf{k}
+	\qq{where}
+	\hat\Gamma_\mathbf{k} = \begin{bmatrix}
+		\hat \gamma_\mathbf{k}^{(-)} \\ \hat \gamma_\mathbf{k}^{(+)}
+	\end{bmatrix}
+\]
+then, using Eq.~\eqref{appeq:finite-temperature-order-parameter-derivation-intermediate}, 
+\[
+	\left\langle [\hat \Psi_\mathbf{k}^\dagger]_i [\hat \Psi_\mathbf{k}]_j \right\rangle = [W_\mathbf{k}]_{1 i} [W_\mathbf{k}^\dagger]_{j 1} f\left( -E_\mathbf{k}; \beta,0 \right) + [W_\mathbf{k}]_{2 i} [W_\mathbf{k}^\dagger]_{j 2} f\left( E_\mathbf{k}; \beta,0 \right)
+\]
+where in the Fermi-Dirac function chemical potential was set to zero, because it already was included in the diagonalized hamiltonian.
+Recalling Eq.~\eqref{eq:extended-hubbard-phi-psi-expression}, it follows
+\begin{align}
+	\langle \phi_\mathbf{k}^\dagger \rangle &= [W_\mathbf{k}]_{11} [W_\mathbf{k}^\dagger]_{21} f\left( -E_\mathbf{k}; \beta,0 \right) + [W_\mathbf{k}]_{21} [W_\mathbf{k}^\dagger]_{22} f\left( E_\mathbf{k}; \beta,0 \right) \label{eq:pairing-dagger-expectation-algorithmic} \\
+	&= \frac{1}{2} \sin \left(
+	2 \theta_\mathbf{k}
+	\right) e^{i 2 \zeta_\mathbf{k}} \tanh(\frac{\beta E_\mathbf{k}}{2}) \label{eq:pairing-dagger-expectation-theoretical}
+\end{align}
+The last passage obtained by computing the matrix element from the explicit form of $W_\mathbf{k}$ of Eq.~\eqref{eq:extended-hubbard-bogoliubov-W-diagonalizer-explicit} and by the simple relation
+\[
+\begin{aligned}
+	\frac{1}{e^{-x}+1} - \frac{1}{e^x+1} &= \frac{e^x -1}{e^x +1} \\
+	&= \tanh(\frac{x}{2})
+\end{aligned}
+\]
+Eqns.~\eqref{eq:pairing-dagger-expectation-algorithmic}, \eqref{eq:pairing-dagger-expectation-theoretical} give us both the algorithmic formula (first row) and its theoretical counterpart (second row) to compute the order parameters in the HF approach at each point in $k$-space $(k_x,k_y)$. We can finally derive the BCS self-consistency equation
+\begin{equation}\label{eq:self-consistency-equation-theoretical}
+	\Delta_\mathbf{k} \equiv \frac{1}{2} \sum_{\mathbf{k}'}
+	\left[
+	V^{(s)} +
+	V_{\mathbf{k}\mathbf{k}'}
+	\right] \frac{\abs{\Delta_\mathbf{k}}}{\sqrt{\xi_\mathbf{k}^2 + \abs{\Delta_\mathbf{k}}^2}} e^{i \Im{\Delta_\mathbf{k}}/\Re{\Delta_\mathbf{k}}} \tanh(\frac{\beta}{2} \sqrt{\xi_\mathbf{k}^2 + \abs{\Delta_\mathbf{k}}^2})
+\end{equation}
+The whole point of the HF algorithm is to find an iterative solution for each symmetry channel, using the self-consistency equation projection of Tab.~\ref{tab:x-wave-self-consistency-equation}.
+
+Notice that the $z$ component of the spin operators is related to density: using Eq.~\eqref{appeq:finite-temperature-order-parameter-derivation-intermediate},
+\[
+	\langle
+		\hat\Psi_\mathbf{k}^\dagger \tau^z \hat\Psi_\mathbf{k}
+	\rangle = \left\langle 
+		[\hat \Psi_\mathbf{k}^\dagger]_1 [\hat \Psi_\mathbf{k}]_1 
+	\right\rangle - \left\langle 
+		[\hat \Psi_\mathbf{k}^\dagger]_2 [\hat \Psi_\mathbf{k}]_2
+	\right\rangle
+\]
+I proceed in as done previously, and from Eq.~\eqref{eq:number-operator-z-spin-relation},
+\begin{align}
+	\langle \hat n_{\mathbf{k}\uparrow} \rangle + \langle \hat 	n_{-\mathbf{k}\downarrow} \rangle = 1 &+ \langle \hat\Psi_\mathbf{k}^\dagger \tau^z \hat\Psi_\mathbf{k} \rangle \nonumber \\
+	= 1 &+ \left(
+		\abs{[W_\mathbf{k}]_{11}}^2 - \abs{[W_\mathbf{k}]_{12}}^2
+	\right) f\left( -E_\mathbf{k}; \beta,0 \right) \nonumber \\
+	&+ \left(
+		\abs{[W_\mathbf{k}]_{21}}^2 - \abs{[W_\mathbf{k}]_{22}}^2
+	\right) f\left( E_\mathbf{k}; \beta,0 \right) \label{eq:density-expectation-algorithmic} \\
+	= 1 &- \cos \left(
+		2 \theta_\mathbf{k}
+	\right) \tanh(\frac{\beta E_\mathbf{k}}{2}) \label{eq:density-expectation-theoretical} 
+\end{align}
+The expectation value for the density is needed in order to extract the optimal chemical potential $\mu$ for the target density we aim to simulate at the given parametrization. This is numerically obtained by using Eq.~\eqref{eq:density-expectation-algorithmic} directly on the diagonalization matrix of $h_\mathbf{k}$.
+
+\subsection{A short comment on self-consistency}\label{subsec:mft-self-consitency-cooper-decomposition}
+
+The Bogoliubov fermions in spinor representation satisfy obviously $\hat \Psi_\mathbf{k} = W_\mathbf{k}^\dagger \hat \Gamma_\mathbf{k}$. Consider e.g.
+\[
+	\langle
+		\hat c_{\mathbf{k}\sigma}^\dagger
+		\hat c_{-\mathbf{k}\sigma}^\dagger
+	\rangle	
+\]
+which is a spin-symmetric anomalous Cooper pair. For simplicity, take $\sigma=\uparrow$. Expand:
+\[
+\begin{aligned}
+	\langle
+		\hat c_{\mathbf{k}\uparrow}^\dagger
+		\hat c_{-\mathbf{k}\uparrow}^\dagger
+	\rangle	&= \left\langle 
+		[\hat \Psi_\mathbf{k}^\dagger]_1 [\hat \Psi_{-\mathbf{k}}^\dagger]_1 
+	\right\rangle \\
+	&= \left\langle 
+		[W_\mathbf{k} \hat \Gamma_\mathbf{k}^\dagger]_1 [W_{-\mathbf{k}} \hat \Gamma_{-\mathbf{k}}^\dagger]_1 
+	\right\rangle
+\end{aligned}
+\]
+This expectation value is taken over the ground-state, the latter being the vacuum of $\Gamma$ fermions. Evidently the above expectation cannot assume non-zero values. Obviously the same holds for $\sigma=\downarrow$, and this argument explains why the Ferromagnetic terms of the hamiltonian decomposition do not contribute to Cooper instability. An identical argument, with the exchange
+\[
+	(\sigma,\sigma) \to (\uparrow,\downarrow)
+	\qq{and}
+	(\mathbf{k},-\mathbf{k}) \to (\mathbf{K}+\mathbf{k},\mathbf{K}-\mathbf{k})
+	\qq{with}
+	\mathbf{K}\neq\mathbf{0}
+\]
+justifies why in Sec.~\ref{subsec:nambu-formalism-mean-field-extended-hubbard} the only relevant contribution was given by $\mathbf{K}=\mathbf{0}$. In the next sections, the results of the self-consistent HF algorithm are exposed.
+
+\section{Results of the HF algorihtm}\label{sec:mft-solution-hf-results}
+
+\todo

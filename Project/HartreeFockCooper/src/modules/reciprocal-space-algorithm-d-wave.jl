@@ -228,43 +228,44 @@ function PerformHFStep(
     n::Float64,                 		# Density
     β::Float64;                 		# Inverse temperature
     debug::Bool=false
-)#::Float64
+)::Float64
 
-	ϕ = zeros(Float64, size(K))
-	m = m0
+	# ϕ = zeros(Float64, size(K))
+	m = 0.0
 	LxLy = prod(size(K))
     μ = FindRootμ(K,m0,n,β;debug)
 
-    for (i,k) in enumerate(K)
-        hk = GetHamiltonian(k,m0)
-        hk[1,1] -= μ # Include chemical potential
-        hk[2,2] += μ # Include chemical potential    
-        F = eigen(hk)
-        W = F.vectors
-        Wd = W'
-        E = F.values
-        	ϕ[i] += sum( [W[l,1] * Wd[2,l] * FermiDirac(E[l],0.0,β) for l in 1:2] )
-    end
-
 #    for (i,k) in enumerate(K)
-#        ek = GetHoppingEnergy(k)
-#        xk = ek - μ
-#        dk = m0 * sum( cos.(k) .* [1,-1] )
-#        Ek = sqrt(xk^2 + dk^2)
-#        
-#        if Ek!==0.0
-#		    s2 = dk/Ek
-#		    c2 = xk/Ek
-#		    	ϕ[i] = s2/2 * tanh(β*Ek/2)
-#		elseif Ek==0.0
-#			ϕ[i] = 0.0
-#		end
+#        hk = GetHamiltonian(k,m0)
+#        hk[1,1] -= μ # Include chemical potential
+#        hk[2,2] += μ # Include chemical potential    
+#        F = eigen(hk)
+#        W = F.vectors
+#        Wd = W'
+#        E = F.values
+#        ϕ = sum( [W[l,1] * Wd[2,l] * FermiDirac(E[l],0.0,β) for l in 1:2] )
+#        m += ( cos(k[1])-cos(k[2]) ) * ϕ
 #    end
+
+    for (i,k) in enumerate(K)
+        ek = GetHoppingEnergy(k)
+        xk = ek - μ
+        dk = m0 * sum( cos.(k) .* [1,-1] )
+        Ek = sqrt(xk^2 + dk^2)
+        ϕ = 0.0        
+        if Ek!==0.0
+		    s2 = dk/Ek
+		    c2 = xk/Ek
+		    ϕ = s2/2 * tanh(β*Ek/2)
+		end
+        m += ( cos(k[1])-cos(k[2]) ) * ϕ
+    end
     
   	# Structure factors
-    fd(k::Vector{Float64}) = sum( cos.(k) .* [1,-1] )	# d-wave  
-    m = sum(fd.(K) .* ϕ) * 2*V / LxLy
+#    fd(k::Vector{Float64}) = sum( cos.(k) .* [1,-1] )	# d-wave  
+#    m = sum(fd.(K) .* ϕ) * 2*V / LxLy
 
+    m *= 2*V / LxLy
     return m
 end
 

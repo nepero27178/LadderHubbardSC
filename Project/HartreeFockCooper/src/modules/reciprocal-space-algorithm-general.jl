@@ -4,6 +4,43 @@ using Roots
 using Random
 
 @doc raw"""
+function StructureFactor(
+    Sym::String,
+    k::Vector{Float64}
+)::Complex{Float64}
+
+Returns: structure factor for symmetry `Sym` at wavevector (`k[1]`, `k[2]`).
+
+`StructureFactor ' takes as input `Sym` (string specifying symmetry), whose
+acceptable values are s, s*, px, py, d, and `k` (coordinate in k-space). It
+computes the relative symmetry structure facotor at the specified symmetry and
+point in reciprocal space.
+"""
+function StructureFactor(
+    Sym::String,                        # Symmetry
+    k::Vector{Float64}                  # [kx, ky]
+)::Complex{Float64}
+
+    AllSyms = ["s", "s*", "px", "py", "d"]
+	if !( Sym in AllSyms )
+	    @error "Invalid symmetries. Plase use s, s*, px, py, d."
+	    return
+	end
+    
+    if Sym=="s"
+        return 1
+    elseif Sym=="s*"
+        return sum( cos.(k) )           # s*-wave
+    elseif Sym=="px"
+        return 1im * sin(k[1])          # py-wave
+    elseif Sym=="py"
+        return 1im * sin(k[2])			# px-wave
+    elseif Sym=="d"
+        return sum( cos.(k) .* [1,-1] )	# d-wave
+    end
+end
+
+@doc raw"""
 function GetHoppingEnergy(
     k::Vector{Float64}
 )::Float64
@@ -16,7 +53,7 @@ hopping energy for the 2D monatomic regular square lattice.
 function GetHoppingEnergy(
     k::Vector{Float64},					# [kx, ky]
 )::Float64
-    return -2 * sum( cos.(k) )
+    return -2 * StructureFactor("s*",k)
 end
 
 @doc raw"""
@@ -38,14 +75,16 @@ function GetHamiltonian(
 )::Matrix{Complex{Float64}}
 
     hk = zeros(Complex{Float64},2,2)    # Empty hamiltonian
-    
-	# Unpack HF parameters vector
-	isnan( m["s"] )  ? Us = 0.0  : Us = m["s"]
-	isnan( m["s*"] ) ? Vs = 0.0  : Vs = m["s*"] * sum( cos.(k) )
-	isnan( m["px"] ) ? Vpx = 0.0 : Vpx = m["px"] * 1im * sin(k[1])
-	isnan( m["py"] ) ? Vpy = 0.0 : Vpy = m["py"] * 1im * sin(k[2])
-	isnan( m["d"] )  ? Vd = 0.0  : Vd = m["d"] * sum( cos.(k) .* [1,-1] )
-	Δk = (Vs + Vpx + Vpy + Vd) - Us
+    AllSyms = ["s", "s*", "px", "py", "d"]    
+    Δk = Dict([
+        Sym => 0.0+1im*0.0 for Sym in AllSyms
+    ])
+
+    for Sym in AllSyms
+        # Sum only !NaN entries
+        isnan(m[Sym]) ? 0 : Δk[Sym] = m[Sym] * StructureFactor(Sym,k)
+    end
+    Gap = sum( [v for v in values(Δk)] )
 
     # Diagonal elements
     εk = GetHoppingEnergy(k)
@@ -53,8 +92,8 @@ function GetHamiltonian(
     hk[2,2] = -εk
     
     # Off-diagonal elements
-    hk[2,1] = -Δk
-    hk[1,2] = -conj( Δk )
+    hk[2,1] = -Gap
+    hk[1,2] = -conj( Gap )
 
     return hk
 end
@@ -89,46 +128,6 @@ function FermiDirac(
     elseif β<Inf                # Finite temperature distribution
         return 1 / ( exp(β * (ε-μ)) + 1 )
     end
-end
-
-@doc raw"""
-function GetQuasiParticlesEnergies(
-    K::Matrix{Vector{Float64}},
-    m0::Dict{String,Float64}
-)::Matrix{Float64}
-
-Returns:
-
-`GetQuasiParticlesEnergies` takes as input `K` (k-points in the BZ), `m0` 
-(dictionary of real HF parameters), `μ0` (chemical potential). It computes a
-matrix of energies for quasiparticles at all wavevectors in BZ.
-"""
-function GetQuasiParticlesEnergies(
-    K::Matrix{Vector{Float64}},			# BZ grid
-    m0::Dict{String,Float64},        	# HF parameters
-)::Matrix{Float64}
-    
-    @error "Deprecated."
-    
-    Ek 	= zeros(size(K))
-	Δk = zeros(Complex{Float64}, size(K))
-    
-    for (i,k) in enumerate(K)
-    
-		# Unpack HF parameters vector
-		isnan( m0["s"] )  ? Us = 0.0  : Us = m0["s"]
-		isnan( m0["s*"] ) ? Vs = 0.0  : Vs = m0["s*"] * sum( cos.(k) )
-		isnan( m0["px"] ) ? Vpx = 0.0 : Vpx = m0["px"] * 1im * sin(k[1])
-		isnan( m0["py"] ) ? Vpy = 0.0 : Vpy = m0["py"] * 1im * sin(k[2])
-		isnan( m0["d"] )  ? Vd = 0.0  : Vd = m0["d"] * sum( cos.(k) .* [1,-1] )
-		Δk = (Vs + Vpx + Vpy + Vd) - Us
-    end
-
-	# Quasiparticles energies function
-    E(ε::Float64, Δ::Complex{Float64}) = sqrt( ε^2 + abs(Δ)^2 )
-    Ek .= E.( GetHoppingEnergy.(K), Δ )
-
-    return Ek
 end
 
 @doc raw"""
@@ -246,6 +245,7 @@ end
 
 @doc raw"""
 function PerformHFStep(
+    Syms::Vector{String},
     K::Matrix{Vector{Float64}},
     m0::Dict{String,Float64},
     U::Float64,
@@ -257,8 +257,9 @@ function PerformHFStep(
 
 Returns: HF estimation for Cooper instability parameter based on input.
 
-`PerformHFStep` takes as input `K` (k-points in the BZ) , `m0` (dictionary of 
-real HF initializers), 'U` (local interaction), `V` (non-local interaction), `n`
+`PerformHFStep` takes as input `Syms` (vector of symmetries to be simulated,
+formatted as Strings), `K` (k-points in the BZ) , `m0` (dictionary of  real HF
+initializers), 'U` (local interaction), `V` (non-local interaction), `n` 
 (density) and `β` (inverse temperature). It performs a  single step of the
 iterative Hartree-Fock (HF) analysis starting over a 2D square lattice whose
 dimensions are given by `L`. The function estimates `m` using as input the
@@ -266,6 +267,7 @@ Nambu-Bogoliubov hamiltonian obtained via the function `GetHamiltonian` and the
 optimal chemical potential for the density `n` for this hamiltonian.
 """
 function PerformHFStep(
+    Syms::Vector{String},		        # Gap function symmetries
     K::Matrix{Vector{Float64}},			# BZ grid
     m0::Dict{String,Float64},			# HF initializers
     U::Float64,							# Local interaction
@@ -274,6 +276,11 @@ function PerformHFStep(
     β::Float64;                 		# Inverse temperature
     debug::Bool=false
 )::Dict{String,Float64}
+
+    AllSyms = ["s", "s*", "px", "py", "d"]    
+    Factors = Dict([
+        Sym => 0.0+1im*0.0 for Sym in AllSyms
+    ])
 
 	ϕ = zeros(Complex{Float64}, size(K))
 	m = copy(m0)
@@ -290,48 +297,22 @@ function PerformHFStep(
         W = F.vectors
         Wd = adjoint(W)
         E = real.( F.values ) # Strangely explicit realization is needed (?)
-        	ϕ[i] += sum( [W[l,1] * Wd[2,l] * FermiDirac(E[l],0.0,β) for l in 1:2] )
-    end
-    
-    HardDebug = false
-    if HardDebug
-		@info "ϕ"
-	    display(ϕ)
-	end
-    
-  	# Structure factors
-    fs(k::Vector{Float64}) = sum( cos.(k) )				# s*-wave
-    fpx(k::Vector{Float64}) = -1im * sin(k[1])			# py-wave
-    fpy(k::Vector{Float64}) = -1im * sin(k[2])			# px-wave
-    fd(k::Vector{Float64}) = sum( cos.(k) .* [1,-1] )	# d-wave
-    
-    # Initialize response
-    Us, Vs, Vpx, Vpy, Vd = [0.0 for _ in 1:5]
-    if !isnan(m0["s"])
-	    Us = U * sum(ϕ) / ( 2*LxLy )
+        ϕ[i] += sum( [W[l,1] * Wd[2,l] * FermiDirac(E[l],0.0,β) for l in 1:2] )
     end
 
-	CheckV = copy(m0)
-	pop!(CheckV, "s")
-	if any( .!isnan.(values(CheckV)) )
-		Vk = zeros(Complex{Float64}, size(K))
-		for (i,k) in enumerate(K)
-			Vk[i] = sum( fs.([k] .- K) .* ϕ )
-		end
-		Vk .*= 2 * V / prod(size(K))
-		Vs = real( sum(Vk .* fs.(K)) / LxLy	)			# s*-wave
-		Vpx = real( sum(Vk .* fpx.(K)) / LxLy )			# px-wave
-		Vpy = real( sum(Vk .* fpy.(K)) / LxLy )			# py-wave
-		Vd = real( sum(Vk .* fd.(K)) / LxLy )			# d-wave
-	end	
-	
-	# Clear cache or save data
-    isnan( m0["s"] )  ? Us = NaN  : m["s"] = real( Us )
-	isnan( m0["s*"] ) ? Vs = NaN  : m["s*"] = real( Vs )
-	isnan( m0["px"] ) ? Vpx = NaN : m["px"] = real( Vpx )
-	isnan( m0["py"] ) ? Vpy = NaN : m["py"] = real( Vpy )
-	isnan( m0["d"] )  ? Vd = NaN  : m["d"] = real( Vd )
-    
+    for Sym in Syms
+        isnan(m0[Sym]) ? 0 : Factors[Sym] = sum( StructureFactor.(Sym,K) .* ϕ )
+        c = 1.0        
+        if Sym=="s"
+            c = -U/2
+        elseif Sym in ["px", "py"]
+            c = -2*1im*V
+        elseif Sym in ["s*", "d"]
+            c = 2*V
+        end        
+        m[Sym] = real( Factors[Sym] * c/LxLy )
+    end
+
     return m
 end
 
@@ -378,24 +359,20 @@ function RunHFAlgorithm(
     g::Float64;                 # Mixing parameter
     verbose::Bool=false,
     debug::Bool=false
-)::Tuple{Dict{String,Float64}, Vector{Float64}, Float64}
+)::Tuple{Dict{String,Float64}, Dict{String,Float64}, Float64}
 
-	# Initialize order parameters
-	m0::Dict{String,Float64} = Dict([])
-	m0["s"] = NaN
-	m0["s*"] = NaN
-	m0["px"] = NaN
-	m0["py"] = NaN
-	m0["d"] = NaN
-
-	AllSyms = ["s", "s*", "px", "py", "d"]
+    AllSyms = ["s", "s*", "px", "py", "d"]    
 	if !all( Syms[i] in AllSyms for i in 1:length(Syms) )
 	    @error "Invalid symmetries. Plase use s, s*, px, py, d."
 	    return
 	end
+    m0 = Dict([
+        Sym => NaN for Sym in AllSyms
+    ])
 	
+    # Random initialization of a subsection of symmetries
 	for Sym in Syms
-		m0[Sym] = rand()	# Random initializer
+		m0[Sym] = rand()
 	end
 	    
     if verbose
@@ -410,8 +387,8 @@ function RunHFAlgorithm(
     
     K::Matrix{Vector{Float64}} = [ [kx,ky] for kx in Kx, ky in Ky]
 
-    m = copy(m0) # Shallow copy of values
-    Qs = [0.0 for _ in 1:5]
+    m = copy(m0)    # Shallow copy of values
+    Qs = copy(m0)   # Copy NaN keys
     i = 1
 
     ΔT = @elapsed begin
@@ -421,12 +398,16 @@ function RunHFAlgorithm(
                 printstyled("\n---Step $i---\n", color=:yellow)
             end
 
-            m = copy( PerformHFStep(K,m0,U,V,n,β;debug) )
+            m = copy( PerformHFStep(Syms,K,m0,U,V,n,β;debug) )
 
 			pp = [v for v in values( m0[Sym] for Sym in Syms )]	# Previous
 			cc = [v for v in values( m[Sym] for Sym in Syms )]	# Current
 			tt = [v for v in values( Δm[Sym] for Sym in Syms )]	# Tolerances
             Qs = abs.( cc .- pp ) ./ tt
+
+            for Sym in Syms
+                Qs[Sym] = abs( m[Sym]-m0[Sym] ) / Δm[Sym]
+            end
 
             if all(Qs .<= 1)
                 
@@ -457,9 +438,12 @@ function RunHFAlgorithm(
     
     if verbose
         if all(Qs .<= 1)
-            @info "Algorithm has converged" m Qs
+            @info "Algorithm has converged." m Qs
         elseif any(Qs .> 1)
-            @info "Algorithm has not converged" m Qs
+            @info "Algorithm has not converged - m saved as NaN." m Qs Syms
+            for Sym in Syms          
+                m[Sym] = NaN
+            end
         end
     end
 

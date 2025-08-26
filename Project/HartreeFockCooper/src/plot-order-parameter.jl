@@ -10,7 +10,7 @@ function main()
     FilePathIn = DirPathIn * "/Setup=$(Setup).txt"
     DirPathOut = PROJECT_ROOT * "/analysis/hubbard/p=$(p)_Δm=$(Δm)_Δn=$(Δn)/"
     mkpath(DirPathOut)
-    PlotUΔ(FilePathIn, DirPathOut)  # Δ vs U
+    PlotVΔ(FilePathIn, DirPathOut)  # Δ vs V
     PlotδΔ(FilePathIn, DirPathOut)  # Δ vs δ
 end
 

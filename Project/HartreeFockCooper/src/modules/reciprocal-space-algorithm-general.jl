@@ -400,29 +400,24 @@ function RunHFAlgorithm(
 
             m = copy( PerformHFStep(Syms,K,m0,U,V,n,β;debug) )
 
-			pp = [v for v in values( m0[Sym] for Sym in Syms )]	# Previous
-			cc = [v for v in values( m[Sym] for Sym in Syms )]	# Current
-			tt = [v for v in values( Δm[Sym] for Sym in Syms )]	# Tolerances
-            Qs = abs.( cc .- pp ) ./ tt
-
             for Sym in Syms
-                Qs[Sym] = abs( m[Sym]-m0[Sym] ) / Δm[Sym]
+            	cSym = copy( m[Sym] )
+            	pSym = copy( m0[Sym] )
+            	tSym = copy( Δm[Sym] )
+                Qs[Sym] = abs( cSym-pSym ) / tSym 
             end
 
-            if all(Qs .<= 1)
+            if all([Qs[Sym] for Sym in Syms] .<= 1)
                 
                 if verbose
                     printstyled("\n---Converged at step $i---\n", color=:green)
                 end
                 i = p+1
                 
-            elseif any(Qs .> 1)
-            	
-            	# Evaluate: it could be better to run another iteration only for
-            	# symmetries with low convergence quality factor.
-            	for (s,Sym) in enumerate(Syms)
-            		cSym = m[Sym]
-            		pSym = m0[Sym]
+            elseif any([Qs[Sym] for Sym in Syms] .> 1)
+            	for Sym in Syms
+            		cSym = copy( m[Sym] )
+            		pSym = copy( m0[Sym] )
             		m[Sym] = g*cSym + (1-g)*pSym
             	end
             	
@@ -437,9 +432,9 @@ function RunHFAlgorithm(
     end
     
     if verbose
-        if all(Qs .<= 1)
+        if all([Qs[Sym] for Sym in Syms] .<= 1)
             @info "Algorithm has converged." m Qs
-        elseif any(Qs .> 1)
+        elseif any([Qs[Sym] for Sym in Syms] .> 1)
             @info "Algorithm has not converged - m saved as NaN." m Qs Syms
             for Sym in Syms          
                 m[Sym] = NaN

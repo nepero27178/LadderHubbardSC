@@ -49,25 +49,18 @@ function RunHFRoutine(
 )
     
     if FilePathOut != ""
-        Header = "# U, V, Lx, β, δ, " *
-            "Δs, Qs, " *
-            "Δs*, Qs*, " *
-            "Δpx, Qpx, " *
-            "Δpy, Qpy, " *
-            "Δd, Qd, " *
-            "ΔT [calculated @ $(now())]\n"
+        Header = "# U, V, Lx, β, δ, Δ, Q, ΔT [calculated @ $(now())]\n"
         write(FilePathOut, Header)
     end
 
     SymStr = ""
     for Sym in Syms
-        SymStr *= "Sym-"
+        SymStr *= "$(Sym)-"
     end
     # Pop last "-" character
     SymStr = SymStr[1:end-1]
 
-#    ResultsTable = zeros( length(UU) * length(VV) * length(LL) * length(ββ) * 
-#    	length(δδ), 16 )
+	Iterations = length(UU) * length(VV) * length(LL) * length(ββ) * length(δδ)
     i = 1    
     for (u,U) in enumerate(UU), 
         (v,V) in enumerate(VV), 
@@ -77,20 +70,24 @@ function RunHFRoutine(
 
         L = [Lx, Lx]
         printstyled(
-            "\e[2K\e[1GRun: $(SymStr)-wave HF at U=$U, V=$V, L=$Lx, β=$β, δ=$δ", 
+            "\e[2K\e[1GRun (i/$Iterations): $(SymStr)-wave HF at U=$U, V=$V, L=$Lx, β=$β, δ=$δ", 
             color=:yellow
         )
 #        ResultsTable[i,1:5] .= [U,V,Lx,β,δ]
-        ResultsVector::Vector{Any} = []
-        ResultsVector = vcat(ResultsVector, [U,V,Lx,β,δ])
-        # GO ON FROM HERE...
-        ResultsVector[6:8] .= RunHFAlgorithm(Syms,U,V,L,0.5+δ,β,p,Δm,Δn,g)
+        ResultsVector::Matrix{Any} = [0 0]
+        ResultsVector = hcat(ResultsVector, [U V Lx β δ])
+        HFResults = RunHFAlgorithm(Syms,U,V,L,0.5+δ,β,p,Δm,Δn,g)
+        
+        m = Dict([Sym => HFResults[1][Sym] for Sym in Syms])
+        Qs = Dict([Sym => HFResults[2][Sym] for Sym in Syms])        
+		ResultsVector = hcat(ResultsVector[:,3:end], [m Qs HFResults[3]])
 
         i += 1
 
         if FilePathOut != ""
             open(FilePathOut, "a") do io
-                writedlm(io, ResultsVector, ',')
+                writedlm(io, ResultsVector, ';')
+        	end
         end
     end
     
@@ -98,41 +95,27 @@ function RunHFRoutine(
         "\e[2K\e[1GDone! Data saved at " * FilePathOut * "\n", color=:green
     )
 
-#    if FilePathOut != ""
-#        open(FilePathOut, "a") do io
-#            writedlm(io, ResultsTable, ',')
-#        end
-#        printstyled(
-#            "\e[2K\e[1GDone! Data saved at " * FilePathOut * "\n",
-#            color=:green
-#        )    
-#    elseif FilePathOut==""
-#        printstyled(
-#            "\e[2K\e[1GDone!\n",
-#            color=:green
-#        )
-#        return ResultsTable
-#    end
-
 end
 
 # Main run
 function main()
-    DirPathOut = PROJECT_ROOT * "/simulations/hubbard/p=$(p)_Δm=$(Δm)_Δn=$(Δn)/"
+    DirPathOut = PROJECT_ROOT * "/simulations/Setup=$(Setup)/"
     mkpath(DirPathOut)
 
-    # Temporary
-    FilePathOut = DirPathOut * "d-wave_Setup=$(Setup).txt"
-    RunHFRoutine(["d"],UU,VV,LL,δδ,ββ,p,Δm,Δn,g;FilePathOut)
+	HomeMadeRun = true
+	if HomeMadeRun
+		FilePathOut = DirPathOut * "$(HMSymsStr)-wave.txt"
+		RunHFRoutine(HMSyms,UU,VV,LL,δδ,ββ,p,Δm,Δn,g;FilePathOut)
+	elseif !HomeMadeRun
+		AnisotropicSyms = ["px", "py", "d"]    
+		for ASym in AnisotropicSyms
+		    FilePathOut = DirPathOut * "$(ASym)-wave.txt"
+		    RunHFRoutine([ASym],UU,VV,LL,δδ,ββ,p,Δm,Δn,g;FilePathOut)
+		end
 
-#    AnisotropicSyms = ["px", "py", "d"]    
-#    for ASym in AnisotropicSyms
-#        FilePathOut = DirPathOut * "$(ASym)-wave_Setup=$(Setup).txt"
-#        RunHFRoutine([ASym],UU,VV,LL,δδ,ββ,p,Δm,Δn,g;FilePathOut)
-#    end
-#
-#    FilePathOut = DirPathOut * "$Full-s-wave_Setup=$(Setup).txt"
-#    RunHFRoutine(["s", "s*"],UU,VV,LL,δδ,ββ,p,Δm,Δn,g;FilePathOut)
+		FilePathOut = DirPathOut * "$Full-s-wave.txt"
+		RunHFRoutine(["s", "s*"],UU,VV,LL,δδ,ββ,p,Δm,Δn,g;FilePathOut)
+	end
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__

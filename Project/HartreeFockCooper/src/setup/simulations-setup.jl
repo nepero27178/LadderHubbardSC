@@ -2,7 +2,16 @@
 SetupFilePath = @__FILE__
 
 AllSyms = ["s", "s*", "px", "py", "d"]  # Gap function possible symmetries
-Setup="Test" # Choose your setup
+
+HMSyms = ["d"]
+HMSymsStr = ""
+for Sym in HMSyms
+    global HMSymsStr *= "$(Sym)-"
+end
+# Pop last "-" character
+global HMSymsStr = HMSymsStr[1:end-1]
+
+Setup="A" # Choose your setup
 
 if !in(Setup, ["Test", "A", "B"])
     @error "Invalid setup, please modify at: " * SetupFilePath
@@ -13,7 +22,7 @@ elseif Setup=="Test"
     # TEST-SETUP
     UU = [10.0]
     VV = [V for V in 0.8:0.2:1.0]
-    LL = [16, 32]
+    LL = [16]
     δδ = [δ for δ in 0.0:0.1:0.2]
     ββ = [100.0, Inf]
     p = 100
@@ -25,14 +34,14 @@ elseif Setup=="Test"
 
 elseif Setup=="A"
     # SETUP A ...
-    UU = [10.0,100.0]                   # Local repulsions
+    UU = [4.0, 10.0]                    # Local repulsions
     VV = [V for V in 0.1:0.1:1.0]		# Non-local attractions
     LL = [2^5]                          # Lattice sizes
-    δδ = [δ for δ in 0.0:0.05:0.5]      # Dopings
-    ββ = [0.1, 1.0, 10.0, 50.0, Inf]    # Inverse temperatures
+    δδ = [δ for δ in 0.0:0.05:0.45]     # Dopings
+    ββ = [10.0, 50.0, Inf]			    # Inverse temperatures
     p = 100                             # Max number of iterations
     Δm = Dict([                         # Tolerance on each symmetry
-        Sym => 1e-1 for Sym in AllSyms
+        Sym => 1e-3 for Sym in AllSyms
     ])
     Δn = 1e-2                           # Tolerance on density
     g = 0.5                             # Mixing parameter

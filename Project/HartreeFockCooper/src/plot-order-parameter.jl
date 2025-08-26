@@ -6,12 +6,12 @@ include(PROJECT_ROOT * "/src/setup/graphic-setup.jl")
 include(PROJECT_ROOT * "/src/modules/methods-plotting.jl")
 
 function main()
-    DirPathIn = PROJECT_ROOT * "/simulations/hubbard/p=$(p)_Δm=$(Δm)_Δn=$(Δn)/"
-    FilePathIn = DirPathIn * "/Setup=$(Setup).txt"
-    DirPathOut = PROJECT_ROOT * "/analysis/hubbard/p=$(p)_Δm=$(Δm)_Δn=$(Δn)/"
+    DirPathIn = PROJECT_ROOT * "/simulations/Setup=$(Setup)/"
+    FilePathIn = DirPathIn * "/$(HMSymsStr)-wave.txt"
+    DirPathOut = PROJECT_ROOT * "/analysis/"
     mkpath(DirPathOut)
-    PlotVΔ(FilePathIn, DirPathOut)  # Δ vs V
-    PlotδΔ(FilePathIn, DirPathOut)  # Δ vs δ
+    PlotVΔ(HMSyms, FilePathIn, DirPathOut)  # Δ vs V
+    PlotδΔ(HMSyms, FilePathIn, DirPathOut)  # Δ vs δ
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__

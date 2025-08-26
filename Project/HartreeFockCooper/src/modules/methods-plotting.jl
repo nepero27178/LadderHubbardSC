@@ -2,8 +2,9 @@
 using DelimitedFiles
 
 function PlotVΔ(
-    FilePathIn::String,
-    DirPathOut::String
+	Syms::Vector{String},				# Gap function symmetries
+    FilePathIn::String,					# Data filepath
+    DirPathOut::String					# Output directory path
 )
 
     DirPathOut *= "VΔ-Setup=$(Setup)/"
@@ -11,7 +12,7 @@ function PlotVΔ(
 
     DataIn = true
     open(FilePathIn) do io
-        DataIn = readdlm(FilePathIn, ',', comments=true)
+        DataIn = readdlm(FilePathIn, ';', comments=true, '\n')
     end
 
     UU = unique(DataIn[:,1])
@@ -21,30 +22,42 @@ function PlotVΔ(
     δδ = unique(DataIn[:,5])
 
     # Cycler
-    for (u,U) in enumerate(UU), (b,β) in enumerate(ββ), (l,L) in enumerate(LL)
-        printstyled("\e[2K\e[1GPlotting HF d-wave data for β=$β", color=:yellow)
-        FilePathOut = DirPathOut * "/U=$(U)_L=$(L)_β=$(β).pdf"
+    for Sym in Syms,
+    	(u,U) in enumerate(UU),
+    	(b,β) in enumerate(ββ),
+    	(l,L) in enumerate(LL)
+    	
+        printstyled(
+        	"\e[2K\e[1GPlotting HF-VΔ $(Sym)-wave data for β=$β", color=:yellow
+        )
+        FilePathOut = DirPathOut * "/$(Sym)-wave_U=$(U)_L=$(L)_β=$(β).pdf"
         P = plot(
             size = (600,400),
             xlabel = L"$V/t$",
-            ylabel = L"$\Delta^{(d)}$",
+            ylabel = L"$\Delta^{(%$(Sym))}$",
             ylims = (0.0,0.5),
             legend = :topleft
         )
         if β==Inf
-            title!(L"$d$-wave order parameter ($U=%$(U), L=%$(L), \beta=\infty$)")
+            title!(L"$%$(Sym)$-wave order parameter ($U=%$(U), L=%$(L), \beta=\infty$)")
         elseif β<Inf
-            title!(L"$d$-wave order parameter ($U=%$(U), L=%$(L), \beta=%$(β)$)")
+            title!(L"$%$(Sym)$-wave order parameter ($U=%$(U), L=%$(L), \beta=%$(β)$)")
         end
         for (d,δ) in enumerate(δδ)
             
-            Selections = (DataIn[:,1] .== U) .* (DataIn[:,3] .== L) .* 
-            	(DataIn[:,4] .== β) .* (DataIn[:,5] .== δ) # Logical intersection
+            Selections = (DataIn[:,1] .== U) .* # Logical intersection
+            	(DataIn[:,3] .== L) .* 
+            	(DataIn[:,4] .== β) .* 
+            	(DataIn[:,5] .== δ)
+            	
             VV = DataIn[Selections,2]
             (mm, QQ, ΔTΔT) = [DataIn[Selections,i] for i in 6:8]
 
+			ΔΔ = [eval(
+				Meta.parse(mm[i]) # Meta-programming: parse formatted string
+			)[Sym] for i in 1:length(mm)]
             plot!(
-                VV, mm,
+                VV, ΔΔ,
                 markershape = :circle,
                 markercolor = TabColors[d],
                 markersize = 1.5,
@@ -60,9 +73,21 @@ function PlotVΔ(
 
 end
 
+@doc raw"""
 function PlotδΔ(
+	Sym::Vector{String},
     FilePathIn::String,
     DirPathOut::String
+)
+
+Returns: none.
+
+Under construction!
+"""
+function PlotδΔ(
+	Syms::Vector{String},				# Gap function symmetries
+    FilePathIn::String,					# Data filepath
+    DirPathOut::String					# Output directory path
 )
 
     DirPathOut *= "δΔ-Setup=$(Setup)/"
@@ -70,7 +95,7 @@ function PlotδΔ(
 
     DataIn = true
     open(FilePathIn) do io
-        DataIn = readdlm(FilePathIn, ',', comments=true)
+        DataIn = readdlm(FilePathIn, ';', comments=true, '\n')
     end
 
     UU = unique(DataIn[:,1])
@@ -82,30 +107,41 @@ function PlotδΔ(
     # UU = UU[end-6:2:end]
 
     # Cycler
-    for (u,U) in enumerate(UU), (b,β) in enumerate(ββ), (l,L) in enumerate(LL)
-        printstyled("\e[2K\e[1GPlotting HF δΔ data for β=$β", color=:yellow)
-        FilePathOut = DirPathOut * "/U=$(U)_L=$(L)_β=$(β).pdf"
+    for Sym in Syms,
+    	(u,U) in enumerate(UU),
+    	(b,β) in enumerate(ββ),
+    	(l,L) in enumerate(LL)
+    	
+        printstyled(
+        	"\e[2K\e[1GPlotting HF-δΔ $(Sym)-wave data for β=$β", color=:yellow
+        )
+        FilePathOut = DirPathOut * "/$(Sym)-wave_U=$(U)_L=$(L)_β=$(β).pdf"
         P = plot(
             size = (600,400),
             xlabel = L"$\delta \vphantom{V/t}$",
-            ylabel = L"$\Delta^{(d)}$",
+            ylabel = L"$\Delta^{(%$(Sym))}$",
             ylims = (0.0,0.5),
             legend = :topright
         )
         if β==Inf
-            title!(L"$d$-wave order parameter ($U=%$(U), L=%$(L), \beta=\infty$)")
+            title!(L"$%$(Sym)$-wave order parameter ($U=%$(U), L=%$(L), \beta=\infty$)")
         elseif β<Inf
-            title!(L"$d$-wave order parameter ($U=%$(U), L=%$(L), \beta=%$(β)$)")
+            title!(L"$%$(Sym)$-wave order parameter ($U=%$(U), L=%$(L), \beta=%$(β)$)")
         end
         for (v,V) in enumerate(VV)
             
-            Selections = (DataIn[:,2] .== V) .* (DataIn[:,3] .== L) .* 
+            Selections = (DataIn[:,1] .== U) .*
+				(DataIn[:,2] .== V) .*
+				(DataIn[:,3] .== L) .* 
                 (DataIn[:,4] .== β) # Logical intersection
             δδ = DataIn[Selections,5]
             (mm, QQ, ΔTΔT) = [DataIn[Selections,i] for i in 6:8]
 
+			ΔΔ = [eval(
+				Meta.parse(mm[i])	# Meta-programming: parse formatted string
+			)[Sym] for i in 1:length(mm)]
             plot!(
-                δδ, mm,
+                δδ, ΔΔ,
                 markershape = :circle,
                 markercolor = TabColors[v],
                 markersize = 1.5,

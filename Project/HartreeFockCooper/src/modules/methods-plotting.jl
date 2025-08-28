@@ -26,16 +26,17 @@ function PlotVΔ(
     	(u,U) in enumerate(UU),
     	(b,β) in enumerate(ββ),
     	(l,L) in enumerate(LL)
-    	
+
         printstyled(
-        	"\e[2K\e[1GPlotting HF-VΔ $(Sym)-wave data for β=$β", color=:yellow
+        	"\e[2K\e[1GPlotting HF-δΔ $(Sym)-wave data for " *
+			"U=$U, L=$L, β=$β", color=:yellow
         )
         FilePathOut = DirPathOut * "/$(Sym)-wave_U=$(U)_L=$(L)_β=$(β).pdf"
         P = plot(
             size = (600,400),
             xlabel = L"$V/t$",
             ylabel = L"$\Delta^{(%$(Sym))}$",
-            ylims = (0.0,0.5),
+            ylims = (0.0,0.25),
             legend = :topleft
         )
         if β==Inf
@@ -113,14 +114,15 @@ function PlotδΔ(
     	(l,L) in enumerate(LL)
     	
         printstyled(
-        	"\e[2K\e[1GPlotting HF-δΔ $(Sym)-wave data for β=$β", color=:yellow
+        	"\e[2K\e[1GPlotting HF-δΔ $(Sym)-wave data for " *
+			"U=$U, L=$L, β=$β", color=:yellow
         )
         FilePathOut = DirPathOut * "/$(Sym)-wave_U=$(U)_L=$(L)_β=$(β).pdf"
         P = plot(
             size = (600,400),
             xlabel = L"$\delta \vphantom{V/t}$",
             ylabel = L"$\Delta^{(%$(Sym))}$",
-            ylims = (0.0,0.5),
+            ylims = (0.0,0.25),
             legend = :topright
         )
         if β==Inf

@@ -3,7 +3,7 @@ SetupFilePath = @__FILE__
 
 AllSyms = ["s", "s*", "px", "py", "d"]  # Gap function possible symmetries
 
-HMSyms = ["d"]
+HMSyms = ["s*"]
 HMSymsStr = ""
 for Sym in HMSyms
     global HMSymsStr *= "$(Sym)-"
@@ -38,7 +38,7 @@ elseif Setup=="A"
     VV = [V for V in 0.1:0.1:1.0]		# Non-local attractions
     LL = [2^5]                          # Lattice sizes
     δδ = [δ for δ in 0.0:0.05:0.45]     # Dopings
-    ββ = [10.0, 50.0, Inf]			    # Inverse temperatures
+    ββ = [10.0, Inf]				    # Inverse temperatures
     p = 100                             # Max number of iterations
     Δm = Dict([                         # Tolerance on each symmetry
         Sym => 1e-3 for Sym in AllSyms

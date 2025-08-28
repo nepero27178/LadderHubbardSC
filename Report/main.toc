@@ -1,30 +1,13 @@
-\contentsline {chapter}{\chapternumberline {1}Theoretical introduction}{3}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Antiferromagnetic ordering in the Hubbard model}{3}{section.1.1}%
-\contentsline {section}{\numberline {1.2}The Extended Fermi-Hubbard model}{3}{section.1.2}%
-\contentsline {subsection}{\numberline {1.2.1}Experimental insight on NN attraction}{4}{subsection.1.2.1}%
-\contentsline {chapter}{\chapternumberline {2}Mean-field theory solution}{5}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Mean-Field theory real space description}{5}{section.2.1}%
-\contentsline {subsection}{\numberline {2.1.1}Mean-field treatment of the non-local term}{5}{subsection.2.1.1}%
-\contentsline {subsection}{\numberline {2.1.2}Mean-field treatment of the local term}{7}{subsection.2.1.2}%
-\contentsline {subsection}{\numberline {2.1.3}Topological correlations}{8}{subsection.2.1.3}%
-\contentsline {section}{\numberline {2.2}Mean-Field theory reciprocal space description}{9}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Kinetic term}{9}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Non-local attraction}{9}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Local interaction and gap function}{12}{subsection.2.2.3}%
-\contentsline {subsection}{\numberline {2.2.4}Nambu formalism and Bogoliubov transform}{13}{subsection.2.2.4}%
-\contentsline {subsection}{\numberline {2.2.5}A short comment on self-consistency}{15}{subsection.2.2.5}%
-\contentsline {section}{\numberline {2.3}Results of the HF algorihtm}{15}{section.2.3}%
-\contentsline {appendix}{\chapternumberline {A}Superexchange and virtual hopping in Hubbard lattices}{17}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Virtual hopping in the $2$-sites Hubbard lattice}{17}{section.A.1}%
-\contentsline {subsection}{\numberline {A.1.1}Exact solution of the half-filled model}{18}{subsection.A.1.1}%
-\contentsline {subsection}{\numberline {A.1.2}Virtual hopping}{18}{subsection.A.1.2}%
-\contentsline {appendix}{\chapternumberline {B}Mean-Field Theory in Hubbard lattices}{19}{appendix.B}%
-\contentsline {section}{\numberline {B.1}Ferromagnetic solution}{19}{section.B.1}%
-\contentsline {section}{\numberline {B.2}Antiferromagnetic solution}{20}{section.B.2}%
-\contentsline {subsection}{\numberline {B.2.1}Theoretical mean-field solution}{23}{subsection.B.2.1}%
-\contentsline {subsubsection}{Zero temperature solution}{24}{section*.15}%
-\contentsline {subsubsection}{Finite temperature solution}{24}{section*.16}%
-\contentsline {subsection}{\numberline {B.2.2}Hartree-Fock algorithm in reciprocal space}{25}{subsection.B.2.2}%
-\contentsline {subsubsection}{Results}{26}{section*.17}%
-\contentsline {subsection}{\numberline {B.2.3}An alternative (less efficient) real-space approach}{26}{subsection.B.2.3}%
-\contentsline {chapter}{Bibliography}{29}{section*.21}%
+\contentsline {chapter}{\chapternumberline {1}Mean-field theory solution}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Mean-Field theory real space description}{1}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Mean-field treatment of the non-local term}{1}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}Mean-field treatment of the local term}{3}{subsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.1.3}Topological correlations}{4}{subsection.1.1.3}%
+\contentsline {section}{\numberline {1.2}Mean-Field theory reciprocal space description}{5}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Kinetic term}{5}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Non-local attraction}{5}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}Local interaction and gap function}{8}{subsection.1.2.3}%
+\contentsline {subsection}{\numberline {1.2.4}Nambu formalism and Bogoliubov transform}{9}{subsection.1.2.4}%
+\contentsline {subsection}{\numberline {1.2.5}A short comment on self-consistency}{11}{subsection.1.2.5}%
+\contentsline {section}{\numberline {1.3}Results of the HF algorihtm}{11}{section.1.3}%
+\contentsline {chapter}{Bibliography}{13}{section*.8}%

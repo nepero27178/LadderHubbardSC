@@ -70,7 +70,8 @@ function RunHFRoutine(
 
         L = [Lx, Lx]
         printstyled(
-            "\e[2K\e[1GRun (i/$Iterations): $(SymStr)-wave HF at U=$U, V=$V, L=$Lx, β=$β, δ=$δ", 
+            "\e[2K\e[1GRun ($i/$Iterations): " *
+			"$(SymStr)-wave HF at U=$U, V=$V, L=$Lx, β=$β, δ=$δ", 
             color=:yellow
         )
 #        ResultsTable[i,1:5] .= [U,V,Lx,β,δ]

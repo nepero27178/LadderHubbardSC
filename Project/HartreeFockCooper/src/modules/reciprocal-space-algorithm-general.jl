@@ -32,9 +32,9 @@ function StructureFactor(
     elseif Sym=="s*"
         return sum( cos.(k) )           # s*-wave
     elseif Sym=="px"
-        return 1im * sin(k[1])          # py-wave
+        return 1im * sqrt(2) * sin(k[1])# py-wave
     elseif Sym=="py"
-        return 1im * sin(k[2])			# px-wave
+        return 1im * sqrt(2) * sin(k[2])# px-wave
     elseif Sym=="d"
         return sum( cos.(k) .* [1,-1] )	# d-wave
     end
@@ -306,9 +306,9 @@ function PerformHFStep(
         if Sym=="s"
             c = -U/2
         elseif Sym in ["px", "py"]
-            c = -2*1im*V
+            c = -1im * sqrt(2) * V
         elseif Sym in ["s*", "d"]
-            c = 2*V
+            c = V
         end        
         m[Sym] = real( Factors[Sym] * c/LxLy )
     end

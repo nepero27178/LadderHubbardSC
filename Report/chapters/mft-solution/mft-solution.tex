@@ -52,13 +52,12 @@ The AF non-local interactions can be written as a sum of terms over just one of 
 			\sum_{i \in \mathcal{S}_a} \hat h_V^{(i)}
 		}^{\hat H_V^{\uparrow\downarrow}} + \overbrace{
 			\sum_{i \in \mathcal{S}_b} \hat h_V^{(i)}
-		}^{\hat H_V^{\downarrow\uparrow}} \\
+		}^{\hat H_V^{\downarrow\uparrow}} \hspace{0.1\textwidth}
+		\hat h_V^{(i)} = -V \sum_{\ell = x,y} \left(
+		\hat n_{i\uparrow} \hat n_{i+\delta_\ell \downarrow} + \hat n_{i\uparrow} \hat n_{i-\delta_\ell \downarrow} 
+		\right)  \\
 		&= \sum_{i \in \mathcal{S}} \hat h_V^{(i)}
 	\end{aligned}
-	\hspace{0.1\textwidth}
-	\hat h_V^{(i)} = -V \sum_{\ell = x,y} \left(
-		\hat n_{i\uparrow} \hat n_{i+\delta_\ell \downarrow} + \hat n_{i\uparrow} \hat n_{i-\delta_\ell \downarrow} 
-	\right) 
 \]
 Here the notation of Fig.~\ref{subfig:antiferromagnet-sublattices} is used. The two-dimensional lattice is regular-square. For each site $i$ in a given sublattice, the nearest neighbors sites are four -- all in the other sublattice. The notation used is $i \pm \delta_x$, $i \pm  \delta_y$ as in Fig.~\ref{fig:square-nearest-neighbors}. Similarly, the Ferromagnetic hamiltonian decomposes as
 \[
@@ -360,8 +359,8 @@ Eventually, in the second passage the prefactor $2$ can be absorbed by reintrodu
 Take e.g. $\langle \hat c_{\mathbf{K}+\mathbf{k} \uparrow}^\dagger \hat c_{\mathbf{K}-\mathbf{k} \downarrow}^\dagger \rangle$: the only non-zero contribution can come from the $\mathbf{K}=\mathbf{0}$ term, as will be discussed self-consistently in Sec.~\ref{subsec:mft-self-consitency-cooper-decomposition}. Then finally:
 \[
 \begin{aligned}
-	\hat H_V \simeq \sum_{\mathbf{k}, \mathbf{k}'}
-	- V_{\mathbf{k}\mathbf{k}'} \left[
+	\hat H_V \simeq - \sum_{\mathbf{k}, \mathbf{k}'}
+	V_{\mathbf{k}\mathbf{k}'} \left[
 		\langle 
 			\hat \phi_\mathbf{k}^\dagger
 		\rangle \hat \phi_{\mathbf{k}'} + \langle 
@@ -428,15 +427,15 @@ are used. Group the four terms above,
 \end{equation}
 The first two exhibit inversion symmetry for both arguments $\mathbf{k}$, $\mathbf{k}'$; the second two exhibit anti-symmetry. Decoupling the symmetric part,
 \[
-	c_x c_x' + c_y c_y' = (c_x + c_y)(c_x' + c_y') + (c_x - c_y)(c_x' - c_y')
+	c_x c_x' + c_y c_y' = \frac{1}{2} (c_x + c_y)(c_x' + c_y') + \frac{1}{2} (c_x - c_y)(c_x' - c_y')
 \]
 which finally gives:
 \[
 \begin{aligned}
-	\cos \left( \delta k_x \delta_x \right)	+ \cos \left( \delta k_y \delta_y \right) &= (c_x + c_y)(c_x' + c_y') &&\qquad\text{($s^*$-wave)} \\
+	\cos \left( \delta k_x \delta_x \right)	+ \cos \left( \delta k_y \delta_y \right) &= \frac{1}{2}  (c_x + c_y)(c_x' + c_y') &&\qquad\text{($s^*$-wave)} \\
 	&\hphantom{=}+ s_x s_x' &&\qquad\text{($p_x$-wave)} \\
 	&\hphantom{=}+ s_y s_y' &&\qquad\text{($p_y$-wave)} \\
-	&\hphantom{=}+ (c_x - c_y)(c_x' - c_y') &&\qquad\text{($d_{x^2-y^2}$-wave)}
+	&\hphantom{=}+ \frac{1}{2} (c_x - c_y)(c_x' - c_y') &&\qquad\text{($d_{x^2-y^2}$-wave)}
 \end{aligned}
 \]
 In other words, the two-body potential decomposes as
@@ -445,7 +444,7 @@ In other words, the two-body potential decomposes as
 	V_{\mathbf{k}\mathbf{k}'} &= \sum_\gamma V^{(\gamma)} \varphi_\mathbf{k}^{(\gamma)} \varphi_{\mathbf{k}'}^{(\gamma)*}
 	\hspace{5em}\qq{where}
 	\gamma = s^*, p_x, p_y, d_{x^2-y^2} \\
-	&= \frac{2V}{L_xL_y} \sum_\gamma \varphi_\mathbf{k}^{(\gamma)} \varphi_{\mathbf{k}'}^{(\gamma)*}
+	&= \frac{V}{L_xL_y} \sum_\gamma \varphi_\mathbf{k}^{(\gamma)} \varphi_{\mathbf{k}'}^{(\gamma)*}
 \end{aligned}
 \]
 being $\varphi_\mathbf{k}^{(\gamma)}$ the reciprocal-space expressions for the form factors of Tab.~\ref{tab:x-wave-real-factors}, listed explicitly in Tab.~\ref{tab:x-wave-reciprocal-factors}, and $V_{\mathbf{k}\mathbf{k}'}^{(\gamma)}$ the symmetry-resolved components of the non-local attraction. Then the two-body potential has been decomposed in its planar symmetry components, each of which will naturally couple only to identically structured parameters in the full hamiltonian.
@@ -457,12 +456,12 @@ being $\varphi_\mathbf{k}^{(\gamma)}$ the reciprocal-space expressions for the f
 		\textbf{Structure} & \multicolumn{2}{c}{\textbf{Structure factor}} & \textbf{Graph} \\
 		\midrule
 		$s$-wave & $\varphi_\mathbf{k}^{(s)}$ & $1$ & Fig.~\ref{subfig:s-wave-correlator} \\
-		Extended $s$-wave & $\varphi^{(s^*)}_{\mathbf{k}}$ & $ 	\cos k_x + \cos k_y$ & Fig.~\ref{subfig:s*-wave-correlator} \\
-		$p_x$-wave & $\varphi_\mathbf{k}^{(p_x)}$ & $i\sin k_x $ & Fig.~\ref{subfig:px-wave-correlator} \\
-		$p_y$-wave & $\varphi_\mathbf{k}^{(p_y)}$ & $i\sin k_y$ & Fig.~\ref{subfig:py-wave-correlator} \\
-		$d_{x^2-y^2}$-wave & $\varphi_\mathbf{k}^{(d)}$ & $		\cos k_x - \cos k_y$ & Fig.~\ref{subfig:d-wave-correlator} 
+		Extended $s$-wave & $\varphi^{(s^*)}_{\mathbf{k}}$ & $\cos k_x + \cos k_y$ & Fig.~\ref{subfig:s*-wave-correlator} \\
+		$p_x$-wave & $\varphi_\mathbf{k}^{(p_x)}$ & $i \sqrt{2} \sin k_x $ & Fig.~\ref{subfig:px-wave-correlator} \\
+		$p_y$-wave & $\varphi_\mathbf{k}^{(p_y)}$ & $i \sqrt{2} \sin k_y$ & Fig.~\ref{subfig:py-wave-correlator} \\
+		$d_{x^2-y^2}$-wave & $\varphi_\mathbf{k}^{(d)}$ & $\cos k_x - \cos k_y$ & Fig.~\ref{subfig:d-wave-correlator} 
 	\end{tabular}
-	\caption{Structure factors derived from the correlation structures of Tab.~\ref{tab:wave-correlators}. The functions hereby defined are orthogonal, and define the non-local topological effective potential as $V_{\mathbf{k}-\mathbf{k}'}^{(\gamma)} \equiv V \varphi_{\mathbf{k}-\mathbf{k}'}^{(\gamma)}/L_xL_y$.}
+	\caption{Structure factors derived from the correlation structures of Tab.~\ref{tab:wave-correlators}. The functions hereby defined are orthonormal, and define the various components of the non-local topological effective potential.}
 	\label{tab:x-wave-reciprocal-factors}
 \end{table}
 \setlength{\extrarowheight}{0em}
@@ -485,7 +484,7 @@ To assume symmetry is broken in a specific symmetry channel $\gamma$ means preci
 \[
 \begin{aligned}
 	\mathcal{V}_\mathbf{k} &\propto \sum_{\mathbf{k}'}
-	\frac{2V}{L_xL_y} \varphi_\mathbf{k}^{(\gamma)} \varphi_{\mathbf{k}'}^{(\gamma)*}
+	\frac{V}{L_xL_y} \varphi_\mathbf{k}^{(\gamma)} \varphi_{\mathbf{k}'}^{(\gamma)*}
 	\varphi_{\mathbf{k}'}^{(\gamma)} \\
 	&\propto \varphi_\mathbf{k}^{(\gamma)}
 \end{aligned}
@@ -557,7 +556,7 @@ If SC arises in a specific symmetry channel, $\Delta_\mathbf{k}$ will show the s
 	\langle
 		\hat \phi_{\mathbf{k}'}^\dagger
 	\rangle \nonumber \\
-	&= \frac{1}{L_xL_y} \sum_{\mathbf{k}} \varphi_\mathbf{k}^{(\gamma)*} \sum_{\mathbf{k}'}
+	&= \frac{1}{L_xL_y} \sum_{\mathbf{k}} \varphi_\mathbf{k}^{(\gamma)*} \sum_{\mathbf{k}'\gamma'}
 	V^{(\gamma')} \varphi_\mathbf{k}^{(\gamma')} \varphi_{\mathbf{k}'}^{(\gamma')*}
 	\langle
 		\hat \phi_{\mathbf{k}'}^\dagger
@@ -581,16 +580,16 @@ The $s$-wave transition is the only one equipped of both the local and the non-l
 		$s$-wave & $\Delta^{(s)}$ & $\displaystyle -\frac{U}{2L_xL_y} \sum_{\mathbf{k}} \langle
 		\hat \phi_{\mathbf{k}}^\dagger
 		\rangle $ & Fig.~\ref{subfig:s-wave-correlator} \\
-		Extended $s$-wave & $\Delta^{(s^*)}$ & $\displaystyle \frac{2V}{L_xL_y} \sum_{\mathbf{k}} (c_x + c_y) \langle
+		Extended $s$-wave & $\Delta^{(s^*)}$ & $\displaystyle \frac{V}{L_xL_y} \sum_{\mathbf{k}} (c_x + c_y) \langle
 		\hat \phi_{\mathbf{k}}^\dagger
 		\rangle$ & Fig.~\ref{subfig:s*-wave-correlator} \\
-		$p_x$-wave & $\Delta^{(p_x)}$ & $\displaystyle -\frac{2iV}{L_xL_y} \sum_{\mathbf{k}} s_x \langle
+		$p_x$-wave & $\Delta^{(p_x)}$ & $\displaystyle - i\sqrt{2} \frac{V}{L_xL_y} \sum_{\mathbf{k}} s_x \langle
 		\hat \phi_{\mathbf{k}}^\dagger
 		\rangle$ & Fig.~\ref{subfig:px-wave-correlator} \\
-		$p_y$-wave & $\Delta^{(p_y)}$ & $\displaystyle -\frac{2iV}{L_xL_y} \sum_{\mathbf{k}} s_y \langle
+		$p_y$-wave & $\Delta^{(p_y)}$ & $\displaystyle -i \sqrt{2} \frac{V}{L_xL_y} \sum_{\mathbf{k}} s_y \langle
 		\hat \phi_{\mathbf{k}}^\dagger
 		\rangle$ & Fig.~\ref{subfig:py-wave-correlator} \\
-		$d_{x^2-y^2}$-wave & $\Delta^{(d)}$ & $\displaystyle \frac{2V}{L_xL_y} \sum_{\mathbf{k}} (c_x - c_y) \langle
+		$d_{x^2-y^2}$-wave & $\Delta^{(d)}$ & $\displaystyle \frac{V}{L_xL_y} \sum_{\mathbf{k}} (c_x - c_y) \langle
 		\hat \phi_{\mathbf{k}}^\dagger
 		\rangle$ & Fig.~\ref{subfig:d-wave-correlator} 
 	\end{tabular}

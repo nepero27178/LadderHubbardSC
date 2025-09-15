@@ -2347,11 +2347,20 @@
     <bcf:datasource type="file" datatype="bibtex" glob="false">misc/bibliography.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1">grosso2014solid</bcf:citekey>
-    <bcf:citekey order="1">giuliani2005quantum</bcf:citekey>
-    <bcf:citekey order="0" nocite="1">*</bcf:citekey>
-    <bcf:citekey order="2">grosso2014solid</bcf:citekey>
+    <bcf:citekey order="1">hirsch1985hubbard</bcf:citekey>
+    <bcf:citekey order="2">cao2025p-wave</bcf:citekey>
+    <bcf:citekey order="3">grosso2014solid</bcf:citekey>
     <bcf:citekey order="3">giuliani2005quantum</bcf:citekey>
+    <bcf:citekey order="4">fabrizio2022course</bcf:citekey>
+    <bcf:citekey order="5">fabrizio2022course</bcf:citekey>
+    <bcf:citekey order="6">scholle2023comprehensive</bcf:citekey>
+    <bcf:citekey order="0" nocite="1">*</bcf:citekey>
+    <bcf:citekey order="7">hirsch1985hubbard</bcf:citekey>
+    <bcf:citekey order="8">cao2025p-wave</bcf:citekey>
+    <bcf:citekey order="9">grosso2014solid</bcf:citekey>
+    <bcf:citekey order="10">giuliani2005quantum</bcf:citekey>
+    <bcf:citekey order="11">fabrizio2022course</bcf:citekey>
+    <bcf:citekey order="12">scholle2023comprehensive</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">

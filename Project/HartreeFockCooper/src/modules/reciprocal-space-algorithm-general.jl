@@ -372,7 +372,8 @@ function RunHFAlgorithm(
 	
     # Random initialization of a subsection of symmetries
 	for Sym in Syms
-		m0[Sym] = rand()
+		Sym=="s" ? c = -1 : c = +1
+		m0[Sym] = c * rand()
 	end
 	    
     if verbose
@@ -407,14 +408,14 @@ function RunHFAlgorithm(
                 Qs[Sym] = abs( cSym-pSym ) / tSym 
             end
 
-            if all([Qs[Sym] for Sym in Syms] .<= 1)
+            if all([Qs[Sym] for Sym in Syms] .< 1)
                 
                 if verbose
                     printstyled("\n---Converged at step $i---\n", color=:green)
                 end
                 i = p+1
                 
-            elseif any([Qs[Sym] for Sym in Syms] .> 1)
+            elseif any([Qs[Sym] for Sym in Syms] .>= 1)
             	for Sym in Syms
             		cSym = copy( m[Sym] )
             		pSym = copy( m0[Sym] )

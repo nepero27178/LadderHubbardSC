@@ -3,7 +3,7 @@ SetupFilePath = @__FILE__
 
 AllSyms = ["s", "s*", "px", "py", "d"]  # Gap function possible symmetries
 
-HMSyms = ["s*"]
+HMSyms = ["s", "s*"]
 HMSymsStr = ""
 for Sym in HMSyms
     global HMSymsStr *= "$(Sym)-"

@@ -91,7 +91,7 @@ function PlotδΔ(
     DirPathOut::String					# Output directory path
 )
 
-    DirPathOut *= "δΔ-Setup=$(Setup)/"
+    DirPathOut *= "dΔ-Setup=$(Setup)/"
     mkpath(DirPathOut)
 
     DataIn = true

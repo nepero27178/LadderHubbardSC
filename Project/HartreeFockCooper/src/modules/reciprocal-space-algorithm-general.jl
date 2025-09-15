@@ -297,7 +297,20 @@ function PerformHFStep(
         W = F.vectors
         Wd = adjoint(W)
         E = real.( F.values ) # Strangely explicit realization is needed (?)
-        ϕ[i] += sum( [W[l,1] * Wd[2,l] * FermiDirac(E[l],0.0,β) for l in 1:2] )
+		ϕ[i] += sum( [W[l,1] * Wd[2,l] * FermiDirac(E[l],0.0,β) for l in 1:2] )
+		
+#		ξk = hk[1,1]
+#		Δk = -hk[2,1]
+#		Ek = sqrt(ξk^2 + abs(Δk)^2)		
+#		sθk = Δk/Ek
+#		if Δk!=0.0
+#			cζk = real(Δk)/Δk
+#			sζk = imag(Δk)/Δk
+#		elseif Δk==0.0
+#			cζk = 0.0
+#			sζk = 0.0
+#		end
+#		ϕ[i] = 1/2 * sθk * ( cζk + 1im * sζk ) * tanh(β * Ek/2)
     end
 
     for Sym in Syms

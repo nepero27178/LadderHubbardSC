@@ -7,7 +7,7 @@ include(PROJECT_ROOT * "/src/modules/methods-plotting.jl")
 
 function main()
     DirPathIn = PROJECT_ROOT * "/simulations/Setup=$(Setup)/"
-    FilePathIn = DirPathIn * "/$(HMSymsStr)-wave.txt"
+    FilePathIn = DirPathIn * "$(HMSymsStr)-wave.txt"
     DirPathOut = PROJECT_ROOT * "/analysis/"
     mkpath(DirPathOut)
     PlotVΔ(HMSyms, FilePathIn, DirPathOut)  # Δ vs V

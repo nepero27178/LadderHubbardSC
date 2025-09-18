@@ -1,33 +1,76 @@
-\chapter{Mean-field theory solution}\label{chap:mft-solution}
+\chapter{Mean-field theory analysis of the EHM}\label{chap:mft-analysis}
 
-This chapter is devoted to develop a rough mean field approximation of the Extended Hubbard model of Eq.~\eqref{eq:extended-hubbard-model},
+This chapter is devoted to develop a Mean Field Theory (MFT) approximation of the Extended Hubbard model (EHM) of Eq.~\eqref{eq:extended-hubbard-model},
 \[
 	\hat H =
 	\underbrace{
 		-t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
-	}_{\hat H_t} + \underbrace{
-		U \sum_i \hat n_{i\uparrow} \hat n_{i\downarrow}
+	}_{\hat H_t} \underbrace{
+		+U \sum_i \hat n_{i\uparrow} \hat n_{i\downarrow}
+		\vphantom{
+			\sum_{\langle ij \rangle}
+		}
 	}_{\hat H_U}
-	- \underbrace{
-		V \sum_{\langle ij \rangle} \sum_{\sigma \sigma'} \hat n_{i\sigma} \hat n_{j\sigma'}
-	}_{- \hat H_V}
+	\underbrace{
+		- V \sum_{\langle ij \rangle} \sum_{\sigma \sigma'} \hat n_{i\sigma} \hat n_{j\sigma'}
+	}_{\hat H_V}
 \]
-Mean Field Theory (MFT) is a widely used and simple theoretical tool, often sufficient to describe the leading orders in phase transition phenomena of Many-Body Physics. Here MFT is employed following the path of Bardeen-Cooper-Schrieffer (BCS) theory in describing conventional $s$-wave superconductivity. As will be thoroughly described, the lattice spatial structure directly influences the topology of the gap function, giving rise to anisotropic pairing. Sec.~\ref{sec:mft-solution-real-space} studies the non-local attraction in real-space, while Sec.~\ref{sec:mft-solution-reciprocal-space} moves to reciprocal space and gives a self-consistent MFT solution. Finally, numerical results are exposed in Sec.~\ref{sec:mft-solution-hf-results}.
+Mean Field Theory (MFT) is a widely used and simple theoretical tool, often sufficient to describe the leading orders in phase transition phenomena of Many-Body Physics. Here MFT is employed to discuss both the effects of the non-local term $\hat H_V$ onto the AF phase, as well as the insurgence of anisotropic superconductivity -- following the path of Bardeen-Cooper-Schrieffer (BCS) theory in describing conventional $s$-wave superconductivity. As will be thoroughly described, the lattice spatial structure directly influences the topology of the gap function, giving rise to anisotropic pairing. Sec.~\ref{sec:mft-analysis-non-local-source} studies the non-local attraction $\hat H_V$ in real-space, describing how such interaction can contribute to the hamiltonian as a symmetry-breaking term in given channels. In the following sections, we move to specific channels and study theoretically and numerically the effect of non-local attraction.
 
-\section{Mean-Field theory real space description}\label{sec:mft-solution-real-space}
+\section{Mean-Field theory real space description}\label{sec:mft-analysis-non-local-source}
 
-In this section, an analytic discussion of the real-space hamiltonian of Eq.~\eqref{eq:extended-hubbard-model} is given. The first part focuses on the non-local interaction $V$, expected to be source of superconductivity; the second part on the local interaction $U$, known to be source of Slater-like anti-ferromagnetism, as described in App.~\ref{appendix:mean-field-hubbard}.
+The general aim is to study the phase diagram of the model by comparing ground-state energies of different phases. The phases we consider here for the EHM are the Anti-Ferromagnetic ordering (AF), given by a non-uniform distribution of charge in each spin sector, and the Superconducting phase, described by a uniformly distributed charge allowing for Cooper pairing instabilities. For the EHM, three symmetries are ``brekable'':
+\begin{enumerate}
+	\item (Crystal) translational invariance. By breaking explicitly this symmetry, the obtained state must show a Charge-Density Wave (CDW) ordering;
+	\item $\mathrm{U}(1)$ charge conservation. By breaking this symmetry, we allow for Cooper fluctuations originating superconductivity;
+	\item $\mathrm{SU}(2)$ spin conservation. By breaking this symmetry, we take in all the processes not conserving spin (such as site hop \textit{plus} spin flip).
+\end{enumerate}
+As a general rule, $\mathrm{SU}(2)$ symmetry will be preserved while charge and space symmetries will be alternatively broken, in order to generate a pure AF phase or a pure superconducting phase. ``To preserve one symmetry'' means to set to zero all operators which break said symmetry, due to selection rules.
 
-\subsection{Mean-field treatment of the non-local term}
+App.~\mref{} describes in detail the MFT treatment of the pure Hubbard model, $\hat H_t + \hat H_U$; the key passage is there given by the approximation
+\begin{equation}\label{eq:mft-pure-hubbard-wick-decomposition}
+	\hat n_{i\uparrow} \hat n_{i\downarrow} \simeq \hat n_{i\uparrow} \langle \hat n_{i\downarrow} \rangle + \langle \hat n_{i\uparrow} \rangle \hat n_{i\downarrow} + (\mathrm{constants})
+\end{equation}
+from which the AF structure is simply recovered. However, to perform the above approximation coherently, we are implementing Wick's Theorem on the generic term:
+\begin{equation}\label{eq:mft-extended-hubbard-wick-decomposition}
+	\langle
+		\hat c_{i\sigma}^\dagger \hat c_{j\sigma'}^\dagger \hat c_{j\sigma'} \hat c_{i\sigma}
+	\rangle \simeq \underbrace{
+		\langle 
+			\hat c_{i\sigma}^\dagger \hat c_{j\sigma'}^\dagger
+		\rangle \langle	
+			\hat c_{j\sigma'} \hat c_{i\sigma} 
+		\rangle 
+	}_{\text{Cooper}}
+	- 
+	\underbrace{
+		\langle 
+			\hat c_{i\sigma}^\dagger \hat c_{j\sigma'}
+		\rangle \langle	
+			\hat c_{j\sigma'}^\dagger \hat c_{i\sigma} 
+		\rangle 
+	}_{\text{Fock}}
+	+ 
+	\underbrace{
+		\langle 
+		\hat c_{i\sigma}^\dagger \hat c_{i\sigma}
+		\rangle \langle	
+		\hat c_{j\sigma'}^\dagger \hat c_{j\sigma'} 
+		\rangle
+	}_{\text{Hartree}}
+\end{equation}
+As a first approximation, the theorem is assumed to hold (which, in a $\mathrm{BCS}$-like fashion, is equivalent to assuming for the ground-state to be a coherent state). Of the three terms above, the AF phase description fo the pure Hubbard Model only allows for the Hartree term to be non-zero. Cooper fluctuations are suppressed, because only the translational invariance is broken, and the Fock term is null as well because if $i=j$ and $\sigma'=\overline{\sigma}$ (as is for the local interaction, which contains the operator $\hat n_{i\uparrow} \hat n_{i\downarrow}$) the expectation values involved are describing a process breaking $\mathrm{SU}(2)$ spin symmetry. Thus, correctly, the Wick's decomposition of Eq.~\eqref{eq:mft-pure-hubbard-wick-decomposition} only involves Hartree-terms of Eq.~\eqref{eq:mft-extended-hubbard-wick-decomposition}. In general, however, the three terms need to be considered altogether: this is what is done in the next section.
+
+\subsection{The non-local term as a source of symmetry-breaking interactions}
 
 \begin{figure}
 	\centering
-	\input{chapters/mft-solution/pictures/square-nearest-neighbors}
+	\input{chapters/mft-analysis/pictures/square-nearest-neighbors}
 	\caption{Schematic representation of the four NNs of a given site $i$ for a planar square lattice.}
 	\label{fig:square-nearest-neighbors}
 \end{figure}
 
-Consider the non-local term,
+Consider now the NN non-local term,
 \begin{equation}\label{eq:extended-hubbard-nonlocal-interaction}
 	\hat H_V \equiv - V \sum_{\langle ij \rangle} \sum_{\sigma \sigma'} \hat n_{i\sigma} \hat n_{j\sigma'}
 \end{equation}
@@ -37,18 +80,19 @@ Evidently the hamiltonian can be decomposed in various spin terms,
 	\hat H_V &= \sum_{\sigma \sigma'} \hat H_V^{\sigma\sigma'} \\
 	&= \underbrace{
 		\hat H_V^{\uparrow\uparrow} + \hat H_V^{\downarrow\downarrow}
-	}_\text{Ferromagnetic} + \underbrace{
+	}_\text{Same-spin} + \underbrace{
 		\hat H_V^{\uparrow\downarrow} + \hat H_V^{\downarrow\uparrow}
-	}_\text{Anti-ferromagnetic}
+	}_\text{Opposite-spin}
 \end{aligned}
 \]
-Evidently, to carry out a summation over nearest neighbors $\ev{ij}$ of a square lattice means precisely to sum over all links of the lattice. Then we can identify the generic AF term $\hat H_V^{\sigma \overline{\sigma}}$ as the one collecting the $\sigma$ operators of sublattice $\mathcal{S}_a$ and $\overline{\sigma}$ operators of sublattice $\mathcal{S}_b$. At half-filling, as described in Sec.~\ref{sec:antiferromagnetic-ordering-hubbard}, the ground-state leading contribution will be the antiferromagnetic state, with the square lattice decomposed in two oppositely polarized square lattices with spacing increased by a factor $\sqrt{2}$. Then, it is to be expected that on this configuration the ferromagnetic contributions are suppressed\footnote{
-	This is also due to superexchange stabilization: the triplet contribution to hamiltonian is suppressed, and this cancels out the ferromagnetic terms $\hat H_V^{\sigma\sigma}$ while privileging the singlet configuration of the anti-ferromagnetic terms $\hat H_V^{\sigma\overline{\sigma}}$.
-}. Anyways, the calculation will be carried out considering both terms.
-The AF non-local interactions can be written as a sum of terms over just one of the two sublattices $\mathcal{S}_a$ and $\mathcal{S}_b$, oppositely polarized in the AF configuration (see Fig.~\ref{subfig:antiferromagnet-sublattices})
+Evidently, to carry out a summation over nearest neighbors $\ev{ij}$ of a square lattice means precisely to sum over all links of the lattice. Then we can identify the generic opposite-spin (o.s.) term $\hat H_V^{\sigma \overline{\sigma}}$ as the one collecting the $\sigma$ operators of sublattice $\mathcal{S}_a$ and $\overline{\sigma}$ operators of sublattice $\mathcal{S}_b$. 
+%At half-filling, as described in Sec.~\ref{sec:antiferromagnetic-ordering-hubbard}, the ground-state leading contribution will be the antiferromagnetic state, with the square lattice decomposed in two oppositely polarized square lattices with spacing increased by a factor $\sqrt{2}$. Then, it is to be expected that on this configuration the same-spin (s.s.) contributions are suppressed\footnote{
+%	This is also due to superexchange stabilization: the triplet contribution to hamiltonian is suppressed, and this cancels out the ferromagnetic terms $\hat H_V^{\sigma\sigma}$ while privileging the singlet configuration of the anti-ferromagnetic terms $\hat H_V^{\sigma\overline{\sigma}}$.
+%}. Anyways, the calculation will be carried out considering both terms.
+The o.s. non-local interactions can be written as a sum of terms over just one of the two sublattices $\mathcal{S}_a$ and $\mathcal{S}_b$, oppositely polarized in the AF configuration (see Fig.~\ref{subfig:antiferromagnet-sublattices})
 \[
 	\begin{aligned}
-		\hat H_V^{(\mathrm{AF})} &= \overbrace{
+		\hat H_V^{(\mathrm{o.s.})} &= \overbrace{
 			\sum_{i \in \mathcal{S}_a} \hat h_V^{(i)}
 		}^{\hat H_V^{\uparrow\downarrow}} + \overbrace{
 			\sum_{i \in \mathcal{S}_b} \hat h_V^{(i)}
@@ -59,28 +103,48 @@ The AF non-local interactions can be written as a sum of terms over just one of 
 		&= \sum_{i \in \mathcal{S}} \hat h_V^{(i)}
 	\end{aligned}
 \]
-Here the notation of Fig.~\ref{subfig:antiferromagnet-sublattices} is used. The two-dimensional lattice is regular-square. For each site $i$ in a given sublattice, the nearest neighbors sites are four -- all in the other sublattice. The notation used is $i \pm \delta_x$, $i \pm  \delta_y$ as in Fig.~\ref{fig:square-nearest-neighbors}. Similarly, the Ferromagnetic hamiltonian decomposes as
+Here the notation of Fig.~\ref{subfig:antiferromagnet-sublattices} is used. The two-dimensional lattice is regular-square. For each site $i$ in a given sublattice, the nearest neighbors sites are four -- all in the other sublattice. The notation used is $i \pm \delta_x$, $i \pm  \delta_y$ as in Fig.~\ref{fig:square-nearest-neighbors}. Similarly, the same-spin (s.s.) hamiltonian decomposes as
 \[
-	\hat H_V^{(\mathrm{F})} = -V \sum_{i \in \mathcal{S}_a} \sum_{\ell = x,y} \sum_\sigma \left(
+	\hat H_V^{(\mathrm{s.s.})} = -V \sum_{i \in \mathcal{S}_a} \sum_{\ell = x,y} \sum_\sigma \left(
 		\hat n_{i\sigma} \hat n_{i + \delta_\ell \sigma} + \hat n_{i\sigma} \hat n_{i - \delta_\ell \sigma} 
 	\right) 
 \]
-Note here the summation only on one sublattice. As will be shown in Sec.~\ref{subsec:mft-self-consitency-cooper-decomposition}, under MFT it makes sense to approximate
-\[
-	\hat H_V \simeq \hat{H}_V^{(\mathrm{AF})}
-\]
-thus neglecting ferromagnetic contribution to Cooper instability. The non-local interaction contribution to energy, as a function of the $T=0$ full hamiltonian ground-state\footnote{
+Note here the summation only on one sublattice. 
+%As will be shown in Sec.~\ref{subsec:mft-self-consitency-cooper-decomposition}, under MFT it makes sense to approximate
+%\[
+%	\hat H_V \simeq \hat{H}_V^{(\mathrm{AF})}
+%\]
+%thus neglecting ferromagnetic contribution to Cooper instability.
+The non-local interaction contribution to energy, as a function of the $T=0$ full hamiltonian ground-state\footnote{
 	Extensions to finite temperatures is simple: minimization must be carried out on free energy, while expectation values must be taken in a thermodynamic fashion.
 } $\ket{\Psi}$, is given by
 \[
 \begin{aligned}
 	E_V [\Psi] &= \mel{\Psi}{\hat H_V}{\Psi} \\
-	&= -V \sum_{i \in \mathcal{S}} \sum_{\ell = x,y} \langle
-	\hat n_{i\uparrow} \hat n_{i + \delta_\ell \downarrow} + \hat n_{i\uparrow} \hat n_{i - \delta_\ell \downarrow}
-	\rangle 
+	&= -V \sum_{\ev{ij}} \sum_{\sigma\sigma'} \langle
+		\hat n_{i\sigma} \hat n_{j\sigma'}
+	\rangle \\
+	&= \underbrace{
+		-V \sum_{\ev{ij}} \sum_{\sigma} \langle
+			\hat n_{i\sigma} \hat n_{j\sigma}
+		\rangle
+	}_{\mathrm{s.s.}} \underbrace{
+		-V \sum_{\ev{ij}} \sum_{\sigma} \langle
+			\hat n_{i\sigma} \hat n_{j\overline{\sigma}}
+		\rangle
+	}_{\mathrm{o.s.}}
 \end{aligned}
 \]
-Shorthand notation has been used: $\mel{\Psi}{\cdot}{\Psi} = \langle \cdot \rangle$. Consider one specific term, say, $\hat n_{i\uparrow} \hat n_{i + \delta_x \downarrow}$. Wick's Theorem states that, if the expectation value is performed onto a coherent state,
+Shorthand notation has been used: $\mel{\Psi}{\cdot}{\Psi} = \langle \cdot \rangle$. 
+The ground-state must realize the condition
+\[
+\fdv{}{\bra{\Psi}} E[\Psi] = 0
+\]
+being $E[\Psi]$ the total energy (made up of the three terms of couplings $t$, $U$ and $V$). {\color{tabred}[Expand derivation?]} The functional derivative must be carried out in a variational fashion including a Lagrange multiplier, the latter accounting for state-norm conservation, as is done normally in deriving the Hartree-Fock approximation for the eigenenergies of the electron liquid \cite{grosso2014solid, giuliani2005quantum}. 
+
+\paragraph{Opposite-spin terms.}
+
+Consider first the o.s. terms: take e.g. the term $\hat n_{i\uparrow} \hat n_{i + \delta_x \downarrow}$. As in Eq.~\eqref{eq:mft-extended-hubbard-wick-decomposition}, Wick's Theorem states that, if the expectation value is performed onto a coherent state,
 \[
 \begin{aligned}
 	\langle 
@@ -114,27 +178,65 @@ Shorthand notation has been used: $\mel{\Psi}{\cdot}{\Psi} = \langle \cdot \rang
 	}_{\text{Hartree}}
 \end{aligned}
 \]
-As a first approximation, the theorem is assumed to hold (which, in a $\mathrm{BCS}$-like fashion, is equivalent to assuming for the ground-state to be a coherent state). The last two terms account for single-particle interactions with a background field; they are relevant in the Hartree-Fock scheme, being direct-exchange contributions to single particle energies. The first term accounts for non-local electrons pairing, mimicking the Cooper term of $\mathrm{BCS}$ theory. The core assumption, here, is that only one of the HF and Bogoliubov pairings survive. Appendix \ref{appendix:mean-field-hubbard} shows a situation dominated by HF terms. Here, I assume the symmetry to be broken by a Cooper term. Energy then is cast to the form
-\[
-	E_V[\Psi] = -V \sum_{i \in \mathcal{S}} \sum_{\ell = x,y}
-	\left[
-		\langle
-			\hat c_{i\uparrow}^\dagger \hat c_{i + \delta_\ell \downarrow}^\dagger
-		\rangle \langle	
-			\hat c_{i + \delta_\ell \downarrow} \hat c_{i\uparrow} 
-		\rangle + \langle 
-			\hat c_{i\uparrow}^\dagger \hat c_{i - \delta_\ell \downarrow}^\dagger
-		\rangle \langle	
-			\hat c_{i - \delta_\ell \downarrow} \hat c_{i\uparrow} 
-		\rangle
-	\right]
-\]
+Identical decompositions are given for all others NNs. Of the three terms above:
+\begin{itemize}
+	\item The Coooper term breaks $\mathrm{U}(1)$ charge symmetry, allowing for supeconducting instabilities;
+	\item The Fock term breaks the $\mathrm{SU}(2)$ symmetry, because it accounts for a site hop \textit{plus} spin flip process;
+	\item The Hartree term breaks translational invariance, because the mean-field to interact with is given by the local density;
+\end{itemize}
+Then, to look for AF instability only the Hartree term is to be accounted; instead, in superconducting instability only the Cooper term contributes. The Fock term we always assume to be suppressed, preserving $\mathrm{SU}(2)$ symmetry. Note that for superconducting instabilities, due to superexchange mechanism (as explained in App.~\mref{}) the o.s. term account for singlet pairing as well as zero-spin triplet pairing. Which channel is preferred, is a matter of thermodynamic advantage.
 
-The ground-state must realize the condition
+\paragraph{Same-spin terms.} Consider then the same-spin terms: take e.g. the term $\hat n_{i\uparrow} \hat n_{i + \delta_x \uparrow}$. As above,
 \[
-	\fdv{}{\bra{\Psi}} E[\Psi] = 0
+\begin{aligned}
+	\langle 
+	\hat n_{i\uparrow} \hat n_{i + \delta_x \uparrow}
+	\rangle &= \langle 
+	\hat c_{i\uparrow}^\dagger \hat c_{i + \delta_x \uparrow}^\dagger \hat c_{i + \delta_x \uparrow} \hat c_{i\uparrow} 
+	\rangle \\
+	&= 
+	\underbrace{
+		\langle 
+		\hat c_{i\uparrow}^\dagger \hat c_{i + \delta_x \uparrow}^\dagger
+		\rangle \langle	
+		\hat c_{i + \delta_x \uparrow} \hat c_{i\uparrow} 
+		\rangle 
+	}_{\text{Cooper}}
+	- 
+	\underbrace{
+		\langle 
+		\hat c_{i\uparrow}^\dagger \hat c_{i + \delta_x \uparrow}
+		\rangle \langle	
+		\hat c_{i + \delta_x \uparrow}^\dagger \hat c_{i\uparrow} 
+		\rangle 
+	}_{\text{Fock}}
+	+ 
+	\underbrace{
+		\langle 
+		\hat c_{i\uparrow}^\dagger \hat c_{i\uparrow}
+		\rangle \langle	
+		\hat c_{i + \delta_x \uparrow}^\dagger \hat c_{i + \delta_x \uparrow} 
+		\rangle
+	}_{\text{Hartree}}
+\end{aligned}
 \]
-being $E[\Psi]$ the total energy (made up of the three terms of couplings $t$, $U$ and $V$). {\color{tabred}[Expand derivation?]} The functional derivative must be carried out in a variational fashion including a Lagrange multiplier, the latter accounting for state-norm conservation, as is done normally in deriving the Hartree-Fock approximation for the eigenenergies of the electron liquid \cite{grosso2014solid, giuliani2005quantum}. This approach leads to the conclusion that the (coherent) ground-state of the system must be an eigenstate of the mean-field effective hamiltonian:
+Identical consideration as in the above paragraph hold for each term. The only difference with the o.s. terms is given by the Fock term: since the spin-flip process is absent, now the Fock fluctuations actually contribute to the AF phase as an effective NN hopping term {\color{tabred}[Unclear: does the renormalization happen also for the Cooper phase?]}. As a final remark, notice that the superconducting instabilities of the s.s. terms account only for triplet pairing. The only possible superconducting ordering established by the means of these terms is odd in real space. Then $s$-wave and $d$-wave superconductivity cannot establish in this channel; $p_\ell$-wave superconductivity, instead, can.
+
+\section{Anti-Ferromagnetic instability} 
+
+\todo
+
+\section{Superconducting instability}
+
+This section is devoted to studying the superconducting phase of the system. The only symmetry we assume to break is the $\mathrm{U}(1)$ charge symmetry, thus allowing for superconducting fluctuations. The symmetry structure of the pairing mechanism determines the contributing Cooper fluctuations: for $s$-wave and $d$-wave superconductivity, only the o.s. Cooper term contributes; for $p_\ell$-wave superconductivity, the s.s. term contributes as well {\color{tabred}[Include hopping renormalization?]}. In the following sections, a derivation containing both Cooper terms is proposed.
+
+{\color{tabred}
+	[To be continued: separate singlet and triplet pairing channels, and describe triplet channel by itself by the means of four-components Nambu spinors. Use selection rules to set $\Delta^{(p_\ell)}=0$ in the singlet channel, in order to justify results obtained by a pure space-even simulation containing just the o.s. terms.]
+}
+
+\subsection{Mean-field treatment of the non-local term}
+
+This approach leads to the conclusion that the (coherent) ground-state of the system must be an eigenstate of the mean-field effective hamiltonian:
 \begin{equation}\label{eq:extended-hubbard-model-effective-intermediate}
 	\begin{aligned}
 		\hat H^{(\mathrm{e})} =
@@ -204,26 +306,26 @@ which expresses the generic correlator $\langle \hat c_{i\uparrow}^\dagger \hat 
 \begin{figure}
 	\centering
 	\subfloat[Local $s$-wave]{
-		\input{chapters/mft-solution/pictures/s-wave-correlator}
+		\input{chapters/mft-analysis/pictures/s-wave-correlator}
 		\label{subfig:s-wave-correlator}
 	}
 	\hspace{2em}
 	\subfloat[Extended $s$-wave.]{
-		\input{chapters/mft-solution/pictures/s*-wave-correlator}
+		\input{chapters/mft-analysis/pictures/s*-wave-correlator}
 		\label{subfig:s*-wave-correlator}
 	}\\[3em]
 	\subfloat[$p_x$-wave.]{
-		\input{chapters/mft-solution/pictures/px-wave-correlator}
+		\input{chapters/mft-analysis/pictures/px-wave-correlator}
 		\label{subfig:px-wave-correlator}
 	}
 	\hspace{2em}
 	\subfloat[$p_y$-wave.]{
-		\input{chapters/mft-solution/pictures/py-wave-correlator}
+		\input{chapters/mft-analysis/pictures/py-wave-correlator}
 		\label{subfig:py-wave-correlator}
 	}
 	\hspace{2em}
 	\subfloat[$d_{x^2-y^2}$-wave.]{
-		\input{chapters/mft-solution/pictures/d-wave-correlator}
+		\input{chapters/mft-analysis/pictures/d-wave-correlator}
 		\label{subfig:d-wave-correlator}
 	}
 	\caption{Form factors at different topologies, as listed in Tab.~\ref{tab:x-wave-real-factors}. In figures five sites are represented: the hub site $i$ and its four NN. Solid lines represent non-zero values for $\varphi_{\bm{\delta}}$, while dashed lines represent vanishing factors.}
@@ -258,7 +360,7 @@ where $g^{(\gamma)}$ are the $g_{ij}$ symmetries-decomposition coefficients whil
 
 SC is established with a given symmetry -- which means, symmetry breaking in the phase transition proceeds in a specific channel. Conventional $\mathrm{BCS}$ superconductivity arises from the only possible spatial structure of the local pairing, $s$-wave -- here appearing as a local term (Fig.~\ref{subfig:s-wave-correlator}) and extended on a non-local term (Fig.~\ref{subfig:s*-wave-correlator}). Cuprates exhibit a tendency towards $d_{x^2-y^2}$ SC, while other materials towards $p$-wave types -- eventually with some chirality, as is the case for $p_x \pm i p_y$ SCs. To establish SC under a certain symmetry $\gamma$ means that Cooper pairs acquire said symmetry -- which implies, for correlations, $g^{(\gamma')} = g^{(\gamma)} \delta_{\gamma\gamma'}$. and $g_{ij} \propto \varphi_{ij}^{(\gamma)}$.
 
-\section{Mean-Field theory reciprocal space description}\label{sec:mft-solution-reciprocal-space}
+\section{Mean-Field theory reciprocal space description}\label{sec:mft-analysis-reciprocal-space}
 
 In this $\mathrm{BCS}$-like approach, a self-consistent equation for the gap function must be retrieved in order to further investigate the model and extract the conditions for the formation of a superconducting phase with a given pairing topology. In order to do so, let me take a step back and perform explicitly the Fourier-transform of the various terms of Eq.~\ref{eq:extended-hubbard-model}.
 
@@ -799,6 +901,6 @@ This expectation value is taken over the ground-state, the latter being the vacu
 \]
 justifies why in Sec.~\ref{subsec:nambu-formalism-mean-field-extended-hubbard} the only relevant contribution was given by $\mathbf{K}=\mathbf{0}$. In the next sections, the results of the self-consistent HF algorithm are exposed.
 
-\section{Results of the HF algorihtm}\label{sec:mft-solution-hf-results}
+\section{Results of the HF algorihtm}\label{sec:mft-analysis-hf-results}
 
 \todo

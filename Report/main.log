@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.6.18)  30 AUG 2025 10:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.6.18)  18 SEP 2025 12:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1603,194 +1603,99 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-(./misc/abbreviations.tex
-*geometry* verbose mode - [ newgeometry ] result:
-* driver: pdftex
-* paper: a4paper
-* layout: <same size as paper>
-* layoutoffset:(h,v)=(0.0pt,0.0pt)
-* modes: twoside 
-* h-part:(L,W,R)=(71.13188pt, 455.24411pt, 71.13188pt)
-* v-part:(T,H,B)=(101.40665pt, 591.5302pt, 152.11pt)
-* \paperwidth=597.50787pt
-* \paperheight=845.04684pt
-* \textwidth=455.24411pt
-* \textheight=591.5302pt
-* \oddsidemargin=-1.1381pt
-* \evensidemargin=-1.1381pt
-* \topmargin=-0.93083pt
-* \headheight=12.0pt
-* \headsep=18.06749pt
-* \topskip=10.0pt
-* \footskip=25.29494pt
-* \marginparwidth=117.0pt
-* \marginparsep=7.0pt
-* \columnsep=10.0pt
-* \skip\footins=12.0pt plus 4.0pt minus 4.0pt
-* \hoffset=0.0pt
-* \voffset=0.0pt
-* \mag=1000
-* \@twocolumnfalse
-* \@twosidetrue
-* \@mparswitchtrue
-* \@reversemarginfalse
-* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+(./chapters/mft-analysis/mft-analysis.tex
 
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.20 \restoregeometry
-                      [2]) (./misc/introduction.tex)
-(./chapters/theoretical-introduction/theoretical-introduction.tex [1
+LaTeX Warning: Reference `eq:extended-hubbard-model' on page 1 undefined on inp
+ut line 3.
+
+[1
 
 
+] (./chapters/mft-analysis/pictures/square-nearest-neighbors.tex)
+
+LaTeX Warning: Reference `subfig:antiferromagnet-sublattices' on page 2 undefin
+ed on input line 92.
 
 
-] [2
+LaTeX Warning: Reference `subfig:antiferromagnet-sublattices' on page 2 undefin
+ed on input line 106.
 
-]
-(./chapters/theoretical-introduction/pictures/antiferromagnet-phase.tex
-\xLength=\count547
-\yLength=\count548
-\xStop=\count549
-\yStop=\count550
-)
-(./chapters/theoretical-introduction/pictures/antiferromagnet-sublattices.tex
-\xLength=\count551
-\yLength=\count552
-\xStop=\count553
-\yStop=\count554
-)
-[3]) (./chapters/mft-solution/mft-solution.tex [4]
-(./chapters/mft-solution/pictures/square-nearest-neighbors.tex) [5
+[2] [3]
 
-] [6]
-[7] (./chapters/mft-solution/pictures/s-wave-correlator.tex)
-(./chapters/mft-solution/pictures/s*-wave-correlator.tex)
-(./chapters/mft-solution/pictures/px-wave-correlator.tex)
-(./chapters/mft-solution/pictures/py-wave-correlator.tex)
-(./chapters/mft-solution/pictures/d-wave-correlator.tex)
+LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 4 undefined on i
+nput line 273.
 
-LaTeX Warning: Reference `fig:wave-correlators' on page 8 undefined on input li
-ne 254.
+[4] (./chapters/mft-analysis/pictures/s-wave-correlator.tex)
+(./chapters/mft-analysis/pictures/s*-wave-correlator.tex)
+(./chapters/mft-analysis/pictures/px-wave-correlator.tex)
+(./chapters/mft-analysis/pictures/py-wave-correlator.tex)
+(./chapters/mft-analysis/pictures/d-wave-correlator.tex)
+
+LaTeX Warning: Reference `fig:wave-correlators' on page 5 undefined on input li
+ne 356.
 
 
-LaTeX Warning: Reference `fig:wave-correlators' on page 8 undefined on input li
-ne 254.
+LaTeX Warning: Reference `fig:wave-correlators' on page 5 undefined on input li
+ne 356.
+
+
+LaTeX Warning: Reference `eq:extended-hubbard-model' on page 5 undefined on inp
+ut line 365.
+
+[5]
+
+LaTeX Warning: Reference `app:mean-field-hubbard' on page 6 undefined on input 
+line 373.
+
+[6] [7]
+
+LaTeX Warning: Reference `tab:wave-correlators' on page 8 undefined on input li
+ne 566.
+
+
+LaTeX Warning: Reference `tab:wave-correlators' on page 8 undefined on input li
+ne 566.
 
 [8]
 
-LaTeX Warning: Reference `app:mean-field-hubbard' on page 9 undefined on input 
-line 271.
+LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 9 undefined on i
+nput line 707.
 
-[9] [10]
+[9]
 
-LaTeX Warning: Reference `tab:wave-correlators' on page 11 undefined on input l
-ine 464.
+LaTeX Warning: Reference `app:mean-field-hubbard' on page 10 undefined on input
+ line 739.
 
+[10]
 
-LaTeX Warning: Reference `tab:wave-correlators' on page 11 undefined on input l
-ine 464.
-
-[11] [12]
-
-LaTeX Warning: Reference `app:mean-field-hubbard' on page 13 undefined on input
- line 637.
-
-[13]
-
-LaTeX Warning: Reference `app:mean-field-hubbard' on page 14 undefined on input
- line 669.
+LaTeX Warning: Reference `appeq:hubbard-bogoliubov-hamiltonian-pseudofields' on
+ page 11 undefined on input line 761.
 
 
-LaTeX Warning: Reference `eq:extended-hubbard-phi-psi-expression' on page 14 un
-defined on input line 720.
-
-[14])
-(./appendices/superexchange-virtual-hopping/superexchange-virtual-hopping.tex
-[15] [16
-
-]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 5.
+LaTeX Warning: Reference `app:mean-field-hubbard' on page 11 undefined on input
+ line 771.
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 5.
+LaTeX Warning: Reference `appeq:finite-temperature-order-parameter-derivation-i
+ntermediate' on page 11 undefined on input line 817.
 
 
-(./appendices/superexchange-virtual-hopping/pictures/two-sites-hubbard-model.te
-x) [17]) (./appendices/mean-field-hubbard/mean-field-hubbard.tex [18] [19
+LaTeX Warning: Reference `eq:extended-hubbard-phi-psi-expression' on page 11 un
+defined on input line 822.
 
-]
-(./appendices/mean-field-hubbard/pictures/ferromagnetic-3d-band.tex) [20]
-(./appendices/mean-field-hubbard/pictures/alternative-ferromagnetic-3d-band.tex
-) (./appendices/mean-field-hubbard/pictures/ferromagnetic-contour.tex) [21]
-(./appendices/mean-field-hubbard/pictures/pseudo-magnetic-field.tex) [22]
-[23] [24] [25]
-<../Project/HartreeFockAF/analysis/hubbard/p=100_Δm=0.0001_Δn=0.01/uM-Setup=A
-/L=128_β=Inf.pdf, id=494, 422.86281pt x 302.0625pt>
-File: ../Project/HartreeFockAF/analysis/hubbard/p=100_Δm=0.0001_Δn=0.01/uM-Se
-tup=A/L=128_β=Inf.pdf Graphic file (type pdf)
-<use ../Project/HartreeFockAF/analysis/hubbard/p=100_Δm=0.0001_Δn=0.01/uM-Set
-up=A/L=128_β=Inf.pdf>
-Package pdftex.def Info: ../Project/HartreeFockAF/analysis/hubbard/p=100_Δm=0.
-0001_Δn=0.01/uM-Setup=A/L=128_β=Inf.pdf  used on input line 514.
-(pdftex.def)             Requested size: 192.0548pt x 137.18976pt.
-<../Project/HartreeFockAF/analysis/hubbard/p=100_Δm=0.0001_Δn=0.01/δM-Setup=
-A/L=128_β=Inf.pdf, id=495, 422.86182pt x 302.0625pt>
-File: ../Project/HartreeFockAF/analysis/hubbard/p=100_Δm=0.0001_Δn=0.01/δM-S
-etup=A/L=128_β=Inf.pdf Graphic file (type pdf)
-<use ../Project/HartreeFockAF/analysis/hubbard/p=100_Δm=0.0001_Δn=0.01/δM-Se
-tup=A/L=128_β=Inf.pdf>
-Package pdftex.def Info: ../Project/HartreeFockAF/analysis/hubbard/p=100_Δm=0.
-0001_Δn=0.01/δM-Setup=A/L=128_β=Inf.pdf  used on input line 518.
-(pdftex.def)             Requested size: 192.0548pt x 137.18976pt.
-LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 525.
- [26 <../Project/HartreeFockAF/analysis/hubbard/p=100_Δm=0.0001_Δn=0.01/uM-Se
-tup=A/L=128_β=Inf.pdf> <../Project/HartreeFockAF/analysis/hubbard/p=100_Δm=0.
-0001_Δn=0.01/δM-Setup=A/L=128_β=Inf.pdf>]
-(./appendices/mean-field-hubbard/pictures/square-lattice-ordering.tex
-\xLength=\count555
-\yLength=\count556
-\xStop=\count557
-\yStop=\count558
-)
-\g__nicematrix_max_cell_width_dim=\dimen376
-\c@iRow=\count559
-\c@jCol=\count560
-\l__nicematrix_cell_box=\box75
-\l__nicematrix_the_array_box=\box76
-\l__nicematrix_left_delim_dim=\dimen377
-\l__nicematrix_right_delim_dim=\dimen378
-\g__nicematrix_dp_row_zero_dim=\dimen379
-\g__nicematrix_ht_row_zero_dim=\dimen380
-\g__nicematrix_ht_row_one_dim=\dimen381
-\g__nicematrix_dp_ante_last_row_dim=\dimen382
-\g__nicematrix_ht_last_row_dim=\dimen383
-\g__nicematrix_dp_last_row_dim=\dimen384
-\g__nicematrix_ddots_int=\count561
-\g__nicematrix_iddots_int=\count562
-\g__nicematrix_delta_x_one_dim=\dimen385
-\g__nicematrix_delta_y_one_dim=\dimen386
-\g__nicematrix_delta_x_two_dim=\dimen387
-\g__nicematrix_delta_y_two_dim=\dimen388
-\l__nicematrix_initial_i_int=\count563
-\l__nicematrix_initial_j_int=\count564
-\l__nicematrix_final_i_int=\count565
-\l__nicematrix_final_j_int=\count566
- [27])
-[28]
+[11]
+
+LaTeX Warning: Reference `appeq:finite-temperature-order-parameter-derivation-i
+ntermediate' on page 12 undefined on input line 846.
+
+) [12]
 Overfull \hbox (5.7575pt too wide) in paragraph at lines 57--57
 \OT1/cmtt/m/n/10 48550 / arXiv . 2408 . 01113$[][]\OT1/cmr/m/n/10 . \OT1/cmr/m/
 sc/10 url\OT1/cmr/m/n/10 : [][]$\OT1/cmtt/m/n/10 http : / / arxiv . org / abs /
  2408 . 01113$[][] \OT1/cmr/m/n/10 (vis-ited on 03/15/2025). 
  []
 
-[29
+[13
 
 ]
 \tf@toc=\write8
@@ -1801,7 +1706,7 @@ sc/10 url\OT1/cmr/m/n/10 : [][]$\OT1/cmtt/m/n/10 http : / / arxiv . org / abs /
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 38D02E55ADF49B116255680F30F46981;6283.
+(rerunfilecheck)             Checksum: EBE3F2D1129D8B980F8FAB3F05273F80;3710.
 
 Package biblatex Warning: Please (re)run Biber on the file:
 (biblatex)                main
@@ -1812,51 +1717,48 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 51232 strings out of 478287
- 1156618 string characters out of 5849289
- 2610607 words of memory out of 5000000
- 68514 multiletter control sequences out of 15000+600000
- 489270 words of font info for 101 fonts, out of 8000000 for 9000
+ 49223 strings out of 478287
+ 1111515 string characters out of 5849289
+ 2005894 words of memory out of 5000000
+ 66622 multiletter control sequences out of 15000+600000
+ 487596 words of font info for 94 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,15n,93p,2046b,2699s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 90i,16n,93p,2046b,1322s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmbx5.pfb></usr/share/texlive/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmbx7.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmbx9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmcsc10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi1
-2.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/sh
-are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/tex
-live/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/public/amsfonts/cmextra/cmmib7.pfb></usr/share/texlive/texmf-dist/font
-s/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
-7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></
-usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/shar
+public/amsfonts/cm/cmbx8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmbx9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmcsc10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texlive/texmf-dist/font
+s/type1/public/amsfonts/cmextra/cmmib7.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texl
 ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmtt9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symb
-ols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbo
-ls/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0600.pfb></usr/
-share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/ty
-pe1/public/cm-super/sfrm1000.pfb>
-Output written on main.pdf (31 pages, 600228 bytes).
+type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
+/amsfonts/symbols/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm
+0600.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share
+/texmf/fonts/type1/public/cm-super/sfrm1000.pfb>
+Output written on main.pdf (14 pages, 421134 bytes).
 PDF statistics:
- 802 PDF objects out of 1000 (max. 8388607)
- 654 compressed objects within 7 object streams
- 147 named destinations out of 1000 (max. 500000)
- 367 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 473 PDF objects out of 1000 (max. 8388607)
+ 366 compressed objects within 4 object streams
+ 79 named destinations out of 1000 (max. 500000)
+ 249 words of extra memory for PDF output out of 10000 (max. 10000000)
 

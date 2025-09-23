@@ -27,7 +27,7 @@ The general aim is to study the phase diagram of the model by comparing ground-s
 \end{enumerate}
 As a general rule, $\mathrm{SU}(2)$ symmetry will be preserved while charge and space symmetries will be alternatively broken, in order to generate a pure AF phase or a pure superconducting phase. ``To preserve one symmetry'' means to set to zero all operators which break said symmetry, due to selection rules.
 
-App.~\mref{} describes in detail the MFT treatment of the pure Hubbard model, $\hat H_t + \hat H_U$; the key passage is there given by the approximation
+App.~\ref{appendix:mean-field-hubbard} describes in detail the MFT treatment of the pure Hubbard model, $\hat H_t + \hat H_U$; the key passage is there given by the approximation
 \begin{equation}\label{eq:mft-pure-hubbard-wick-decomposition}
 	\hat n_{i\uparrow} \hat n_{i\downarrow} \simeq \hat n_{i\uparrow} \langle \hat n_{i\downarrow} \rangle + \langle \hat n_{i\uparrow} \rangle \hat n_{i\downarrow} + (\mathrm{constants})
 \end{equation}
@@ -184,7 +184,7 @@ Identical decompositions are given for all others NNs. Of the three terms above:
 	\item The Fock term breaks the $\mathrm{SU}(2)$ symmetry, because it accounts for a site hop \textit{plus} spin flip process;
 	\item The Hartree term breaks translational invariance, because the mean-field to interact with is given by the local density;
 \end{itemize}
-Then, to look for AF instability only the Hartree term is to be accounted; instead, in superconducting instability only the Cooper term contributes. The Fock term we always assume to be suppressed, preserving $\mathrm{SU}(2)$ symmetry. Note that for superconducting instabilities, due to superexchange mechanism (as explained in App.~\mref{}) the o.s. term account for singlet pairing as well as zero-spin triplet pairing. Which channel is preferred, is a matter of thermodynamic advantage.
+Then, to look for AF instability only the Hartree term is to be accounted; instead, in superconducting instability only the Cooper term contributes. The Fock term we always assume to be suppressed, preserving $\mathrm{SU}(2)$ symmetry. Note that for superconducting instabilities, due to superexchange mechanism (as explained in App.~\ref{appendix:mean-field-hubbard}) the o.s. term account for singlet pairing as well as zero-spin triplet pairing. Which channel is preferred, is a matter of thermodynamic advantage.
 
 \paragraph{Same-spin terms.} Consider then the same-spin terms: take e.g. the term $\hat n_{i\uparrow} \hat n_{i + \delta_x \uparrow}$. As above,
 \[
@@ -222,8 +222,404 @@ Then, to look for AF instability only the Hartree term is to be accounted; inste
 \]
 Identical consideration as in the above paragraph hold for each term. The only difference with the o.s. terms is given by the Fock term: since the spin-flip process is absent, now the Fock fluctuations actually contribute to the AF phase as an effective NN hopping term {\color{tabred}[Unclear: does the renormalization happen also for the Cooper phase?]}. As a final remark, notice that the superconducting instabilities of the s.s. terms account only for triplet pairing. The only possible superconducting ordering established by the means of these terms is odd in real space. Then $s$-wave and $d$-wave superconductivity cannot establish in this channel; $p_\ell$-wave superconductivity, instead, can.
 
+\subsection{Reciprocal-space transform of the non-local interaction}
+
+It is useful to derive analytically the reciprocal-space form of the non-local attraction. Consider a generic bond, say, the one connecting sites $j$ and $j\pm\delta_\ell$ (variable $i$ is here referred to as the imaginary unit to avoid confusion). $\mathbf{x}_j$ is the $2$D notation for the position of site $j$, while $\bm{\delta}_\ell$ is the $2$D notation for the lattice spacing previously indicated as $\delta_\ell$. Fourier transform it according to the convention
+\[
+\hat c_{j\sigma} = \frac{1}{\sqrt{L_xL_y}} \sum_{\mathbf{k} \in \mathrm{BZ}} e^{-i \mathbf{k} \cdot \mathbf{x}_j} \hat c_{\mathbf{k}\sigma}
+\]
+Then:
+\[
+\begin{aligned}
+	\hat n_{j\sigma} \hat n_{j \pm \delta_\ell \sigma'} &= \hat c_{j\sigma}^\dagger \hat c_{j \pm \delta_\ell \sigma'}^\dagger \hat c_{j \pm \delta_\ell \sigma'} \hat c_{j\sigma} \\
+	&= \frac{1}{(L_xL_y)^2} \sum_{\nu=1}^4 \sum_{\mathbf{k}_\nu \in \mathrm{BZ}} e^{i \left[ (\mathbf{k}_1 + \mathbf{k}_2) - (\mathbf{k}_3 + \mathbf{k}_4) \right] \cdot \mathbf{x}_j} e^{\pm i(\mathbf{k}_2-\mathbf{k}_3) \cdot \bm{\delta}_\ell}  \hat c_{\mathbf{k}_1 \sigma}^\dagger \hat c_{\mathbf{k}_2 \sigma'}^\dagger \hat c_{\mathbf{k}_3 \sigma'} \hat c_{\mathbf{k}_4\sigma}
+\end{aligned}
+\]
+Then, the interaction at site $j$, spin $\sigma$ with its NNs at spin $\sigma'$ -- indicated as $(j\sigma\sigma')$ -- is given by
+\[
+\begin{aligned}
+	(j\sigma\sigma') &= -V \sum_{\ell = x,y} \sum_{\delta = \pm \delta_\ell} \hat n_{j\sigma} \hat n_{j \pm \delta_\ell \sigma'} \\
+	&= -\frac{V}{(L_xL_y)^2} \sum_{\ell = x,y} \sum_{\nu=1}^4 \sum_{\mathbf{k}_\nu \in \mathrm{BZ}} e^{i \left[ (\mathbf{k}_1 + \mathbf{k}_2) - (\mathbf{k}_3 + \mathbf{k}_4) \right] \cdot \mathbf{x}_j} \\
+	&\hspace{0.3\textwidth} \times \left(
+	e^{ i(\mathbf{k}_2-\mathbf{k}_3) \cdot \bm{\delta}_\ell} + e^{ -i(\mathbf{k}_2-\mathbf{k}_3) \cdot \bm{\delta}_\ell} 
+	\right)
+	\hat c_{\mathbf{k}_1 \sigma}^\dagger \hat c_{\mathbf{k}_2 \sigma'}^\dagger \hat c_{\mathbf{k}_3 \sigma'} \hat c_{\mathbf{k}_4\sigma} \\
+	&= -\frac{2V}{(L_xL_y)^2} \sum_{\ell = x,y} \sum_{\nu=1}^4 \sum_{\mathbf{k}_\nu \in \mathrm{BZ}} e^{i \left[ (\mathbf{k}_1 + \mathbf{k}_2) - (\mathbf{k}_3 + \mathbf{k}_4) \right] \cdot \mathbf{x}_j} \cos\left[
+	(\mathbf{k}_2-\mathbf{k}_3) \cdot \bm{\delta}_\ell
+	\right]	\hat c_{\mathbf{k}_1 \sigma}^\dagger \hat c_{\mathbf{k}_2 \sigma'}^\dagger \hat c_{\mathbf{k}_3 \sigma'} \hat c_{\mathbf{k}_4\sigma}
+\end{aligned}
+\]
+The full non-local interaction is given by summing over all sites of $\mathcal{S}$. This gives back momentum conservation,
+\[
+\frac{1}{L_xL_y} \sum_{j \in \mathcal{S}} e^{i \left[ (\mathbf{k}_1 + \mathbf{k}_2) - (\mathbf{k}_3 + \mathbf{k}_4) \right] \cdot \mathbf{x}_j} = \delta_{\mathbf{k}_1 + \mathbf{k}_2 = \mathbf{k}_3 + \mathbf{k}_4}
+\]
+Let $\mathbf{k}_1 + \mathbf{k}_2 = \mathbf{k}_3 + \mathbf{k}_4 = \mathbf{K}$, and define $\mathbf{k}$, $\mathbf{k}'$ such that
+\[
+\mathbf{k}_1 \equiv \mathbf{K} + \mathbf{k} 
+\qquad
+\mathbf{k}_2 \equiv \mathbf{K} - \mathbf{k} 
+\qquad
+\mathbf{k}_3 \equiv \mathbf{K} - \mathbf{k}' 
+\qquad
+\mathbf{k}_4 \equiv \mathbf{K} + \mathbf{k}'
+\qquad
+\delta \mathbf{k} \equiv \mathbf{k}-\mathbf{k}'
+\]
+Sums over these variables must be intended as over the Brillouin Zone ($\mathrm{BZ}$). Then, finally
+\begin{align}
+	\hat H_V &= \sum_{j \in \mathcal{S}_a} \sum_{\sigma\sigma'} (j\sigma\sigma') \nonumber \\
+	&= - \frac{2V}{L_x L_y} \sum_{\ell = x,y} \sum_{\mathbf{K}, \mathbf{k}, \mathbf{k}'} \cos\left(
+		\delta \mathbf{k} \cdot \bm{\delta}_\ell
+	\right)	\hat c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger \hat c_{\mathbf{K}-\mathbf{k} \sigma'}^\dagger \hat c_{\mathbf{K}-\mathbf{k}' \sigma'} \hat c_{\mathbf{K}+\mathbf{k}'\sigma} \nonumber \\
+	&= - \frac{2V}{L_x L_y} \sum_{\mathbf{K}, \mathbf{k}, \mathbf{k}'} \left[
+	\cos \left(
+		\delta k_x \delta_x
+	\right)	+ \cos \left(
+		\delta k_y \delta_y
+	\right)	
+	\right]	\hat c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger \hat c_{\mathbf{K}-\mathbf{k} \sigma'}^\dagger \hat c_{\mathbf{K}-\mathbf{k}' \sigma'} \hat c_{\mathbf{K}+\mathbf{k}'\sigma} \label{eq:reciprocal-space-non-local-interaction-explicit}
+\end{align}
+Different Wick contraction schemes lead to different results:
+\begin{align}
+	&\wick{
+		\c
+		c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger 
+		\c
+		c_{\mathbf{K}-\mathbf{k} \sigma'}^\dagger c_{\mathbf{K}-\mathbf{k}' \sigma'} c_{\mathbf{K}+\mathbf{k}'\sigma}
+	} &&\text{Cooper contraction} \label{eq:reciprocal-space-cooper-contraction} \\
+	&\wick{
+		\c
+		c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger 
+		c_{\mathbf{K}-\mathbf{k} \sigma'}^\dagger
+		\c
+		c_{\mathbf{K}-\mathbf{k}' \sigma'} c_{\mathbf{K}+\mathbf{k}'\sigma}
+	} &&\text{Fock contraction} \label{eq:reciprocal-space-fock-contraction} \\
+	&\wick{
+		\c
+		c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger 
+		c_{\mathbf{K}-\mathbf{k} \sigma'}^\dagger c_{\mathbf{K}-\mathbf{k}' \sigma'}
+		\c
+		c_{\mathbf{K}+\mathbf{k}'\sigma}
+	} &&\text{Hartree contraction} \label{eq:reciprocal-space-hartree-contraction}
+\end{align}
+%To contract means to take an average over the ground state, which by symmetry must show zero net momentum and preserve $\mathrm{SU}(2)$ symmetry. This translates in the following requirements for different schemes:
+%\begin{align}
+%	&\wick{
+%		\c c^\dagger_{\mathbf{k}_1\sigma_1}
+%		\c c^\dagger_{\mathbf{k}_2\sigma_2}
+%	} \neq 0
+%	&\text{iff $\mathbf{k}_1 + \mathbf{k}_2 = \mathbf{0}$ and $\sigma_1 = \overline{\sigma_2}$} \label{eq:reciprocal-space-dagdag-requirements} \\
+%	&\wick{
+%		\c c^\dagger_{\mathbf{k}_1\sigma_1}
+%		\c c_{\mathbf{k}_2\sigma_2}
+%	} \neq 0
+%	&\text{iff $\mathbf{k}_1 - \mathbf{k}_2 = \mathbf{0}$ and $\sigma_1 = \sigma_2$} \label{eq:reciprocal-space-dagnodag-requirements}
+%\end{align}
+%{\color{tabred}[Not sure]}
+%which will be used later.
+\todo
+
 \section{Anti-Ferromagnetic instability} 
 
+In this section, the effect of the non-local interaction on the antiferromagnetic phase is discussed. The MFT derivation for the ``standard'' Hubbard Model is discussed in App.~\ref{appendix:mean-field-hubbard}. Recalling the main results, the Anti-Ferromagnetic phase specified by the Ansatz \eqref{appeq:af-mean-field-ansatz} (which is explicitly breaking translational invariance in each spin sector, while preserving $\mathrm{SU}(2)$ and $\mathrm{U}(1)$ symmetries) reduces the hamiltonian to the form of Eq.~\eqref{appeq:hubbard-mean-field-hamiltonian}
+\[
+	\hat H_t + \hat H_U \stackrel{\mathrm{MFT}}{\simeq} -t \sum_{\langle \mathbf{r}\mathbf{r}' \rangle} \sum_\sigma \hat c_{\mathbf{r}\sigma}^\dagger \hat c_{\mathbf{r}'\sigma}
+	+ nU \sum_\mathbf{r} \left[
+	\hat n_{\mathbf{r}\uparrow} + \hat n_{\mathbf{r}\downarrow}
+	\right] - mU \sum_\mathbf{r} (-1)^{x+y} \left[
+	\hat n_{\mathbf{r}\uparrow} - \hat n_{\mathbf{r}\downarrow}
+	\right]
+\]
+In reciprocal space, the hamiltonian decomposes as in Eq.~\eqref{appeq:hubbard-bogoliubov-hamiltonian},
+\[
+	\hat H_t + \hat H_U \stackrel{\mathrm{MFT}}{\simeq} \sum_{\mathbf{k} \in \mathrm{MBZ}} \sum_\sigma \hat \Psi_{\mathbf{k}\sigma}^\dagger h_{\mathbf{k}\sigma} \hat \Psi_{\mathbf{k}\sigma}
+	\qq{being}
+	h_{\mathbf{k}\sigma} \equiv \begin{bmatrix}
+		\epsilon_\mathbf{k}^{(0)} & -\Delta_\sigma \\
+		-\Delta_\sigma & - \epsilon_\mathbf{k}^{(0)}
+	\end{bmatrix}
+\]
+and $\Delta_\uparrow = mU$, $\Delta_\downarrow = -mU$. Consider now the non-local interaction $\hat H_V$: since only translational invariance is broken in the AF phase, the only relevant contributions coming from Wick's decomposition are Hartree terms and the same-spin Fock term.
+
+\subsection{Hartree renormalization of chemical potential and gap}
+
+The same-spin and opposite-spin non-local Hartree terms are
+\[
+	\underbrace{
+		-V \sum_{\ev{ij}} \sum_\sigma \left[
+			\langle 
+				\hat n_{i\sigma}
+			\rangle \hat n_{j\sigma} + \hat n_{i\sigma} \langle 
+				\hat n_{j\sigma}
+			\rangle
+		\right]
+	}_{\mathrm{s.s.}}
+	\underbrace{
+		-V \sum_{\ev{ij}} \sum_\sigma \left[
+			\langle
+				\hat n_{i\sigma}
+			\rangle \hat n_{j\overline{\sigma}} + \hat n_{i\sigma} \langle 
+				\hat n_{j\overline{\sigma}}
+			\rangle
+		\right]
+	}_{\mathrm{o.s.}}
+\]
+Let $i \to \mathbf{r} = (x,y)$ and $j \to \mathbf{r}' = (x',y')$. Then, using the Ansatz of Eq.~\ref{appeq:af-mean-field-ansatz}, summarized as
+\[
+	\langle \hat n_{\mathbf{r}\sigma} \rangle = n - (-1)^{x+y+\delta_{\sigma=\uparrow}} m
+\]
+we get
+\begin{multline*}
+	\overbrace{
+		-nV \sum_{\ev{\mathbf{r}\mathbf{r}'}} \sum_\sigma \left[
+			\hat n_{\mathbf{r}'\sigma} + \hat n_{\mathbf{r}\sigma}
+		\right] + mV \sum_{\ev{\mathbf{r}\mathbf{r}'}} \sum_\sigma (-1)^{\delta_{\sigma=\uparrow}} \left[
+			(-1)^{x'+y'} \hat n_{\mathbf{r}'\sigma} + (-1)^{x+y} \hat n_{\mathbf{r}\sigma}
+		\right]
+	}^{\mathrm{s.s.}} \\
+	\underbrace{
+		-nV \sum_{\ev{\mathbf{r}\mathbf{r}'}} \sum_\sigma \left[
+			\hat n_{\mathbf{r}'\overline{\sigma}} + \hat n_{\mathbf{r}\sigma}
+		\right] + mV \sum_{\ev{\mathbf{r}\mathbf{r}'}} \sum_\sigma \left[
+			(-1)^{x'+y'+\delta_{\overline{\sigma}=\uparrow}} \hat n_{\mathbf{r}'\overline{\sigma}} + (-1)^{x+y+\delta_{\sigma=\uparrow}} \hat n_{\mathbf{r}\sigma}
+		\right]
+	}_{\mathrm{o.s.}}
+\end{multline*}
+For a square lattice, if $\mathbf{r} = (x,y)$ and $\mathbf{r}' = (x',y')$ are NNs evidently
+\[
+	(-1)^{x'+y'} = (-1)^{x+y+1}
+\]
+Moreover,
+\[
+	(-1)^{\delta_{\overline{\sigma}=\uparrow}} = (-1)^{\delta_{\sigma=\uparrow}+1}
+\]
+We obtain
+\begin{multline}
+	\overbrace{
+		-nV \sum_{\ev{\mathbf{r}\mathbf{r}'}} \sum_\sigma \left[
+			\hat n_{\mathbf{r}\sigma} + \hat n_{\mathbf{r}'\sigma}
+		\right] + mV \sum_{\ev{\mathbf{r}\mathbf{r}'}} \sum_\sigma (-1)^{x+y+\delta_{\sigma=\uparrow}} \left[
+			\hat n_{\mathbf{r}\sigma} - \hat n_{\mathbf{r}'\sigma}
+		\right]
+	}^{\mathrm{s.s.}} \\
+	\underbrace{
+		-nV \sum_{\ev{\mathbf{r}\mathbf{r}'}} \sum_\sigma \left[
+			\hat n_{\mathbf{r}\sigma} + \hat n_{\mathbf{r}'\overline{\sigma}}
+		\right] + mV \sum_{\ev{\mathbf{r}\mathbf{r}'}} \sum_\sigma (-1)^{x+y+\delta_{\sigma=\uparrow}} \left[
+			\hat n_{\mathbf{r}\sigma} + \hat n_{\mathbf{r}'\sigma}
+		\right]
+	}_{\mathrm{o.s.}}
+	\label{eq:af-hartree-renormalization-intermediate}
+\end{multline}
+Now, since
+\[
+	\sum_{\ev{\mathbf{r}\mathbf{r}'}} \sum_\sigma \left[
+		\hat n_{\mathbf{r}\sigma} + \hat n_{\mathbf{r}'\sigma}
+	\right] = \sum_{\ev{\mathbf{r}\mathbf{r}'}} \sum_\sigma \left[
+		\hat n_{\mathbf{r}\sigma} + \hat n_{\mathbf{r}'\overline{\sigma}}
+	\right] = z \hat N
+\]
+with $z=4$ the lattice coordination factor, indicating the number of NNs per site, then the first and third terms of Expr.~\eqref{eq:af-hartree-renormalization-intermediate} contribute to a pure chemical potential shift. The renormalized chemical potential is:
+\begin{equation}\label{eq:af-hartree-chemical-potential-renormalization}
+	\tilde{\mu} \equiv \mu + 2znV
+\end{equation}
+The second and fourth terms of Expr.~\eqref{eq:af-hartree-renormalization-intermediate} are to be reduced to a renormalization of the gap function. Explicitly,
+\begin{multline}
+	mV \sum_{\ev{\mathbf{r}\mathbf{r}'}} \sum_\sigma (-1)^{x+y+\delta_{\sigma=\uparrow}} \left[
+		\hat n_{\mathbf{r}\sigma} - \hat n_{\mathbf{r}'\sigma}
+	\right] + mV \sum_{\ev{\mathbf{r}\mathbf{r}'}} \sum_\sigma (-1)^{x+y+\delta_{\sigma=\uparrow}} \left[
+		\hat n_{\mathbf{r}\sigma} + \hat n_{\mathbf{r}'\sigma}
+	\right] \\
+	= -2zmV \sum_\mathbf{r} (-1)^{x+y} \left[
+		\hat n_{\mathbf{r}\uparrow} - \hat n_{\mathbf{r}\downarrow}
+	\right] \label{eq:af-hartree-renormalization-intermediate-2}
+\end{multline}
+Consider now the last term of the pure Hubbard model under MFT approximations of Eq.~\eqref{appeq:hubbard-mean-field-hamiltonian},
+\[
+	- mU \sum_\mathbf{r} (-1)^{x+y} \left[
+		\hat n_{\mathbf{r}\uparrow} - \hat n_{\mathbf{r}\downarrow}
+	\right]
+	\qq{(Local gap)}
+\]
+Expr.~\eqref{eq:af-hartree-renormalization-intermediate-2} is formally identical, thus we may define the renormalized AF gap as
+\begin{equation}\label{eq:af-hartree-gap-renormalization}
+	\tilde{\Delta} \equiv m(U + 2zV) = \Delta + 2zmV
+\end{equation}
+This, together with Eq.~\eqref{eq:af-hartree-chemical-potential-renormalization}, concludes the non-local Hartree reparametrization of the hamiltonian. Next section is devoted to analyzing the effect of the Fock term.
+
+\subsection{Fock renormalization of the hopping amplitude}
+
+From Wick's decomposition of $\hat H_V$, the only allowed Fock term comes from the same-spin part due to $\mathrm{SU}(2)$ symmetry selection rules. Said hamiltonian term is
+\[
+	V \sum_{\ev{ij}} \sum_\sigma \left[
+		\langle
+			\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+		\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} + \mathrm{h.c.}
+	\right]
+\]
+(note the $+$ sign in front of it). A bond-wise hopping amplitude can be defined,
+\[
+	\tilde{t}_{ij\sigma} \equiv t - V \langle
+		\hat c_{j\sigma}^\dagger \hat c_{i\sigma}
+	\rangle
+\]
+Then:
+\[
+	\hat H_t + V \sum_{\ev{ij}} \sum_\sigma \left[
+		\langle
+			\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+		\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} + \mathrm{h.c.}
+	\right] = - \sum_{\ev{ij}} \sum_\sigma 
+	\left[
+		\tilde{t}_{ij\sigma} \hat c_{i\sigma}^\dagger \hat c_{j\sigma} + \mathrm{h.c.}
+	\right]
+\]
+In reciprocal space, the effective hopping must be transformed as well. Consider the Fourier Transform given in Eq.~\eqref{eq:reciprocal-space-non-local-interaction-explicit},
+\begin{multline}
+	V \sum_{\ev{ij}} \sum_\sigma \left[
+		\langle
+			\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+		\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} + \mathrm{h.c.}
+	\right] \\
+	= \frac{4V}{L_x L_y} \sum_{\mathbf{K}, \mathbf{k}, \mathbf{k}'} \sum_\sigma \left[
+		\cos \left(
+			\delta k_x \delta_x
+			\right)	+ \cos \left(
+			\delta k_y \delta_y
+		\right)	
+	\right]	
+	\langle
+		\hat c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger 
+		\hat c_{\mathbf{K}-\mathbf{k}' \sigma}
+	\rangle
+	\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}+\mathbf{k}'\sigma} \label{eq:reciprocal-space-non-local-interaction-fock-intermediate}
+\end{multline}
+where the $4$ prefactor comes from recognizing that the $\mathrm{h.c.}$ generates an identical contribution to the full sum.
+
+In order to proceed, it is now necessary to understand how the AF phase is realized in reciprocal space. As is exposed in App.~\ref{appendix:mean-field-hubbard}, to impose an AF Ansatz of the form
+\[
+	\langle \hat n_{\mathbf{r}\sigma} \rangle = n - (-1)^{x+y+\delta_{\sigma=\uparrow}} m
+	\quad\implies\quad
+	\langle \hat n_{\mathbf{k}\sigma} \rangle = n\delta_{\mathbf{k}=\mathbf{0}} - (-1)^{\delta_{\sigma=\uparrow}} m\delta_{\mathbf{k}=\bm{\pi}}
+\]
+leads to an AF ground-state of free fermions at temperature $\beta$ described by the Nambu spinor of Eq.~\eqref{appeq:af-diagonalized-nambu-spinor},
+\[
+	\hat\Gamma_{\mathbf{k}\sigma} = W_{\mathbf{k}\sigma} \hat \Psi_{\mathbf{k}\sigma} = \begin{bmatrix}
+		\hat \gamma_{\mathbf{k}\sigma}^{(-)} \\ \hat \gamma_{\mathbf{k}\sigma}^{(+)}
+	\end{bmatrix}
+\]
+then the ground-state is realized by simply populating the two bands $\pm E_\mathbf{k}$ as
+\[
+	\bigotimes_{\mathbf{k}\in\mathrm{BZ}} \bigotimes_\sigma \left[
+		\left(\hat \gamma_{\mathbf{k}\sigma}^{(-)}\right)^\dagger f(-E_\mathbf{k};\beta,\mu) + \left(\hat \gamma_{\mathbf{k}\sigma}^{(+)}\right)^\dagger f(E_\mathbf{k};\beta,\mu)
+	\right] \ket{\Omega}
+\]
+The $\hat\gamma$ operators are normalized superpositions of two $\hat c$ operators at points in reciprocal space separated by a $\bm{\pi}$ shift. It follows that the above state is ultimately a superposition of many-body pure states, each of which has either the $\mathbf{k}\sigma$ state occupied \textit{or} the $\mathbf{k}+\bm{\pi}\sigma$ state. It follows that, when computing generically $\langle \hat c_{\mathbf{k}_1\sigma_1} \hat c_{\mathbf{k}_2\sigma_2} \rangle$, such expectation value can be non-zero if and only if $\sigma_1 = \sigma_2$ and $\mathbf{k}_1 = \mathbf{k}_2 + n\bm{\pi}$, being $n \in \mathbb{Z}$. Going back to Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate}, this implies only two contributions are non-zero:
+\[
+	\mathbf{k} = -\mathbf{k}'
+	\qq{or}
+	\mathbf{k}+\bm{\pi} = -\mathbf{k}'
+\]
+Then the term is reduced to:
+\begin{multline*}
+	\frac{4V}{L_x L_y} \sum_{\mathbf{K}, \mathbf{k}} \sum_\sigma \left[
+		\cos \left(
+			2k_x \delta_x
+		\right)	+ \cos \left(
+			2k_y \delta_y
+		\right)	
+	\right]	\\
+	\left[
+		\langle
+			\hat c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger 
+			\hat 	c_{\mathbf{K}+\mathbf{k} \sigma}
+		\rangle
+		\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}-\mathbf{k}\sigma}
+		-
+		\langle
+			\hat c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger 
+			\hat 	c_{\mathbf{K}+\mathbf{k}+\bm{\pi} \sigma}
+		\rangle
+		\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}-\mathbf{k}-\bm{\pi}\sigma}
+	\right]
+\end{multline*}
+The sum over $\mathbf{K}$ produces $L_xL_y$ identical terms, and is thus absorbed leaving (after an irrelevant sign change)
+\[
+	4V \sum_{\mathbf{k} \in \mathrm{BZ}} \sum_\sigma \left[
+		\cos \left(
+			2k_x \delta_x
+		\right)	+ \cos \left(
+			2k_y \delta_y
+		\right)	
+	\right]
+	\left[
+		\langle
+			\hat c_{-\mathbf{k} \sigma}^\dagger 
+			\hat c_{-\mathbf{k} \sigma}
+		\rangle
+		\hat c_{\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{k}\sigma}
+		-
+		\langle
+			\hat c_{-\mathbf{k} \sigma}^\dagger 
+			\hat 	c_{-(\mathbf{k}+\bm{\pi}) \sigma}
+		\rangle
+		\hat c_{\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{k}+\bm{\pi}\sigma}
+	\right]
+\]
+The first term in square brackets contributes for $\mathbf{k}=\mathbf{0},\bm{\pi}$ coherently with the MF Ansatz. Since
+\[
+	\sum_\ell \cos \left(
+		2\mathbf{k} \cdot \bm{\delta}_\ell
+	\right)	\Big|_{\mathbf{k}=\mathbf{0},\bm{\pi}}= \frac{z}{2}
+\]
+the single particle energy $\epsilon_\mathbf{k}$ takes a $2znV$ contribution at wavevector $\mathbf{0}$ from said term, and $(-1)^{\delta_{\sigma=\uparrow}} \times 2zmV$ at wavevector $\bm{\pi}$, obtaining:
+\[
+	\tilde{\epsilon}_{\mathbf{k}\sigma} = \epsilon_\mathbf{k} + 2zV \left[
+		n\delta_{\mathbf{k}=\mathbf{0}} - (-1)^{\sigma=\uparrow} m \delta_{\mathbf{k}=\bm{\pi}}
+	\right]
+\]
+The second term contributes instead to the gap renormalization, being out of diagonal in the $2\times2$ hamiltonian matrix. Restricting the sum to the MBZ and making use of reciprocal periodicity, it reduces to
+\begin{multline*}
+	- 4V \sum_{\mathbf{k} \in \mathrm{BZ}} \sum_\sigma \left[
+		\cos \left(
+			2k_x \delta_x
+		\right)	+ \cos \left(
+			2k_y \delta_y
+		\right)	
+	\right] \\
+	\left[
+		\langle
+			\hat c_{-\mathbf{k} \sigma}^\dagger 
+			\hat c_{-(\mathbf{k}+\bm{\pi}) \sigma}
+		\rangle
+		\hat c_{\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{k}+\bm{\pi}\sigma} + \langle
+			\hat c_{-(\mathbf{k}+\bm{\pi}) \sigma}^\dagger 
+			\hat c_{-\mathbf{k} \sigma}
+		\rangle
+		\hat c_{\mathbf{k}+\bm{\pi} \sigma}^\dagger  \hat c_{\mathbf{k}\sigma}
+	\right]
+\end{multline*}
+and then, making use of the Nambu spinorial formulation,
+\begin{multline*}
+	- 4V \sum_{\mathbf{k} \in \mathrm{BZ}} \sum_\sigma \left[
+		\cos \left(
+			2k_x \delta_x
+		\right)	+ \cos \left(
+			2k_y \delta_y
+		\right)	
+	\right] \\
+	\left[
+		\langle
+			\hat \Psi_{-\mathbf{k} \sigma}^\dagger \tau^+
+			\hat \Psi_{-\mathbf{k}\sigma}
+		\rangle
+		\hat \Psi_{\mathbf{k} \sigma}^\dagger \tau^- \hat \Psi_{\mathbf{k}\sigma} + \langle
+			\hat \Psi_{-\mathbf{k} \sigma}^\dagger \tau^-
+			\hat \Psi_{-\mathbf{k}\sigma}
+		\rangle
+		\hat \Psi_{\mathbf{k} \sigma}^\dagger \tau^+ \hat \Psi_{\mathbf{k}\sigma}
+	\right]
+\end{multline*}
 \todo
 
 \section{Superconducting instability}
@@ -392,6 +788,8 @@ In last passage I used fermionic anti-commutation rules and reversed the sign of
 
 \subsection{Non-local attraction}
 
+{\color{tabred}
+
 Consider a generic bond, say, the one connecting sites $j$ and $j\pm\delta_\ell$ (variable $i$ is here referred to as the imaginary unit to avoid confusion). $\mathbf{x}_j$ is the $2$D notation for the position of site $j$, while $\bm{\delta}_\ell$ is the $2$D notation for the lattice spacing previously indicated as $\delta_\ell$. Fourier transform it according to the convention
 \[
 	\hat c_{j\sigma} = \frac{1}{\sqrt{L_xL_y}} \sum_{\mathbf{k} \in \mathrm{BZ}} e^{-i \mathbf{k} \cdot \mathbf{x}_j} \hat c_{\mathbf{k}\sigma}
@@ -450,7 +848,11 @@ Sums over these variables must be intended as over the Brillouin Zone ($\mathrm{
 \]
 Eventually, in the second passage the prefactor $2$ can be absorbed by reintroducing the spin DoF\footnote{
 	Justification can be given in two ways: either commutating appropriately the $\hat c$ operators, or by carrying out the previous space sums independently over the two sublattices.
-}. Taking in the mean-field approximation (with Cooper pair symmetry breaking), we get
+}. 
+
+}
+
+Taking in the mean-field approximation (with Cooper pair symmetry breaking), we get
 \[
 	\hat c_{\mathbf{K}+\mathbf{k} \uparrow}^\dagger \hat c_{\mathbf{K}-\mathbf{k} \downarrow}^\dagger \hat c_{\mathbf{K}-\mathbf{k}' \downarrow} \hat c_{\mathbf{K}+\mathbf{k}'\uparrow} \simeq \langle
 		\hat c_{\mathbf{K}+\mathbf{k} \uparrow}^\dagger \hat c_{\mathbf{K}-\mathbf{k} \downarrow}^\dagger

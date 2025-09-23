@@ -36,13 +36,15 @@ function PlotVΔ(
             size = (600,400),
             xlabel = L"$V/t$",
             ylabel = L"$\Delta^{(%$(Sym))}$",
-            ylims = (0.0,0.25),
+            # ylims = (0.0,0.25),
+			xlims = (1.0,2.0),
+			ylims = (0.0,0.04),
             legend = :topleft
         )
         if β==Inf
-            title!(L"$%$(Sym)$-wave order parameter ($U=%$(U), L=%$(L), \beta=\infty$)")
+            title!(L"$%$(Sym)$-wave order parameter ($U/t=%$(U), L=%$(L), \beta=\infty$)")
         elseif β<Inf
-            title!(L"$%$(Sym)$-wave order parameter ($U=%$(U), L=%$(L), \beta=%$(β)$)")
+            title!(L"$%$(Sym)$-wave order parameter ($U/t=%$(U), L=%$(L), \beta=%$(β)$)")
         end
         for (d,δ) in enumerate(δδ)
             
@@ -122,13 +124,15 @@ function PlotδΔ(
             size = (600,400),
             xlabel = L"$\delta \vphantom{V/t}$",
             ylabel = L"$\Delta^{(%$(Sym))}$",
-            ylims = (0.0,0.25),
+            # ylims = (0.0,0.25),
+			xlims = (0.3,0.4),
+			ylims = (0.0,0.06),
             legend = :topright
         )
         if β==Inf
-            title!(L"$%$(Sym)$-wave order parameter ($U=%$(U), L=%$(L), \beta=\infty$)")
+            title!(L"$%$(Sym)$-wave order parameter ($U/t=%$(U), L=%$(L), \beta=\infty$)")
         elseif β<Inf
-            title!(L"$%$(Sym)$-wave order parameter ($U=%$(U), L=%$(L), \beta=%$(β)$)")
+            title!(L"$%$(Sym)$-wave order parameter ($U/t=%$(U), L=%$(L), \beta=%$(β)$)")
         end
         for (v,V) in enumerate(VV)
             

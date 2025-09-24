@@ -298,7 +298,8 @@ function PerformHFStep(
         Wd = adjoint(W)
         E = real.( F.values ) # Strangely explicit realization is needed (?)
 		ϕ[i] += sum( [W[l,1] * Wd[2,l] * FermiDirac(E[l],0.0,β) for l in 1:2] )
-		
+
+#       # "By hands"		
 #		ξk = hk[1,1]
 #		Δk = -hk[2,1]
 #		Ek = sqrt(ξk^2 + abs(Δk)^2)		

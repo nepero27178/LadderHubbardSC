@@ -491,7 +491,7 @@ Expr.~\eqref{eq:af-hartree-renormalization-intermediate-2} is formally identical
 \end{equation}
 This, together with Eq.~\eqref{eq:af-hartree-chemical-potential-renormalization}, concludes the non-local Hartree reparametrization of the hamiltonian. Next section is devoted to analyzing the effect of the Fock term.
 
-\subsection{Fock renormalization of the hopping amplitude}
+\subsection{Fock renormalization of the hopping amplitude}\label{subsec:fock-renormalization-hopping-amplitude}
 
 From Wick's decomposition of $\hat H_V$, the only allowed Fock term comes from the same-spin part due to $\mathrm{SU}(2)$ symmetry selection rules. Said hamiltonian term is
 \begin{equation}\label{eq:real-space-non-local-interaction-fock}
@@ -613,13 +613,15 @@ Now, the above equation presents \textit{diagonal} and \textit{off-diagonal} ter
 	\label{fig:af-bz-fock-terms}
 \end{figure}
 
-The diagonal terms of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate-2} are simple density interaction with the mean density field. Consider Fig.~\ref{subfig:af-bz-fock-terms-generic}: density at vector $\mathbf{q}\equiv\mathbf{K}-\mathbf{k}$ interacts with the mean density at vector $\mathbf{K}+\mathbf{k}$. Consider \ref{subfig:af-bz-fock-terms-generic}: from Eq.~\eqref{eq:af-mean-field-ehm-reciprocal-ansatz}, the only non-zero components of the averaged density in AF phase are at reciprocal points $\mathbf{0}$, $\bm{\pi}$ (in Figure indicated in red). To obtain a nonzero contribution to the hamiltonian, it must hold
+The diagonal terms of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate-2} are simple density interactions with the mean density field. Consider Fig.~\ref{subfig:af-bz-fock-terms-generic}: density at vector $\mathbf{q}\equiv\mathbf{K}-\mathbf{k}$ interacts with the mean density at vector $\mathbf{K}+\mathbf{k}$. Consider \ref{subfig:af-bz-fock-terms-generic}: from Eq.~\eqref{eq:af-mean-field-ehm-reciprocal-ansatz}, the only non-zero components of the averaged density in AF phase are at reciprocal points $\mathbf{0}$, $\bm{\pi}$ (in Figure indicated in red). To obtain a nonzero contribution to the hamiltonian, it must hold
 \[
 	\mathbf{K}+\mathbf{k}=\mathbf{0}
 	\qq{or}
 	\mathbf{K}+\mathbf{k}=\bm{\pi}
 \]
-Changing perspective, taking any point $\mathbf{q}\in\mathrm{BZ}$ as in Fig.~\ref{subfig:af-bz-fock-terms-nonzero}, it can always be connected to each interesting points by exactly one construction. Then, when performing the sum $\sum_{\mathbf{K}, \mathbf{k}}$ of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate-2}, we get one contribution from the $\mathbf{0}$ point (where the density amplitude is $n$) and one for each corner of the BZ (where the density amplitude is $-m_\sigma$), because of the reciprocal space tiling. The diagonal part reduces to:
+Changing perspective, taking any point $\mathbf{q}\in\mathrm{BZ}$ as in Fig.~\ref{subfig:af-bz-fock-terms-nonzero}, it can always be connected to $\bm{\pi}$ by the vector $\bm{\pi}-\mathbf{q}$. If we consider the vector connecting the origin with this last vector, the obtained (unique) construction is identical to the one of Fig.~\ref{subfig:af-bz-fock-terms-generic} and ...
+
+Then, when performing the sum $\sum_{\mathbf{K}, \mathbf{k}}$ of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate-2}, we get one contribution from the $\mathbf{0}$ point (where the density amplitude is $n$) and one for each corner of the BZ (where the density amplitude is $-m_\sigma$), because of the reciprocal space tiling. The diagonal part reduces to:
 \begin{multline}
 	\frac{2V}{L_x L_y} \sum_{\mathbf{k}\sigma} \left[
 		\cos \left(
@@ -642,7 +644,36 @@ The tight-binding spectrum is effectively renormalized:
 		\cos\left(2k_x\right)+\cos\left(2k_y\right)
 	\right]	(n-4m_\sigma)
 \]
-{\color{tabred}[I am pretty sure the size denominator should not be there...]}
+{\color{tabred}[
+	I am a bit confused here. In order to define the $z$ component of the pseudo-magnetic field, for the pure Hubbard model I used
+	\[
+		\epsilon_{\mathbf{k}+\bm{\pi}} = - \epsilon_\mathbf{k}
+	\]
+	I would have expected something like:
+	\[
+	\begin{aligned}
+		\tilde{\epsilon}_{\mathbf{k}\sigma} &= \epsilon_\mathbf{k} + g_{\mathbf{k}\sigma} \\
+		\tilde{\epsilon}_{\mathbf{k}+\bm{\pi}\sigma} &= -(\epsilon_\mathbf{k} + g_{\mathbf{k}\sigma})
+	\end{aligned}
+	\]
+	for $\mathbf\in\mathrm{MBZ}$, being $g_{\mathbf{k}\sigma}\in\mathbb{R}$ some correction. Staring even earlier, I expected the hopping itself to be renormalizable
+	\[
+		\tilde{t} = t + h
+	\]
+	with $h$ some correction. These things I expected because of symmetry: the correction
+	\[
+		\tilde{t}_{ij\sigma} \equiv t - V \langle
+			\hat c_{j\sigma}^\dagger \hat c_{i\sigma}
+		\rangle
+	\]
+	should be independent of the specific bond around the $i$ site, i.e. should exhibit $s^*$-wave symmetry with a form factor $\cos k_x + \cos k_y$. With this form factor, both expectations above are fulfilled. Instead, the form factor appears to be $\cos 2k_x + \cos 2k_y$, which is a little strange. Another thing I am not understanding is the inverse size scaling of the renormalization,
+	\[
+		\tilde{\epsilon}_{\mathbf{k}\sigma} \equiv \epsilon_\mathbf{k} + \frac{2V}{L_xL_y} \left[
+		\cos\left(2k_x\right)+\cos\left(2k_y\right)
+		\right]	(n-4m_\sigma)
+	\]
+	which makes no sense to me, because the renormalization of the hopping due to the four NNs should not be influenced by how large the lattice is. All of this together makes me think I am missing something here.
+]}
 
 %The sum over $\mathbf{K}$ produces $L_xL_y$ identical terms, and is thus absorbed leaving (after an irrelevant sign change)
 %\[
@@ -793,61 +824,84 @@ The tight-binding spectrum is effectively renormalized:
 %%\]
 %%\todo
 %%
-%%\paragraph{Gap function renormalization.}
-%%The second term in square brackets of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate-2} contributes instead to the gap renormalization, being out of diagonal in the $2\times2$ hamiltonian matrix. Restricting the sum to the MBZ and making use of reciprocal periodicity, it reduces to
-%%\begin{multline*}
-%%	- 2V \sum_{\mathbf{k} \in \mathrm{MBZ}} \sum_\sigma \left[
-%%		\cos \left(
-%%			2k_x
-%%		\right)	+ \cos \left(
-%%			2k_y
-%%		\right)	
-%%	\right] \\
-%%	\left[
-%%		\langle
-%%			\hat c_{-\mathbf{k} \sigma}^\dagger 
-%%			\hat c_{-(\mathbf{k}+\bm{\pi}) \sigma}
-%%		\rangle
-%%		\hat c_{\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{k}+\bm{\pi}\sigma} + \langle
-%%			\hat c_{-(\mathbf{k}+\bm{\pi}) \sigma}^\dagger 
-%%			\hat c_{-\mathbf{k} \sigma}
-%%		\rangle
-%%		\hat c_{\mathbf{k}+\bm{\pi} \sigma}^\dagger  \hat c_{\mathbf{k}\sigma}
-%%	\right]
-%%\end{multline*}
-%%Use Eq.~\eqref{appeq:finite-temperature-order-parameter-derivation-intermediate},
-%%\[
-%%\begin{aligned}
-%%	\langle
-%%		\hat c_{-\mathbf{k} \sigma}^\dagger 
-%%		\hat c_{-(\mathbf{k}+\bm{\pi}) \sigma}
-%%	\rangle &= \langle 
-%%		[
-%%			\hat \Psi_{-\mathbf{k}\sigma}^\dagger
-%%		]_1 [
-%%			\hat \Psi_{-\mathbf{k}\sigma}
-%%		]_2
-%%	\rangle \\
-%%	&= [
-%%		W_{-\mathbf{k}\sigma}
-%%	]_{1 1} [
-%%		W_{-\mathbf{k}\sigma}^\dagger
-%%	]_{2 1} f\left(
-%%		-E_{-\mathbf{k}\sigma}; \beta,\mu
-%%	\right) + [
-%%		W_{-\mathbf{k}\sigma}
-%%	]_{2 1} [
-%%		W_{-\mathbf{k}\sigma}^\dagger
-%%	]_{2 2} f\left(
-%%		E_{-\mathbf{k}\sigma}; \beta,\mu
-%%	\right) \\
-%%	&= \frac{1}{2} \sin \left(2\theta_{-\mathbf{k}\sigma}\right) \tanh(\frac{\beta E_{-\mathbf{k}\sigma}}{2})
-%%\end{aligned}
-%%\]
+\paragraph{Off-diagonal terms.}
+
+Consider the off-diagonal terms of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate-2}. These contribute instead to the gap renormalization, being out of diagonal in the $2\times2$ hamiltonian matrix. Let $\mathbf{q}\equiv\mathbf{K}+\mathbf{k}$, and use Eq.~\eqref{appeq:finite-temperature-order-parameter-derivation-intermediate},
+\[
+\begin{aligned}
+	\langle
+		\hat c_{\mathbf{q}\sigma}^\dagger 
+		\hat c_{\mathbf{q}+\bm{\pi} \sigma}
+	\rangle &= \langle 
+		[
+			\hat \Psi_{\mathbf{q}\sigma}^\dagger
+		]_1 [
+			\hat \Psi_{\mathbf{q}\sigma}
+		]_2
+	\rangle \\
+	&= [
+		W_{\mathbf{q}\sigma}
+	]_{1 1} [
+		W_{\mathbf{q}\sigma}^\dagger
+	]_{2 1} f\left(
+		-\tilde{E}_{\mathbf{q}\sigma}; \beta,\tilde{\mu}
+	\right) + [
+		W_{\mathbf{q}\sigma}
+	]_{2 1} [
+		W_{\mathbf{q}\sigma}^\dagger
+	]_{2 2} f\left(
+		\tilde{E}_{\mathbf{q}\sigma}; \beta,\tilde{\mu}
+	\right) \\
+	&= \frac{1}{2} \sin \left(2\theta_{\mathbf{q}\sigma}\right) \left[
+		f\left(
+			\tilde{E}_{\mathbf{q}\sigma}; \beta,\tilde{\mu}
+		\right) - f\left(
+			-\tilde{E}_{\mathbf{q}\sigma}; \beta,\tilde{\mu}
+		\right)
+	\right] \\
+	&= \frac{\tilde{\Delta}_{\mathbf{q}\sigma}}{2\tilde{E}_{\mathbf{q}\sigma}} \left[
+		f\left(
+			\tilde{E}_{\mathbf{q}\sigma}; \beta,\tilde{\mu}
+		\right) - f\left(
+			-\tilde{E}_{\mathbf{q}\sigma}; \beta,\tilde{\mu}
+		\right)
+	\right]
+\end{aligned}
+\]
+By a mere change of variables, the off diagonal term effectively reduces to
+\begin{multline*}
+	\frac{2V}{L_xL_y} \sum_{\mathbf{q}\mathbf{k}} \sum_\sigma \langle \hat
+	c_{\mathbf{q}\sigma}^\dagger \hat c_{\mathbf{q}+(\pi,\pi)\sigma} 
+	\rangle \hat c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}+(\pi,\pi)\sigma} \\ = 2V
+	\underbrace{ 
+		\left[
+			\frac{1}{L_xL_y}
+			\sum_{\mathbf{q}}\frac{\tilde{\Delta}_{\mathbf{q}\sigma}}{2\tilde{E}_{\mathbf{q}\sigma}} \left[
+				f(\tilde{E}_{\mathbf{q}\sigma};\beta,\mu) - 		f(-\tilde{E}_{\mathbf{q}\sigma};\beta,\mu)
+			\right]
+		\right]
+	}_{g_\sigma}
+	\sum_{\mathbf{k}\sigma} c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}+(\pi,\pi)\sigma}
+\end{multline*}
+The term in square brackets is an average over the BZ, thus is a constant $g_\sigma$. Then,
+\[
+	\frac{2V}{L_xL_y} \sum_{\mathbf{q}\mathbf{k}} \sum_\sigma \langle \hat c_{\mathbf{q}\sigma}^\dagger \hat c_{\mathbf{q}+(\pi,\pi)\sigma} \rangle \hat c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}+(\pi,\pi)\sigma} = 2V \sum_\sigma g_\sigma \sum_{\mathbf{k}\in\mathrm{MBZ}} \left[
+		c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}+(\pi,\pi)\sigma} + c_{\mathbf{k}+(\pi,\pi)\sigma}^\dagger \hat c_{\mathbf{k}\sigma}
+	\right]
+\]
+Because of this, the $x$ component of the pseudo-magnetic field, the gap already renormalized by Eq.~\eqref{eq:af-hartree-gap-os-renormalization} when analyzing o.s. terms, takes up another renormalization contribution, finally giving
+\[
+	\tilde{\Delta}_\sigma = \Delta_\sigma + 2V (zm_\sigma + g_\sigma)
+\]
+{\color{tabred}[From now on I am not so sure on how to proceed. The quantity $g_\sigma$ looks computable by a continuum approximation, but introduces a self-dependency I don't know how to deal with.]}
 
 \section{Superconducting instability}
 
-This section is devoted to studying the superconducting phase of the system. The only symmetry we assume to break is the $\mathrm{U}(1)$ charge symmetry, thus allowing for superconducting fluctuations. The symmetry structure of the pairing mechanism determines the contributing Cooper fluctuations: for $s$-wave and $d$-wave superconductivity, only the o.s. Cooper term contributes; for $p_\ell$-wave superconductivity, the s.s. term contributes as well {\color{tabred}[Include hopping renormalization?]}. In the following sections, a derivation containing both Cooper terms is proposed.
+This section is devoted to studying the superconducting phase of the system. The only symmetry we assume to break is the $\mathrm{U}(1)$ charge symmetry, thus allowing for superconducting fluctuations. 
+{\color{tabred}
+	As is described thoroughly in Sec.~\ref{subsec:fock-renormalization-hopping-amplitude}, the hopping amplitude is renormalized because of the non-local attraction. [To be understood: what four-components Nambu spinors must be used here to implement the hopping renormalization?]
+}
+The symmetry structure of the pairing mechanism determines the contributing Cooper fluctuations: for $s$-wave and $d$-wave superconductivity, only the o.s. Cooper term contributes; for $p_\ell$-wave superconductivity, the s.s. term contributes as well. In the following sections, a derivation containing both Cooper terms is proposed.
 
 {\color{tabred}
 	[To be continued: separate singlet and triplet pairing channels, and describe triplet channel by itself by the means of four-components Nambu spinors. Use selection rules to set $\Delta^{(p_\ell)}=0$ in the singlet channel, in order to justify results obtained by a pure space-even simulation containing just the o.s. terms.]
@@ -918,7 +972,7 @@ which expresses the generic correlator $\langle \hat c_{i\uparrow}^\dagger \hat 
 	g_{ij} \hat c_{j\downarrow} \hat c_{i\uparrow} + g_{ij}^* \hat c_{i\uparrow}^\dagger \hat c_{j\downarrow}^\dagger
 	\right] \label{eq:extended-hubbard-model-effective}
 \end{align}
-\todo
+Next section is devoted to analyzing the consequences of choosing a specific topology (which is, symmetry structure) for the pairing correlations.
 
 \subsection{Topological correlations}
 
@@ -1011,71 +1065,7 @@ In last passage I used fermionic anti-commutation rules and reversed the sign of
 
 \subsection{Non-local attraction}
 
-{\color{tabred}
-
-Consider a generic bond, say, the one connecting sites $j$ and $j\pm\delta_\ell$ (variable $i$ is here referred to as the imaginary unit to avoid confusion). $\mathbf{x}_j$ is the $2$D notation for the position of site $j$, while $\bm{\delta}_\ell$ is the $2$D notation for the lattice spacing previously indicated as $\delta_\ell$. Fourier transform it according to the convention
-\[
-	\hat c_{j\sigma} = \frac{1}{\sqrt{L_xL_y}} \sum_{\mathbf{k} \in \mathrm{BZ}} e^{-i \mathbf{k} \cdot \mathbf{x}_j} \hat c_{\mathbf{k}\sigma}
-\]
-Then:
-\[
-\begin{aligned}
-	\hat n_{j\uparrow} \hat n_{j \pm \delta_\ell \downarrow} &= \hat c_{j\uparrow}^\dagger \hat c_{j \pm \delta_\ell \downarrow}^\dagger \hat c_{j \pm \delta_\ell \downarrow} \hat c_{j\uparrow} \\
-	&= \frac{1}{(L_xL_y)^2} \sum_{\nu=1}^4 \sum_{\mathbf{k}_\nu \in \mathrm{BZ}} e^{i \left[ (\mathbf{k}_1 + \mathbf{k}_2) - (\mathbf{k}_3 + \mathbf{k}_4) \right] \cdot \mathbf{x}_j} e^{\pm i(\mathbf{k}_2-\mathbf{k}_3) \cdot \bm{\delta}_\ell}  \hat c_{\mathbf{k}_1 \uparrow}^\dagger \hat c_{\mathbf{k}_2 \downarrow}^\dagger \hat c_{\mathbf{k}_3 \downarrow} \hat c_{\mathbf{k}_4\uparrow}
-\end{aligned}
-\]
-It follows,
-\[
-\begin{aligned}
-	\hat h_V^{(j)} &= -\frac{V}{(L_xL_y)^2} \sum_{\ell = x,y} \sum_{\nu=1}^4 \sum_{\mathbf{k}_\nu \in \mathrm{BZ}} e^{i \left[ (\mathbf{k}_1 + \mathbf{k}_2) - (\mathbf{k}_3 + \mathbf{k}_4) \right] \cdot \mathbf{x}_j} \\
-	&\hspace{0.3\textwidth} \times \left(
-	e^{ i(\mathbf{k}_2-\mathbf{k}_3) \cdot \bm{\delta}_\ell} + e^{ -i(\mathbf{k}_2-\mathbf{k}_3) \cdot \bm{\delta}_\ell} 
-	\right)
-	\hat c_{\mathbf{k}_1 \uparrow}^\dagger \hat c_{\mathbf{k}_2 \downarrow}^\dagger \hat c_{\mathbf{k}_3 \downarrow} \hat c_{\mathbf{k}_4\uparrow} \\
-	&= -\frac{2V}{(L_xL_y)^2} \sum_{\ell = x,y} \sum_{\nu=1}^4 \sum_{\mathbf{k}_\nu \in \mathrm{BZ}} e^{i \left[ (\mathbf{k}_1 + \mathbf{k}_2) - (\mathbf{k}_3 + \mathbf{k}_4) \right] \cdot \mathbf{x}_j} \cos\left[
-	(\mathbf{k}_2-\mathbf{k}_3) \cdot \bm{\delta}_\ell
-	\right]	\hat c_{\mathbf{k}_1 \uparrow}^\dagger \hat c_{\mathbf{k}_2 \downarrow}^\dagger \hat c_{\mathbf{k}_3 \downarrow} \hat c_{\mathbf{k}_4\uparrow}
-\end{aligned}
-\]
-The full non-local interaction is given by summing over all sites of $\mathcal{S}$. This gives back momentum conservation,
-\[
-	\frac{1}{L_xL_y} \sum_{j \in \mathcal{S}} e^{i \left[ (\mathbf{k}_1 + \mathbf{k}_2) - (\mathbf{k}_3 + \mathbf{k}_4) \right] \cdot \mathbf{x}_j} = \delta_{\mathbf{k}_1 + \mathbf{k}_2 = \mathbf{k}_3 + \mathbf{k}_4}
-\]
-Let $\mathbf{k}_1 + \mathbf{k}_2 = \mathbf{k}_3 + \mathbf{k}_4 = \mathbf{K}$, and define $\mathbf{k}$, $\mathbf{k}'$ such that
-\[
-	\mathbf{k}_1 \equiv \mathbf{K} + \mathbf{k} 
-	\qquad
-	\mathbf{k}_2 \equiv \mathbf{K} - \mathbf{k} 
-	\qquad
-	\mathbf{k}_3 \equiv \mathbf{K} - \mathbf{k}' 
-	\qquad
-	\mathbf{k}_4 \equiv \mathbf{K} + \mathbf{k}'
-	\qquad
-	\delta \mathbf{k} \equiv \mathbf{k}-\mathbf{k}'
-\]
-Sums over these variables must be intended as over the Brillouin Zone ($\mathrm{BZ}$). Then, finally
-\[
-\begin{aligned}
-	\hat H_V &\simeq \sum_{j \in \mathcal{S}} \hat h_V^{(j)} \\
-	&= - \frac{2V}{L_x L_y} \sum_{\ell = x,y} \sum_{\mathbf{K}, \mathbf{k}, \mathbf{k}'} \cos\left(
-	\delta \mathbf{k} \cdot \bm{\delta}_\ell
-	\right)	\hat c_{\mathbf{K}+\mathbf{k} \uparrow}^\dagger \hat c_{\mathbf{K}-\mathbf{k} \downarrow}^\dagger \hat c_{\mathbf{K}-\mathbf{k}' \downarrow} \hat c_{\mathbf{K}+\mathbf{k}'\uparrow} \\
-	&= - \frac{2V}{L_x L_y} \sum_{\ell = x,y} \sum_{\mathbf{K}, \mathbf{k}, \mathbf{k}'} \left[
-		\cos \left(
-			\delta k_x \delta_x
-		\right)	+ \cos \left(
-			\delta k_y \delta_y
-		\right)	
-	\right]	\hat c_{\mathbf{K}+\mathbf{k} \uparrow}^\dagger \hat c_{\mathbf{K}-\mathbf{k} \downarrow}^\dagger \hat c_{\mathbf{K}-\mathbf{k}' \downarrow} \hat c_{\mathbf{K}+\mathbf{k}'\uparrow} \\
-\end{aligned}
-\]
-Eventually, in the second passage the prefactor $2$ can be absorbed by reintroducing the spin DoF\footnote{
-	Justification can be given in two ways: either commutating appropriately the $\hat c$ operators, or by carrying out the previous space sums independently over the two sublattices.
-}. 
-
-}
-
-Taking in the mean-field approximation (with Cooper pair symmetry breaking), we get
+Consider now the result of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-explicit}. Taking in the mean-field approximation (with Cooper pair symmetry breaking), we get
 \[
 	\hat c_{\mathbf{K}+\mathbf{k} \uparrow}^\dagger \hat c_{\mathbf{K}-\mathbf{k} \downarrow}^\dagger \hat c_{\mathbf{K}-\mathbf{k}' \downarrow} \hat c_{\mathbf{K}+\mathbf{k}'\uparrow} \simeq \langle
 		\hat c_{\mathbf{K}+\mathbf{k} \uparrow}^\dagger \hat c_{\mathbf{K}-\mathbf{k} \downarrow}^\dagger

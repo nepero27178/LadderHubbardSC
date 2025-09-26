@@ -494,13 +494,13 @@ This, together with Eq.~\eqref{eq:af-hartree-chemical-potential-renormalization}
 \subsection{Fock renormalization of the hopping amplitude}
 
 From Wick's decomposition of $\hat H_V$, the only allowed Fock term comes from the same-spin part due to $\mathrm{SU}(2)$ symmetry selection rules. Said hamiltonian term is
-\[
+\begin{equation}\label{eq:real-space-non-local-interaction-fock}
 	V \sum_{\ev{ij}} \sum_\sigma \left[
 		\langle
 			\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
 		\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} + \mathrm{h.c.}
 	\right]
-\]
+\end{equation}
 (note the $+$ sign in front of it). A bond-wise hopping amplitude can be defined,
 \[
 	\tilde{t}_{ij\sigma} \equiv t - V \langle
@@ -518,7 +518,7 @@ Then:
 		\tilde{t}_{ij\sigma} \hat c_{i\sigma}^\dagger \hat c_{j\sigma} + \mathrm{h.c.}
 	\right]
 \]
-In reciprocal space, the effective hopping must be transformed as well. Consider the Fourier Transform given in Eq.~\eqref{eq:reciprocal-space-non-local-interaction-explicit},
+In reciprocal space, the effective hopping must be transformed as well. Consider the Fourier Transform given in Eq.~\eqref{eq:reciprocal-space-non-local-interaction-explicit}, applied to Eq.~\eqref{eq:real-space-non-local-interaction-fock},
 \begin{multline}
 	V \sum_{\ev{ij}} \sum_\sigma \left[
 		\langle
@@ -541,25 +541,27 @@ In reciprocal space, the effective hopping must be transformed as well. Consider
 where the $2$ prefactor comes from recognizing that the $\mathrm{h.c.}$ generates an identical contribution to the full sum.
 
 In order to proceed, it is now necessary to understand how the AF phase is realized in reciprocal space. As is exposed in App.~\ref{appendix:mean-field-hubbard}, to impose an AF Ansatz of the form
-\[
+\begin{equation}\label{eq:af-mean-field-ehm-reciprocal-ansatz}
 	\langle \hat n_{\mathbf{r}\sigma} \rangle = n - (-1)^{x+y+\delta_{\sigma=\uparrow}} m
 	\quad\implies\quad
-	\langle \hat n_{\mathbf{k}\sigma} \rangle = n\delta_{\mathbf{k}=\mathbf{0}} - (-1)^{\delta_{\sigma=\uparrow}} m\delta_{\mathbf{k}=\bm{\pi}}
-\]
+	\langle \hat n_{\mathbf{k}\sigma} \rangle = n\delta_{\mathbf{k}=\mathbf{0}} - \underbrace{
+		(-1)^{\delta_{\sigma=\uparrow}} m
+	}_{m_\sigma} \delta_{\mathbf{k}=\bm{\pi}}
+\end{equation}
 leads to an AF ground-state of free fermions at temperature $\beta$ described by the Nambu spinor of Eq.~\eqref{appeq:af-diagonalized-nambu-spinor}. All parameters are renormalized, thus we must account for renormalized band energies $\pm \tilde{E}_{\mathbf{k}\sigma}$ as well. The ground-state is realized by simply populating the two bands $\pm \tilde{E}_{\mathbf{k}\sigma}$ as
 \[
-	\bigotimes_{\mathbf{k}\in\mathrm{BZ}} \bigotimes_\sigma \left[
+	\bigotimes_{\mathbf{k}\in\mathrm{MBZ}} \bigotimes_\sigma \left[
 		\left(\hat \gamma_{\mathbf{k}\sigma}^{(-)}\right)^\dagger f(-\tilde{E}_\mathbf{k};\beta,\mu) + \left(\hat \gamma_{\mathbf{k}\sigma}^{(+)}\right)^\dagger f(\tilde{E}_\mathbf{k};\beta,\mu)
 	\right] \ket{\Omega}
 \]
-The $\hat\gamma$ operators are normalized superpositions of two $\hat c$ operators at points in reciprocal space separated by a $\bm{\pi}$ shift. It follows that the above state is ultimately a superposition of many-body pure states, each of which has either the $\mathbf{k}\sigma$ state occupied \textit{or} the $\mathbf{k}+\bm{\pi}\sigma$ state. It follows that, when computing generically $\langle \hat c_{\mathbf{k}_1\sigma_1} \hat c_{\mathbf{k}_2\sigma_2} \rangle$, such expectation value can be non-zero if and only if $\sigma_1 = \sigma_2$ and $\mathbf{k}_1 = \mathbf{k}_2 + n\bm{\pi}$, being $n \in \mathbb{Z}$. Going back to Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate}, this implies only two contributions are non-zero:
+The $\hat\gamma$ operators are normalized superpositions of two $\hat c$ operators at points in reciprocal space separated by a $\bm{\pi}$ shift. It follows that the above state is ultimately a superposition of many-body pure states, each of which has either the $\mathbf{k}\sigma$ state occupied \textit{or} the $\mathbf{k}+\bm{\pi}\sigma$ state for each $\mathbf{k}\in\mathrm{MBZ}$, $\sigma\in\lbrace\uparrow,\downarrow\rbrace$. It follows that, when computing generically $\langle \hat c_{\mathbf{k}_1\sigma}^\dagger \hat c_{\mathbf{k}_2\sigma} \rangle$, such expectation value can be non-zero if and only if $\mathbf{k}_1 = \mathbf{k}_2 + n\bm{\pi}$, being $n \in \mathbb{Z}$. Going back to Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate}, this implies only two contributions are non-zero:
 \[
 	\mathbf{k} = -\mathbf{k}'
 	\qq{or}
 	\mathbf{k}+\bm{\pi} = -\mathbf{k}'
 \]
 Then Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate} is reduced to:
-\begin{multline*}
+\begin{multline}
 	\frac{2V}{L_x L_y} \sum_{\mathbf{K}, \mathbf{k}} \sum_\sigma \left[
 		\cos \left(
 			2k_x
@@ -567,143 +569,281 @@ Then Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate} is 
 			2k_y
 		\right)	
 	\right]	\\
-	\left[
-		\langle
-			\hat c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger 
-			\hat 	c_{\mathbf{K}+\mathbf{k} \sigma}
-		\rangle
-		\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}-\mathbf{k}\sigma}
+	\Big[
+		\underbrace{
+			\langle
+				\hat c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger 
+				\hat 	c_{\mathbf{K}+\mathbf{k} \sigma}
+			\rangle
+			\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}-\mathbf{k}\sigma}
+		}_\text{Diagonal terms}
 		-
-		\langle
-			\hat c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger 
-			\hat 	c_{\mathbf{K}+\mathbf{k}+\bm{\pi} \sigma}
-		\rangle
-		\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}-\mathbf{k}-\bm{\pi}\sigma}
-	\right]
-\end{multline*}
-The sum over $\mathbf{K}$ produces $L_xL_y$ identical terms, and is thus absorbed leaving (after an irrelevant sign change)
-\begin{equation}\label{eq:reciprocal-space-non-local-interaction-fock-intermediate-2}
-	2V \sum_{\mathbf{k} \in \mathrm{BZ}} \sum_\sigma \left[
+		\underbrace{
+			\langle
+				\hat c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger 
+				\hat 	c_{\mathbf{K}+\mathbf{k}+\bm{\pi} \sigma}
+			\rangle
+			\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}-\mathbf{k}-\bm{\pi}\sigma}
+		}_\text{Off-diagonal terms}
+	\Big] \label{eq:reciprocal-space-non-local-interaction-fock-intermediate-2}
+\end{multline}
+Now, the above equation presents \textit{diagonal} and \textit{off-diagonal} terms. Let me discuss them separately.
+
+\paragraph{Diagonal terms.}
+
+\begin{figure}
+	\def\Kx{0.5}
+	\def\Ky{0.2}
+	\def\kx{0.1}
+	\def\ky{0.7}
+	\centering
+	\subfloat[
+		Generic vectors.
+	]{
+		\label{subfig:af-bz-fock-terms-generic}
+		\input{chapters/mft-analysis/pictures/af-bz-fock-terms-generic}
+	}
+	\subfloat[
+		Nonzero contribution.
+	]{
+		\label{subfig:af-bz-fock-terms-nonzero}
+		\input{chapters/mft-analysis/pictures/af-bz-fock-terms-nonzero}
+	}
+	\caption{Representation of the vectors involved in the diagonal terms of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate-2}. In Fig.~\ref{subfig:af-bz-fock-terms-generic} the vectors are generic, and density operator at position $\mathbf{K}-\mathbf{k}$ (dashed line) interacts with the mean field at position $\mathbf{K}+\mathbf{k}$ (solid line) of the BZ (light gray area). The red dots at $\mathbf{0}$ and $\bm{\pi}$ represents the only non-zero reciprocal Fourier factors of the averaged density for the AF phase. In Fig.~\ref{subfig:af-bz-fock-terms-nonzero}, starting from a generic point $\mathbf{q}\in\mathrm{BZ}$, a construction of the kind of Fig.~\ref{subfig:af-bz-fock-terms-generic} always exists connecting $\mathbf{q}$ to $\bm{\pi}$, and analogously to $\mathbf{0}$.}
+	\label{fig:af-bz-fock-terms}
+\end{figure}
+
+The diagonal terms of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate-2} are simple density interaction with the mean density field. Consider Fig.~\ref{subfig:af-bz-fock-terms-generic}: density at vector $\mathbf{q}\equiv\mathbf{K}-\mathbf{k}$ interacts with the mean density at vector $\mathbf{K}+\mathbf{k}$. Consider \ref{subfig:af-bz-fock-terms-generic}: from Eq.~\eqref{eq:af-mean-field-ehm-reciprocal-ansatz}, the only non-zero components of the averaged density in AF phase are at reciprocal points $\mathbf{0}$, $\bm{\pi}$ (in Figure indicated in red). To obtain a nonzero contribution to the hamiltonian, it must hold
+\[
+	\mathbf{K}+\mathbf{k}=\mathbf{0}
+	\qq{or}
+	\mathbf{K}+\mathbf{k}=\bm{\pi}
+\]
+Changing perspective, taking any point $\mathbf{q}\in\mathrm{BZ}$ as in Fig.~\ref{subfig:af-bz-fock-terms-nonzero}, it can always be connected to each interesting points by exactly one construction. Then, when performing the sum $\sum_{\mathbf{K}, \mathbf{k}}$ of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate-2}, we get one contribution from the $\mathbf{0}$ point (where the density amplitude is $n$) and one for each corner of the BZ (where the density amplitude is $-m_\sigma$), because of the reciprocal space tiling. The diagonal part reduces to:
+\begin{multline}
+	\frac{2V}{L_x L_y} \sum_{\mathbf{k}\sigma} \left[
 		\cos \left(
 			2k_x
 		\right)	+ \cos \left(
 			2k_y
 		\right)	
-	\right]
-	\left[
-		\langle
-			\hat c_{-\mathbf{k} \sigma}^\dagger 
-			\hat c_{-\mathbf{k} \sigma}
-		\rangle
-		\hat c_{\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{k}\sigma}
-		-
-		\langle
-			\hat c_{-\mathbf{k} \sigma}^\dagger 
-			\hat 	c_{-(\mathbf{k}+\bm{\pi}) \sigma}
-		\rangle
-		\hat c_{\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{k}+\bm{\pi}\sigma}
-	\right]
-\end{equation}
-Let me go through this last expression.
+	\right] \Big[
+		\underbrace{
+			(n-4m_\sigma) \hat c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}\sigma}
+		}_\text{Diagonal terms}
+		+
+		(\text{Off-diagonal terms})
+	\Big]
+	\label{eq:reciprocal-space-non-local-interaction-fock-intermediate-3}
+\end{multline}
+The tight-binding spectrum is effectively renormalized:
+\[
+	\tilde{\epsilon}_{\mathbf{k}\sigma} \equiv \epsilon_\mathbf{k} + \frac{2V}{L_xL_y} \left[
+		\cos\left(2k_x\right)+\cos\left(2k_y\right)
+	\right]	(n-4m_\sigma)
+\]
+{\color{tabred}[I am pretty sure the size denominator should not be there...]}
 
-\paragraph{Tight-binding spectrum and chemical potential renormalization.}
-The first term in square brackets of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate-2} contributes for $\mathbf{k}=\mathbf{0},\bm{\pi}$ coherently with the MF Ansatz. Since
-\[
-	\sum_\ell \cos \left(
-		2\mathbf{k} \cdot \bm{\delta}_\ell
-	\right)	\Big|_{\mathbf{k}=\mathbf{0},\bm{\pi}}= \frac{z}{2}
-\]
-the single particle energy $\epsilon_\mathbf{k}$ takes a $znV$ contribution at wavevector $\mathbf{0}$ from said term, and $(-1)^{\delta_{\sigma=\uparrow}} zmV$ at wavevector $\bm{\pi}$, obtaining:
-\begin{equation}\label{eq:af-fock-tight-binding-ss-renormalization-raw}
-	\epsilon_\mathbf{k} \to \epsilon_\mathbf{k} + zV \left[
-		n\delta_{\mathbf{k}=\mathbf{0}} - (-1)^{\delta_{\sigma=\uparrow}} m \delta_{\mathbf{k}=\bm{\pi}}
-	\right]
-\end{equation}
-Since the final form of the hamiltonian must be expressed restricting the sum to the MBZ, and $\epsilon_\mathbf{k} = - \epsilon_{\mathbf{k}+\bm{\pi}}$, one may write the hopping sector of the hamiltonian as
-\[
-	\sum_{\mathbf{k} \in \mathrm{MBZ}} \sum_\sigma \left[
-		\left(
-			\epsilon_\mathbf{k} + znV \delta_{\mathbf{k}=\mathbf{0}}
-		\right) \hat c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}\sigma} + \left(
-			-\epsilon_\mathbf{k} + (-1)^{\delta_{\sigma=\uparrow}} zmV \delta_{\mathbf{k}=\mathbf{0}}
-		\right) \hat c_{\mathbf{k}+\bm{\pi}\sigma}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\sigma}
-	\right]
-\]
-\todo
-
-\paragraph{Gap function renormalization.}
-The second term in square brackets of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate-2} contributes instead to the gap renormalization, being out of diagonal in the $2\times2$ hamiltonian matrix. Restricting the sum to the MBZ and making use of reciprocal periodicity, it reduces to
-\begin{multline*}
-	- 2V \sum_{\mathbf{k} \in \mathrm{MBZ}} \sum_\sigma \left[
-		\cos \left(
-			2k_x
-		\right)	+ \cos \left(
-			2k_y
-		\right)	
-	\right] \\
-	\left[
-		\langle
-			\hat c_{-\mathbf{k} \sigma}^\dagger 
-			\hat c_{-(\mathbf{k}+\bm{\pi}) \sigma}
-		\rangle
-		\hat c_{\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{k}+\bm{\pi}\sigma} + \langle
-			\hat c_{-(\mathbf{k}+\bm{\pi}) \sigma}^\dagger 
-			\hat c_{-\mathbf{k} \sigma}
-		\rangle
-		\hat c_{\mathbf{k}+\bm{\pi} \sigma}^\dagger  \hat c_{\mathbf{k}\sigma}
-	\right]
-\end{multline*}
-Use Eq.~\eqref{appeq:finite-temperature-order-parameter-derivation-intermediate},
-\[
-\begin{aligned}
-	\langle
-		\hat c_{-\mathbf{k} \sigma}^\dagger 
-		\hat c_{-(\mathbf{k}+\bm{\pi}) \sigma}
-	\rangle &= \langle 
-		[
-			\hat \Psi_{-\mathbf{k}\sigma}^\dagger
-		]_1 [
-			\hat \Psi_{-\mathbf{k}\sigma}
-		]_2
-	\rangle \\
-	&= [
-		W_{-\mathbf{k}\sigma}
-	]_{1 1} [
-		W_{-\mathbf{k}\sigma}^\dagger
-	]_{2 1} f\left(
-		-E_{-\mathbf{k}\sigma}; \beta,\mu
-	\right) + [
-		W_{-\mathbf{k}\sigma}
-	]_{2 1} [
-		W_{-\mathbf{k}\sigma}^\dagger
-	]_{2 2} f\left(
-		E_{-\mathbf{k}\sigma}; \beta,\mu
-	\right) \\
-	&= \frac{1}{2} \sin \left(2\theta_{-\mathbf{k}\sigma}\right) \tanh(\frac{\beta E_{-\mathbf{k}\sigma}}{2})
-\end{aligned}
-\]
-%and then, making use of the Nambu spinorial formulation,
-%\begin{multline*}
-%	- 4V \sum_{\mathbf{k} \in \mathrm{MBZ}} \sum_\sigma \left[
+%The sum over $\mathbf{K}$ produces $L_xL_y$ identical terms, and is thus absorbed leaving (after an irrelevant sign change)
+%\[
+%	2V \sum_{\mathbf{k} \in \mathrm{BZ}} \sum_\sigma \left[
 %		\cos \left(
-%			2k_x \delta_x
+%			2k_x
 %		\right)	+ \cos \left(
-%			2k_y \delta_y
+%			2k_y
 %		\right)	
-%	\right] \\
+%	\right]
 %	\left[
 %		\langle
-%			\hat \Psi_{-\mathbf{k} \sigma}^\dagger \tau^+
-%			\hat \Psi_{-\mathbf{k}\sigma}
+%			\hat c_{-\mathbf{k} \sigma}^\dagger 
+%			\hat c_{-\mathbf{k} \sigma}
 %		\rangle
-%		\hat \Psi_{\mathbf{k} \sigma}^\dagger \tau^- \hat \Psi_{\mathbf{k}\sigma} + \langle
-%			\hat \Psi_{-\mathbf{k} \sigma}^\dagger \tau^-
-%			\hat \Psi_{-\mathbf{k}\sigma}
+%		\hat c_{\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{k}\sigma}
+%		-
+%		\langle
+%			\hat c_{-\mathbf{k} \sigma}^\dagger 
+%			\hat 	c_{-(\mathbf{k}+\bm{\pi}) \sigma}
 %		\rangle
-%		\hat \Psi_{\mathbf{k} \sigma}^\dagger \tau^+ \hat \Psi_{\mathbf{k}\sigma}
+%		\hat c_{\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{k}+\bm{\pi}\sigma}
 %	\right]
+%\]
+%and, restricting to the MBZ,
+%\begin{multline}\label{eq:reciprocal-space-non-local-interaction-fock-intermediate-2}
+%	2V \sum_{\mathbf{k} \in \mathrm{MBZ}} \sum_\sigma \left[
+%		\cos \left(
+%			2k_x
+%		\right)	+ \cos \left(
+%			2k_y
+%		\right)	
+%	\right]
+%	\bigg[
+%		\overbrace{
+%			\langle
+%				\hat c_{-\mathbf{k} \sigma}^\dagger 
+%				\hat c_{-\mathbf{k} \sigma}
+%			\rangle
+%			\hat c_{\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{k}\sigma} + \langle
+%				\hat c_{-(\mathbf{k}+\bm{\pi}) \sigma}^\dagger 
+%				\hat c_{-(\mathbf{k}+\bm{\pi}) \sigma}
+%			\rangle
+%			\hat c_{\mathbf{k}+\bm{\pi} \sigma}^\dagger  \hat c_{\mathbf{k}+\bm{\pi} \sigma}
+%		}^{\text{Diagonal terms}}
+%		\\
+%		\underbrace{
+%			- \langle
+%				\hat c_{-\mathbf{k} \sigma}^\dagger 
+%				\hat 	c_{-(\mathbf{k}+\bm{\pi}) \sigma}
+%			\rangle
+%			\hat c_{\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{k}+\bm{\pi}\sigma} - \langle
+%				\hat c_{-(\mathbf{k}+\bm{\pi}) \sigma}^\dagger 
+%				\hat 	c_{-\mathbf{k} \sigma}
+%			\rangle
+%			\hat c_{\mathbf{k}+\bm{\pi}\sigma}^\dagger  \hat c_{\mathbf{k}\sigma}
+%		}_{\text{Off-diagonal terms}}
+%	\bigg]
+%\end{multline}
+%Let me go through this last expression.
+%
+%\paragraph{Diagonal terms.}
+%The diagonal terms of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate-2} are treated by the means of Eq.~\eqref{appeq:finite-temperature-order-parameter-derivation-intermediate}. Given $\mathbf{k}\in\mathrm{MBZ}$,
+%\[
+%\begin{aligned}
+%	\langle
+%		\hat c_{-\mathbf{k} \sigma}^\dagger 
+%		\hat c_{-\mathbf{k} \sigma}
+%	\rangle &= \langle 
+%		[
+%			\hat \Psi_{-\mathbf{k}\sigma}^\dagger
+%		]_1 [
+%			\hat \Psi_{-\mathbf{k}\sigma}
+%		]_1
+%	\rangle \\
+%	&= |[
+%		W_{-\mathbf{k}\sigma}
+%	]_{11}|^2 f(
+%		-\tilde{E}_{-\mathbf{k}\sigma}; \beta,\mu
+%	) + |[
+%		W_{-\mathbf{k}\sigma}
+%	]_{21}|^2 f(
+%		\tilde{E}_{-\mathbf{k}\sigma}; \beta,\mu
+%	) \\
+%	&= \sin^2 \theta_{-\mathbf{k}\sigma} f\left(
+%		-\tilde{E}_{-\mathbf{k}\sigma}; \beta,\mu
+%	\right) + \cos^2 \theta_{-\mathbf{k}\sigma} f\left(
+%		\tilde{E}_{-\mathbf{k}\sigma}; \beta,\mu
+%	\right) \\
+%	&= \frac{1 - \cos (2\tilde{\theta}_{-\mathbf{k}\sigma})}{2} f\left(
+%		-\tilde{E}_{-\mathbf{k}\sigma}; \beta,\mu
+%	\right) + \frac{1 + \cos (2\tilde{\theta}_{-\mathbf{k}\sigma})}{2} f\left(
+%		\tilde{E}_{-\mathbf{k}\sigma}; \beta,\mu
+%	\right) \\
+%	&= \frac{1}{2} \left[
+%		\left(
+%			1 - \frac{\tilde{\epsilon}_{-\mathbf{k}\sigma}}{\tilde{E}_{-\mathbf{k}\sigma}} 
+%		\right) f \left(
+%			-\tilde{E}_{-\mathbf{k}\sigma}; \beta,\mu
+%		\right) + \left(
+%			1 + \frac{\tilde{\epsilon}_{-\mathbf{k}\sigma}}{\tilde{E}_{-\mathbf{k}\sigma}} 
+%		\right) f\left(
+%			\tilde{E}_{-\mathbf{k}\sigma}; \beta,\mu
+%		\right)
+%	\right]
+%\end{aligned}
+%\]
+%Analogously,
+%\begin{multline*}
+%	\langle
+%		\hat c_{-(\mathbf{k}+\bm{\pi})\sigma}^\dagger 
+%		\hat c_{-(\mathbf{k}+\bm{\pi})\sigma}
+%	\rangle = \frac{1}{2} \Bigg[
+%		\left(
+%			1 - \frac{\tilde{\epsilon}_{-(\mathbf{k}+\bm{\pi})\sigma}}{\tilde{E}_{-(\mathbf{k}+\bm{\pi})\sigma}} 
+%		\right) f\left(
+%			-\tilde{E}_{-(\mathbf{k}+\bm{\pi})\sigma}; \beta,\mu
+%		\right) \\
+%		+ \left(
+%			1 + \frac{\tilde{\epsilon}_{-(\mathbf{k}+\bm{\pi})}\sigma}{\tilde{E}_{-(\mathbf{k}+\bm{\pi})\sigma}} 
+%		\right) f\left(
+%			\tilde{E}_{-(\mathbf{k}+\bm{\pi})\sigma}; \beta,\mu
+%		\right)
+%	\Bigg]
 %\end{multline*}
-%\todo
+%\todo {\color{tabred} Check the code here below for a commented section using a different approach, and imposing the reciprocal Ansatz instead of the standard self-consistent Nambu approach. Still unclear if this procedure makes sense or is actually useful.}
+%%The first term in square brackets of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate-2} contributes for $\mathbf{k}=\mathbf{0},\bm{\pi}$ coherently with the MF Ansatz. Since
+%%\[
+%%	\sum_\ell \cos \left(
+%%		2\mathbf{k} \cdot \bm{\delta}_\ell
+%%	\right)	\Big|_{\mathbf{k}=\mathbf{0},\bm{\pi}}= \frac{z}{2}
+%%\]
+%%the single particle energy $\epsilon_\mathbf{k}$ takes a $znV$ contribution at wavevector $\mathbf{0}$ from said term, and $(-1)^{\delta_{\sigma=\uparrow}} zmV$ at wavevector $\bm{\pi}$, obtaining:
+%%\begin{equation}\label{eq:af-fock-tight-binding-ss-renormalization-raw}
+%%	\epsilon_\mathbf{k} \to \epsilon_\mathbf{k} + zV \left[
+%%		n\delta_{\mathbf{k}=\mathbf{0}} - (-1)^{\delta_{\sigma=\uparrow}} m \delta_{\mathbf{k}=\bm{\pi}}
+%%	\right]
+%%\end{equation}
+%%Since the final form of the hamiltonian must be expressed restricting the sum to the MBZ, and $\epsilon_\mathbf{k} = - \epsilon_{\mathbf{k}+\bm{\pi}}$, one may write the hopping sector of the hamiltonian as
+%%\[
+%%	\sum_{\mathbf{k} \in \mathrm{MBZ}} \sum_\sigma \left[
+%%		\left(
+%%			\epsilon_\mathbf{k} + znV \delta_{\mathbf{k}=\mathbf{0}}
+%%		\right) \hat c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}\sigma} - \left(
+%%			\epsilon_\mathbf{k} - (-1)^{\delta_{\sigma=\uparrow}} zmV \delta_{\mathbf{k}=\mathbf{0}}
+%%		\right) \hat c_{\mathbf{k}+\bm{\pi}\sigma}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\sigma}
+%%	\right]
+%%\]
+%%\todo
+%%
+%%\paragraph{Gap function renormalization.}
+%%The second term in square brackets of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate-2} contributes instead to the gap renormalization, being out of diagonal in the $2\times2$ hamiltonian matrix. Restricting the sum to the MBZ and making use of reciprocal periodicity, it reduces to
+%%\begin{multline*}
+%%	- 2V \sum_{\mathbf{k} \in \mathrm{MBZ}} \sum_\sigma \left[
+%%		\cos \left(
+%%			2k_x
+%%		\right)	+ \cos \left(
+%%			2k_y
+%%		\right)	
+%%	\right] \\
+%%	\left[
+%%		\langle
+%%			\hat c_{-\mathbf{k} \sigma}^\dagger 
+%%			\hat c_{-(\mathbf{k}+\bm{\pi}) \sigma}
+%%		\rangle
+%%		\hat c_{\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{k}+\bm{\pi}\sigma} + \langle
+%%			\hat c_{-(\mathbf{k}+\bm{\pi}) \sigma}^\dagger 
+%%			\hat c_{-\mathbf{k} \sigma}
+%%		\rangle
+%%		\hat c_{\mathbf{k}+\bm{\pi} \sigma}^\dagger  \hat c_{\mathbf{k}\sigma}
+%%	\right]
+%%\end{multline*}
+%%Use Eq.~\eqref{appeq:finite-temperature-order-parameter-derivation-intermediate},
+%%\[
+%%\begin{aligned}
+%%	\langle
+%%		\hat c_{-\mathbf{k} \sigma}^\dagger 
+%%		\hat c_{-(\mathbf{k}+\bm{\pi}) \sigma}
+%%	\rangle &= \langle 
+%%		[
+%%			\hat \Psi_{-\mathbf{k}\sigma}^\dagger
+%%		]_1 [
+%%			\hat \Psi_{-\mathbf{k}\sigma}
+%%		]_2
+%%	\rangle \\
+%%	&= [
+%%		W_{-\mathbf{k}\sigma}
+%%	]_{1 1} [
+%%		W_{-\mathbf{k}\sigma}^\dagger
+%%	]_{2 1} f\left(
+%%		-E_{-\mathbf{k}\sigma}; \beta,\mu
+%%	\right) + [
+%%		W_{-\mathbf{k}\sigma}
+%%	]_{2 1} [
+%%		W_{-\mathbf{k}\sigma}^\dagger
+%%	]_{2 2} f\left(
+%%		E_{-\mathbf{k}\sigma}; \beta,\mu
+%%	\right) \\
+%%	&= \frac{1}{2} \sin \left(2\theta_{-\mathbf{k}\sigma}\right) \tanh(\frac{\beta E_{-\mathbf{k}\sigma}}{2})
+%%\end{aligned}
+%%\]
 
 \section{Superconducting instability}
 

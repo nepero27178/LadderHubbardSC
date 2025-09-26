@@ -11,9 +11,9 @@ end
 # Pop last "-" character
 global HMSymsStr = HMSymsStr[1:end-1]
 
-Setup="C" # Choose your setup
+Setup="D" # Choose your setup
 
-if !in(Setup, ["Test", "A", "B", "C"])
+if !in(Setup, ["Test", "A", "B", "C", "D"])
     @error "Invalid setup, please modify at: " * SetupFilePath
     exit()
 
@@ -67,6 +67,19 @@ elseif Setup=="C"
     LL = [2^5]                          # Lattice sizes
     δδ = [δ for δ in 0.3:0.01:0.45]     # Dopings
     ββ = [Inf]						    # Inverse temperatures
+    p = 100                             # Max number of iterations
+    Δm = Dict([                         # Tolerance on each symmetry
+        Sym => 1e-3 for Sym in AllSyms
+    ])
+    Δn = 1e-2                           # Tolerance on density
+    g = 0.5                             # Mixing parameter
+    
+elseif Setup=="D"
+    UU = [10.0]		                    # Local repulsions
+    VV = [V for V in 1.0:0.1:2.0]		# Non-local attractions
+    LL = [32,48,64]                     # Lattice sizes
+    δδ = [δ for δ in 0.3:0.01:0.45]     # Dopings
+    ββ = [10.0, 100.0, Inf]				# Inverse temperatures
     p = 100                             # Max number of iterations
     Δm = Dict([                         # Tolerance on each symmetry
         Sym => 1e-3 for Sym in AllSyms

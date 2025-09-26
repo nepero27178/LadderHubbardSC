@@ -1,0 +1,61 @@
+\begin{tikzpicture}
+	\begin{axis}[
+			axis lines=center,
+			grid=both,
+			grid style={color=lightgray,dashed},
+			%
+			xlabel={$k_x$},
+			xlabel style={right},
+			ylabel={$k_y$},
+			ylabel style={above},
+			xtick={-1},
+			xticklabel={$-\pi$},
+			xticklabel style={below left},
+			extra x ticks={1},
+			extra x tick label={$\pi$},
+			extra x tick style={xticklabel style={below right}},
+			ytick={-1},
+			yticklabel={$-\pi$},
+			yticklabel style={below left},
+			extra y ticks={1},
+			extra y tick label={$\pi$},
+			extra y tick style={yticklabel style={above left}},
+			xmin=-1.32, xmax=1.32,
+			ymin=-1.32, ymax=1.32,
+			%
+			width=0.5\textwidth,
+			height=0.5\textwidth
+		]
+		
+		\fill[color=lightgray,opacity=0.5]
+			(axis cs:-1,-1) rectangle (axis cs:1,1) 
+				node[anchor=north west,color=gray,opacity=1]
+					{\small BZ};
+					
+		\filldraw[color=tabblue]
+			(axis cs:\Kx,\Ky) circle (0.75pt);
+		\draw[color=tabblue,-stealth]
+			(axis cs:0,0) -- (axis cs:\Kx,\Ky)
+				node[anchor=south,midway]
+					{\small $\mathbf{K}$};
+		\draw[color=tabblue,-stealth]
+			(axis cs:\Kx,\Ky) -- (axis cs:{\Kx+\kx},{\Ky+\ky})
+				node[anchor=west,midway]
+					{\small $\mathbf{k}$};
+		\draw[color=tabblue,-stealth,dashed]
+			(axis cs:\Kx,\Ky) -- (axis cs:{\Kx-\kx},{\Ky-\ky})
+				node[anchor=west,midway]
+					{\small $-\mathbf{k}$};
+
+					
+		\filldraw[color=tabred]
+			(axis cs:0,0) circle (1.5pt)
+				node[anchor=south east]
+					{\small $\mathbf{0}$};
+		\filldraw[color=tabred]
+			(axis cs:1,1) circle (1.5pt)
+				node[anchor=south east]
+					{\small $\bm{\pi}$};
+		
+	\end{axis}
+\end{tikzpicture}

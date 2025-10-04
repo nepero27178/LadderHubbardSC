@@ -614,7 +614,7 @@ Now, the above equation presents \textit{diagonal} and \textit{off-diagonal} ter
 \end{figure}
 
 The diagonal terms of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate-2} are simple density interactions with the mean density field. Consider Fig.~\ref{subfig:af-bz-fock-terms-generic}: density at vector $\mathbf{q}\equiv\mathbf{K}-\mathbf{k}$ interacts with the mean density at vector $\mathbf{q}'\equiv\mathbf{K}+\mathbf{k}$. These variables are depicted in Fig.~\ref{subfig:af-bz-fock-terms-newvariables}. Apply the variable change in the diagonal part of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate-2},
-\begin{multline}
+\begin{multline*}
 	\frac{2V}{L_x L_y} \sum_{\mathbf{q}, \mathbf{q}'} \sum_\sigma \left[
 		\cos \left(
 			2k_x
@@ -632,8 +632,7 @@ The diagonal terms of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-
 		\hat c_{\mathbf{q}\sigma}^\dagger  \hat c_{\mathbf{q}\sigma}
 	\rangle
 	\hat c_{\mathbf{q}'\sigma}^\dagger  \hat c_{\mathbf{q}'\sigma}
-	\label{eq:reciprocal-space-non-local-interaction-fock-dd-intermediate}
-\end{multline}
+\end{multline*}
 being
 \[
 \begin{aligned}
@@ -651,79 +650,33 @@ Decompose the form factor,
 	&\hphantom{=}+ \frac{1}{2} (\cos q_x - \cos q_y)(\cos q_x' - \cos q_y') &&\qquad\text{($d_{x^2-y^2}$-wave)}
 \end{aligned}
 \]
-where all contributions are classified by their symmetry structure. These structure are listed and then later on dealt with in Tab.~\ref{tab:x-wave-reciprocal-factors}, in the context of anisotropic pairing and topological superconductivity. For now, all that matters is that, in the AF phase, $\langle \hat c_{\mathbf{q}\sigma}^\dagger  \hat c_{\mathbf{q}\sigma} \rangle$ must be $s^*$-wave symmetric, as anticipated in the starting discussion of Sec.~\ref{subsec:fock-renormalization-hopping-amplitude}. It follows, only the first of the four terms gives a non-null contribution, reducing Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-dd-intermediate} to
-\begin{multline}
-	\frac{2V}{L_x L_y} \sum_{\mathbf{q}, \mathbf{q}'} \sum_\sigma \left[
-		\cos \left( \delta q_x \right) + \cos \left( \delta q_y \right)	
-	\right] \langle
-		\hat c_{\mathbf{q}\sigma}^\dagger  \hat c_{\mathbf{q}\sigma}
-	\rangle
-	\hat c_{\mathbf{q}'\sigma}^\dagger  \hat c_{\mathbf{q}'\sigma} \\
-	\frac{2V}{L_x L_y} \sum_{\mathbf{q}'\sigma} \left[
-		\cos \left( q_x' \right) + \cos \left( q_y' \right)
-	\right] \hat c_{\mathbf{q}'\sigma}^\dagger  \hat c_{\mathbf{q}'\sigma} \sum_\mathbf{q} \left[
-		\cos \left( q_x \right) + \cos \left( q_y \right)
-	\right] \langle
-		\hat c_{\mathbf{q}\sigma}^\dagger  \hat c_{\mathbf{q}\sigma}
-	\rangle
-	\label{eq:reciprocal-space-non-local-interaction-fock-dd-intermediate-2}
-\end{multline}
-Note that, for two vectors separated by a $\bm{\pi}$ shift,
-\[
-	\cos \left( q_x \right) + \cos \left( q_y \right) = - \cos \left( q_x+\pi \right) - \cos \left( q_y+\pi \right)
-\]
-Because of this feature, changing the variable name $\mathbf{q}'\to\mathbf{k}$, $\mathbf{q}\to\mathbf{k}'$ for the sake of general aesthetic coherence, it becomes evident that the above equation gives the bands renormalization:
+where all contributions are classified by their symmetry structure. These structure are listed and then later on dealt with in Tab.~\ref{tab:x-wave-reciprocal-factors}, in the context of anisotropic pairing
+
+From Eq.~\eqref{appeq:finite-temperature-order-parameter-derivation-intermediate}, if $\mathbf{q}\in\mathrm{MBZ}$:
 \[
 \begin{aligned}
-	\epsilon_\mathbf{k} &\equiv -2t \left[
-		\cos \left( k_x \right) + \cos \left( k_y \right)
-	\right] \\
-	\tilde{\epsilon}_{\mathbf{k}\sigma} &\equiv \epsilon_\mathbf{k} - 
-	\left[
-		\frac{2V}{L_xL_y} \sum_{\mathbf{k}'} \left[
-			\cos \left( k_x' \right) + \cos 	\left( k_y' \right)
-		\right] \langle
-		\hat c_{\mathbf{k}'\sigma}^\dagger  \hat c_{\mathbf{k}'\sigma}
-		\rangle
-	\right] \left[
-		\cos \left( k_x \right) + \cos \left( k_y \right)
-	\right]
-\end{aligned}
-\]
-It follows, finally, that the hopping parameter gets effectively renormalized:
-\begin{equation}
-	\tilde{t} \equiv t - \frac{V}{L_xL_y} \sum_{\mathbf{k}'} \left[
-		\cos \left( k_x \right) + \cos 	\left( k_y \right)
-	\right] \langle
-		\hat c_{\mathbf{k}\sigma}^\dagger  \hat c_{\mathbf{k}\sigma}
-	\rangle
-	\label{eq:af-hartree-hop-ss-renormalization}
-\end{equation}
-
-Of course, the quantity $\langle \hat c_{\mathbf{k}\sigma}^\dagger  \hat c_{\mathbf{k}\sigma} \rangle$ needs to be computed self-consistently under the HF general procedure. From Eq.~\eqref{appeq:finite-temperature-order-parameter-derivation-intermediate}, if $\mathbf{k}\in\mathrm{MBZ}$:
-\begin{align}
 	\langle
-		\hat c_{\mathbf{k}\sigma}^\dagger 
-		\hat c_{\mathbf{k}\sigma}
+		\hat c_{\mathbf{q}\sigma}^\dagger 
+		\hat c_{\mathbf{q}\sigma}
 	\rangle &= \langle 
 	[
-		\hat \Psi_{\mathbf{k}\sigma}^\dagger
+		\hat \Psi_{\mathbf{q}\sigma}^\dagger
 	]_1 [
-		\hat \Psi_{\mathbf{k}\sigma}
+		\hat \Psi_{\mathbf{q}\sigma}
 	]_1
-	\rangle \nonumber \\
+	\rangle \\
 	&= |[
-		\tilde{W}_{\mathbf{k}\sigma}
+		\tilde{W}_{\mathbf{q}\sigma}
 	]_{11}|^2 f\left(
-		-\tilde{E}_{\mathbf{k}\sigma}; \beta,\tilde{\mu}
+		-\tilde{E}_{\mathbf{q}\sigma}; \beta,\tilde{\mu}
 	\right) + |[
-		\tilde{W}_{\mathbf{k}\sigma}
+		\tilde{W}_{\mathbf{q}\sigma}
 	]_{21}|^2 f\left(
-		\tilde{E}_{\mathbf{k}\sigma}; \beta,\tilde{\mu}
+		\tilde{E}_{\mathbf{q}\sigma}; \beta,\tilde{\mu}
 	\right)
-	\label{eq:af-hop-self-consistency-equation-computational}
-\end{align}
-Here the same notation as in App.~\mref  is used: $\tilde{W}_{\mathbf{k}\sigma}$ is the diagonalizing matrix at state $(\mathbf{k}\sigma)$ self-consistently depending on the renormalized parameters, $\tilde{E}_{\mathbf{k}\sigma}$ are the (renormalized) gapped energy bands of the effective quasiparticles excitations in the AF phase, $\tilde{\mu}$ is the (renormalized) chemical potential. Eq.~\ref{eq:af-hop-self-consistency-equation-computational} is self-consistent, and together with Eq.~\eqref{eq:af-hartree-hop-ss-renormalization} makes it possible to compute iteratively $\tilde{t}$.
+\end{aligned}
+\]
+
 
 \paragraph{Off-diagonal terms.}
 
@@ -772,8 +725,8 @@ Consider the off-diagonal terms of Eq.~\eqref{eq:reciprocal-space-non-local-inte
 By a mere change of variables, the off diagonal term effectively reduces to
 \begin{multline*}
 	\frac{2V}{L_xL_y} \sum_{\mathbf{q}\mathbf{k}} \sum_\sigma \langle \hat
-	c_{\mathbf{q}\sigma}^\dagger \hat c_{\mathbf{q}+\bm{\pi}\sigma} 
-	\rangle \hat c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\sigma} \\ = 2V
+	c_{\mathbf{q}\sigma}^\dagger \hat c_{\mathbf{q}+(\pi,\pi)\sigma} 
+	\rangle \hat c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}+(\pi,\pi)\sigma} \\ = 2V
 	\underbrace{ 
 		\left[
 			\frac{1}{L_xL_y}
@@ -782,12 +735,12 @@ By a mere change of variables, the off diagonal term effectively reduces to
 			\right]
 		\right]
 	}_{g_\sigma}
-	\sum_{\mathbf{k}\sigma} c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\sigma}
+	\sum_{\mathbf{k}\sigma} c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}+(\pi,\pi)\sigma}
 \end{multline*}
 The term in square brackets is an average over the BZ, thus is a constant $g_\sigma$. Then,
 \[
-	\frac{2V}{L_xL_y} \sum_{\mathbf{q}\mathbf{k}} \sum_\sigma \langle \hat c_{\mathbf{q}\sigma}^\dagger \hat c_{\mathbf{q}+\bm{\pi}\sigma} \rangle \hat c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\sigma} = 2V \sum_\sigma g_\sigma \sum_{\mathbf{k}\in\mathrm{MBZ}} \left[
-		c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\sigma} + c_{\mathbf{k}+\bm{\pi}\sigma}^\dagger \hat c_{\mathbf{k}\sigma}
+	\frac{2V}{L_xL_y} \sum_{\mathbf{q}\mathbf{k}} \sum_\sigma \langle \hat c_{\mathbf{q}\sigma}^\dagger \hat c_{\mathbf{q}+(\pi,\pi)\sigma} \rangle \hat c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}+(\pi,\pi)\sigma} = 2V \sum_\sigma g_\sigma \sum_{\mathbf{k}\in\mathrm{MBZ}} \left[
+		c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}+(\pi,\pi)\sigma} + c_{\mathbf{k}+(\pi,\pi)\sigma}^\dagger \hat c_{\mathbf{k}\sigma}
 	\right]
 \]
 Because of this, the $x$ component of the pseudo-magnetic field, the gap already renormalized by Eq.~\eqref{eq:af-hartree-gap-os-renormalization} when analyzing o.s. terms, takes up another renormalization contribution, finally giving

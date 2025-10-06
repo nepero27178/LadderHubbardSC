@@ -1,0 +1,157 @@
+\newcount\xLength
+\xLength=6	% Even!
+\newcount\yLength
+\yLength=4	% Even!
+
+\newcount\xStop
+\xStop=\xLength
+\divide\xStop by 2 \advance\xStop by -1\relax
+
+\newcount\yStop
+\yStop=\yLength
+\divide\yStop by 2 \advance\yStop by -1\relax
+
+\def\angle{60}
+\def\arrowLength{0.5}
+
+\begin{tikzpicture}
+	\draw[
+		color=lightgray, dashed
+	] 
+		(-0.25,-0.25) grid ({\xLength+0.25}, {\yLength+0.25});
+		
+	% Unit cell
+	\fill[
+		color=tabgreen,
+		rounded corners,
+		opacity=0.25
+	] 
+		(1.5,0.5) rectangle (3.5, 1.5)
+	;
+	
+	% Nested, no indentation
+	\foreach \x in {
+		0,...,\xStop
+	}{
+		\foreach \y in {
+			0,...,\yStop
+		}{
+			% Up sites
+			\fill[color=tabred] 
+				({2*\x},{2*\y}) circle (1.5pt)
+				({2*\x+1},{2*\y+1}) circle (1.5pt)
+			;
+			
+			% Up arrows
+			\draw[color=tabred, -stealth]
+				(
+					{2*\x - \arrowLength/2 * cos(\angle)},
+					{2*\y - \arrowLength/2 * sin(\angle)}
+				) --++ (
+					{\arrowLength * cos(\angle)},
+					{\arrowLength * sin(\angle)}
+				);
+			\draw[color=tabred, -stealth]
+				(
+					{2*\x+1 - \arrowLength/2 * cos(\angle)},
+					{2*\y+1 - \arrowLength/2 * sin(\angle)}
+				) --++ (
+					{\arrowLength * cos(\angle)},
+					{\arrowLength * sin(\angle)}
+				);
+			
+			% Down sites
+			\fill[color=tabblue] 
+				({2*\x},{2*\y+1}) circle (1.5pt)
+				({2*\x+1},{2*\y}) circle (1.5pt)
+			;
+			
+			% Down arrows
+			\draw[color=tabblue, stealth-]
+				(
+					{2*\x+1 - \arrowLength/2 * cos(\angle)},
+					{2*\y - \arrowLength/2 * sin(\angle)}
+				) --++ (
+					{\arrowLength * cos(\angle)},
+					{\arrowLength * sin(\angle)}
+				);
+			\draw[color=tabblue, stealth-]
+				(
+					{2*\x - \arrowLength/2 * cos(\angle)},
+					{2*\y+1 - \arrowLength/2 * sin(\angle)}
+				) --++ (
+					{\arrowLength * cos(\angle)},
+					{\arrowLength * sin(\angle)}
+				);
+	}}
+	
+	% Border
+	\foreach \x in {
+		0, ..., \xStop
+	}{
+		\foreach \y in {
+			0, ..., \yStop
+		}{
+			
+			% Up sites
+			\fill[color=tabred] 
+				({2*\x},\yLength) circle (1.5pt)
+				(\xLength,{2*\y}) circle (1.5pt)
+			;
+			
+			% Up arrows
+			\draw[color=tabred, -stealth]
+				(
+					{2*\x - \arrowLength/2 * cos(\angle)},
+					{\yLength - \arrowLength/2 * sin(\angle)}
+				) --++ (
+					{\arrowLength * cos(\angle)},
+					{\arrowLength * sin(\angle)}
+				);
+				\draw[color=tabred, -stealth]
+				(
+					{\xLength - \arrowLength/2 * cos(\angle)},
+					{2*\y - \arrowLength/2 * sin(\angle)}
+				) --++ (
+					{\arrowLength * cos(\angle)},
+					{\arrowLength * sin(\angle)}
+				);
+			
+			% Down sites
+			\fill[color=tabblue] 
+				({2*\x+1},\yLength) circle (1.5pt)
+				(\xLength,{2*\y+1}) circle (1.5pt)
+			;
+			
+			% Down arrows
+			\draw[color=tabblue, stealth-]
+				(
+					{2*\x+1 - \arrowLength/2 * cos(\angle)},
+					{\yLength - \arrowLength/2 * sin(\angle)}
+				) --++ (
+					{\arrowLength * cos(\angle)},
+					{\arrowLength * sin(\angle)}
+				);
+			\draw[color=tabblue, stealth-]
+				(
+					{\xLength - \arrowLength/2 * cos(\angle)},
+					{2*\y+1 - \arrowLength/2 * sin(\angle)}
+				) --++ (
+					{\arrowLength * cos(\angle)},
+					{\arrowLength * sin(\angle)}
+				);
+	}}
+	
+	% Topright
+	\fill[color=tabred] 
+		(\xLength,\yLength) circle (1.5pt);
+	\draw[color=tabred, -stealth]
+		(
+			{\xLength - \arrowLength/2 * cos(\angle)},
+			{\yLength - \arrowLength/2 * sin(\angle)}
+		) --++ (
+			{\arrowLength * cos(\angle)},
+			{\arrowLength * sin(\angle)}
+		);
+	
+\end{tikzpicture}

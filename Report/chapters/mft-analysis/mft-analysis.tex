@@ -708,17 +708,16 @@ Because of this feature, changing the variables names $\mathbf{q}'\to\mathbf{k}$
 \end{aligned}
 \]
 It follows, finally, that the hopping parameter gets effectively renormalized:
-\begin{equation}
+\begin{equation}\label{eq:af-fock-hop-ss-renormalization}
 	\tilde{t} \equiv t - \frac{V}{L_xL_y} \sum_{\mathbf{k}} \left[
 		\cos \left( k_x \right) + \cos 	\left( k_y \right)
 	\right] \langle
 		\hat c_{\mathbf{k}\sigma}^\dagger  \hat c_{\mathbf{k}\sigma}
 	\rangle
-	\label{eq:af-hartree-hop-ss-renormalization}
 \end{equation}
-In principle, $\tilde{t}$ should be $\sigma$-dependent, since the spin label appears on the right-hand side of Eq.~\eqref{eq:af-hartree-hop-ss-renormalization}. The full effective MFT hamiltonian is however spin-independent, {\color{tabred}then similarly the renormalized parameters cannot exhibit spin dependency. This justifies the disappearing of the spin index on the left-hand side of Eq.~\eqref{eq:af-hartree-hop-ss-renormalization}.}
+In principle, $\tilde{t}$ should be $\sigma$-dependent, since the spin label appears on the right-hand side of Eq.~\eqref{eq:af-fock-hop-ss-renormalization}. The full effective MFT hamiltonian is however spin-independent, {\color{tabred}then similarly the renormalized parameters cannot exhibit spin dependency. This justifies the disappearing of the spin index on the left-hand side of Eq.~\eqref{eq:af-fock-hop-ss-renormalization}.}
 
-Of course, the quantity $\langle \hat c_{\mathbf{k}\sigma}^\dagger  \hat c_{\mathbf{k}\sigma} \rangle$ of Eq.~\eqref{eq:af-hartree-hop-ss-renormalization} needs to be computed self-consistently under the HF general procedure. From Eq.~\eqref{appeq:finite-temperature-order-parameter-derivation-intermediate}, if $\mathbf{k}\in\mathrm{MBZ}$:
+Of course, the quantity $\langle \hat c_{\mathbf{k}\sigma}^\dagger  \hat c_{\mathbf{k}\sigma} \rangle$ of Eq.~\eqref{eq:af-fock-hop-ss-renormalization} needs to be computed self-consistently under the HF general procedure. From Eq.~\eqref{appeq:finite-temperature-order-parameter-derivation-intermediate}, if $\mathbf{k}\in\mathrm{MBZ}$:
 \begin{align}
 	\langle
 		\hat c_{\mathbf{k}\sigma}^\dagger 
@@ -741,15 +740,104 @@ Of course, the quantity $\langle \hat c_{\mathbf{k}\sigma}^\dagger  \hat c_{\mat
 	\right)
 	\label{eq:af-hop-self-consistency-equation-computational}
 \end{align}
-Here the same notation as in App.~\ref{appendix:mean-field-hubbard}  is used: $\tilde{W}_{\mathbf{k}\sigma}$ is the diagonalizing matrix at state $(\mathbf{k}\sigma)$ self-consistently depending on the renormalized parameters, $\tilde{E}_{\mathbf{k}\sigma}$ are the (renormalized) gapped energy bands of the effective quasiparticles excitations in the AF phase, $\tilde{\mu}$ is the (renormalized) chemical potential. Eq.~\eqref{eq:af-hop-self-consistency-equation-computational} is self-consistent, and together with Eq.~\eqref{eq:af-hartree-hop-ss-renormalization} makes it possible to compute iteratively $\tilde{t}$.
+Here the same notation as in App.~\ref{appendix:mean-field-hubbard}  is used: $\tilde{W}_{\mathbf{k}\sigma}$ is the diagonalizing matrix at state $(\mathbf{k}\sigma)$ self-consistently depending on the renormalized parameters, $\tilde{E}_{\mathbf{k}\sigma}$ are the (renormalized) gapped energy bands of the effective quasiparticles excitations in the AF phase, $\tilde{\mu}$ is the (renormalized) chemical potential. Eq.~\eqref{eq:af-hop-self-consistency-equation-computational} is self-consistent, and together with Eq.~\eqref{eq:af-fock-hop-ss-renormalization} makes it possible to compute iteratively $\tilde{t}$.
 
 \paragraph{Off-diagonal terms.}
 
-{\color{tabred}[
-	Fix this paragraph (see commented code)...
-]}
+Consider the off-diagonal terms of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate-2}. These contribute instead to the gap renormalization, being out of diagonal in the $2\times2$ hamiltonian matrix. Define $\mathbf{q}$, $\mathbf{q}'$ as in Fig.~\ref{subfig:af-bz-fock-terms-newvariables}, and rewrite
+\begin{multline*}
+	-\frac{2V}{L_x L_y} \sum_{\mathbf{K}, \mathbf{k}} \sum_\sigma \left[
+		\cos \left(
+			2k_x
+		\right)	+ \cos \left(
+			2k_y
+		\right)	
+	\right]
+	\langle
+		\hat c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger 
+		\hat 	c_{\mathbf{K}+\mathbf{k}+\bm{\pi} \sigma}
+	\rangle
+	\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}-\mathbf{k}-\bm{\pi}\sigma} \\
+	= -\frac{2V}{L_xL_y} \sum_{\mathbf{q}} \langle
+		\hat c_{\mathbf{q}\sigma}^\dagger 
+		\hat c_{\mathbf{q}+\bm{\pi}\sigma}
+	\rangle \sum_{\mathbf{q}'\sigma} \left[
+		\cos \left(
+			\delta q_x
+		\right)	+ \cos \left(
+			\delta q_y
+		\right)	
+	\right] \hat c_{\mathbf{q}'\sigma}^\dagger  \hat c_{\mathbf{q}'+\bm{\pi}\sigma}
+\end{multline*}
+Identical considerations about the $s^*$-wave symmetry structure of the expectation value $\langle \hat c_{\mathbf{q}\sigma}^\dagger \hat c_{\mathbf{q}+\bm{\pi}\sigma} \rangle$ as in the above paragraph hold. Once again renaming the variables $\mathbf{q}'\to\mathbf{k}$, $\mathbf{q}\to\mathbf{k}'$ for the sake of general aesthetic coherence, this gives
+\begin{multline}
+	-\frac{2V}{L_x L_y} \sum_{\mathbf{K}, \mathbf{k}} \sum_\sigma \left[
+		\cos \left(
+			2k_x
+		\right)	+ \cos \left(
+			2k_y
+		\right)	
+	\right]
+	\langle
+		\hat c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger 
+		\hat 	c_{\mathbf{K}+\mathbf{k}+\bm{\pi} \sigma}
+	\rangle
+	\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}-\mathbf{k}-\bm{\pi}\sigma} \\
+	= -2V \left[
+		\frac{1}{L_xL_y} \sum_{\mathbf{k}'}
+		\left[
+			\cos \left(
+				k_x'
+			\right)	+ \cos \left(
+				k_y'
+			\right)
+		\right]\langle
+			\hat c_{\mathbf{k}'\sigma}^\dagger  \hat c_{\mathbf{k}'+\bm{\pi}\sigma}
+		\rangle
+	\right]
+	\sum_{\mathbf{k}\sigma} \left[
+		\cos \left(
+			k_x
+		\right)	+ \cos \left(
+			k_y
+		\right)	
+	\right]
+	\hat c_{\mathbf{k}\sigma}^\dagger  \hat c_{\mathbf{k}+\bm{\pi}\sigma}
+\end{multline}
 
-%Consider the off-diagonal terms of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate-2}. These contribute instead to the gap renormalization, being out of diagonal in the $2\times2$ hamiltonian matrix. Define $\mathbf{q}$, $\mathbf{q}'$ as in Fig.~\ref{subfig:af-bz-fock-terms-newvariables}, and use Eq.~\eqref{appeq:finite-temperature-order-parameter-derivation-intermediate},
+%By a simple inverse Fourier transform,
+%\[
+%\begin{aligned}
+%	\langle 
+%		\hat c_{\mathbf{k}'\sigma}^\dagger \hat c_{\mathbf{k}'+\bm{\pi}\sigma}
+%	\rangle &= \frac{1}{L_xL_y} \sum_{\mathbf{r},\mathbf{r}'} \left\langle
+%		e^{-i\mathbf{k}'\cdot\mathbf{r}} \hat c_{\mathbf{r}\sigma}^\dagger e^{i(\mathbf{k}'+\bm{\pi})\cdot\mathbf{r}'} \hat c_{\mathbf{r}'\sigma} 
+%	\right\rangle \\
+%	&= \sum_{\mathbf{r}'} e^{i\bm{\pi}\cdot\mathbf{r}'} \left[
+%		\frac{1}{L_xL_y} \sum_\mathbf{r} e^{-i\mathbf{k}'\cdot(\mathbf{r}-\mathbf{r}')} \langle 
+%			\hat c_{\mathbf{r}\sigma}^\dagger \hat c_{\mathbf{r}'\sigma}
+%		\rangle
+%	\right] \\
+%	&= \sum_\mathbf{r} (-1)^{x+y} \langle 
+%		\hat n_{\mathbf{r}\sigma}
+%	\rangle \\
+%	&= \underbrace{
+%		n \sum_\mathbf{r} (-1)^{x+y}
+%	}_{=0} + \underbrace{
+%		(-1)^{\delta_{\sigma=\uparrow}} m \sum_\mathbf{r} \left[(-1)^{x+y}\right]^2
+%	}_{=mL_xL_y \times (-1)^{\delta_{\sigma=\uparrow}}}
+%\end{aligned} 
+%\]
+%where the AF Ansatz of Eq.~\eqref{appeq:af-mean-field-ansatz}, $\langle \hat n_{\mathbf{r}\sigma} \rangle = n - (-1)^{x+y+\delta_{\sigma=\uparrow}}m$, has been used. It follows evidently
+%\[
+%	\langle 
+%		\hat c_{\mathbf{k}'\uparrow}^\dagger \hat c_{\mathbf{k}'+\bm{\pi}\uparrow}
+%	\rangle = -\langle 
+%		\hat c_{\mathbf{k}'\downarrow}^\dagger \hat c_{\mathbf{k}'+\bm{\pi}\downarrow}
+%	\rangle
+%\]
+
+%and use Eq.~\eqref{appeq:finite-temperature-order-parameter-derivation-intermediate},
 %\[
 %\begin{aligned}
 %	(\mathbf{q}\in\mathrm{MBZ}) 
@@ -821,11 +909,55 @@ Here the same notation as in App.~\ref{appendix:mean-field-hubbard}  is used: $\
 %		c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}+\bm{\pi}\sigma} + c_{\mathbf{k}+\bm{\pi}\sigma}^\dagger \hat c_{\mathbf{k}\sigma}
 %	\right]
 %\]
-%Because of this, the $x$ component of the pseudo-magnetic field -- the gap already renormalized by Eq.~\eqref{eq:af-hartree-gap-os-renormalization} when analyzing o.s. terms -- takes up another renormalization contribution, finally giving
-%\[
-%	\tilde{\Delta}_\sigma = (\Delta + 2zmV) \times (-1)^{\delta_{\sigma=\uparrow}} + V g_\sigma
-%\]
-%Here the momentum dependence of $\tilde{\Delta}$ was dropped.
+Because of this, the $x$ component of the pseudo-magnetic field -- the gap already renormalized by Eq.~\eqref{eq:af-hartree-gap-os-renormalization} when analyzing o.s. terms -- takes up another renormalization contribution, finally giving
+\begin{equation}\label{eq:af-fock-gap-ss-renormalization-intermediate}
+	\tilde{\Delta}_{\mathbf{k}\sigma} \equiv m(U + 2zV) \times (-1)^{\delta_{\sigma=\uparrow}} + 2V w_\sigma \left[
+		\cos \left(
+			k_x
+		\right)	+ \cos \left(
+			k_y
+		\right)	
+	\right]
+\end{equation}
+where
+\[
+	w_\sigma \equiv \frac{1}{L_xL_y} \sum_{\mathbf{k}'}
+	\left[
+		\cos \left(
+			k_x'
+		\right)	+ \cos \left(
+			k_y'
+		\right)
+	\right]\langle
+		\hat c_{\mathbf{k}'\sigma}^\dagger  \hat c_{\mathbf{k}'+\bm{\pi}\sigma}
+	\rangle
+\]
+Now, it would be nice to have $w_\uparrow=-w_\downarrow\equiv w$. This way we could reduce $\tilde{\Delta}_{\mathbf{k}\uparrow}=-\tilde{\Delta}_{\mathbf{k}\downarrow}\equiv\tilde{\Delta}_\mathbf{k}$. This is the case, for a simple symmetry reason: the AF phase does not exhibit global polarization, which means, no many-body physical quantity should depend on $\sigma$. This applies to the gapped bands: $\tilde{E}_{\mathbf{k}\uparrow}=\tilde{E}_{\mathbf{k}\downarrow}=\tilde{E}_\mathbf{k}$. Since
+\[
+	\tilde{E}_\mathbf{k} = \sqrt{
+		\tilde{\epsilon}_\mathbf{k}^2 + |\tilde{\Delta}_{\mathbf{k}\sigma}|^2
+	}
+\]
+this implies necessarily $|\tilde{\Delta}_{\mathbf{k}\uparrow}| = |\tilde{\Delta}_{\mathbf{k}\downarrow}|$. When it comes to $w_\sigma$, since $\tilde{\Delta}_{\mathbf{k}\sigma}$ contains the ``$m$'' contribution -- independent of $\mathbf{k}$ -- the condition specified above is only possible if actually $w_\uparrow=-w_\downarrow\equiv w$. This then gives us the final result for the renormalized gap function,
+\begin{equation}\label{eq:af-fock-gap-ss-renormalization}
+	\tilde{\Delta}_\mathbf{k} \equiv
+		m(U + 2zV) + 2wV
+	\left[
+		\cos \left(
+			k_x
+		\right)	+ \cos \left(
+			k_y
+		\right)	
+	\right]
+\end{equation}
+This result, together with Eqns.~\eqref{eq:af-hartree-chemical-potential-renormalization} and \eqref{eq:af-fock-hop-ss-renormalization}, concludes the renormalization of all parameters due to the non-local interaction.
+{\color{tabred}[
+	Surely there is a more elegant way of finding this result.	
+]}
+
+\subsection{Renormalized hamiltonian behavior}
+
+\todo
 
 \section{Superconducting instability}
 

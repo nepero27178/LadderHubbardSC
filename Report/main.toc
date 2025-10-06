@@ -1,25 +1,43 @@
-\contentsline {chapter}{\chapternumberline {1}Mean-field theory analysis of the EHM}{1}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Mean-Field theory real space description}{1}{section.1.1}%
-\contentsline {subsection}{\numberline {1.1.1}The non-local term as a source of symmetry-breaking interactions}{2}{subsection.1.1.1}%
-\contentsline {paragraph}{Opposite-spin terms.}{3}{section*.3}%
-\contentsline {paragraph}{Same-spin terms.}{3}{section*.4}%
-\contentsline {subsection}{\numberline {1.1.2}Reciprocal-space transform of the non-local interaction}{4}{subsection.1.1.2}%
-\contentsline {section}{\numberline {1.2}Anti-Ferromagnetic instability}{5}{section.1.2}%
-\contentsline {subsection}{\numberline {1.2.1}Hartree renormalization of chemical potential and gap}{6}{subsection.1.2.1}%
-\contentsline {paragraph}{Density terms.}{6}{section*.5}%
-\contentsline {paragraph}{Magnetization terms.}{6}{section*.6}%
-\contentsline {subsection}{\numberline {1.2.2}Fock renormalization of the hopping amplitude}{7}{subsection.1.2.2}%
-\contentsline {paragraph}{Diagonal terms.}{8}{figure.caption.8}%
-\contentsline {paragraph}{Off-diagonal terms.}{9}{section*.9}%
-\contentsline {section}{\numberline {1.3}Superconducting instability}{10}{section.1.3}%
-\contentsline {subsection}{\numberline {1.3.1}Mean-field treatment of the non-local term}{10}{subsection.1.3.1}%
-\contentsline {subsection}{\numberline {1.3.2}Mean-field treatment of the local term}{10}{subsection.1.3.2}%
-\contentsline {subsection}{\numberline {1.3.3}Topological correlations}{11}{subsection.1.3.3}%
-\contentsline {section}{\numberline {1.4}Mean-Field theory reciprocal space description}{12}{section.1.4}%
-\contentsline {subsection}{\numberline {1.4.1}Kinetic term}{12}{subsection.1.4.1}%
-\contentsline {subsection}{\numberline {1.4.2}Non-local attraction}{12}{subsection.1.4.2}%
-\contentsline {subsection}{\numberline {1.4.3}Local interaction and gap function}{14}{subsection.1.4.3}%
-\contentsline {subsection}{\numberline {1.4.4}Nambu formalism and Bogoliubov transform}{15}{subsection.1.4.4}%
-\contentsline {subsection}{\numberline {1.4.5}A short comment on self-consistency}{17}{subsection.1.4.5}%
-\contentsline {section}{\numberline {1.5}Results of the HF algorihtm}{18}{section.1.5}%
-\contentsline {chapter}{Bibliography}{19}{section*.15}%
+\contentsline {chapter}{\chapternumberline {1}Theoretical introduction}{3}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Antiferromagnetic ordering in the Hubbard model}{3}{section.1.1}%
+\contentsline {section}{\numberline {1.2}The Extended Fermi-Hubbard model}{3}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Experimental insight on NN attraction}{4}{subsection.1.2.1}%
+\contentsline {chapter}{\chapternumberline {2}Mean-field theory analysis of the EHM}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Mean-Field theory real space description}{5}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}The non-local term as a source of symmetry-breaking interactions}{6}{subsection.2.1.1}%
+\contentsline {paragraph}{Opposite-spin terms.}{7}{section*.6}%
+\contentsline {paragraph}{Same-spin terms.}{7}{section*.7}%
+\contentsline {subsection}{\numberline {2.1.2}Reciprocal-space transform of the non-local interaction}{8}{subsection.2.1.2}%
+\contentsline {section}{\numberline {2.2}Anti-Ferromagnetic instability}{9}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Hartree renormalization of chemical potential and gap}{10}{subsection.2.2.1}%
+\contentsline {paragraph}{Density terms.}{10}{section*.8}%
+\contentsline {paragraph}{Magnetization terms.}{10}{section*.9}%
+\contentsline {subsection}{\numberline {2.2.2}Fock renormalization of the hopping amplitude}{11}{subsection.2.2.2}%
+\contentsline {paragraph}{Diagonal terms.}{12}{figure.caption.11}%
+\contentsline {paragraph}{Off-diagonal terms.}{14}{section*.12}%
+\contentsline {subsection}{\numberline {2.2.3}Renormalized hamiltonian behavior}{14}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}Superconducting instability}{14}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Mean-field treatment of the non-local term}{15}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Mean-field treatment of the local term}{15}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Topological correlations}{16}{subsection.2.3.3}%
+\contentsline {section}{\numberline {2.4}Mean-Field theory reciprocal space description}{17}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Kinetic term}{17}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Non-local attraction}{17}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Local interaction and gap function}{19}{subsection.2.4.3}%
+\contentsline {subsection}{\numberline {2.4.4}Nambu formalism and Bogoliubov transform}{20}{subsection.2.4.4}%
+\contentsline {subsection}{\numberline {2.4.5}A short comment on self-consistency}{22}{subsection.2.4.5}%
+\contentsline {section}{\numberline {2.5}Results of the HF algorihtm}{22}{section.2.5}%
+\contentsline {appendix}{\chapternumberline {A}Superexchange and virtual hopping in Hubbard lattices}{23}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Virtual hopping in the $2$-sites Hubbard lattice}{23}{section.A.1}%
+\contentsline {subsection}{\numberline {A.1.1}Exact solution of the half-filled model}{24}{subsection.A.1.1}%
+\contentsline {subsection}{\numberline {A.1.2}Virtual hopping}{24}{subsection.A.1.2}%
+\contentsline {appendix}{\chapternumberline {B}Mean-Field Theory in Hubbard lattices}{25}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Ferromagnetic solution}{25}{section.B.1}%
+\contentsline {section}{\numberline {B.2}Antiferromagnetic solution}{26}{section.B.2}%
+\contentsline {subsection}{\numberline {B.2.1}Theoretical mean-field solution}{29}{subsection.B.2.1}%
+\contentsline {subsubsection}{Zero temperature solution}{30}{section*.22}%
+\contentsline {subsubsection}{Finite temperature solution}{30}{section*.23}%
+\contentsline {subsection}{\numberline {B.2.2}Hartree-Fock algorithm in reciprocal space}{31}{subsection.B.2.2}%
+\contentsline {subsubsection}{Results}{32}{section*.24}%
+\contentsline {subsection}{\numberline {B.2.3}An alternative (less efficient) real-space approach}{32}{subsection.B.2.3}%
+\contentsline {chapter}{Bibliography}{35}{section*.28}%

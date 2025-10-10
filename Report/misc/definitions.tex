@@ -14,6 +14,7 @@
 \newcommand{\todo}{\noindent{\color{tabred}[To be continued\dots]}}
 \def\AF{$\mathrm{AF}$ }
 
+% Colors and shadings
 \definecolor{tabred}{RGB}{214, 39, 40}
 \definecolor{tabblue}{HTML}{1f77b4}
 \definecolor{tabgreen}{HTML}{2ca02c}
@@ -22,6 +23,8 @@
 	inner color=transparent!0,
 	outer color=transparent!100
 ]
+
+% Custom colormap
 \pgfplotsset{
 	colormap={tab}{
 		color=(tabred)
@@ -30,10 +33,18 @@
 	}
 }
 
+% Custom 3d tilted plane canvas definition
+\tikzoption{canvas is plane}[]{\@setOxy#1}
+\def\@setOxy O(#1,#2,#3)x(#4,#5,#6)y(#7,#8,#9)%
+{\def\tikz@plane@origin{\pgfpointxyz{#1}{#2}{#3}}%
+	\def\tikz@plane@x{\pgfpointxyz{#4}{#5}{#6}}%
+	\def\tikz@plane@y{\pgfpointxyz{#7}{#8}{#9}}%
+	\tikz@canvas@is@plane
+}
+
 %\usepackage[usenames,dvipsnames]{color} % more flexible names for syntax highlighting colors
 
 % Code
-
 \lstset{
     basicstyle=\ttfamily, 
     numbers=left, 

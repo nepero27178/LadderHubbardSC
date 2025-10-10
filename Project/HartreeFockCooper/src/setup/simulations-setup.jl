@@ -11,7 +11,7 @@ end
 # Pop last "-" character
 global HMSymsStr = HMSymsStr[1:end-1]
 
-Setup="D" # Choose your setup
+Setup="B" # Choose your setup
 
 if !in(Setup, ["Test", "A", "B", "C", "D"])
     @error "Invalid setup, please modify at: " * SetupFilePath

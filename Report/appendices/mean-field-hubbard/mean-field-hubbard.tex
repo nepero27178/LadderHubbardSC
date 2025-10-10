@@ -283,15 +283,29 @@ The $\hat\Gamma$ spinor operators are effectively free fermionic spinor fields a
 		\hat\Gamma_{\mathbf{k}\sigma}^\dagger
 		\hat\Gamma_{\mathbf{k}\sigma}
 	\right\rangle \nonumber \\
-	&= 2 \left[
-		f\left(-E_{\mathbf{k}\sigma}; \beta,\mu \right) + f \left( E_{\mathbf{k}\sigma}; \beta,\mu \right)
+	&= 2 \sum_{\mathbf{k} \in \mathrm{MBZ}} \left[
+		f\left(-E_\mathbf{k}; \beta,\mu \right) + f \left( E_\mathbf{k}; \beta,\mu \right)
 	\right] \label{appeq:spinor-particle-number-formula}
 \end{align}
 being $f$ be the Fermi-Dirac distribution at inverse temperature $\beta$ and chemical potential $\mu$,
 \[
 	f(\epsilon;\beta,\mu) = \frac{1}{e^{\beta(\epsilon-\mu)}+1} 
 \]
-Eq.~\eqref{appeq:spinor-particle-number-formula}holds because the $\Phi$ fields represent free fermions and the spin DoF is just a degeneracy factor. Next sections are devoted to simplify the above theoretical results in order to obtain an algorithmic estimation for the magnetization $m$, which is just the AF instability order parameter. 
+The $2$ prefactor appeared because of spin degeneracy. Since the gapped bands refer to the smaller MBZ, thus exhibit the periodicity
+\[
+	E_\mathbf{k} = E_{\mathbf{k}+\bm{\pi}}
+\]
+it holds equivalently
+\begin{equation}\label{appeq:spinor-particle-number-formula-BZ}
+	N = \sum_{\mathbf{k} \in \mathrm{BZ}} \left[
+		f\left(
+			-E_\mathbf{k}; \beta,\mu 
+		\right) + f \left(
+			E_\mathbf{k}; \beta,\mu 
+		\right)
+	\right]
+\end{equation}
+as is obvious. The $2$ prefactor was absorbed in doubling the integration region, $\mathrm{MBZ}\to\mathrm{BZ}$. Next sections are devoted to simplify the above theoretical results in order to obtain an algorithmic estimation for the magnetization $m$, which is just the AF instability order parameter. 
 
 \subsection{Theoretical mean-field solution}
 
@@ -339,7 +353,7 @@ For a spin system at zero temperature, the spin operator expectation value anti-
 \]
 (see Fig.~\ref{appfig:pseudo-magnetic-field}). Now, since $\Delta_\downarrow = - \Delta_\uparrow$, it follows
 \[
-	\theta_{\mathbf{k}\downarrow} = -\theta_{\mathbf{k}\uparrow} \equiv \theta_\mathbf{k}
+	\theta_{\mathbf{k}\uparrow} = -\theta_{\mathbf{k}\downarrow} \equiv \theta_\mathbf{k}
 \]
 Then, from Eq.~\eqref{appeq:antiferromagnet-magnetization-self-consistence-abstract}
 \[
@@ -419,13 +433,13 @@ In last section, the relevant indices $(i,j)$ were $(1,2)$ and $(2,1)$. Transfor
 	]_{1 i} [
 		W_{\mathbf{k}\sigma}^\dagger
 	]_{j 1} f\left(
-		-E_{\mathbf{k}\sigma}; \beta,\mu
+		-E_\mathbf{k}; \beta,\mu
 	\right) + [
 		W_{\mathbf{k}\sigma}
 	]_{2 i} [
 		W_{\mathbf{k}\sigma}^\dagger
 	]_{j 2} f\left(
-		E_{\mathbf{k}\sigma}; \beta,\mu
+		E_\mathbf{k}; \beta,\mu
 	\right) \label{appeq:finite-temperature-order-parameter-derivation-intermediate}
 \end{align}
 In the second passage this distribution appeared because an expectation value over a gas of free $\Phi$ fermions was taken. Such an expectation value admits no off-diagonal values, hence the $\delta_{i'j'}$. The diagonal entries are precisely the definition of the Fermi-Dirac distribution for the given energy. At zero temperature and half-filling, the lower band $-E_\mathbf{k}$ is completely filled while the upper band $E_\mathbf{k}$ is empty. Substituting $f=1$ in the first term of line \eqref{appeq:finite-temperature-order-parameter-derivation-intermediate}, $f=0$ in the second and summing $\Delta_{12}$ and $\Delta_{21}$ as done in Eq.~\eqref{appeq:antiferromagnet-magnetization-self-consistence-abstract}, it's easy to derive the result of Eq.~\eqref{appeq:antiferromagnet-magnetization-self-consistence-zero-temperature}. At finite temperature, following the lead of the above paragraph, the antiferromagnetic instability order parameter $m$ will be given simply by
@@ -437,7 +451,7 @@ In the second passage this distribution appeared because an expectation value ov
 		W_{\mathbf{k}\uparrow}^\dagger
 	]_{2 \ell}
 	f\left(
-		(-1)^\ell E_{\mathbf{k}\sigma}; \beta,\mu
+		(-1)^\ell E_\mathbf{k}; \beta,\mu
 	\right)
 \end{equation}
 Then: mean-field approximations yield an estimate for the magnetization at a given temperature and chemical potential just by carefully combining the elements of the diagonalizing matrix $W$ of each Bogoliubov matrix $h_{\mathbf{k}\sigma}$.
@@ -469,11 +483,11 @@ The above sections offers a self-consistency equation for the magnetization $m$;
 	\item For each slot of the $\mathrm{BZ}$, initialize the appropriate $2\times2$ matrix $h_{\mathbf{k}\uparrow}$ as in Eq.~\eqref{appeq:hubbard-bogoliubov-hamiltonian};
 	\item For the given hamiltonian, find the optimal chemical potential $\mu$ as follows:
 	\begin{enumerate}
-		\item Diagonalize $h_{\mathbf{k}\uparrow}[m_0, U]$ and obtain its eigenvalues $\pm E_k[m_0, U$]; 
+		\item Diagonalize $h_{\mathbf{k}\uparrow}[m_0, U]$ and obtain its eigenvalues $\pm E_\mathbf{k}[m_0, U$]; 
 		\item Define the function of the chemical potential $\mu$,
 		\[
 			\delta n(\mu; \beta, m_0, U) \equiv 2 \left[
-			f\left(-E_{\mathbf{k}\sigma}[U,m_0]; \beta,\mu \right) + f \left( E_{\mathbf{k}\sigma}[U,m_0]; \beta,\mu \right)
+			f\left(-E_\mathbf{k}[U,m_0]; \beta,\mu \right) + f \left( E_\mathbf{k}[U,m_0]; \beta,\mu \right)
 			\right] - n
 		\]
 		\item Find the root of $\delta n$, 

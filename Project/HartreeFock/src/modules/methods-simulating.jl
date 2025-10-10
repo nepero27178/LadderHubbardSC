@@ -91,12 +91,12 @@ function GetHamiltonian(
 		hk = zeros(Complex{Float64},2,2)
 
 		# Renormalized bands
-		t = Parameters["t"] - v["w^0"] * Parameters["V"]
+		t = Parameters["t"] - v["w0"] * Parameters["V"]
 		εk = GetHoppingEnergy(t,k)
 	
 		# Renormalized gap		
 		Δk = v["m"] * (Parameters["U"] + 8*Parameters["V"])
-			+ 2 * 1im * v["w^pi"] * Parameters["V"] * StructureFactor("s*",k)
+			+ 2 * 1im * v["wp"] * Parameters["V"] * StructureFactor("s*",k)
 
 		# Return matrix
 		hk = [εk -Δk; -Δk -εk]
@@ -203,38 +203,24 @@ function GetKPopulation(
     Nk = zeros(size(K))
 
     for (i,k) in enumerate(K)
-    	hk = GetHamiltonian(Phase,Parameters,k,v)
     	
 		if Phase=="AF"
-			# hk is a 2x2 Matrix{Float64}
-			F = eigen(hk)
-			W = F.vectors
-			Ek = real.( F.values )
-
-			# Restrict to MBZ
-	        if abs(k[1])+abs(k[2]) <= pi
-            	# Consider spin DoF
-				Nk[i] = FermiDirac(Ek[1],μ,β) + FermiDirac(Ek[2],μ,β)
-			end
+			# Renormalized bands
+			εk::Float64 = GetHoppingEnergy(Parameters["t"],k)
+		    
+		    # Renormalized gap		
+		    reΔk::Float64 = v["m"] * (Parameters["U"] + 8*Parameters["V"])
+			imΔk::Float64 = 2*v["wp"] * Parameters["V"] * StructureFactor("s*",k)
+			
+			# Renormalized gapped bands
+			Ek::Float64 = sqrt( εk^2 + reΔk^2 + imΔk^2 )
+			
+			# Fermi-Dirac factor
+			Nk[i] = FermiDirac(-Ek,μ,β) + FermiDirac(Ek,μ,β)
 
 		elseif Phase=="SU/Singlet"
 			@error "Under construction"
-			return
-#			hk[1,1] -= μ # Include chemical potential
-#		    hk[2,2] += μ # Include chemical potential
-#		    F = eigen(hk)
-#		    W = F.vectors
-#		    E = real.( F.values ) 
-#		    Tmp = ( abs(W[1,2])^2 - abs(W[1,1])^2 ) * tanh( β*E[2]/2 )
-#		    if E[2]==0.0 && β==Inf
-#		    	Tmp = 0.0	# Escape
-#		    end
-#		    
-#		    if debug && isnan( Tmp )
-#		    	@info "NaN detected" E W FermiDirac.(E,μ,β)
-#		    end
-#		    
-#		    Nk[i] = 1 - Tmp
+			
 		elseif Phase=="Su/Triplet"
 			@error "Under construction"
 			return
@@ -309,7 +295,7 @@ function FindRootμ(
     μ = find_zero(δn, (LowerBoundary, UpperBoundary))
 
     if debug
-        n = sum( GetKPopulation(Phase,Parameters,K,m,μ,β) )/D
+        n = sum( GetKPopulation(Phase,Parameters,K,v,μ,β) )/D
         @info "Optimal chemical potential and density:" μ n    
     end
 
@@ -355,7 +341,7 @@ function PerformHFStep(
 	debug::Bool=false,					# Debug mode
 )::Dict{String,Float64}
 
-    t = Parameters["t"] - v0["w^0"] * Parameters["V"]
+    t = Parameters["t"] - v0["w0"] * Parameters["V"]
 	v = copy(v0)	
 	LxLy = prod(size(K))	
     μ = FindRootμ(Phase,Parameters,K,v0,n,β;debug)
@@ -367,26 +353,26 @@ function PerformHFStep(
 		
 		for (i,k) in enumerate(K)
 		    # Renormalized bands
-			εk = GetHoppingEnergy(t,k)
+			εk::Float64 = GetHoppingEnergy(t,k)
 		    
 		    # Renormalized gap		
-		    reΔk = v["m"] * (Parameters["U"] + 8*Parameters["V"])
-			imΔk = 2 * v["w^pi"] * Parameters["V"] * StructureFactor("s*",k)
+		    reΔk::Float64 = v["m"] * (Parameters["U"] + 8*Parameters["V"])
+			imΔk::Float64 = 2*v["wp"] * Parameters["V"] * StructureFactor("s*",k)
 			
 			# Renormalized gapped bands
-			Ek = real( sqrt( εk^2 + reΔk^2 + imΔk^2 ) )
+			Ek::Float64 = sqrt( εk^2 + reΔk^2 + imΔk^2 )
 			
 			# Fermi-Dirac factor
-			FDk = FermiDirac(Ek,μ,β) - FermiDirac(Ek,μ,β)
+			FDk = FermiDirac(-Ek,μ,β) - FermiDirac(Ek,μ,β)
 			
 			m += reΔk/Ek * FDk
 			w0 += εk/Ek * FDk * StructureFactor("s*",k)
 			wpi += imΔk/Ek * FDk * StructureFactor("s*",k)
 		end
 		
-		v["m"] = m/4
-		v["w^0"] = w0/2
-		v["w^pi"] = wpi/2
+		v["m"] = m/(4*LxLy)
+		v["w0"] = w0/(2*LxLy)
+		v["wp"] = wpi/(2*LxLy)
 
 	elseif Phase=="SU/Singlet"
 		@error "Under construction"
@@ -497,8 +483,8 @@ function RunHFAlgorithm(
     # Phase discrimination
     if Phase=="AF"
 		v0["m"] = rand()
-		v0["w^0"] = rand()
-		v0["w^pi"] = rand()
+		v0["w0"] = rand()
+		v0["wp"] = rand()
 
 	elseif Phase=="SU/Singlet"
 		@error "Under construction"
@@ -521,10 +507,10 @@ function RunHFAlgorithm(
 
             v = copy( PerformHFStep(Phase,Parameters,K,v0,n,β;Syms,debug) )
             for key in keys(v0)
-            	c = v[key]
-            	p = v0[key]
-            	t = Δv[key]
-                Qs[key] = abs(c-p) / t 
+            	current = v[key]
+            	previous = v0[key]
+            	tolerance = Δv[key]
+                Qs[key] = abs(current-previous) / tolerance 
             end
 
             if all([Qs[key] for key in keys(v0)] .< 1)
@@ -536,9 +522,9 @@ function RunHFAlgorithm(
                 
             elseif any([Qs[key] for key in keys(v0)] .>= 1)
             	for key in keys(v0)
-            		c = v[key]
-            		p = v0[key]
-            		v[key] = g*c + (1-g)*p
+            		current = v[key]
+            		previous = v0[key]
+            		v[key] = g*current + (1-g)*previous
             	end
             	
             	if debug

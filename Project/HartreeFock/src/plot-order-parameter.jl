@@ -6,13 +6,18 @@ include(PROJECT_ROOT * "/src/setup/graphic-setup.jl")
 include(PROJECT_ROOT * "/src/modules/methods-plotting.jl")
 
 function main()
-    DirPathIn = PROJECT_ROOT * "/simulations/Setup=$(Setup)/"
-    FilePathIn = DirPathIn * "$(HMSymsStr)-wave.txt"
-    DirPathOut = PROJECT_ROOT * "/analysis/"
+    DirPathIn = PROJECT_ROOT * "/simulations/Phase=$(Phase)/Setup=$(Setup)/"
+    FilePathIn = DirPathIn * "$(Model).txt"
+    DirPathOut = PROJECT_ROOT * "/analysis/Phase=$(Phase)/Setup=$(Setup)/"
     mkpath(DirPathOut)
-    # PlotVΔ(HMSyms, FilePathIn, DirPathOut)  # Δ vs V
-    # PlotδΔ(HMSyms, FilePathIn, DirPathOut)  # Δ vs δ
-	PlotHeatmapVdΔ(HMSyms, FilePathIn, DirPathOut)
+    PlotOrderParameter(
+        Phase,
+        FilePathIn,
+        DirPathOut;
+        xVar="U",
+        pVar="δ"
+    )
+	# PlotHeatmapVdΔ(HMSyms, FilePathIn, DirPathOut)
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__

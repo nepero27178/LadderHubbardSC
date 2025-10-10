@@ -53,7 +53,7 @@ function RunHFRoutine(
     # Phase discrimination
     keys = []
     if Phase=="AF"
-		keys = ["m", "w^0", "w^pi"]
+		keys = ["m", "w0", "wp"]
 
 	elseif Phase=="SU/Singlet"
 		@error "Under construction"
@@ -67,7 +67,8 @@ function RunHFRoutine(
     
     # File initialization
     if FilePathOut != ""
-        Header = "# t, U, V, Lx, β, δ, Δ, Q, ΔT [calculated @ $(now())]\n"
+        Header = "# [\"t\", \"U\", \"V\", \"Lx\", \"β\", \"δ\", " *
+            "\"v\", \"Q\", \"ΔT\"] [calculated @ $(now())]\n"
         write(FilePathOut, Header)
     end
 
@@ -120,7 +121,7 @@ end
 function main()
     DirPathOut = PROJECT_ROOT * "/simulations/Phase=$(Phase)/Setup=$(Setup)/"
     mkpath(DirPathOut)
-    FilePathOut = DirPathOut * "MyTest.txt"
+    FilePathOut = DirPathOut * Model * ".txt"
 	RunHFRoutine(Phase,tt,UU,VV,LL,δδ,ββ,p,Δv,Δn,g;FilePathOut)
 end
 

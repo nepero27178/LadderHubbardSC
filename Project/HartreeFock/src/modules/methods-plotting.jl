@@ -1,224 +1,159 @@
 #!/usr/bin/julia
 using DelimitedFiles
 
-function PlotVΔ(
-	Syms::Vector{String},				# Gap function symmetries
+function PlotOrderParameter(
+	Phase::String,						# Mean field phase
     FilePathIn::String,					# Data filepath
-    DirPathOut::String					# Output directory path
+    DirPathOut::String;					# Output directory path
+    xVar::String="U",                   # Specify x variable
+    pVar::String="V",                   # Specify parametric variable
 )
-
-    DirPathOut *= "VΔ-Setup=$(Setup)/"
-    mkpath(DirPathOut)
-
-    DataIn = true
-    open(FilePathIn) do io
-        DataIn = readdlm(FilePathIn, ';', comments=true, '\n')
+    
+    FilePathOut = ""
+    AllVars = ["t", "U", "V", "Lx", "δ", "β"]
+    
+    # Input safecheck
+    if !in(xVar, AllVars)
+        @error "Invalid x variable, choose one of $(AllVars)"
+        exit()
+    end
+    
+    if !in(pVar, AllVars)
+        @error "Invalid parametric variable, choose one of $(AllVars)"
+        exit()
+    end
+    
+    if xVar==pVar
+        @error "You have chosen xVar=pVar!"
+        exit()
     end
 
-    UU = unique(DataIn[:,1])
-    VV = unique(DataIn[:,2])
-    LL = unique(Int64.(DataIn[:,3]))
-    ββ = unique(DataIn[:,4])
-    δδ = unique(DataIn[:,5])
-
-    # Cycler
-    for Sym in Syms,
-    	(u,U) in enumerate(UU),
-    	(b,β) in enumerate(ββ),
-    	(l,L) in enumerate(LL)
-
-        printstyled(
-        	"\e[2K\e[1GPlotting HF-δΔ $(Sym)-wave data for " *
-			"U=$U, L=$L, β=$β", color=:yellow
-        )
-        FilePathOut = DirPathOut * "/$(Sym)-wave_U=$(U)_L=$(L)_β=$(β).pdf"
-        P = plot(
-            size = (600,400),
-            xlabel = L"$V/t$",
-            ylabel = L"$\Delta^{(%$(Sym))}$",
-            # ylims = (0.0,0.25),
-			xlims = (1.0,2.0),
-			ylims = (0.0,0.04),
-            legend = :topleft
-        )
-        if β==Inf
-            title!(L"$%$(Sym)$-wave order parameter ($U/t=%$(U), L=%$(L), \beta=\infty$)")
-        elseif β<Inf
-            title!(L"$%$(Sym)$-wave order parameter ($U/t=%$(U), L=%$(L), \beta=%$(β)$)")
+    # Initialize directory structure
+    DirPathOut *= "PlotOrderParameter/xVar=" * xVar * "/pVar=" * pVar * "/"
+        
+    # Read header
+    Header = open(FilePathIn) do io
+        readdlm(FilePathIn, ';', '\n')[1]
+    end
+    Start = findfirst('[',Header)
+    Stop = findfirst(']',Header)
+    DataCols = eval(Meta.parse( Header[Start:Stop] ))
+    
+    # Read and assign variables
+    DataIn = open(FilePathIn) do io
+        readdlm(FilePathIn, ';', comments=true, '\n')
+    end
+    
+    # Create DFs
+    DF::Dict{String,Any} = Dict([])
+    uDF::Dict{String,Any} = Dict([])
+    for (v,Var) in enumerate(DataCols)
+        Data = DataIn[:,v]
+        if Var=="Lx"
+            Data=Int64.(Data)
         end
-        for (d,δ) in enumerate(δδ)
-            
-            Selections = (DataIn[:,1] .== U) .* # Logical intersection
-            	(DataIn[:,3] .== L) .* 
-            	(DataIn[:,4] .== β) .* 
-            	(DataIn[:,5] .== δ)
-            	
-            VV = DataIn[Selections,2]
-            (mm, QQ, ΔTΔT) = [DataIn[Selections,i] for i in 6:8]
-
-			ΔΔ = [eval(
-				Meta.parse(mm[i]) # Meta-programming: parse formatted string
-			)[Sym] for i in 1:length(mm)]
-            plot!(
-                VV, ΔΔ,
-                markershape = :circle,
-                markercolor = TabColors[d],
-                markersize = 1.5,
-                linecolor = TabColors[d],
-                label = L"$\delta=%$(δ)$",
-                legendfonthalign = :left
+        DF[Var] = Data
+        uDF[Var] = unique(Data)
+    end
+    uDF[xVar] = [NaN] # Remove from following cycle
+    pp::Vector = uDF[pVar]
+    uDF[pVar] = [NaN] # Remove from following cycle
+    
+    # List HF parameters
+    ListHF::Vector{String} = [key for key in keys(
+        eval(Meta.parse(
+            DF["v"][1]
+        ))
+    )]
+    
+    # Cycle over HF parameters
+    for HF in ListHF
+    
+        # Initialize local data structure
+        lDirPathOut = DirPathOut * HF * "/"
+        mkpath(lDirPathOut)
+        LabelHF::String = HF
+        if HF=="w0"
+            LabelHF = "w^{(\\mathbf{0})}"
+        elseif HF=="wp"
+            LabelHF = "w^{(\\pi)}"
+        end
+    
+        # Cycle over simulated points
+        for (w,t) in enumerate(uDF["t"]),
+        	(u,U) in enumerate(uDF["U"]),
+        	(v,V) in enumerate(uDF["V"]),
+        	(l,L) in enumerate(uDF["Lx"]),
+        	(d,δ) in enumerate(uDF["δ"]),
+        	(b,β) in enumerate(uDF["β"])
+        	
+        	# Initialize local dataframe
+        	lDF::Dict{String,Float64} = Dict([
+        	    "t" => t,
+        	    "U" => U,
+        	    "V" => V,
+        	    "Lx" => L,
+        	    "δ" => δ,
+        	    "β" => β
+        	])
+        	
+        	# Select entries
+        	Selections::Vector{Bool} = [true for _ in 1:length(DF["t"])]
+        	for Var in AllVars
+        	    if !in(Var, [xVar, pVar])
+        	        Selections = Selections .* (DF[Var] .== lDF[Var])
+        	    end
+        	end
+    
+            # Initialize plot    	
+        	P = plot(
+                size = (600,400),
+                xlabel = L"$%$(xVar)$",
+                ylabel = L"$%$(LabelHF)$",
+                legend = :outertopright
             )
-        end
-        savefig(P, FilePathOut)
-    end
-
-    printstyled("\e[2K\e[1GDone! Plots saved at $(DirPathOut)\n", color=:green)
-
-end
-
-@doc raw"""
-function PlotδΔ(
-	Sym::Vector{String},
-    FilePathIn::String,
-    DirPathOut::String
-)
-
-Returns: none.
-
-Under construction!
-"""
-function PlotδΔ(
-	Syms::Vector{String},				# Gap function symmetries
-    FilePathIn::String,					# Data filepath
-    DirPathOut::String					# Output directory path
-)
-
-    DirPathOut *= "dΔ-Setup=$(Setup)/"
-    mkpath(DirPathOut)
-
-    DataIn = true
-    open(FilePathIn) do io
-        DataIn = readdlm(FilePathIn, ';', comments=true, '\n')
-    end
-
-    UU = unique(DataIn[:,1])
-    VV = unique(DataIn[:,2])
-    LL = unique(Int64.(DataIn[:,3]))
-    ββ = unique(DataIn[:,4])
-    δδ = unique(DataIn[:,5])
-
-    # UU = UU[end-6:2:end]
-
-    # Cycler
-    for Sym in Syms,
-    	(u,U) in enumerate(UU),
-    	(b,β) in enumerate(ββ),
-    	(l,L) in enumerate(LL)
-    	
-        printstyled(
-        	"\e[2K\e[1GPlotting HF-δΔ $(Sym)-wave data for " *
-			"U=$U, L=$L, β=$β", color=:yellow
-        )
-        FilePathOut = DirPathOut * "/$(Sym)-wave_U=$(U)_L=$(L)_β=$(β).pdf"
-        P = plot(
-            size = (600,400),
-            xlabel = L"$\delta \vphantom{V/t}$",
-            ylabel = L"$\Delta^{(%$(Sym))}$",
-            # ylims = (0.0,0.25),
-			xlims = (0.3,0.4),
-			ylims = (0.0,0.06),
-            legend = :topright
-        )
-        if β==Inf
-            title!(L"$%$(Sym)$-wave order parameter ($U/t=%$(U), L=%$(L), \beta=\infty$)")
-        elseif β<Inf
-            title!(L"$%$(Sym)$-wave order parameter ($U/t=%$(U), L=%$(L), \beta=%$(β)$)")
-        end
-        for (v,V) in enumerate(VV)
+        	
+        	# Write terminal message and file name
+        	TerminalMsg::String = "\e[2K\e[1GPlotting $(Phase) HF $(HF) data for "
+        	FilePathOut::String = lDirPathOut * "/" * HF
+        	for Var in AllVars
+        	    if !in(Var, [xVar, pVar])
+            	    TerminalMsg *= Var * "=$(lDF[Var]), "
+            	    FilePathOut *= "_" * Var * "=$(lDF[Var])"
+            	end
+        	end
+        	TerminalMsg *= "x variable: " * xVar * ", parametric variable: " * pVar
+        	FilePathOut *= ".pdf"
+        	printstyled("\e[2K\e[1G" * TerminalMsg, color=:yellow)
             
-            Selections = (DataIn[:,1] .== U) .*
-				(DataIn[:,2] .== V) .*
-				(DataIn[:,3] .== L) .* 
-                (DataIn[:,4] .== β) # Logical intersection
-            δδ = DataIn[Selections,5]
-            (mm, QQ, ΔTΔT) = [DataIn[Selections,i] for i in 6:8]
+            # Cycle over parametric variable
+            for (j,P) in enumerate(pp)
+                
+                # Run local selection
+            	lSelections = Selections .* (DF[pVar] .== P)
+            	vv = DF["v"][lSelections]
+        	
+        	    # Define x and y variables
+            	xx::Vector{Float64} = DF[xVar][lSelections]
+            	yy::Vector = [eval(Meta.parse(
+            	    vv[i]
+		        ))[HF] for i in 1:length(vv)]
 
-			ΔΔ = [eval(
-				Meta.parse(mm[i])	# Meta-programming: parse formatted string
-			)[Sym] for i in 1:length(mm)]
-            plot!(
-                δδ, ΔΔ,
-                markershape = :circle,
-                markercolor = TabColors[v],
-                markersize = 1.5,
-                linecolor = TabColors[v],
-                label = L"$V/t=%$(V)$",
-                legendfonthalign = :left
-            )
-        end
-        savefig(P, FilePathOut)
-    end
-
-    printstyled("\e[2K\e[1GDone! Plots saved at $(DirPathOut)\n", color=:green)
-
-end
-
-function PlotHeatmapVdΔ(
-	Syms::Vector{String},				# Gap function symmetries
-    FilePathIn::String,					# Data filepath
-    DirPathOut::String					# Output directory path
-)
-
-	DirPathOut *= "Heatmap-VdΔ-Setup=$(Setup)/"
-    mkpath(DirPathOut)
-
-    DataIn = true
-    open(FilePathIn) do io
-        DataIn = readdlm(FilePathIn, ';', comments=true, '\n')
-    end
-
-    UU = unique(DataIn[:,1])
-    VV = unique(DataIn[:,2])
-    LL = unique(Int64.(DataIn[:,3]))
-    ββ = unique(DataIn[:,4])
-    δδ = unique(DataIn[:,5])
-
-	# Cycler
-    for Sym in Syms,
-		(u,U) in enumerate([UU[1], UU[end]]),
-    	(b,β) in enumerate([ββ[1], ββ[end]]),
-    	(l,L) in enumerate([LL[1], LL[end]])
-		
-		FilePathOut = DirPathOut * "/$(Sym)-wave_U=$(U)_L=$(L)_β=$(β).pdf"
-		Selections = (DataIn[:,1] .== U) .*
-			(DataIn[:,3] .== L) .* 
-            (DataIn[:,4] .== β) # Logical intersection
-
-		NumV = length(VV)
-    	Numδ = length(δδ)
-		OrderParameters = zeros(Numδ,NumV)
-		
-		(mm, QQ, ΔTΔT) = [DataIn[Selections,i] for i in 6:8]
-		ΔΔ = [eval(
-			Meta.parse(mm[i])	# Meta-programming: parse formatted string
-		)[Sym] for i in 1:length(mm)]
-
-	    for vv in 1:NumV
-	        OrderParameters[:,vv] = ΔΔ[ Numδ*(vv-1)+1 : Numδ*vv ]
+                # Plot parametrically
+		        plot!(
+                    xx, yy,
+                    markershape = :circle,
+                    markercolor = TabColors[j],
+                    markersize = 1.5,
+                    linecolor = TabColors[j],
+                    label = pVar * "=$(P)",
+                    legendfonthalign = :left
+                )
+            end
+            
+            # Save figure
+            savefig(P, FilePathOut)
 		end
-
-		heatmap(
-			unique(VV), unique(δδ), OrderParameters, 
-            xlabel=L"V",
-            ylabel=L"$\delta$"
-		)
-		if β==Inf
-            title!(L"$%$(Sym)$-wave order parameter ($U/t=%$(U), L=%$(L), \beta=\infty$)")
-        elseif β<Inf
-            title!(L"$%$(Sym)$-wave order parameter ($U/t=%$(U), L=%$(L), \beta=%$(β)$)")
-        end
-        savefig(FilePathOut)
-	end
-	printstyled("\e[2K\e[1GDone! Plots saved at $(DirPathOut)\n", color=:green)
-
+    end
+    printstyled("\e[2K\e[1GDone! Plots saved at $(DirPathOut)\n", color=:green)
 end

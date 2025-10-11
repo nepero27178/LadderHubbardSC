@@ -14,8 +14,8 @@ function main()
         Phase,
         FilePathIn,
         DirPathOut;
-        xVar="U",
-        pVar="δ"
+        pVar="V",
+        xVar="δ"
     )
 	# PlotHeatmapVdΔ(HMSyms, FilePathIn, DirPathOut)
 end

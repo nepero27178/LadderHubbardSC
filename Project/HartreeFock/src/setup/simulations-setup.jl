@@ -8,7 +8,7 @@ AllTripletSyms = ["px", "py", "p+", "p-"]
 
 Phase = "AF"    # Choose your phase
 Model = "Renormalized-AF"
-Setup = "Test"  # Choose your setup
+Setup = "A"  # Choose your setup
 
 if !in(Setup, ["Test", "A"])
     @error "Invalid setup, please modify at: " * SetupFilePath
@@ -39,8 +39,8 @@ elseif Setup=="A"
     p = 100
 	Δv::Dict{String,Float64} = Dict([
 	    "m" => 1e-3,
-	    "w0" => 1e-2,
-	    "wp" => 1e-2
+	    "w0" => 1e-3,
+	    "wp" => 1e-3
 	])
     Δn = 1e-2
     g = 0.5

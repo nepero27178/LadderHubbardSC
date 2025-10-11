@@ -28,6 +28,16 @@ function PlotOrderParameter(
         exit()
     end
 
+    # Prepare xVar labels
+    xVarLabels::Dict{String,String} = Dict([
+	"t" => "t",
+	"U" => "U",
+	"V" => "V",
+	"Lx" => "L_x",
+	"δ" => "\\delta",
+	"β" => "\\beta"
+    ])
+
     # Initialize directory structure
     DirPathOut *= "PlotOrderParameter/xVar=" * xVar * "/pVar=" * pVar * "/"
         
@@ -108,7 +118,7 @@ function PlotOrderParameter(
             # Initialize plot    	
         	P = plot(
                 size = (600,400),
-                xlabel = L"$%$(xVar)$",
+                xlabel = L"$%$(xVarLabels[xVar])$",
                 ylabel = L"$%$(LabelHF)$",
                 legend = :outertopright
             )
@@ -143,9 +153,9 @@ function PlotOrderParameter(
 		        plot!(
                     xx, yy,
                     markershape = :circle,
-                    markercolor = TabColors[j],
+                    markercolor = ColorSchemes.imola25[j], # TabColors[j],
                     markersize = 1.5,
-                    linecolor = TabColors[j],
+                    linecolor = ColorSchemes.imola25[j], # TabColors[j],
                     label = pVar * "=$(P)",
                     legendfonthalign = :left
                 )

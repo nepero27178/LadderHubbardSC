@@ -210,7 +210,7 @@ function GetKPopulation(
 		    
 		    # Renormalized gap		
 		    reΔk::Float64 = v["m"] * (Parameters["U"] + 8*Parameters["V"])
-			imΔk::Float64 = 2*v["wp"] * Parameters["V"] * StructureFactor("s*",k)
+			imΔk::Float64 = 2*v["wp"]*Parameters["V"] * StructureFactor("s*",k)
 			
 			# Renormalized gapped bands
 			Ek::Float64 = sqrt( εk^2 + reΔk^2 + imΔk^2 )
@@ -342,14 +342,15 @@ function PerformHFStep(
 )::Dict{String,Float64}
 
     t = Parameters["t"] - v0["w0"] * Parameters["V"]
+
 	v = copy(v0)	
 	LxLy = prod(size(K))	
     μ = FindRootμ(Phase,Parameters,K,v0,n,β;debug)
 
 	if Phase=="AF"
-		m = 0
-		w0 = 0
-		wpi = 0
+		m::Float64 = 0.0
+		w0::Float64 = 0.0
+		wpi::Float64 = 0.0
 		
 		for (i,k) in enumerate(K)
 		    # Renormalized bands
@@ -357,7 +358,7 @@ function PerformHFStep(
 		    
 		    # Renormalized gap		
 		    reΔk::Float64 = v["m"] * (Parameters["U"] + 8*Parameters["V"])
-			imΔk::Float64 = 2*v["wp"] * Parameters["V"] * StructureFactor("s*",k)
+			imΔk::Float64 = 2*v["wp"]*Parameters["V"] * StructureFactor("s*",k)
 			
 			# Renormalized gapped bands
 			Ek::Float64 = sqrt( εk^2 + reΔk^2 + imΔk^2 )
@@ -365,14 +366,16 @@ function PerformHFStep(
 			# Fermi-Dirac factor
 			FDk = FermiDirac(-Ek,μ,β) - FermiDirac(Ek,μ,β)
 			
-			m += reΔk/Ek * FDk
-			w0 += εk/Ek * FDk * StructureFactor("s*",k)
-			wpi += imΔk/Ek * FDk * StructureFactor("s*",k)
+            if Ek!=0.0 # Otherwise add nothing
+			    m += reΔk/Ek * FDk
+			    w0 -= εk/Ek * FDk * StructureFactor("s*",k)
+			    wpi += imΔk/Ek * FDk * StructureFactor("s*",k)
+            end
 		end
 		
 		v["m"] = m/(4*LxLy)
-		v["w0"] = w0/(2*LxLy)
-		v["wp"] = wpi/(2*LxLy)
+		v["w0"] = w0/(4*LxLy)
+		v["wp"] = wpi/(4*LxLy)
 
 	elseif Phase=="SU/Singlet"
 		@error "Under construction"
@@ -429,13 +432,16 @@ function RunHFAlgorithm(
     Δv::Dict{String,Float64},
     Δn::Float64,
     g::Float64;
-    Syms::Vector{String}=[\"d\"]
+    v0::Dict{String,Float64}=Dict([]),
+    Syms::Vector{String}=[\"d\"],
     verbose::Bool=false,
-    debug::Bool=false
-)::Tuple{Dict{String,Float64}, Dict{String,Float64}, Float64}
+    debug::Bool=false,
+    record::Bool=false
+)::Tuple{Dict{String,Float64}, Dict{String,Float64}, Float64, Dict{String,Vector{Float64}}}
 
 Returns: Hartree-Fock (HF) estimation for `v`, sequential relative convergence 
-parameters `Q` and computational time `ΔT`.
+parameters `Q` and computational time `ΔT`. If `record` is set to true, the
+last output contains the entire evolution of the parameters.
 
 `RunHFAlgorithm` takes as input `Phase` (string specifying the mean-field phase, 
 the allowed are \"AF\", \"SU/Singlet\", \"SU/Triplet\"), `Parameters` 
@@ -446,7 +452,11 @@ density in chemical  potential estimation), `g` (mixing parameter). It performs
 an iterative HF analysis over a 2D square lattice whose dimensions are given by
 `L`. All of the function's positional arguments must be positive defined. The
 algorithm is iterative and runs at most `p` times using at each reiteration the
-result of the previous computation.
+result of the previous computation. The positional argument `v0` allows for
+custom initialization of HF parameters. When left unspecified, `v0` elements
+are randomly initialized. The `record` boolean positional parameter, when
+activated, registers the entire evolution in the Vector{Float64} values of the
+last output object.
 """
 function RunHFAlgorithm(
     Phase::String,						# Mean field phase
@@ -458,10 +468,12 @@ function RunHFAlgorithm(
     Δv::Dict{String,Float64},           # Tolerance on each order parameter
     Δn::Float64,                        # Tolerance on density difference
     g::Float64;                         # Mixing parameter
+    v0i::Dict=Dict([]),                 # Initializers
     Syms::Vector{String}=["d"],		    # Gap function symmetries
     verbose::Bool=false,
-    debug::Bool=false
-)::Tuple{Dict{String,Float64}, Dict{String,Float64}, Float64}
+    debug::Bool=false,
+    record::Bool=false
+)::Tuple{Dict{String,Float64}, Dict{String,Float64}, Float64, Dict{String,Vector{Float64}}}
 
     if verbose
         @info "Running HF convergence algorithm" Phase Parameters L n β
@@ -475,26 +487,30 @@ function RunHFAlgorithm(
     pop!(Ky)
     K::Matrix{Vector{Float64}} = [ [kx,ky] for kx in Kx, ky in Ky ]
     
-    # Dictionaries initialization
-    v0::Dict{String,Float64}=Dict([])
+    # Phase discrimination
+    KeysList::Dict{String,Vector{String}} = Dict([
+        "AF" => ["m", "w0", "wp"],
+        "SU/Singlet" => ["s", "s*", "d"],
+        "SU/Triplet" => ["px", "py", "p+", "p-"]
+    ])
+
+    # Initialize HF dictionaries
+    v0::Dict{String,Float64} = Dict([])
+
+    for key in KeysList[Phase]
+        if v0i==Dict([])
+            v0[key] = rand()
+        elseif all([ in(key,KeysList[Phase]) for key in keys(v0i) ])
+            v0[key] = v0i[key]
+        end
+    end
     v = copy(v0)    # Shallow copy of values
     Qs = copy(v0)   # Copy NaN keys
-    
-    # Phase discrimination
-    if Phase=="AF"
-		v0["m"] = rand()
-		v0["w0"] = rand()
-		v0["wp"] = rand()
 
-	elseif Phase=="SU/Singlet"
-		@error "Under construction"
-		return
-
-	elseif Phase=="SU/Triplet"
-		@error "Under construction"
-		return
-	
-	end
+    # Initialize record matrix
+    Record::Dict{String,Vector{Float64}} = Dict([
+        key => [ v0[key] ] for key in KeysList[Phase]
+    ])	  
     
     # Recursive run
     i = 1
@@ -521,9 +537,13 @@ function RunHFAlgorithm(
                 i = p+1
                 
             elseif any([Qs[key] for key in keys(v0)] .>= 1)
+                # g = rand() # Random mixing parameter
             	for key in keys(v0)
             		current = v[key]
             		previous = v0[key]
+                    if record
+                        Record[key] = vcat(Record[key],current)
+                    end
             		v[key] = g*current + (1-g)*previous
             	end
             	
@@ -548,5 +568,5 @@ function RunHFAlgorithm(
         end
     end
 
-    return v,Qs,ΔT
+    return v,Qs,ΔT,Record
 end

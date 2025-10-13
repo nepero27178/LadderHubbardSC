@@ -1,5 +1,5 @@
 % $ biblatex auxiliary file $
-% $ biblatex bbl format version 3.2 $
+% $ biblatex bbl format version 3.3 $
 % Do not modify the above lines!
 %
 % This is an auxiliary file used by the 'biblatex' package.
@@ -18,8 +18,8 @@
 
 
 \refsection{0}
-  \datalist[entry]{nty/global//global/global}
-    \entry{cao2025p-wave}{misc}{}
+  \datalist[entry]{nty/global//global/global/global}
+    \entry{cao2025p-wave}{misc}{}{}
       \name{author}{5}{}{%
         {{hash=d51247ca2869f2127e8bf79dd1f28ad3}{%
            family={Cao},
@@ -55,10 +55,12 @@
       }
       \strng{namehash}{43991ff1ed7480fe36ba020e0fec100b}
       \strng{fullhash}{5f2371c28625d4b83b8cbee2c4a711cd}
+      \strng{fullhashraw}{5f2371c28625d4b83b8cbee2c4a711cd}
       \strng{bibnamehash}{43991ff1ed7480fe36ba020e0fec100b}
       \strng{authorbibnamehash}{43991ff1ed7480fe36ba020e0fec100b}
       \strng{authornamehash}{43991ff1ed7480fe36ba020e0fec100b}
       \strng{authorfullhash}{5f2371c28625d4b83b8cbee2c4a711cd}
+      \strng{authorfullhashraw}{5f2371c28625d4b83b8cbee2c4a711cd}
       \field{sortinit}{C}
       \field{sortinithash}{4d103a86280481745c9c897c925753c0}
       \field{labelnamesource}{author}
@@ -88,7 +90,7 @@
       \endverb
       \keyw{Condensed Matter - Strongly Correlated Electrons,Condensed Matter - Superconductivity}
     \endentry
-    \entry{coleman2015introduction}{book}{}
+    \entry{coleman2015introduction}{book}{}{}
       \name{author}{1}{}{%
         {{hash=839b78b5dc56eff1101d23520a8b5000}{%
            family={Coleman},
@@ -101,10 +103,12 @@
       }
       \strng{namehash}{839b78b5dc56eff1101d23520a8b5000}
       \strng{fullhash}{839b78b5dc56eff1101d23520a8b5000}
+      \strng{fullhashraw}{839b78b5dc56eff1101d23520a8b5000}
       \strng{bibnamehash}{839b78b5dc56eff1101d23520a8b5000}
       \strng{authorbibnamehash}{839b78b5dc56eff1101d23520a8b5000}
       \strng{authornamehash}{839b78b5dc56eff1101d23520a8b5000}
       \strng{authorfullhash}{839b78b5dc56eff1101d23520a8b5000}
+      \strng{authorfullhashraw}{839b78b5dc56eff1101d23520a8b5000}
       \field{sortinit}{C}
       \field{sortinithash}{4d103a86280481745c9c897c925753c0}
       \field{labelnamesource}{author}
@@ -113,7 +117,7 @@
       \field{year}{2015}
       \true{nocite}
     \endentry
-    \entry{fabrizio2022course}{book}{}
+    \entry{fabrizio2022course}{book}{}{}
       \name{author}{1}{}{%
         {{hash=d3adeab8eb268c3bfda7cf23d66058d3}{%
            family={Fabrizio},
@@ -126,10 +130,12 @@
       }
       \strng{namehash}{d3adeab8eb268c3bfda7cf23d66058d3}
       \strng{fullhash}{d3adeab8eb268c3bfda7cf23d66058d3}
+      \strng{fullhashraw}{d3adeab8eb268c3bfda7cf23d66058d3}
       \strng{bibnamehash}{d3adeab8eb268c3bfda7cf23d66058d3}
       \strng{authorbibnamehash}{d3adeab8eb268c3bfda7cf23d66058d3}
       \strng{authornamehash}{d3adeab8eb268c3bfda7cf23d66058d3}
       \strng{authorfullhash}{d3adeab8eb268c3bfda7cf23d66058d3}
+      \strng{authorfullhashraw}{d3adeab8eb268c3bfda7cf23d66058d3}
       \field{sortinit}{F}
       \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
       \field{labelnamesource}{author}
@@ -138,7 +144,7 @@
       \field{year}{2022}
       \true{nocite}
     \endentry
-    \entry{giuliani2005quantum}{book}{}
+    \entry{giuliani2005quantum}{book}{}{}
       \name{author}{2}{}{%
         {{hash=ed2346f05fe56333d9300d9267a9a2f9}{%
            family={Giuliani},
@@ -156,10 +162,12 @@
       }
       \strng{namehash}{5a93bb8a014b16b171dd2a5933887bb3}
       \strng{fullhash}{5a93bb8a014b16b171dd2a5933887bb3}
+      \strng{fullhashraw}{5a93bb8a014b16b171dd2a5933887bb3}
       \strng{bibnamehash}{5a93bb8a014b16b171dd2a5933887bb3}
       \strng{authorbibnamehash}{5a93bb8a014b16b171dd2a5933887bb3}
       \strng{authornamehash}{5a93bb8a014b16b171dd2a5933887bb3}
       \strng{authorfullhash}{5a93bb8a014b16b171dd2a5933887bb3}
+      \strng{authorfullhashraw}{5a93bb8a014b16b171dd2a5933887bb3}
       \field{sortinit}{G}
       \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
       \field{labelnamesource}{author}
@@ -167,7 +175,7 @@
       \field{title}{Quantum Theory of the Electron Liquid}
       \field{year}{2005}
     \endentry
-    \entry{grosso2014solid}{book}{}
+    \entry{grosso2014solid}{book}{}{}
       \name{author}{2}{}{%
         {{hash=c2ae1ee03fa8038dc22828639bfce5ed}{%
            family={Grosso},
@@ -185,10 +193,12 @@
       }
       \strng{namehash}{7c6a5b46af900f359aae5993ec351219}
       \strng{fullhash}{7c6a5b46af900f359aae5993ec351219}
+      \strng{fullhashraw}{7c6a5b46af900f359aae5993ec351219}
       \strng{bibnamehash}{7c6a5b46af900f359aae5993ec351219}
       \strng{authorbibnamehash}{7c6a5b46af900f359aae5993ec351219}
       \strng{authornamehash}{7c6a5b46af900f359aae5993ec351219}
       \strng{authorfullhash}{7c6a5b46af900f359aae5993ec351219}
+      \strng{authorfullhashraw}{7c6a5b46af900f359aae5993ec351219}
       \field{sortinit}{G}
       \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
       \field{labelnamesource}{author}
@@ -197,7 +207,7 @@
       \field{title}{Solid State Physics}
       \field{year}{2014}
     \endentry
-    \entry{hirsch1985hubbard}{article}{}
+    \entry{hirsch1985hubbard}{article}{}{}
       \name{author}{1}{}{%
         {{hash=36d434a8bf3ddfb566c22d141a82c22e}{%
            family={Hirsch},
@@ -210,10 +220,12 @@
       }
       \strng{namehash}{36d434a8bf3ddfb566c22d141a82c22e}
       \strng{fullhash}{36d434a8bf3ddfb566c22d141a82c22e}
+      \strng{fullhashraw}{36d434a8bf3ddfb566c22d141a82c22e}
       \strng{bibnamehash}{36d434a8bf3ddfb566c22d141a82c22e}
       \strng{authorbibnamehash}{36d434a8bf3ddfb566c22d141a82c22e}
       \strng{authornamehash}{36d434a8bf3ddfb566c22d141a82c22e}
       \strng{authorfullhash}{36d434a8bf3ddfb566c22d141a82c22e}
+      \strng{authorfullhashraw}{36d434a8bf3ddfb566c22d141a82c22e}
       \field{sortinit}{H}
       \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
       \field{labelnamesource}{author}
@@ -237,7 +249,7 @@
       \verb https://link.aps.org/doi/10.1103/PhysRevB.31.4403
       \endverb
     \endentry
-    \entry{scholle2023comprehensive}{article}{}
+    \entry{scholle2023comprehensive}{article}{}{}
       \name{author}{4}{}{%
         {{hash=50ce22642db5593d76639d8a2cfa9dae}{%
            family={Scholle},
@@ -265,10 +277,12 @@
       }
       \strng{namehash}{dc011048fa68889ce26df989c977b64a}
       \strng{fullhash}{4ac58b919fec2d0f74865d6df303aca9}
+      \strng{fullhashraw}{4ac58b919fec2d0f74865d6df303aca9}
       \strng{bibnamehash}{dc011048fa68889ce26df989c977b64a}
       \strng{authorbibnamehash}{dc011048fa68889ce26df989c977b64a}
       \strng{authornamehash}{dc011048fa68889ce26df989c977b64a}
       \strng{authorfullhash}{4ac58b919fec2d0f74865d6df303aca9}
+      \strng{authorfullhashraw}{4ac58b919fec2d0f74865d6df303aca9}
       \field{sortinit}{S}
       \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
       \field{labelnamesource}{author}

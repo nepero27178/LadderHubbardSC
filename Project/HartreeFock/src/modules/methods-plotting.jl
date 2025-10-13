@@ -1,6 +1,9 @@
 #!/usr/bin/julia
 using DelimitedFiles
 
+@doc raw"""
+...
+"""
 function PlotOrderParameter(
 	Phase::String,						# Mean field phase
     FilePathIn::String,					# Data filepath
@@ -30,12 +33,28 @@ function PlotOrderParameter(
 
     # Prepare xVar labels
     xVarLabels::Dict{String,String} = Dict([
-	"t" => "t",
-	"U" => "U",
-	"V" => "V",
-	"Lx" => "L_x",
-	"δ" => "\\delta",
-	"β" => "\\beta"
+	    "t" => "t",
+	    "U" => "U",
+	    "V" => "V",
+	    "Lx" => "L_x",
+	    "δ" => "\\delta",
+	    "β" => "\\beta"
+    ])
+
+    # Prepare yVar labels
+    yVarLabels::Dict{String,String} = Dict([
+	    "m" => "m",
+	    "w0" => "w^{(\\mathbf{0})}",
+	    "wp" => "w^{(\\pi)}",
+        # ...
+    ])
+
+    # Prepare title labels
+    TitleLabels::Dict{String,String} = Dict([
+	    "m" => "Magnetization",
+	    "w0" => "\$w^{(\\mathbf{0})}\$",
+	    "wp" => "\$w^{(\\pi)}\$",
+        # ...
     ])
 
     # Initialize directory structure
@@ -75,19 +94,9 @@ function PlotOrderParameter(
             DF["v"][1]
         ))
     )]
-    
+
     # Cycle over HF parameters
     for HF in ListHF
-    
-        # Initialize local data structure
-        lDirPathOut = DirPathOut * HF * "/"
-        mkpath(lDirPathOut)
-        LabelHF::String = HF
-        if HF=="w0"
-            LabelHF = "w^{(\\mathbf{0})}"
-        elseif HF=="wp"
-            LabelHF = "w^{(\\pi)}"
-        end
     
         # Cycle over simulated points
         for (w,t) in enumerate(uDF["t"]),
@@ -98,7 +107,7 @@ function PlotOrderParameter(
         	(b,β) in enumerate(uDF["β"])
         	
         	# Initialize local dataframe
-        	lDF::Dict{String,Float64} = Dict([
+        	lDF::Dict{String,Any} = Dict([
         	    "t" => t,
         	    "U" => U,
         	    "V" => V,
@@ -119,21 +128,31 @@ function PlotOrderParameter(
         	P = plot(
                 size = (600,400),
                 xlabel = L"$%$(xVarLabels[xVar])$",
-                ylabel = L"$%$(LabelHF)$",
+                ylabel = L"$%$(yVarLabels[HF])$",
                 legend = :outertopright
             )
         	
         	# Write terminal message and file name
-        	TerminalMsg::String = "\e[2K\e[1GPlotting $(Phase) HF $(HF) data for "
+        	TerminalMsg::String = "\e[2K\e[1GPlotting $(Phase) HF $(HF) data\t"
         	FilePathOut::String = lDirPathOut * "/" * HF
+            rawTitle::String = TitleLabels[HF] * " ("
         	for Var in AllVars
         	    if !in(Var, [xVar, pVar])
-            	    TerminalMsg *= Var * "=$(lDF[Var]), "
-            	    FilePathOut *= "_" * Var * "=$(lDF[Var])"
+                    lVar = lDF[Var]
+            	    TerminalMsg *= Var * "=$(lVar)\t"
+            	    FilePathOut *= "_" * Var * "=$(lVar)"
+                    rawTitle *= "\$$(xVarLabels[Var])=$(lVar)\$, "
+                    if Var=="Lx" # I am desperate about correct formatting
+                        rawTitle = rawTitle[1:end-5] * "\$, "
+                    elseif Var=="β" && β==Inf
+                        rawTitle = rawTitle[1:end-6] * "\\infty\$, "
+                    end
             	end
         	end
-        	TerminalMsg *= "x variable: " * xVar * ", parametric variable: " * pVar
+        	TerminalMsg *= "x variable: " * xVar * 
+                "\t\tparametric variable: " * pVar
         	FilePathOut *= ".pdf"
+            rawTitle *= "varying " * xVarLabels[pVar] * ")"
         	printstyled("\e[2K\e[1G" * TerminalMsg, color=:yellow)
             
             # Cycle over parametric variable
@@ -159,11 +178,137 @@ function PlotOrderParameter(
                     label = pVar * "=$(P)",
                     legendfonthalign = :left
                 )
+                title!(L"%$(rawTitle)")
             end
             
             # Save figure
             savefig(P, FilePathOut)
 		end
+    end
+    printstyled("\e[2K\e[1GDone! Plots saved at $(DirPathOut)\n", color=:green)
+end
+
+@doc raw"""
+...
+"""
+function PlotRecord(
+    Phase::String,
+    DirPathIn::String,
+    DirPathOut::String;
+    rVar::String="g"                    # Recorded variable
+)
+        
+    Files::Vector{String} = readdir(DirPathIn)
+    rFiles::Dict{Float64,String} = Dict([])
+    DataCols::Vector{String} = [""]
+
+    # Check data structure and extract r values
+    for (j,F) in enumerate(Files)
+        FilePathIn::String = DirPathIn * "/" * F
+        eqIndex::Int64 = findfirst('=', F)
+        if F[1:eqIndex-1]==rVar
+
+            # Read header
+            Header = open(FilePathIn) do io
+                readdlm(FilePathIn, ';', '\n')[1]
+            end
+            Start = findfirst('[',Header)
+            Stop = findfirst(']',Header)
+            if j==1
+                DataCols = eval(Meta.parse( Header[Start:Stop] ))
+            elseif j>1
+                if DataCols != eval(Meta.parse( Header[Start:Stop] ))
+                    @error "Bad data structure (DataCols inconsistent). " * 
+                        "Check data integrity at " * DirPathIn
+                    exit()
+                end
+            end
+            r = parse(Float64, F[eqIndex+1:end-4]) # Remove .txt
+            rFiles[r] = FilePathIn
+
+        elseif F[1:eqIndex-1]!=rVar
+            @error "Bad data structure (rVar not found). " * 
+                "Check data integrity at " * DirPathIn
+            exit()
+        end
+    end    
+
+    # Prepare yVar labels
+    yVarLabels::Dict{String,String} = Dict([
+        "m" => "m",
+        "w0" => "w^{(\\mathbf{0})}",
+        "wp" => "w^{(\\pi)}",
+        # ...
+    ])
+
+    # Prepare title labels
+    TitleLabels::Dict{String,String} = Dict([
+        "m" => "Magnetization",
+        "w0" => "\$w^{(\\mathbf{0})}\$",
+        "wp" => "\$w^{(\\pi)}\$",
+        # ...
+    ])
+
+    pVarLabels::Dict{String,String} = Dict([
+        "g" => "g",
+        # ...
+    ])
+    
+    for (hf,HF) in enumerate(DataCols)
+        
+        # Set output filepath
+        FilePathOut::String = DirPathOut * "/" * HF * "_rVar=" * rVar * ".pdf"
+
+        # Generate raw title
+        rawTitle::String = TitleLabels[HF] * " (" *
+            "\$t=$(t)\$, " *
+            "\$U=$(U)\$, " *
+            "\$V=$(V)\$, " *
+            "\$L=$(L)\$, " *
+    	    "\$\\delta=$(δ)\$, " *
+    	    "\$\\beta=$(β)\$)"
+
+        # Initialize plot
+        P = plot(
+            size = (600,400),
+            xlabel = L"\mathrm{Step}",
+            ylabel = L"$%$(yVarLabels[HF])$",
+            legend = :outertopright
+        )
+        title!(L"%$(rawTitle)")
+
+        # Cycle over data
+        for (j,r) in enumerate( sort([key for key in keys(rFiles)]) )
+
+            # Generate FilePathIn
+            FilePathIn = rFiles[r]
+
+            # Read and assign variables
+            DataIn = open(FilePathIn) do io
+                readdlm(FilePathIn, ';', comments=true, '\n')
+            end
+
+            yy = DataIn[:,hf]
+            LineStyle = :solid
+            if length(yy)>25
+                yy = yy[1:25]
+                LineStyle = :dash
+            end
+            xx = [x for x in 1:length(yy)]
+            plot!(
+                xx,yy,
+                markershape = :circle,
+                markercolor = ColorSchemes.imola25[j],
+                markersize = 1.5,
+                linestyle = LineStyle,
+                linecolor = ColorSchemes.imola25[j],
+                label = L"$%$(pVarLabels[rVar])=%$(r)$",
+            )
+
+        end
+
+        # Save figure
+        savefig(P, FilePathOut)
     end
     printstyled("\e[2K\e[1GDone! Plots saved at $(DirPathOut)\n", color=:green)
 end

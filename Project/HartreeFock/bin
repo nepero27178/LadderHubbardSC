@@ -1,19 +1,70 @@
-U,V,L,n,β,p,Δm,Δn,g = 10.0,1.0,[32,32],0.6,Inf,100,0.01,0.1,0.5
-U,V,L,n,β,p,Δn,g = 4.0,1.0,[32,32],0.6,Inf,100,0.1,0.5
-Δm = Dict([
-"s" => 0.001,
-"s*" => 0.001,
-"px" => 0.001,
-"py" => 0.001,
-"d" => 0.001
+Phase="AF"
+
+t = 1.0
+U = 10.0
+V = 2.0
+Parameters::Dict{String,Float64} = Dict([
+    "t" => t,
+    "U" => U,
+    "V" => V
 ])
 
-Kx = [kx for kx in -pi:2*pi/L[1]:pi]
-pop!(Kx)
-Ky = [ky for ky in -pi:2*pi/L[2]:pi]
-pop!(Ky)
+L = 32
+δ = 0.4
+β = 100.0
+p = 1000
+Δv::Dict{String,Float64} = Dict([
+    "m" => 1e-4,
+    "w0" => 1e-3,
+    "wp" => 1e-4,
+])
+Δn = 1e-2
+g = 0.5
 
-K::Matrix{Vector{Float64}} = [ [kx,ky] for kx in Kx, ky in Ky]
+# Cycler
+VV = [V for V in 0.0:0.2:20.0]
+function RunCycle(VV::Vector{Float64})
+    w0::Dict{Float64,Float64} = Dict([
+        V => 0.0 for V in VV
+    ])
+    for V in VV
+        @info "Running" V
+        Parameters["V"] = V
+        v, _, _ = RunHFAlgorithm(Phase,Parameters,[L,L],0.5+δ,β,p,Δv,Δn,g)
+        if v["w0"]==NaN
+            @warn "NaN found" δ β U V
+            break
+        else
+            w0[V] = v["w0"]
+        end
+    end
+    return w0
+end
 
-RunHFAlgorithm(U,V,L,n,β,p,Δm,Δn,g;verbose=true,debug=true)
-RunHFAlgorithm(Syms,U,V,L,n,β,p,Δm,Δn,g;verbose=true,debug=true)
+# --- NaN configuration ---
+Phase="AF"
+t = 1.0
+U = 4.0
+V = 0.8
+Parameters::Dict{String,Float64} = Dict([
+    "t" => t,
+    "U" => U,
+    "V" => V
+])
+L = 32
+δ = 0.4
+β = 100.0
+p = 1000
+Δv::Dict{String,Float64} = Dict([
+    "m" => 1e-4,
+    "w0" => 1e-4,
+    "wp" => 1e-4,
+])
+Δn = 1e-2
+g = 0.5 # Converges when setting g=0.05, too small?
+
+# Single-point tester
+v, _, _ = RunHFAlgorithm(Phase,Parameters,[L,L],0.5+δ,β,p,Δv,Δn,g;debug=true,verbose=true)
+
+# Record tester
+Record = RecordHFAlgorithm(Phase,t,U,V,[L,L],δ,β,p,Δv,Δn,g;FilePathOut)

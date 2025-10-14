@@ -61,7 +61,7 @@ p = 1000
     "wp" => 1e-4,
 ])
 Δn = 1e-2
-g = 0.5 # Converges when setting g=0.05, too small?
+g = 0.49 # Converges when setting g=0.05, too small?
 
 # Single-point tester
 v, _, _ = RunHFAlgorithm(Phase,Parameters,[L,L],0.5+δ,β,p,Δv,Δn,g;debug=true,verbose=true)

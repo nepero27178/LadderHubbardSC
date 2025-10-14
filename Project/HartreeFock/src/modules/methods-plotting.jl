@@ -59,6 +59,7 @@ function PlotOrderParameter(
 
     # Initialize directory structure
     DirPathOut *= "PlotOrderParameter/xVar=" * xVar * "/pVar=" * pVar * "/"
+    mkpath(DirPathOut)
         
     # Read header
     Header = open(FilePathIn) do io
@@ -134,7 +135,7 @@ function PlotOrderParameter(
         	
         	# Write terminal message and file name
         	TerminalMsg::String = "\e[2K\e[1GPlotting $(Phase) HF $(HF) data\t"
-        	FilePathOut::String = lDirPathOut * "/" * HF
+        	FilePathOut::String = DirPathOut * "/" * HF
             rawTitle::String = TitleLabels[HF] * " ("
         	for Var in AllVars
         	    if !in(Var, [xVar, pVar])
@@ -150,7 +151,7 @@ function PlotOrderParameter(
             	end
         	end
         	TerminalMsg *= "x variable: " * xVar * 
-                "\t\tparametric variable: " * pVar
+                "\tparametric variable: " * pVar
         	FilePathOut *= ".pdf"
             rawTitle *= "varying " * xVarLabels[pVar] * ")"
         	printstyled("\e[2K\e[1G" * TerminalMsg, color=:yellow)
@@ -265,12 +266,18 @@ function PlotRecord(
             "\$U=$(U)\$, " *
             "\$V=$(V)\$, " *
             "\$L=$(L)\$, " *
-    	    "\$\\delta=$(δ)\$, " *
-    	    "\$\\beta=$(β)\$)"
+    	    "\$\\delta=$(δ)\$, "
+    	    
+        if β==Inf
+    	    rawTitle *= "\$\\beta=\\infty\$)"
+    	elseif β!=Inf
+    	    rawTitle *= "\$\\beta=$(β)\$)"
+    	end
 
         # Initialize plot
         P = plot(
             size = (600,400),
+            xlim = (1,25),
             xlabel = L"\mathrm{Step}",
             ylabel = L"$%$(yVarLabels[HF])$",
             legend = :outertopright
@@ -290,8 +297,8 @@ function PlotRecord(
 
             yy = DataIn[:,hf]
             LineStyle = :solid
-            if length(yy)>25
-                yy = yy[1:25]
+            if length(yy)>100
+                yy = yy[1:100]
                 LineStyle = :dash
             end
             xx = [x for x in 1:length(yy)]

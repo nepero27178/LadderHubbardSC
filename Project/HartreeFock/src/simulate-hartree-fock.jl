@@ -7,7 +7,7 @@ if length(ARGS) != 1
     println("How to use this program?
 Type the following: \$ julia ./ising2D_metro.jl mode
 Where:
-· mode = \"Scan\" / \"Record_g\"")
+· mode = \"Scan\" / \"Heatmap\" / \"Record_g\"")
     exit()
 else
     UserInput = ARGS
@@ -19,6 +19,8 @@ PROJECT_ROOT = @__DIR__
 PROJECT_ROOT *= "/.."   # Up to the effective root
 if Mode=="Scan"
     include(PROJECT_ROOT * "/src/setup/scan-simulations-setup.jl")
+elseif Mode=="Heatmap" 
+    include(PROJECT_ROOT * "/src/setup/heatmap-simulations-setup.jl")
 elseif Mode=="Record_g"
     include(PROJECT_ROOT * "/src/setup/record-g-simulations-setup.jl")
 else
@@ -225,7 +227,7 @@ function main()
     DirPathOut = PROJECT_ROOT * "/simulations/Phase=" * Phase * "/" * 
         Mode * "/Setup=$(Setup)/"
     mkpath(DirPathOut)
-    if Mode=="Scan"
+    if in(Mode, ["Scan", "Heatmap"])
         FilePathOut = DirPathOut * Model * ".txt"
 	    RunHFScan(Phase,tt,UU,VV,LL,δδ,ββ,p,Δv,Δn,g;FilePathOut)
     elseif Mode=="Record_g"

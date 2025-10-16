@@ -45,7 +45,7 @@ function main()
             Phase,
             FilePathIn,
             DirPathOut;
-            xVar="V",
+            xVar="U",
             pVar="δ",
             cs=:winter
         )
@@ -54,7 +54,7 @@ function main()
             FilePathIn,
             DirPathOut;
             xVar="δ",          
-            pVar="V",
+            pVar="U",
             Skip=2,
             cs=:winter
         )

@@ -1040,14 +1040,20 @@ Summing up, the non-local interaction $\hat H_V$ when discussed within MFT affec
 \end{aligned}
 \]
 Various details are to be noted. First, the non-local interaction both contributes by enlarging the real part of the gap {\color{tabred}[
-	This makes no sense. Having a non-local attraction, since the elementary excitation over the AF state is a spinon, I am actually adding a spin density to a site when creating it. It should be energetically favorite by $\hat H_V$.
+	To be understood: why does a non-local attraction increase the gap?
 ]} as well as introducing a $s^*$-wave shaped imaginary gap. Interestingly, if
 \[
 	\left(w^{(\mathbf{0})}\right)^{-1} = V/t
 \]
 the diffusive part of the hamiltonian drops to zero. For even larger values, diffusion becomes energetically expensive and $V$-induced localization appears.
 
-The new set of Hartree-Fock parameters to be determined contains $m$, $w^{(\mathbf{0})}$ and $w^{(\bm{\pi})}$. These three are self-consistently determined by the Eqns.~\eqref{eq:af-renormalized-self-consistent-equation-w0} and \eqref{eq:af-renormalized-self-consistent-equation-wpi}. The self-consistent equation for $m$ comes from Eq.~\mref, and reads
+The new set of Hartree-Fock parameters to be determined is given by the vector
+\[
+	\mathbf{v} \equiv \begin{bmatrix}
+		 m \\ w^{(\mathbf{0})} \\ w^{(\bm{\pi})}
+	\end{bmatrix}
+\]
+Its three components are self-consistently determined by Eqns.~\eqref{eq:af-renormalized-self-consistent-equation-w0} and \eqref{eq:af-renormalized-self-consistent-equation-wpi}. The self-consistent equation for $m$ comes from Eq.~\eqref{appeq:antiferromagnet-magnetization-self-consistence-finite-temperature}, and reads
 \begin{align}
 	m &= \frac{1}{2L_xL_y} \sum_{\mathbf{k} \in \mathrm{BZ}} \langle
 		\hat c_{\mathbf{k}\uparrow}^\dagger  \hat c_{\mathbf{k}+\bm{\pi}\uparrow} - \hat c_{\mathbf{k}\downarrow}^\dagger  \hat c_{\mathbf{k}+\bm{\pi}\downarrow}
@@ -1071,19 +1077,17 @@ In the second passage $\langle \hat \Psi_{\mathbf{k}\uparrow}^\dagger \tau^x \ha
 
 \subsection{Results of the HF algorithm}
 
-\todo
+An HF algorithm similar to the one sketched in Sec.~\ref{appsubsec:hartree-fock-algorithm} was run, now self-consistently on the entire HF vector $\mathbf{v}$. {\color{tabred}[
+	Insert results of analysis.
+]}
 
 \section{Superconducting instability}
 
-This section is devoted to studying the superconducting phase of the system. The only symmetry we assume to break is the $\mathrm{U}(1)$ charge symmetry, thus allowing for superconducting fluctuations. 
-{\color{tabred}
-	As is described thoroughly in Sec.~\ref{subsec:fock-renormalization-hopping-amplitude}, the hopping amplitude is renormalized because of the non-local attraction. [To be understood: what four-components Nambu spinors must be used here to implement the hopping renormalization?]
-}
-The symmetry structure of the pairing mechanism determines the contributing Cooper fluctuations: for $s$-wave and $d$-wave superconductivity, only the o.s. Cooper term contributes; for $p_\ell$-wave superconductivity, the s.s. term contributes as well. In the following sections, a derivation containing both Cooper terms is proposed.
+This section is devoted to studying the superconducting phase of the system. The only symmetry we assume to break is the $\mathrm{U}(1)$ charge symmetry, thus allowing for superconducting fluctuations. As is described thoroughly in Sec.~\ref{subsec:fock-renormalization-hopping-amplitude}, the hopping amplitude is renormalized because of the non-local attraction. The symmetry structure of the pairing mechanism determines the contributing Cooper fluctuations: for $s$-wave and $d$-wave superconductivity, only the o.s. Cooper term contributes; for $p_\ell$-wave superconductivity, the s.s. term contributes as well. In the following sections, a derivation containing both Cooper terms is proposed.
 
-{\color{tabred}
-	[To be continued: separate singlet and triplet pairing channels, and describe triplet channel by itself by the means of four-components Nambu spinors. Use selection rules to set $\Delta^{(p_\ell)}=0$ in the singlet channel, in order to justify results obtained by a pure space-even simulation containing just the o.s. terms.]
-}
+{\color{tabred}[
+	To be continued: separate singlet and triplet pairing channels, and describe them separately by the means of four-components Nambu spinors. Use selection rules to set $\Delta^{(p_\ell)}=0$ in the singlet channel, in order to justify results obtained by a pure space-even simulation containing just the o.s. terms.
+]}
 
 \subsection{Mean-field treatment of the non-local term}
 

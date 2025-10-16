@@ -164,8 +164,10 @@ function PlotOrderParameter(
         	TerminalMsg::String = "\e[2K\e[1GPlotting $(Phase) HF $(HF) data: "
         	FilePathOut::String = DirPathOut * "/" * HF
             rawTitle::String = TitleLabels[HF] * " ("
+
+            AvoidList::Vector{String} = [xVar, pVar] #TODO Extend to pure hubbard
         	for Var in AllVars
-        	    if !in(Var, [xVar, pVar])
+        	    if !in(Var, AvoidList)
                     lVar = lDF[Var]
             	    TerminalMsg *= Var * "=$(lVar), "
             	    FilePathOut *= "_" * Var * "=$(lVar)"
@@ -180,7 +182,7 @@ function PlotOrderParameter(
         	TerminalMsg = TerminalMsg[1:end-2] * " [x variable: " * xVar *
                 ", parametric variable: " * pVar * "]"
         	FilePathOut *= ".pdf"
-            rawTitle *= "varying " * xVarLabels[pVar] * ")"
+            rawTitle *= "varying \$" * xVarLabels[pVar] * "\$)"
         	printstyled("\e[2K\e[1G" * TerminalMsg, color=:yellow)
             
             # Cycle over parametric variable
@@ -203,7 +205,7 @@ function PlotOrderParameter(
                     markercolor = colorschemes[cs][q*j],
                     markersize = 1.5,
                     linecolor = colorschemes[cs][q*j],
-                    label = pVar * "=$(J)",
+                    label = L"$%$(xVarLabels[pVar])=%$(J)$",
                     legendfonthalign = :left
                 )
                 title!(L"%$(rawTitle)")

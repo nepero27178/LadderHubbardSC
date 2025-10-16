@@ -477,9 +477,7 @@ The above sections offers a self-consistency equation for the magnetization $m$;
 		\item the mixing parameter $g \in [0,1]$;
 		\item the tolerance parameters $\Delta_m, \Delta_n \in \mathbb{R}$ (respectively for magnetization and density);
 	\end{itemize}
-	\item {\color{tabred}
-		Select a random starting value $m_0 \in [-(1-n),1-n]$
-	};
+	\item Select a random starting value $m_0 \in [0,1]$;
 	\item For each slot of the $\mathrm{BZ}$, initialize the appropriate $2\times2$ matrix $h_{\mathbf{k}\uparrow}$ as in Eq.~\eqref{appeq:hubbard-bogoliubov-hamiltonian};
 	\item For the given hamiltonian, find the optimal chemical potential $\mu$ as follows:
 	\begin{enumerate}
@@ -496,9 +494,7 @@ The above sections offers a self-consistency equation for the magnetization $m$;
 		\]
 		Then $\mu_0$ is the chemical potential which, at magnetization $m_0$, realizes the best approximation of density $n$;
 	\end{enumerate}
-	\item {\color{tabred}
-		Diagonalize the matrix $h_{\mathbf{k}\uparrow}$ and obtain $d_{\mathbf{k}\uparrow}$
-	};
+	\item Diagonalize the matrix $h_{\mathbf{k}\uparrow}$ and obtain $d_{\mathbf{k}\uparrow}$;
 	\item Compute $m$ using Eq.~\eqref{appeq:antiferromagnet-magnetization-self-consistence-finite-temperature} with chemical potential $\mu_0$ and update the counter, $i \to i+1$;
 	\item Check if $\abs{m-m_0} \le \delta_m$:
 	\begin{itemize}
@@ -521,11 +517,11 @@ In next section some results are briefly shown.
 \begin{figure}
 	\centering
 	\subfloat[Local repulsion $U/t$ depencence.]{
-		\includegraphics[width=0.45\textwidth]{../Project/HartreeFock/analysis/Phase=AF/Scan/Setup=Test256/PlotOrderParameter/xVar=U/pVar=δ/m_t=1.0_V=0.0_Lx=256.0_β=Inf.pdf}
+		\includegraphics[width=0.45\textwidth]{../Project/HartreeFock/analysis/Phase=AF/Scan/Setup=Test256/PlotOrderParameter/xVar=U/pVar=δ/m_t=1.0_Lx=256.0_β=Inf.pdf}
 		\label{appsubfig:mU-beta=Inf}
 	}
 	\subfloat[Doping $\delta = n-0.5$ dependence.]{
-		\includegraphics[width=0.45\textwidth]{../Project/HartreeFock/analysis/Phase=AF/Scan/Setup=Test256/PlotOrderParameter/xVar=δ/pVar=U/m_t=1.0_V=0.0_Lx=256.0_β=Inf.pdf}
+		\includegraphics[width=0.45\textwidth]{../Project/HartreeFock/analysis/Phase=AF/Scan/Setup=Test256/PlotOrderParameter/xVar=δ/pVar=U/m_t=1.0_Lx=256.0_β=Inf.pdf}
 		\label{appsubfig:dU-beta=Inf}
 	}	
 	\caption{Plots of the zero-temperature AF instability order parameter $m$ as a function of both the local repulsion $U/t$ (Fig.~\ref{appsubfig:mU-beta=Inf}) and the doping $\delta = n-1/2$ (Fig.~\ref{appsubfig:dU-beta=Inf}).}
@@ -534,16 +530,30 @@ In next section some results are briefly shown.
 
 The algorithm sketched in the above paragraph was ran with the following setup:
 \begin{lstlisting}[language=julia]
-UU = [U for U in 0.5:0.5:10.0]      # Local repulsions
-LL = [2^x for x in 5:7]             # Lattice sizes
-dd = [d for d in 0.0:0.05:0.5]      # Dopings
-bb = [0.1, 1.0, 10.0, 50.0, Inf]    # Inverse temperatures
+UU = [U for U in 0.5:0.5:20.0]      # Local repulsions
+LL = [256]             				# Lattice sizes
+dd = [d for d in 0.0:0.05:0.45]     # Dopings
+bb = [100.0, Inf]				    # Inverse temperatures
 p = 100                             # Max number of iterations
 dm = 1e-4                           # Tolerance on magnetization
 dn = 1e-2                           # Tolerance on density
 g = 0.5                             # Mixing parameter
 \end{lstlisting}
-In Fig.~\ref{appfig:mdU-beta=Inf} plots at $\beta=\infty$ of the magnetization $m$ are reported. As is evident in Fig.~\ref{appsubfig:mU-beta=Inf}, disrupts AF ordering; the horizontal asymptote lowers as $\delta$ gets bigger, a mere consequence of the fact that the free space at each single-particle state in $k$-space shrinks as density increases; also, for $\delta > 0$, a finite magnetization $m$ exists only for $U \ge U_c[\delta]$ (a critical value parametrically dependent on doping). Fig.~\ref{appsubfig:dU-beta=Inf} shows the dependence of magnetization on doping at various fixed local repulsions $U$: once again, to dope the material disrupt AF ordering. Identical analysis have been performed for finite temperatures, leading to analogous results as long as $\beta \gtrsim 10$ and to $m \simeq 0$ for higher temperatures (predictably).
+In Fig.~\ref{appfig:mdU-beta=Inf} plots at $\beta=\infty$ of the magnetization $m$ is reported. As is evident in Fig.~\ref{appsubfig:mU-beta=Inf}, disrupts AF ordering; the horizontal asymptote lowers as $\delta$ gets bigger, a mere consequence of the fact that the free space at each single-particle state in $k$-space shrinks as density increases; also, for $\delta > 0$, a finite magnetization $m$ exists only for $U \ge U_c[\delta]$ (a critical value parametrically dependent on doping). Fig.~\ref{appsubfig:dU-beta=Inf} shows the dependence of magnetization on doping at various fixed local repulsions $U$: once again, to dope the material disrupt AF ordering. Identical analysis have been performed for finite temperatures, leading to analogous results as long as $\beta \gtrsim 10$ and to $m \simeq 0$ for higher temperatures (predictably). For the sake of completeness, results are plotted in Fig.~\ref{appfig:mdU-beta=100}: the only relevant difference with Fig.~\ref{appfig:mdU-beta=Inf} is that for null doping and null local-interaction $U$, as is intuitive, the self-consistent magnetization is null. This result, with respect to the one of Fig.~\ref{appsubfig:mU-beta=Inf}, is more physical.
+
+\begin{figure}
+	\centering
+	\subfloat[Local repulsion $U/t$ depencence.]{
+		\includegraphics[width=0.45\textwidth]{../Project/HartreeFock/analysis/Phase=AF/Scan/Setup=Test256/PlotOrderParameter/xVar=U/pVar=δ/m_t=1.0_Lx=256.0_β=100.0.pdf}
+		\label{appsubfig:mU-beta=100}
+	}
+	\subfloat[Doping $\delta = n-0.5$ dependence.]{
+		\includegraphics[width=0.45\textwidth]{../Project/HartreeFock/analysis/Phase=AF/Scan/Setup=Test256/PlotOrderParameter/xVar=δ/pVar=U/m_t=1.0_Lx=256.0_β=100.0.pdf}
+		\label{appsubfig:dU-beta=100}
+	}	
+	\caption{Plots of the zero-temperature AF instability order parameter $m$ as a function of both the local repulsion $U/t$ (Fig.~\ref{appsubfig:mU-beta=100}) and the doping $\delta = n-1/2$ (Fig.~\ref{appsubfig:dU-beta=100}).}
+	\label{appfig:mdU-beta=100}
+\end{figure}
 
 \subsection{An alternative (less efficient) real-space approach}
 

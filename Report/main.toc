@@ -12,6 +12,7 @@
 \contentsline {paragraph}{Diagonal terms.}{9}{figure.caption.9}%
 \contentsline {paragraph}{Off-diagonal terms.}{11}{section*.10}%
 \contentsline {subsection}{\numberline {1.2.3}Renormalized hamiltonian behavior}{12}{subsection.1.2.3}%
+\contentsline {subsection}{\numberline {1.2.4}Results of the HF algorithm}{12}{subsection.1.2.4}%
 \contentsline {section}{\numberline {1.3}Superconducting instability}{12}{section.1.3}%
 \contentsline {subsection}{\numberline {1.3.1}Mean-field treatment of the non-local term}{13}{subsection.1.3.1}%
 \contentsline {subsection}{\numberline {1.3.2}Mean-field treatment of the local term}{13}{subsection.1.3.2}%
@@ -23,4 +24,13 @@
 \contentsline {subsection}{\numberline {1.4.4}Nambu formalism and Bogoliubov transform}{18}{subsection.1.4.4}%
 \contentsline {subsection}{\numberline {1.4.5}A short comment on self-consistency}{20}{subsection.1.4.5}%
 \contentsline {section}{\numberline {1.5}Results of the HF algorihtm}{20}{section.1.5}%
-\contentsline {chapter}{Bibliography}{21}{section*.16}%
+\contentsline {chapter}{\chapternumberline {2}Mean-Field Theory in Hubbard lattices}{21}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Ferromagnetic solution}{21}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Antiferromagnetic solution}{22}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Theoretical mean-field solution}{26}{subsection.2.2.1}%
+\contentsline {subsubsection}{Zero temperature solution}{26}{section*.18}%
+\contentsline {subsubsection}{Finite temperature solution}{26}{section*.19}%
+\contentsline {subsection}{\numberline {2.2.2}Hartree-Fock algorithm in reciprocal space}{27}{subsection.2.2.2}%
+\contentsline {subsubsection}{Results}{28}{section*.20}%
+\contentsline {subsection}{\numberline {2.2.3}An alternative (less efficient) real-space approach}{29}{subsection.2.2.3}%
+\contentsline {chapter}{Bibliography}{33}{section*.24}%

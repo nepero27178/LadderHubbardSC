@@ -12,24 +12,24 @@ if !in(Phase, AllPhases)
     exit()
 end
 Model = "Renormalized-AF"
-Setup = "A[128,256]"  # Choose your setup
+Setup = "Test256"  # Choose your setup
 
-if !in(Setup, ["Test", "A[128,256]"])
+if !in(Setup, ["Test256", "A[128,256]"])
     @error "Invalid setup, please modify at: " * SetupFilePath
     exit()
-elseif Setup=="Test"
+elseif Setup=="Test256"
     # TEST-SETUP
     tt = [1.0]
-    UU = [U for U in 0.1:0.1:10.0]
+    UU = [U for U in 0.0:1.0:20.0]
     VV = [0.0]
-    LL = [128]
-    δδ = [δ for δ in 0.0:0.1:0.45]
+    LL = [256]
+    δδ = [δ for δ in 0.0:0.05:0.45]
     ββ = [100.0, Inf]
     p = 100
 	Δv::Dict{String,Float64} = Dict([
-	    "m" => 1e-3,
-	    "w0" => 1e-3,
-	    "wp" => 1e-3,
+	    "m" => 1e-4,
+	    "w0" => 1e-4,
+	    "wp" => 1e-4,
 	])
     Δn = 1e-2
     g = 0.5

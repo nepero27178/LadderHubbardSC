@@ -3,7 +3,7 @@
 # Arguments handler
 if length(ARGS) != 1
     println("How to use this program?
-Type the following: \$ julia ./ising2D_metro.jl mode
+Type the following: \$ julia ./plot.jl mode
 Where:
 · mode = \"Scan\" / \"Heatmap\" / \"RMPs\" / \"Record_g\"")
     exit()

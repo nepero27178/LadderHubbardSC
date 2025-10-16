@@ -5,8 +5,8 @@ using Dates
 # Arguments handler
 if length(ARGS) != 1
     println("How to use this program?
-Type the following: \$ julia ./ising2D_metro.jl mode
-Where:
+Type the following: \$ julia ./simulate.jl mode
+Where:s
 · mode = \"Scan\" / \"Heatmap\" / \"Record_g\"")
     exit()
 else

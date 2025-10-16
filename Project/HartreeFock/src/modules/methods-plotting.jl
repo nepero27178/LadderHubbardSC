@@ -382,7 +382,7 @@ function PlotOrderParameter2D(
         	end
         	TerminalMsg = TerminalMsg[1:end-2] * " [x variable: " * xVar *
                 ", y variable: " * yVar * "]"
-        	FilePathOut *= ".pdf"
+        	FilePathOut *= ".png"
             rawTitle = rawTitle[1:end-2] * ")"
         	printstyled("\e[2K\e[1G" * TerminalMsg, color=:yellow)
                              	
@@ -473,9 +473,9 @@ function PlotRMPs(
     # Prepare title labels
     TitleLabels::Dict{String,String} = Dict([
 	    "reΔ_tilde" => "\$\\mathrm{Re}" * 
-            "\\lbrace\\tilde{\\Delta_{\\mathbf{k}}}\\rbrace\$",
+            "\\lbrace\\tilde{\\Delta}_{\\mathbf{k}}\\rbrace\$",
 	    "imΔ_tilde" => "\$\\mathrm{Im}" * 
-            "\\lbrace\\tilde{\\Delta_{\\mathbf{k}}}\\rbrace\$",
+            "\\lbrace\\tilde{\\Delta}_{\\mathbf{k}}\\rbrace\$",
 	    "t_tilde" => "\$\\tilde{t}\$",
         # ...
     ])
@@ -510,10 +510,10 @@ function PlotRMPs(
     end
     xx::Vector{Float64} = uDF[xVar]
     NumX::Int64 = length(xx)
-#    uDF[xVar] = [NaN]                   # Remove from following cycle
+    uDF[xVar] = [NaN]                   # Remove from following cycle
     yy::Vector{Float64} = uDF[yVar]
     NumY::Int64 = length(yy)
-#    uDF[yVar] = [NaN]                   # Remove from following cycle
+    uDF[yVar] = [NaN]                   # Remove from following cycle
     
     # List renormalized model parameters #TODO Extend to other phases
     ListRMPs::Vector{String} = [
@@ -552,8 +552,9 @@ function PlotRMPs(
             # Initialize plot    	
         	S = plot(
                 size = (600,400),
-                # xlabel = L"$%$(xVarLabels[xVar])$",
-                # ylabel = L"$%$(xVarLabels[yVar])$",
+                 xlabel = L"$%$(xVarLabels[xVar])$",
+                 ylabel = L"$%$(xVarLabels[yVar])$",
+                 zlabel = L"%$(TitleLabels[RMP])",
                 legend = :outertopright
             )
         	
@@ -578,41 +579,74 @@ function PlotRMPs(
         	TerminalMsg = TerminalMsg[1:end-2] * " [x variable: " * xVar *
                 ", y variable: " * yVar * "]"
         	FilePathOut *= ".pdf"
-            # rawTitle = rawTitle[1:end-2] * ")"
+            rawTitle *= " \$k_\\ell=\\pi/3\$)"
         	printstyled("\e[2K\e[1G" * TerminalMsg, color=:yellow)
                              	
     	    # Define x, y variables and h
         	vv = DF["v"][Selections]
             hh::Matrix{Float64} = zeros(NumY,NumX)
-
+            
+            # Plot individually in order to adjust visual angles
             if RMP=="reΔ_tilde"
+                
                 for j in 1:NumX
                     hh[:,j] .= [eval(Meta.parse(
                 	    vv[(j-1) * NumY + i]
-                    ))["m"] for i in 1:NumY] .* (U+8*V)
+                    ))["m"] for i in 1:NumY]
                 end
+                
+                # Plot parametrically
+                zz = hh .* (xx' .+ 8*yy)
+                surface!(
+                    xx, yy, zz,
+                    color=cs,
+                    label=L"%$(TitleLabels[RMP])",
+                    camera=(30,25),
+#                    zlim=(0.65,1),
+#                    clim=(0.65,1)
+                )
+                title!(L"%$(rawTitle)")
+            
             elseif RMP=="imΔ_tilde"
+            
                 for j in 1:NumX
                     hh[:,j] .= [eval(Meta.parse(
                 	    vv[(j-1) * NumY + i]
-                    ))["wp"] for i in 1:NumY] .* (2*V)
+                    ))["wp"] for i in 1:NumY]
                 end
+                
+                # Plot parametrically
+                zz = hh .* (2 .* yy * ones(1,length(xx)))
+                surface!(
+                    xx, yy, zz,
+                    color=cs,
+                    label=L"%$(TitleLabels[RMP])",
+                    camera=(30,25),
+#                    zlim=(0.65,1),
+#                    clim=(0.65,1)
+                )
+                title!(L"%$(rawTitle)")
+            
             elseif RMP=="t_tilde"
+            
                 for j in 1:NumX
-                    hh[:,j] .= t .- [eval(Meta.parse(
+                    hh[:,j] .= [eval(Meta.parse(
                 	    vv[(j-1) * NumY + i]
-                    ))["w0"] for i in 1:NumY] .* V
+                    ))["w0"] for i in 1:NumY]
                 end
+
+                # Plot parametrically
+                zz = t*ones(size(hh)) .- hh .* (yy * ones(1,length(xx)))
+	            surface!(
+                    xx, yy, zz,
+                    color=cs,
+                    label=L"%$(TitleLabels[RMP])",
+                    camera=(220,25),
+                    zlim=(0.65,1),
+                    clim=(0.65,1)
+                )
+                title!(L"%$(rawTitle)")
             end
-
-            # GO ON FROM HERE...
-
-            # Plot parametrically
-	        heatmap!(
-                xx, yy, hh,
-                color=cs
-            )
-            title!(L"%$(rawTitle)")
 
             # Save figure
             Plots.PGFPlotsX.push_preamble!(

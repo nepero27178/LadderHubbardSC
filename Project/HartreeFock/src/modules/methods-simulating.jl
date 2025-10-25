@@ -61,11 +61,12 @@ end
 
 @doc raw"""
 function GetHamiltonian(
-	Phase::String,						# Mean field phase
-	Parameters::Dict{String,Float64},	# Model parameters t,U,V
-    k::Vector{Float64},					# [kx, ky]
-	v::Dict{String,Float64}				# HF parameters
-)::Matrix
+	Phase::String,
+	Parameters::Dict{String,Float64},
+    k::Vector{Float64},
+	v::Dict{String,Float64};
+	RenormalizeHopping::Bool=true
+)::Matrix{Complex{Float64}}
 
 Returns: the Nambu-Bogoliubov hamiltonian at wavevector (`k[1]`, `k[2]`).
 
@@ -82,7 +83,8 @@ function GetHamiltonian(
 	Phase::String,						# Mean field phase
 	Parameters::Dict{String,Float64},	# Model parameters t,U,V
     k::Vector{Float64},					# [kx, ky]
-	v::Dict{String,Float64}				# HF parameters
+	v::Dict{String,Float64};			# HF parameters
+	RenormalizeHopping::Bool=true       # Conditional renormalization of t
 )::Matrix{Complex{Float64}}
 
 	if Phase=="AF"
@@ -90,8 +92,11 @@ function GetHamiltonian(
 		# Empty hamiltonian
 		hk = zeros(Complex{Float64},2,2)
 
-		# Renormalized bands
-		t = Parameters["t"] - v["w0"] * Parameters["V"]
+		t = Parameters["t"]
+		if RenormalizeHopping
+    		# Conditional renormalization of bands
+	    	t -= v["w0"] * Parameters["V"]
+	    end
 		εk = GetHoppingEnergy(t,k)
 	
 		# Renormalized gap		
@@ -311,7 +316,8 @@ function PerformHFStep(
     n::Float64,
     β::Float64;
 	Syms::Vector{String}=[\"d\"],
-    debug::Bool=false
+    debug::Bool=false,
+    RenormalizeHopping::Bool=true
 )::Dict{String,Float64}
 
 Returns: HF estimation for Cooper instability parameter based on input.
@@ -328,7 +334,9 @@ function symmetries to be simulated (allowed are: \"s\", \"s*\", \"d\" for the
 \"SU/Singlet\" phase, and \"px\", \"py\", \"p+\", \"p-\" for the \"SU/Triplet\")
 phase. The function estimates `m` using as input the Nambu-Bogoliubov
 hamiltonian obtained via the function `GetHamiltonian` and the optimal chemical
-potential for the density `n` for this hamiltonian.
+potential for the density `n` for this hamiltonian. The boolean option 
+`RenormalizeHopping' allows for choosing to renormalize or not the hopping
+parameter.
 """
 function PerformHFStep(
 	Phase::String,						# Mean field phase
@@ -339,9 +347,8 @@ function PerformHFStep(
     β::Float64;                 		# Inverse temperature
 	Syms::Vector{String}=["d"],		    # Gap function symmetries
 	debug::Bool=false,					# Debug mode
+	RenormalizeHopping::Bool=true       # Conditional renormalization of t
 )::Dict{String,Float64}
-
-    t = Parameters["t"] - v0["w0"] * Parameters["V"]
 
 	v = copy(v0)	
 	LxLy = prod(size(K))	
@@ -351,6 +358,12 @@ function PerformHFStep(
 		m::Float64 = 0.0
 		w0::Float64 = 0.0
 		wpi::Float64 = 0.0
+		
+		t = Parameters["t"]
+	    if RenormalizeHopping
+		    # Conditional renormalization of bands
+        	t -= v["w0"] * Parameters["V"]
+        end
 		
 		for (i,k) in enumerate(K)
 		    # Renormalized bands
@@ -436,8 +449,10 @@ function RunHFAlgorithm(
     Syms::Vector{String}=[\"d\"],
     verbose::Bool=false,
     debug::Bool=false,
-    record::Bool=false
-)::Tuple{Dict{String,Float64}, Dict{String,Float64}, Float64, Dict{String,Vector{Float64}}}
+    record::Bool=false,
+    RenormalizeHopping::Bool=true
+)::Tuple{Dict{String,Float64}, Dict{String,Float64}, Float64, 
+Dict{String,Vector{Float64}}}
 
 Returns: Hartree-Fock (HF) estimation for `v`, sequential relative convergence 
 parameters `Q` and computational time `ΔT`. If `record` is set to true, the
@@ -456,7 +471,8 @@ result of the previous computation. The positional argument `v0` allows for
 custom initialization of HF parameters. When left unspecified, `v0` elements
 are randomly initialized. The `record` boolean positional parameter, when
 activated, registers the entire evolution in the Vector{Float64} values of the
-last output object.
+last output object. The boolean option `RenormalizeHopping' allows for choosing
+to renormalize or not the hopping parameter.
 """
 function RunHFAlgorithm(
     Phase::String,						# Mean field phase
@@ -472,7 +488,8 @@ function RunHFAlgorithm(
     Syms::Vector{String}=["d"],		    # Gap function symmetries
     verbose::Bool=false,
     debug::Bool=false,
-    record::Bool=false
+    record::Bool=false,
+    RenormalizeHopping::Bool=true       # Conditional renormalization of t
 )::Tuple{Dict{String,Float64}, Dict{String,Float64}, Float64, Dict{String,Vector{Float64}}}
 
     if verbose
@@ -521,7 +538,14 @@ function RunHFAlgorithm(
                 printstyled("\n---Step $i---\n", color=:yellow)
             end
 
-            v = copy( PerformHFStep(Phase,Parameters,K,v0,n,β;Syms,debug) )
+            v = copy( PerformHFStep(
+                Phase,
+                Parameters,
+                K,v0,n,β;
+                Syms,
+                debug,
+                RenormalizeHopping
+            ))
             for key in keys(v0)
             	current = v[key]
             	previous = v0[key]

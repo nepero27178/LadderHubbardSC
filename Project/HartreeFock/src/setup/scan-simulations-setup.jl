@@ -12,9 +12,9 @@ if !in(Phase, AllPhases)
     exit()
 end
 Model = "Renormalized-AF"
-Setup = "Test256"  # Choose your setup
+Setup = "A[128,256]-PureHopping"  # Choose your setup
 
-if !in(Setup, ["Test256", "A[128,256]"])
+if !in(Setup, ["Test256", "A[128,256]", "A[128,256]-PureHopping"])
     @error "Invalid setup, please modify at: " * SetupFilePath
     exit()
 elseif Setup=="Test256"
@@ -33,7 +33,7 @@ elseif Setup=="Test256"
 	])
     Δn = 1e-2
     g = 0.5
-elseif Setup=="A[128,256]"
+elseif in(Setup, ["A[128,256]", "A[128,256]-PureHopping"])
     tt = [1.0]
     UU = [4.0,10.0,20.0]
     VV = [V for V in 0.0:0.1:3.0]
@@ -48,4 +48,7 @@ elseif Setup=="A[128,256]"
 	])
     Δn = 1e-2
     g = 0.5
+    if Setup=="A[128,256]-PureHopping"
+        RenormalizeHopping::Bool = false
+    end
 end

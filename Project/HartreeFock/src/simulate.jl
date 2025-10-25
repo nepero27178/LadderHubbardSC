@@ -5,26 +5,22 @@ using Dates
 # Arguments handler
 if length(ARGS) != 1
     println("How to use this program?
-Type the following: \$ julia ./simulate.jl mode
+Type the following: \$ julia ./simulate.jl --mode
 Where:s
-· mode = \"Scan\" / \"Heatmap\" / \"Record_g\"")
+· --mode = --scan / --heatmap / --record-g")
     exit()
 else
     UserInput = ARGS
-    Mode = UserInput[1]
+    Mode = UserInput[1][3:end]
 end
 
 # Includer
 PROJECT_ROOT = @__DIR__
 PROJECT_ROOT *= "/.."   # Up to the effective root
-if Mode=="Scan"
-    include(PROJECT_ROOT * "/src/setup/scan-simulations-setup.jl")
-elseif Mode=="Heatmap" 
-    include(PROJECT_ROOT * "/src/setup/heatmap-simulations-setup.jl")
-elseif Mode=="Record_g"
-    include(PROJECT_ROOT * "/src/setup/record-g-simulations-setup.jl")
+if in(Mode, ["scan", "heatmap", "record-g"])
+    include(PROJECT_ROOT * "/src/setup/" * Mode * "-simulations-setup.jl")
 else
-    @error "Invalid argument. Use: mode = Scan / Record_g"
+    @error "Invalid argument. Use: --mode = --scan / --heatmap / --record-g"
     exit()
 end
 include(PROJECT_ROOT * "/src/modules/methods-simulating.jl")
@@ -41,7 +37,8 @@ function RunHFRoutine(
     Δm::Dict{String,Float64},
     Δn::Float64,
     g::Float64;
-    FilePathOut::String=""
+    FilePathOut::String="",
+    RenormalizeHopping::Bool=true
 )
 
 Returns: none if `FilePathOut` is specified, `ResultsTable::Matrix{Float64}` if
@@ -55,7 +52,8 @@ each order parameter) and `Δn` (tolerance on density in chemical potential
 estimation), `g` (mixing parameter). It performs an iterative HF analysis over a
 sequence of 2D square lattices for all the possible combinations of the 
 specified parameters. Check the source files in the `/modules` folder for more
-informations on the algorithm.
+informations on the algorithm. The boolean option `RenormalizeHopping' allows 
+for choosing to renormalize or not the hopping parameter.
 """
 function RunHFScan(
     Phase::String,						# Mean field phase
@@ -70,7 +68,8 @@ function RunHFScan(
     Δn::Float64,                        # Tolerance on density
     g::Float64;                         # Mixing parameter
     Syms::Vector{String}=["d"],		    # Gap function symmetries
-    FilePathOut::String=""              # Output file
+    FilePathOut::String="",             # Output file
+    RenormalizeHopping::Bool=true       # Conditional renormalization of t
 )
 
     # Phase discrimination
@@ -150,7 +149,8 @@ function RunHFRecord(
     Δn::Float64,                        # Tolerance on density
     gg::Vector{Float64};                # Mixing parameter
     Syms::Vector{String}=["d"],		    # Gap function symmetries
-    DirPathOut::String=""               # Output file
+    DirPathOut::String="",              # Output file
+    RenormalizeHopping::Bool=true       # Conditional renormalization of t
 )::Dict{Float64,Dict{String,Vector{Float64}}}
 
     L = [Lx,Lx]
@@ -227,11 +227,24 @@ function main()
     DirPathOut = PROJECT_ROOT * "/simulations/Phase=" * Phase * "/" * 
         Mode * "/Setup=$(Setup)/"
     mkpath(DirPathOut)
-    if in(Mode, ["Scan", "Heatmap"])
+    if in(Mode, ["scan", "heatmap"])
         FilePathOut = DirPathOut * Model * ".txt"
-	    RunHFScan(Phase,tt,UU,VV,LL,δδ,ββ,p,Δv,Δn,g;FilePathOut)
-    elseif Mode=="Record_g"
-        RunHFRecord(Phase,t,U,V,L,δ,β,p,Δv,Δn,gg;DirPathOut)
+	    RunHFScan(
+	        Phase,
+	        tt,UU,VV,
+	        LL,δδ,ββ,
+	        p,Δv,Δn,g;
+	        FilePathOut,
+	        RenormalizeHopping
+        )
+    elseif Mode=="record-g"
+        RunHFRecord(
+            Phase,
+            t,U,V,
+            L,δ,β,
+            p,Δv,Δn,gg;
+            DirPathOut
+        )
     end
 end
 

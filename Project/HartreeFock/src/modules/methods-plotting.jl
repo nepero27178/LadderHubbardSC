@@ -9,7 +9,8 @@ function PlotOrderParameter(
     xVar::String=\"U\",
     pVar::String=\"V\",
     Skip::Int64=1,
-    cs::Symbol=:imola50
+    cs::Symbol=:imola50,
+    RenormalizeHopping::Bool=true
 )
 
 Returns: none (plots saved at `DirPathOut`).
@@ -21,6 +22,8 @@ optional parameters are `xVar` and `pVar` (strings specifying respectively the x
 variable and the parametric variable of the plot, the allowed are \"t\", \"U\",
 \"V\", \"Lx\", \"δ\", \"β\"), `Skip` (integer indicating how many steps in the
 parametric variable to be skipped between two plots), `cs` (colorscheme symbol).
+The boolean option `RenormalizeHopping' allows for choosing to renormalize or 
+not the hopping parameter.
 """
 function PlotOrderParameter(
 	Phase::String,						# Mean field phase
@@ -29,7 +32,8 @@ function PlotOrderParameter(
     xVar::String="U",                   # Specify x variable
     pVar::String="V",                   # Specify parametric variable
     Skip::Int64=1,                      # xVar skip parameter
-    cs::Symbol=:imola50                 # Custom colorscheme
+    cs::Symbol=:imola50,                # Custom colorscheme
+    RenormalizeHopping::Bool=true       # Conditional renormalization of t
 )
     
     FilePathOut = ""
@@ -171,7 +175,11 @@ function PlotOrderParameter(
                     lVar = lDF[Var]
             	    TerminalMsg *= Var * "=$(lVar), "
             	    FilePathOut *= "_" * Var * "=$(lVar)"
-                    rawTitle *= "\$$(xVarLabels[Var])=$(lVar)\$, "
+            	    RS::String=""
+            	    if !RenormalizeHopping && Var=="t"
+            	        RS *= "\\tilde{t}="
+            	    end
+                    rawTitle *= "\$$(xVarLabels[Var])=" * RS * "$(lVar)\$, "
                     if Var=="Lx" # I am desperate about correct formatting
                         rawTitle = rawTitle[1:end-5] * "\$, "
                     elseif Var=="β" && β==Inf

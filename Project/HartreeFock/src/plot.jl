@@ -3,31 +3,27 @@
 # Arguments handler
 if length(ARGS) != 1
     println("How to use this program?
-Type the following: \$ julia ./plot.jl mode
+Type the following: \$ julia ./plot.jl --mode
 Where:
-· mode = \"Scan\" / \"Heatmap\" / \"RMPs\" / \"Record_g\"")
+· mode = --scan / --heatmap / --RMPs / --record-g")
     exit()
 else
     UserInput = ARGS
-    Mode = UserInput[1]
+    Mode = UserInput[1][3:end]
 end
 InMode::String = Mode
 
 # Includer
 PROJECT_ROOT = @__DIR__
 PROJECT_ROOT *= "/.."   # Up to the effective root
-if Mode=="Scan" 
-    include(PROJECT_ROOT * "/src/setup/scan-simulations-setup.jl")
-elseif Mode=="Heatmap" 
-    include(PROJECT_ROOT * "/src/setup/heatmap-simulations-setup.jl")
+if in(Mode, ["scan", "heatmap", "record-g"])
+    include(PROJECT_ROOT * "/src/setup/" * Mode * "-simulations-setup.jl")
 elseif Mode=="RMPs" 
     include(PROJECT_ROOT * "/src/setup/heatmap-simulations-setup.jl")
-    InMode = "Heatmap"
-elseif Mode=="Record_g"
-    include(PROJECT_ROOT * "/src/setup/record-g-simulations-setup.jl")
+    InMode = "heatmap"
 else
-    @error "Invalid argument. Use: mode = \"Scan\" / \"Heatmap\" / \"RMPs\" " * 
-        "/ \"Record_g\""
+    @error "Invalid argument. Use: mode = --scan / --heatmap / --RMPs " * 
+        "/ --Record-g"
     exit()
 end
 include(PROJECT_ROOT * "/src/setup/graphic-setup.jl")
@@ -39,26 +35,28 @@ function main()
     DirPathOut = PROJECT_ROOT * "/analysis/Phase=" * Phase * "/" * 
         Mode * "/Setup=$(Setup)/"
     mkpath(DirPathOut)
-    if Mode=="Scan"
+    if Mode=="scan"
         FilePathIn = DirPathIn * Model * ".txt"
         PlotOrderParameter(
             Phase,
             FilePathIn,
             DirPathOut;
-            xVar="U",
+            xVar="V",
             pVar="δ",
-            cs=:winter
+            cs=:winter,
+            RenormalizeHopping
         )
         PlotOrderParameter(
             Phase,
             FilePathIn,
             DirPathOut;
             xVar="δ",          
-            pVar="U",
+            pVar="V",
             Skip=2,
-            cs=:winter
+            cs=:winter,
+            RenormalizeHopping
         )
-    elseif Mode=="Heatmap"
+    elseif Mode=="heatmap"
         FilePathIn = DirPathIn * Model * ".txt"
         PlotOrderParameter2D(
             Phase,
@@ -78,7 +76,7 @@ function main()
             yVar="V",
             cs=:imola
         )
-    elseif Mode=="Record_g"
+    elseif Mode=="record-g"
         PlotRecord(
             Phase,
             DirPathIn,

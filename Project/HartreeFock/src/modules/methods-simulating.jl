@@ -183,7 +183,8 @@ function GetKPopulation(
     v::Dict{String,Float64},
     μ0::Float64,
     β::Float64;
-    debug::Bool=false
+    debug::Bool=false,
+    RenormalizeHopping::Bool=true
 )::Matrix{Float64}
 
 Returns: matrix of single-particle k-states populations.
@@ -193,7 +194,8 @@ mean-field phase, the allowed are \"AF\", \"SU/Singlet\", \"SU/Triplet\"),
 `Parameters`  (dictionary of model parameters containing `t`, `U`, `V`), `K`
 (k-points in the BZ), `v` (dictionary of real HF parameters), `μ` (chemical 
 potential) and `β` (inverse temperature). It computes a matrix of occupation 
-numbers per each couple of momenta.
+numbers per each couple of momenta. The boolean option `RenormalizeHopping' 
+allows for choosing to renormalize or not the hopping parameter.
 """
 function GetKPopulation(
 	Phase::String,						# Mean field phase
@@ -202,16 +204,22 @@ function GetKPopulation(
     v::Dict{String,Float64},         	# HF parameters
     μ::Float64,                 		# Chemical potential
     β::Float64;                 		# Inverse temperature
-    debug::Bool=false
+    debug::Bool=false,
+    RenormalizeHopping::Bool=true       # Conditional renormalization of t
 )::Matrix{Float64}
 
     Nk = zeros(size(K))
+    t = Parameters["t"]
+    if RenormalizeHopping
+        # Conditional renormalization of bands
+    	t -= v["w0"] * Parameters["V"]
+    end
 
     for (i,k) in enumerate(K)
     	
 		if Phase=="AF"
 			# Renormalized bands
-			εk::Float64 = GetHoppingEnergy(Parameters["t"],k)
+			εk::Float64 = GetHoppingEnergy(t,k)
 		    
 		    # Renormalized gap		
 		    reΔk::Float64 = v["m"] * (Parameters["U"] + 8*Parameters["V"])
@@ -244,7 +252,8 @@ function FindRootμ(
     m::Dict{String,Float64},
     nt::Float64,
     β::Float64;
-    Δn::Float64=0.0
+    Δn::Float64=0.0,
+    RenormalizeHopping::Bool=true
 )::Float64
 
 Returns: a variational estimation for the chemical potential at density `nt`.
@@ -256,7 +265,8 @@ of model parameters containing `t`, `U`, `V`), `K` (k-points in the BZ), `m`
 temperature). It computes the root value for the chemical potential assuming the
 matrix in reciprocal space to be the Nambu-Bogoliubov hamiltonian obtained via
 the HF parameters `m`. The optimization is performed using the `Roots.jl`
-library.
+library. The boolean option `RenormalizeHopping' allows for choosing to 
+renormalize or not the hopping parameter.
 """
 function FindRootμ(
 	Phase::String,						# Mean field phase
@@ -266,7 +276,8 @@ function FindRootμ(
     nt::Float64,                		# Target density
     β::Float64;                 		# Inverse temperature
     Δn::Float64=0.0,            		# Density tolerance
-    debug::Bool=false
+    debug::Bool=false,
+    RenormalizeHopping::Bool=true       # Conditional renormalization of t
 )::Float64
 
 	if nt < 0 || nt > 1
@@ -276,7 +287,9 @@ function FindRootμ(
 
     D = 2 * prod(size(K))
     # Define function to be minimized
-    δn(μ::Float64) = sum( GetKPopulation(Phase,Parameters,K,v,μ,β) )/D - nt
+    δn(μ::Float64) = sum( 
+            GetKPopulation(Phase,Parameters,K,v,μ,β;RenormalizeHopping)
+        )/D - nt
 
     LowerBoundary = 0.0
     UpperBoundary = LowerBoundary

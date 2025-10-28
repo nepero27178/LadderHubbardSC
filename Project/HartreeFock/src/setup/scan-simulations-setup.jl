@@ -12,7 +12,7 @@ if !in(Phase, AllPhases)
     exit()
 end
 Model = "Renormalized-AF"
-Setup = "A[128,256]-PureHopping"  # Choose your setup
+Setup = "A[128,256]"  # Choose your setup
 
 if !in(Setup, ["Test256", "A[128,256]", "A[128,256]-PureHopping"])
     @error "Invalid setup, please modify at: " * SetupFilePath

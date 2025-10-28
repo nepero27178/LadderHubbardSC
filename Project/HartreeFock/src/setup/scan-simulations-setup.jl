@@ -48,6 +48,7 @@ elseif in(Setup, ["A[128,256]", "A[128,256]-PureHopping"])
 	])
     Δn = 1e-2
     g = 0.5
+    RenormalizeHopping::Bool = false
     if Setup=="A[128,256]-PureHopping"
         RenormalizeHopping::Bool = false
     end

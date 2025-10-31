@@ -12,10 +12,10 @@ if !in(Phase, AllPhases)
     exit()
 end
 Model = "Renormalized-AF"
-Setup = "A128"  # Choose your setup
+Setup = "B128"  # Choose your setup
 RenormalizeHopping::Bool = false
 
-if !in(Setup, ["Test", "A128"])
+if !in(Setup, ["Test", "A128", "B128"])
     @error "Invalid setup, please modify at: " * SetupFilePath
     exit()
 elseif Setup=="Test"
@@ -40,6 +40,21 @@ elseif Setup=="A128"
     VV = [V for V in 0.0:0.1:4.0]
     LL = [128]
     δδ = [0.2]
+    ββ = [100.0]
+    p = 100
+	Δv::Dict{String,Float64} = Dict([
+	    "m" => 1e-4,
+	    "w0" => 1e-4,
+	    "wp" => 1e-4
+	])
+    Δn = 1e-2
+    g = 0.5
+elseif Setup=="B128"
+    tt = [1.0]
+    UU = [4.0]
+    VV = [V for V in 0.0:0.1:4.0]
+    LL = [128]
+    δδ = [δ for δ in 0.0:0.01:0.49]
     ββ = [100.0]
     p = 100
 	Δv::Dict{String,Float64} = Dict([

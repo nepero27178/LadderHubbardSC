@@ -12,9 +12,10 @@ if !in(Phase, AllPhases)
     exit()
 end
 Model = "Renormalized-AF"
-Setup = "A[128,256]-PureHopping"  # Choose your setup
+Setup = "B[256]"  # Choose your setup #TODO Use readline()
+AvailableSetups = ["Test256", "A[128,256]", "A[128,256]-PureHopping", "B[256]", "B[256]-PureHopping"]
 
-if !in(Setup, ["Test256", "A[128,256]", "A[128,256]-PureHopping"])
+if !in(Setup, AvailableSetups)
     @error "Invalid setup, please modify at: " * SetupFilePath
     exit()
 elseif Setup=="Test256"

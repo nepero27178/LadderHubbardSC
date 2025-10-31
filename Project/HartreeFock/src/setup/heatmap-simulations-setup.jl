@@ -13,6 +13,7 @@ if !in(Phase, AllPhases)
 end
 Model = "Renormalized-AF"
 Setup = "A128"  # Choose your setup
+RenormalizeHopping::Bool = false
 
 if !in(Setup, ["Test", "A128"])
     @error "Invalid setup, please modify at: " * SetupFilePath

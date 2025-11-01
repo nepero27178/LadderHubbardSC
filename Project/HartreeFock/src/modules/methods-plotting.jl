@@ -392,7 +392,7 @@ function PlotOrderParameter2D(
         	end
         	TerminalMsg = TerminalMsg[1:end-2] * " [x variable: " * xVar *
                 ", y variable: " * yVar * "]"
-        	FilePathOut *= ".png"
+        	FilePathOut *= ".pdf"
             rawTitle = rawTitle[1:end-2] * ")"
         	printstyled("\e[2K\e[1G" * TerminalMsg, color=:yellow)
                              	

@@ -62,8 +62,10 @@ function main()
             Phase,
             FilePathIn,
             DirPathOut;
-            xVar="U",
-            yVar="V",
+#            xVar="U",
+#            yVar="V",
+            xVar="V",
+            yVar="δ",
             cs=:imola
         )
     elseif Mode=="RMPs"

@@ -27,7 +27,7 @@ include(PROJECT_ROOT * "/src/modules/methods-simulating.jl")
 
 # Routines
 @doc raw"""
-function RunHFRoutine(
+function RunHFScan(
     UU::Vector{Float64},
     VV::Vector{Float64},
     LL::Vector{Int64},
@@ -44,7 +44,7 @@ function RunHFRoutine(
 Returns: none if `FilePathOut` is specified, `ResultsTable::Matrix{Float64}` if
 `FilePathOut` is unspecified.
 
-`RunHFRoutine` takes as input `UU` (vector of local repulsions), `VV` (vector of
+`RunHFScan` takes as input `UU` (vector of local repulsions), `VV` (vector of
 non local attractions), `LL` (vector of the square lattice dimensions), `δδ` 
 (vector of dopings with respect to the half filled lattice), `ββ` (vector of 
 inverse temperatures), `p` (maximum number of HF iterations), `Δm` (tolerance on
@@ -72,12 +72,8 @@ function RunHFScan(
     RenormalizeHopping::Bool=true       # Conditional renormalization of t
 )
 
-    # Phase discrimination
-    KeysList::Dict{String,Vector{String}} = Dict([
-        "AF" => ["m", "w0", "wp"],
-        "SU/Singlet" => ["s", "s*", "d"],
-        "SU/Triplet" => ["px", "py", "p+", "p-"]
-    ])
+    # Get Hartree Fock Parameters labels
+    HFPs = GetHFPs(Phase)
     
     # File initialization
     if FilePathOut != ""
@@ -112,10 +108,14 @@ function RunHFScan(
         ResultsVector = hcat(ResultsVector, [t U V Lx β δ])
         
         # Run routine, all positional arguments here must be false
-        HFResults = RunHFAlgorithm(Phase,Parameters,L,0.5+δ,β,p,Δv,Δn,g)
+        HFResults = RunHFAlgorithm(
+            Phase,Parameters,L,0.5+δ,β,
+            p,Δv,Δn,g;
+            RenormalizeHopping
+        )
         
-        v::Dict{String,Float64} = Dict([key => HFResults[1][key] for key in KeysList[Phase]])
-        Qs::Dict{String,Float64} = Dict([key => HFResults[2][key] for key in KeysList[Phase]])        
+        v::Dict{String,Float64} = Dict([key => HFResults[1][key] for key in HFPs])
+        Qs::Dict{String,Float64} = Dict([key => HFResults[2][key] for key in HFPs])        
 		ResultsVector = hcat(ResultsVector[:,3:end], [v Qs HFResults[3]])
 
         i += 1
@@ -155,14 +155,10 @@ function RunHFRecord(
 
     L = [Lx,Lx]
 
-    # Phase discrimination
-    KeysList::Dict{String,Vector{String}} = Dict([
-        "AF" => ["m", "w0", "wp"],
-        "SU/Singlet" => ["s", "s*", "d"],
-        "SU/Triplet" => ["px", "py", "p+", "p-"]
-    ])
+    # Get Hartree Fock Parameters labels
+    HFPs = GetHFPs(Phase)
         
-    # Initialize parameters
+    # Initialize model parameters
     Parameters::Dict{String,Float64} = Dict([
         "t" => t,
         "U" => U,
@@ -182,21 +178,22 @@ function RunHFRecord(
             Phase,Parameters,L,0.5+δ,β,
             p,Δv,Δn,g;
             verbose=true,
-            record=true
+            record=true,
+            RenormalizeHopping
         )
         ΔT::Float64 = HFResults[3]
         gRecord::Dict{String,Vector{Float64}} = Dict([
-            key => HFResults[4][key] for key in KeysList[Phase]
+            key => HFResults[4][key] for key in HFPs
         ])
 
         # Write record on matrix
         RecordMatrix::Matrix{Float64} = zeros(
             length(values(
-                gRecord[ KeysList[Phase][1] ]
+                gRecord[ HFPs[1] ]
             )),
-            length( keys(KeysList[Phase]) )
+            length( keys(HFPs) )
         )
-        for (k,key) in enumerate(KeysList[Phase])
+        for (k,key) in enumerate(HFPs)
             RecordMatrix[:,k] = gRecord[key]
         end
 
@@ -205,7 +202,7 @@ function RunHFRecord(
             FilePathOut = DirPathOut * "g=$(g).txt"
 
             # File initialization
-            Header = "# $(KeysList[Phase]) [calculated @ $(now())]\n"
+            Header = "# $(HFPs) [calculated @ $(now())]\n"
             write(FilePathOut, Header)
 
             # Append recorded matrix
@@ -224,11 +221,13 @@ end
 
 # Main run
 function main()
-    DirPathOut = PROJECT_ROOT * "/simulations/Phase=" * Phase * "/" * 
+    # DirPathOut = PROJECT_ROOT * "/simulations/Phase=" * Phase * "/" * 
+    DirPathOut = PROJECT_ROOT * "/simulations/" * 
         Mode * "/Setup=$(Setup)/"
     mkpath(DirPathOut)
     if in(Mode, ["scan", "heatmap"])
-        FilePathOut = DirPathOut * Model * ".txt"
+        # FilePathOut = DirPathOut * Model * ".txt"
+	    FilePathOut = DirPathOut * Phase * ".txt"
 	    RunHFScan(
 	        Phase,
 	        tt,UU,VV,
@@ -243,7 +242,8 @@ function main()
             t,U,V,
             L,δ,β,
             p,Δv,Δn,gg;
-            DirPathOut
+            DirPathOut,
+            RenormalizeHopping
         )
     end
 end

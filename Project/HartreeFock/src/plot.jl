@@ -30,13 +30,14 @@ include(PROJECT_ROOT * "/src/setup/graphic-setup.jl")
 include(PROJECT_ROOT * "/src/modules/methods-plotting.jl")
 
 function main()    
-    DirPathIn = PROJECT_ROOT * "/simulations/Phase=" * Phase * "/" * 
+    # DirPathIn = PROJECT_ROOT * "/simulations/Phase=" * Phase * "/" * 
+    DirPathIn = PROJECT_ROOT * "/simulations/" * 
         InMode * "/Setup=$(Setup)/"
+    FilePathIn = DirPathIn * Phase * ".txt"
     DirPathOut = PROJECT_ROOT * "/analysis/Phase=" * Phase * "/" * 
         Mode * "/Setup=$(Setup)/"
     mkpath(DirPathOut)
     if Mode=="scan"
-        FilePathIn = DirPathIn * Model * ".txt"
         PlotOrderParameter(
             Phase,
             FilePathIn,
@@ -57,7 +58,6 @@ function main()
             RenormalizeHopping
         )
     elseif Mode=="heatmap"
-        FilePathIn = DirPathIn * Model * ".txt"
         PlotOrderParameter2D(
             Phase,
             FilePathIn,
@@ -69,7 +69,6 @@ function main()
             cs=:imola
         )
     elseif Mode=="RMPs"
-        FilePathIn = DirPathIn * Model * ".txt"
         PlotRMPs(
             Phase,
             FilePathIn,

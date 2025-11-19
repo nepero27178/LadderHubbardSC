@@ -4,6 +4,48 @@ using Roots
 using Random
 
 @doc raw"""
+function GetHFPs(
+    Phase::String
+)::Vector{String}
+
+Returns: Hartree Fock Parameters labels for the given Phase.
+"""
+function GetHFPs(
+    Phase::String
+)::Vector{String}
+
+    KeysList::Dict{String,Vector{String}} = Dict([
+        "AF" => ["m", "w0", "wp"],
+        "AF*" => ["m", "w0", "wp"],
+        # "SU/Singlet" => ["s", "s*", "d"],
+        # "SU/Triplet" => ["px", "py", "p+", "p-"]
+    ])
+
+    return KeysList[Phase]
+end
+
+@doc raw"""
+function GetRMPs(
+    Phase::String
+)::Vector{String}
+
+Returns: Renormalized Model Parameters labels for the given Phase.
+"""
+function GetRMPs(
+    Phase::String
+)::Vector{String}
+
+    KeysList::Dict{String,Vector{String}} = Dict([
+        "AF" => ["reΔ_tilde", "imΔ_tilde", "t_tilde"],
+        "AF*" => ["reΔ_tilde", "imΔ_tilde", "t_tilde"],
+        # "SU/Singlet" => ["s", "s*", "d"],
+        # "SU/Triplet" => ["px", "py", "p+", "p-"]
+    ])
+
+    return KeysList[Phase]
+end
+
+@doc raw"""
 function StructureFactor(
     Sym::String,
     k::Vector{Float64}
@@ -71,7 +113,7 @@ function GetHamiltonian(
 Returns: the Nambu-Bogoliubov hamiltonian at wavevector (`k[1]`, `k[2]`).
 
 `GetHamiltonian` takes as input `Phase` (string specifying the mean-field phase,
-the allowed are \"AF\", \"SU/Singlet\", \"SU/Triplet\"), `Parameters` 
+the allowed are \"AF\", \"AF*\", \"SU/Singlet\", \"SU/Triplet\"), `Parameters` 
 (dictionary of model parameters containing `t`, `U`, `V`), `k` (coordinate in 
 k-space) and `v` (dictionary of real HF parameters). It computes the 
 contribution at wavevector (`k[1]`, `k[2]`) to the many-body second-quantized 
@@ -87,7 +129,7 @@ function GetHamiltonian(
 	RenormalizeHopping::Bool=true       # Conditional renormalization of t
 )::Matrix{Complex{Float64}}
 
-	if Phase=="AF"
+	if in(Phase, ["AF", "AF*"])
 		
 		# Empty hamiltonian
 		hk = zeros(Complex{Float64},2,2)
@@ -190,7 +232,7 @@ function GetKPopulation(
 Returns: matrix of single-particle k-states populations.
 
 `GetKPopulation` takes as input `Phase` (string specifying the 
-mean-field phase, the allowed are \"AF\", \"SU/Singlet\", \"SU/Triplet\"),
+mean-field phase, the allowed are \"AF\", \"AF*\", \"SU/Singlet\", \"SU/Triplet\"),
 `Parameters`  (dictionary of model parameters containing `t`, `U`, `V`), `K`
 (k-points in the BZ), `v` (dictionary of real HF parameters), `μ` (chemical 
 potential) and `β` (inverse temperature). It computes a matrix of occupation 
@@ -217,7 +259,7 @@ function GetKPopulation(
 
     for (i,k) in enumerate(K)
     	
-		if Phase=="AF"
+		if in(Phase, ["AF", "AF*"])
 			# Renormalized bands
 			εk::Float64 = GetHoppingEnergy(t,k)
 		    
@@ -336,7 +378,7 @@ function PerformHFStep(
 Returns: HF estimation for Cooper instability parameter based on input.
 
 `PerformHFStep` takes as input `Phase` (string specifying the mean-field phase, 
-the allowed are \"AF\", \"SU/Singlet\", \"SU/Triplet\"), `Parameters` 
+the allowed are \"AF\", \"AF*\", \"SU/Singlet\", \"SU/Triplet\"), `Parameters` 
 (dictionary of model parameters containing `t`, `U`, `V`), `K` (k-points in the
 BZ) , `m0` (dictionary of  real HF initializers), 'U` (local interaction), `V`
 (non-local interaction), `n` (density) and `β` (inverse temperature). It
@@ -367,7 +409,7 @@ function PerformHFStep(
 	LxLy = prod(size(K))	
     μ = FindRootμ(Phase,Parameters,K,v0,n,β;debug)
 
-	if Phase=="AF"
+	if in(Phase, ["AF", "AF*"])
 		m::Float64 = 0.0
 		w0::Float64 = 0.0
 		wpi::Float64 = 0.0
@@ -472,7 +514,7 @@ parameters `Q` and computational time `ΔT`. If `record` is set to true, the
 last output contains the entire evolution of the parameters.
 
 `RunHFAlgorithm` takes as input `Phase` (string specifying the mean-field phase, 
-the allowed are \"AF\", \"SU/Singlet\", \"SU/Triplet\"), `Parameters` 
+the allowed are \"AF\", \"AF*\", \"SU/Singlet\", \"SU/Triplet\"), `Parameters` 
 (dictionary of model parameters containing `t`, `U`, `V`), `L` (square lattice 
 dimensions), `n` (density), `β` (inverse temperature), `p` (maximum number of HF
 iterations), `Δm` (tolerance on each order parameter) and `Δn` (tolerance on
@@ -517,20 +559,16 @@ function RunHFAlgorithm(
     pop!(Ky)
     K::Matrix{Vector{Float64}} = [ [kx,ky] for kx in Kx, ky in Ky ]
     
-    # Phase discrimination
-    KeysList::Dict{String,Vector{String}} = Dict([
-        "AF" => ["m", "w0", "wp"],
-        "SU/Singlet" => ["s", "s*", "d"],
-        "SU/Triplet" => ["px", "py", "p+", "p-"]
-    ])
+    # Get Hartree Fock Parameters labels
+    HFPs = GetHFPs(Phase)
 
     # Initialize HF dictionaries
     v0::Dict{String,Float64} = Dict([])
 
-    for key in KeysList[Phase]
+    for key in HFPs
         if v0i==Dict([])
             v0[key] = rand()
-        elseif all([ in(key,KeysList[Phase]) for key in keys(v0i) ])
+        elseif all([ in(key,HFPs) for key in keys(v0i) ])
             v0[key] = v0i[key]
         end
     end
@@ -539,7 +577,7 @@ function RunHFAlgorithm(
 
     # Initialize record matrix
     Record::Dict{String,Vector{Float64}} = Dict([
-        key => [ v0[key] ] for key in KeysList[Phase]
+        key => [ v0[key] ] for key in HFPs
     ])	  
     
     # Recursive run

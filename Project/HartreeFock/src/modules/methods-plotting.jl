@@ -2,6 +2,43 @@
 using DelimitedFiles
 
 @doc raw"""
+function GetLabels(
+    Phase::String
+)::Dict{String,String}
+
+Returns: LaTeX formatted variable labels.
+"""
+function GetLabels(
+    Phase::String
+)::Dict{String,String}
+
+    if in(Phase, ["AF", "AF*"])
+        VarLabels = Dict([
+            "t" => "t",
+            "U" => "U",
+            "V" => "V",
+            "Lx" => "L_x",
+            "δ" => "\\delta",
+            "β" => "\\beta",
+            "m" => "m",
+            "w0" => "w^{(\\mathbf{0})}",
+            "wp" => "w^{(\\bm{\\pi})}",
+            "reΔ_tilde" => "\\mathrm{Re}\\{\\tilde{\\Delta}_\\mathbf{k}\\}", 
+            "imΔ_tilde" => "\\mathrm{Im}\\{\\tilde{\\Delta}_\\mathbf{k}\\}",
+            "t_tilde" => "\\tilde{t}"
+            # ...
+        ])
+    elseif Phase=="Fake"
+        VarLabels = Dict([
+            "g" => "g"
+        ])
+    end
+
+    return VarLabels
+
+end
+
+@doc raw"""
 function PlotOrderParameter(
 	Phase::String,
     FilePathIn::String,
@@ -16,14 +53,14 @@ function PlotOrderParameter(
 Returns: none (plots saved at `DirPathOut`).
 
 `PlotOrderParameter` takes as input `Phase` (string specifying the mean-field
-phase, the allowed are \"AF\", \"SU/Singlet\", \"SU/Triplet\"), `FilePathIn`
-(path to the data files), `DirPathOut` (path to the output directory). The
-optional parameters are `xVar` and `pVar` (strings specifying respectively the x
-variable and the parametric variable of the plot, the allowed are \"t\", \"U\",
-\"V\", \"Lx\", \"δ\", \"β\"), `Skip` (integer indicating how many steps in the
-parametric variable to be skipped between two plots), `cs` (colorscheme symbol).
-The boolean option `RenormalizeHopping' allows for choosing to renormalize or 
-not the hopping parameter.
+phase, the allowed are \"AF\", \"AF*\", \"SU/Singlet\", \"SU/Triplet\"), 
+`FilePathIn` (path to the data files), `DirPathOut` (path to the output
+directory). The optional parameters are `xVar` and `pVar` (strings specifying
+respectively the x variable and the parametric variable of the plot, the 
+allowed are \"t\", \"U\", \"V\", \"Lx\", \"δ\", \"β\"), `Skip` (integer 
+indicating how many steps in the parametric variable to be skipped between two 
+plots), `cs` (colorscheme symbol). The boolean option `RenormalizeHopping' 
+allows for choosing to renormalize or not the hopping parameter.
 """
 function PlotOrderParameter(
 	Phase::String,						# Mean field phase
@@ -55,31 +92,8 @@ function PlotOrderParameter(
         exit()
     end
 
-    # Prepare xVar labels
-    xVarLabels::Dict{String,String} = Dict([
-	    "t" => "t",
-	    "U" => "U",
-	    "V" => "V",
-	    "Lx" => "L_x",
-	    "δ" => "\\delta",
-	    "β" => "\\beta"
-    ])
-
-    # Prepare yVar labels
-    yVarLabels::Dict{String,String} = Dict([
-	    "m" => "m",
-	    "w0" => "w^{(\\mathbf{0})}",
-	    "wp" => "w^{(\\bm{\\pi})}",
-        # ...
-    ])
-
-    # Prepare title labels
-    TitleLabels::Dict{String,String} = Dict([
-	    "m" => "Magnetization",
-	    "w0" => "\$w^{(\\mathbf{0})}\$",
-	    "wp" => "\$w^{(\\bm{\\pi})}\$",
-        # ...
-    ])
+    # Get LaTeX formatted labels
+    VarLabels = GetLabels(Phase)
 
     # Initialize directory structure
     DirPathOut *= "PlotOrderParameter/xVar=" * xVar * "/pVar=" * pVar * "/"
@@ -121,14 +135,19 @@ function PlotOrderParameter(
     end
     
     # List HF parameters
-    ListHF::Vector{String} = [key for key in keys(
+    ListHFPs::Vector{String} = [key for key in keys(
         eval(Meta.parse(
             DF["v"][1]
         ))
     )]
 
     # Cycle over HF parameters
-    for HF in ListHF
+    for HF in ListHFPs
+
+        HFLabel::String = "\$" * VarLabels[HF] * "\$"
+        if HF=="m"
+            HFLabel = "Magnetization"
+        end
     
         # Cycle over simulated points
         for (w,t) in enumerate(uDF["t"]),
@@ -159,15 +178,15 @@ function PlotOrderParameter(
             # Initialize plot    	
         	P = plot(
                 size = (600,400),
-                xlabel = L"$%$(xVarLabels[xVar])$",
-                ylabel = L"$%$(yVarLabels[HF])$",
+                xlabel = L"$%$(VarLabels[xVar])$",
+                ylabel = L"$%$(VarLabels[HF])$",
                 legend = :outertopright
             )
         	
         	# Write terminal message and file name
         	TerminalMsg::String = "\e[2K\e[1GPlotting $(Phase) HF $(HF) data: "
         	FilePathOut::String = DirPathOut * "/" * HF
-            rawTitle::String = TitleLabels[HF] * " ("
+            rawTitle::String = HFLabel * " ("
 
             AvoidList::Vector{String} = [xVar, pVar] #TODO Extend to pure hubbard
         	for Var in AllVars
@@ -179,7 +198,7 @@ function PlotOrderParameter(
             	    if !RenormalizeHopping && Var=="t"
             	        RS *= "\\tilde{t}="
             	    end
-                    rawTitle *= "\$$(xVarLabels[Var])=" * RS * "$(lVar)\$, "
+                    rawTitle *= "\$$(VarLabels[Var])=" * RS * "$(lVar)\$, "
                     if Var=="Lx" # I am desperate about correct formatting
                         rawTitle = rawTitle[1:end-5] * "\$, "
                     elseif Var=="β" && β==Inf
@@ -190,7 +209,7 @@ function PlotOrderParameter(
         	TerminalMsg = TerminalMsg[1:end-2] * " [x variable: " * xVar *
                 ", parametric variable: " * pVar * "]"
         	FilePathOut *= ".pdf"
-            rawTitle *= "varying \$" * xVarLabels[pVar] * "\$)"
+            rawTitle *= "varying \$" * VarLabels[pVar] * "\$)"
         	printstyled("\e[2K\e[1G" * TerminalMsg, color=:yellow)
             
             # Cycle over parametric variable
@@ -213,7 +232,7 @@ function PlotOrderParameter(
                     markercolor = colorschemes[cs][q*j],
                     markersize = 1.5,
                     linecolor = colorschemes[cs][q*j],
-                    label = L"$%$(xVarLabels[pVar])=%$(J)$",
+                    label = L"$%$(VarLabels[pVar])=%$(J)$",
                     legendfonthalign = :left
                 )
                 title!(L"%$(rawTitle)")
@@ -242,7 +261,7 @@ function PlotOrderParameter2D(
 Returns: none (plots saved at `DirPathOut`).
 
 `PlotOrderParameter2D` takes as input `Phase` (string specifying the mean-field
-phase, the allowed are \"AF\", \"SU/Singlet\", \"SU/Triplet\"), `FilePathIn`
+phase, the allowed are \"AF\", \"AF*\", \"SU/Singlet\", \"SU/Triplet\"), `FilePathIn`
 (path to the data files), `DirPathOut` (path to the output directory). The
 optional parameters are `xVar` and `yVar` (strings specifying respectively the x
 variable and the y variable of the plot, the allowed are \"t\", \"U\", \"V\", 
@@ -276,23 +295,8 @@ function PlotOrderParameter2D(
         exit()
     end
 
-    # Prepare xVar labels
-    xVarLabels::Dict{String,String} = Dict([
-	    "t" => "t",
-	    "U" => "U",
-	    "V" => "V",
-	    "Lx" => "L_x",
-	    "δ" => "\\delta",
-	    "β" => "\\beta"
-    ])
-
-    # Prepare title labels
-    TitleLabels::Dict{String,String} = Dict([
-	    "m" => "Magnetization",
-	    "w0" => "\$w^{(\\mathbf{0})}\$",
-	    "wp" => "\$w^{(\\bm{\\pi})}\$",
-        # ...
-    ])
+    # Get LaTeX formatted labels
+    VarLabels = GetLabels(Phase)
 
     # Initialize directory structure
     DirPathOut *= "Heatmaps/xVar=" * xVar * "_yVar=" * yVar * "/"
@@ -322,22 +326,27 @@ function PlotOrderParameter2D(
         DF[Var] = Data
         uDF[Var] = unique(Data)
     end
-    xx::Vector{Float64} = uDF[xVar]
+    xx::Vector{Float64} = uDF[xVar] # log.(uDF[xVar]) # Uncomment for loglog
     NumX::Int64 = length(xx)
     uDF[xVar] = [NaN]                   # Remove from following cycle
-    yy::Vector{Float64} = uDF[yVar]
+    yy::Vector{Float64} = uDF[yVar] # log.(uDF[yVar]) # Uncomment for loglog
     NumY::Int64 = length(yy)
     uDF[yVar] = [NaN]                   # Remove from following cycle
     
     # List HF parameters
-    ListHF::Vector{String} = [key for key in keys(
+    ListHFPs::Vector{String} = [key for key in keys(
         eval(Meta.parse(
             DF["v"][1]
         ))
     )]
 
     # Cycle over HF parameters
-    for HF in ListHF
+    for HF in ListHFPs
+
+        HFLabel::String = "\$" * VarLabels[HF] * "\$"
+        if HF=="m"
+            HFLabel = "Magnetization"
+        end
     
         # Cycle over simulated points
         for (w,t) in enumerate(uDF["t"]),
@@ -368,21 +377,22 @@ function PlotOrderParameter2D(
             # Initialize plot    	
         	H = plot(
                 size = (600,400),
-                xlabel = L"$%$(xVarLabels[xVar])$",
-                ylabel = L"$%$(xVarLabels[yVar])$",
+                # Uncomment for loglog
+                # xlabel = L"$\mathrm{log}%$(VarLabels[xVar])$",
+                # ylabel = L"$\mathrm{log}%$(VarLabels[yVar])$",
                 legend = :outertopright
             )
         	
         	# Write terminal message and file name
         	TerminalMsg::String = "\e[2K\e[1GPlotting $(Phase) HF $(HF) data: "
         	FilePathOut::String = DirPathOut * "/" * HF
-            rawTitle::String = TitleLabels[HF] * " ("
+            rawTitle::String = HFLabel * " ("
         	for Var in AllVars
         	    if !in(Var, [xVar, yVar])
                     lVar = lDF[Var]
             	    TerminalMsg *= Var * "=$(lVar), "
             	    FilePathOut *= "_" * Var * "=$(lVar)"
-                    rawTitle *= "\$$(xVarLabels[Var])=$(lVar)\$, "
+                    rawTitle *= "\$$(VarLabels[Var])=$(lVar)\$, "
                     if Var=="Lx" # I am desperate about correct formatting
                         rawTitle = rawTitle[1:end-5] * "\$, "
                     elseif Var=="β" && β==Inf
@@ -392,7 +402,7 @@ function PlotOrderParameter2D(
         	end
         	TerminalMsg = TerminalMsg[1:end-2] * " [x variable: " * xVar *
                 ", y variable: " * yVar * "]"
-        	FilePathOut *= ".pdf"
+        	FilePathOut *= ".pdf" # "_loglog.pdf" # Uncomment for loglog
             rawTitle = rawTitle[1:end-2] * ")"
         	printstyled("\e[2K\e[1G" * TerminalMsg, color=:yellow)
                              	
@@ -470,25 +480,8 @@ function PlotRMPs(
         exit()
     end
 
-    # Prepare xVar labels
-    xVarLabels::Dict{String,String} = Dict([
-	    "t" => "t",
-	    "U" => "U",
-	    "V" => "V",
-	    "Lx" => "L_x",
-	    "δ" => "\\delta",
-	    "β" => "\\beta"
-    ])
-
-    # Prepare title labels
-    TitleLabels::Dict{String,String} = Dict([
-	    "reΔ_tilde" => "\$\\mathrm{Re}" * 
-            "\\lbrace\\tilde{\\Delta}_{\\mathbf{k}}\\rbrace\$",
-	    "imΔ_tilde" => "\$\\mathrm{Im}" * 
-            "\\lbrace\\tilde{\\Delta}_{\\mathbf{k}}\\rbrace\$",
-	    "t_tilde" => "\$\\tilde{t}\$",
-        # ...
-    ])
+    # Get LaTeX formatted labels
+    VarLabels = GetLabels(Phase)
 
     # Initialize directory structure
     DirPathOut *= "RMPs/xVar=" * xVar * "_yVar=" * yVar * "/"
@@ -532,6 +525,8 @@ function PlotRMPs(
 
     # Cycle over renormalized model parameters
     for RMP in ListRMPs
+
+        RMPLabel::String = "\$" * VarLabels[RMP] * "\$"
     
         # Cycle over simulated points
         for (w,t) in enumerate(uDF["t"]),
@@ -562,9 +557,9 @@ function PlotRMPs(
             # Initialize plot    	
         	S = plot(
                 size = (600,400),
-                 xlabel = L"$%$(xVarLabels[xVar])$",
-                 ylabel = L"$%$(xVarLabels[yVar])$",
-                 zlabel = L"%$(TitleLabels[RMP])",
+                 xlabel = L"$%$(VarLabels[xVar])$",
+                 ylabel = L"$%$(VarLabels[yVar])$",
+                 zlabel = L"$%$(VarLabels[RMP])$",
                 legend = :outertopright
             )
         	
@@ -572,13 +567,13 @@ function PlotRMPs(
         	TerminalMsg::String = "\e[2K\e[1GPlotting $(Phase) RMP $(RMP) " * 
                 "data: "
         	FilePathOut::String = DirPathOut * "/" * RMP
-            rawTitle::String = TitleLabels[RMP] * " ("
+            rawTitle::String = RMPLabel * " ("
         	for Var in AllVars
         	    if !in(Var, [xVar, yVar])
                     lVar = lDF[Var]
             	    TerminalMsg *= Var * "=$(lVar), "
             	    FilePathOut *= "_" * Var * "=$(lVar)"
-                    rawTitle *= "\$$(xVarLabels[Var])=$(lVar)\$, "
+                    rawTitle *= "\$$(VarLabels[Var])=$(lVar)\$, "
                     if Var=="Lx" # I am desperate about correct formatting
                         rawTitle = rawTitle[1:end-5] * "\$, "
                     elseif Var=="β" && β==Inf
@@ -610,7 +605,7 @@ function PlotRMPs(
                 surface!(
                     xx, yy, zz,
                     color=cs,
-                    label=L"%$(TitleLabels[RMP])",
+                    label=L"$%$(VarLabels[RMP])$",
                     camera=(30,25),
 #                    zlim=(0.65,1),
 #                    clim=(0.65,1)
@@ -630,7 +625,7 @@ function PlotRMPs(
                 surface!(
                     xx, yy, zz,
                     color=cs,
-                    label=L"%$(TitleLabels[RMP])",
+                    label=L"$%$(VarLabels[RMP])$",
                     camera=(30,25),
 #                    zlim=(0.65,1),
 #                    clim=(0.65,1)
@@ -650,7 +645,7 @@ function PlotRMPs(
 	            surface!(
                     xx, yy, zz,
                     color=cs,
-                    label=L"%$(TitleLabels[RMP])",
+                    label=L"$%$(VarLabels[RMP])$",
                     camera=(220,25),
                     zlim=(0.65,1),
                     clim=(0.65,1)
@@ -681,10 +676,10 @@ function PlotRecord(
 Returns: none (plots saved at `DirPathOut`).
 
 `PlotRecord` takes as input `Phase` (string specifying the mean-field phase, the
-allowed are \"AF\", \"SU/Singlet\", \"SU/Triplet\"), `FilePathIn` (path to the
-data files), `DirPathOut` (path to the output directory). The optional parameter 
-is `rVar` (string specifying the recorded variable to plot), `cs` (colorscheme
-symbol).
+allowed are \"AF\", \"AF*\", \"SU/Singlet\", \"SU/Triplet\"), `FilePathIn` (path
+to the data files), `DirPathOut` (path to the output directory). The optional 
+parameter is `rVar` (string specifying the recorded variable to plot), `cs`
+(colorscheme symbol).
 """
 function PlotRecord(
     Phase::String,                      # Mean field phase
@@ -727,36 +722,24 @@ function PlotRecord(
                 "Check data integrity at " * DirPathIn
             exit()
         end
-    end    
+    end
 
-    # Prepare yVar labels
-    yVarLabels::Dict{String,String} = Dict([
-        "m" => "m",
-        "w0" => "w^{(\\mathbf{0})}",
-        "wp" => "w^{(\\bm{\\pi})}",
-        # ...
-    ])
-
-    # Prepare title labels
-    TitleLabels::Dict{String,String} = Dict([
-        "m" => "Magnetization",
-        "w0" => "\$w^{(\\mathbf{0})}\$",
-        "wp" => "\$w^{(\\bm{\\pi})}\$",
-        # ...
-    ])
-
-    pVarLabels::Dict{String,String} = Dict([
-        "g" => "g",
-        # ...
-    ])
+    # Get LaTeX formatted labels
+    VarLabels = GetLabels(Phase)
+    pVarLabels = GetLabels("Fake")
     
     for (hf,HF) in enumerate(DataCols)
+
+        HFLabel::String = "\$" * VarLabels[HF] * "\$"
+        if HF=="m"
+            HFLabel = "Magnetization"
+        end
         
         # Set output filepath
         FilePathOut::String = DirPathOut * "/" * HF * "_rVar=" * rVar * ".pdf"
 
         # Generate raw title
-        rawTitle::String = TitleLabels[HF] * " (" *
+        rawTitle::String = HFLabel * " (" *
             "\$t=$(t)\$, " *
             "\$U=$(U)\$, " *
             "\$V=$(V)\$, " *
@@ -774,7 +757,7 @@ function PlotRecord(
             size = (600,400),
             xlim = (1,25),
             xlabel = L"\mathrm{Step}",
-            ylabel = L"$%$(yVarLabels[HF])$",
+            ylabel = L"$%$(VarLabels[HF])$",
             legend = :outertopright
         )
         title!(L"%$(rawTitle)")

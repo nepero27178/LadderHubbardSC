@@ -21,13 +21,30 @@ Mean Field Theory (MFT) is a widely used and simple theoretical tool, often suff
 
 The general aim is to study the phase diagram of the model by comparing ground-state energies of different phases. The phases we consider here for the EHM are the Anti-Ferromagnetic ordering (AF), given by a non-uniform distribution of charge in each spin sector, and the Superconducting phase, described by a uniformly distributed charge allowing for Cooper pairing instabilities. For the EHM, three symmetries are ``brekable'':
 \begin{enumerate}
-	\item (Crystal) translational invariance. By breaking explicitly this symmetry, the obtained state must show a Charge-Density Wave (CDW) ordering;
-	\item $\mathrm{U}(1)$ charge conservation. By breaking this symmetry, we allow for Cooper fluctuations originating superconductivity;
-	\item $\mathrm{SU}(2)$ spin conservation. By breaking this symmetry, we take in all the processes not conserving spin (such as site hop \textit{plus} spin flip).
+	\item Discrete translational invariance. By breaking explicitly this symmetry, the obtained state must show a Charge-Density Wave (CDW) ordering;
+	\item $\mathrm{U}^\mathrm{c}(1)$ charge conservation. By breaking this symmetry, we allow for the total charge to fluctuate in the ground state;
+	\item $\mathrm{SU}(2)$ spin rotation symmetry. If this symmetry is broken, we allow for the ground state to exhibit a preferred spin direction.
+	\item Note that the $\mathrm{SU}(2)$ group contains a $\mathrm{U}(1)$ subgroup. $\mathrm{SU}(2)$ symmetry can be broken, selecting a particular vectorial direction for the order parameter, and reduced to a smaller $\mathrm{U}^z(1$ symmetry which is essentially expressed by the conservation of the \textit{magnitude} of the order parameter.
 \end{enumerate}
-As a general rule, $\mathrm{SU}(2)$ symmetry will be preserved while charge and space symmetries will be alternatively broken, in order to generate a pure AF phase or a pure superconducting phase. ``To preserve one symmetry'' means to set to zero all operators which break said symmetry, due to selection rules.
+The last point is important: for the AF phase, for example, there is no need for the magnetization vector to be directed along the \textit{real} $z$-axis, which is the one perpendicular to the lattice plane. $\mathrm{SU}(2)$ symmetry breaks when (staggered) magnetization is established along a particular direction, but spin rotations around said direction still are ground state symmetries. The symmetries are reported synthetically in Tab.~\ref{tab:symmetry-groups}.
 
-App.~\ref{appendix:mean-field-hubbard} describes in detail the MFT treatment of the pure Hubbard model, $\hat H_t + \hat H_U$; the key passage is there given by the approximation
+\begin{table}
+	\centering
+	\begin{tabular}{c l}
+		Symmetry group & Operations \\
+		\midrule
+		Point group & Discrete translations on lattice \\
+		$\mathrm{U}^\mathrm{c}(1)$ & Charge-conserving global phase shifts \\
+		$\mathrm{SU}(2)$ & Three-dimensional rotations in spin space \\
+		$\mathrm{U}^z(1)$ & Reduced two-dimensional rotations around Néel $z$-axis in spin space \\
+	\end{tabular}
+	\caption{Model symmetries and relative group operations. Note that $U^\mathrm{c}(1)$ represents the charge conserving group, while $\mathrm{U}^z(1)$ represents the subgroup obtained by breaking the $\mathrm{SU}(2)$ symmetry with a vector order parameter and preserving its amplitude.}
+	\label{tab:symmetry-groups}
+\end{table}
+
+Different phases are described by different order parameters, each one exhibiting a specific symmetry subset from the initial set, while the rest are broken. Ferromagnetic state perform $\mathrm{SU}(2) \to \mathrm{U}^z(1)$ symmetry breaking, Anti-Ferromagnetic also break translational invariance (reducing it to a smaller symmetry, relative to double-sized unitary cells). Basic superconducting models do not break translational invariance and can preserve full $\mathrm{SU}(2)$ symmetry, while breaking $U^\mathrm{c}(1)$ charge conservation.
+
+App.~\ref{appendix:mean-field-hubbard} describes in detail the MFT treatment of the pure Hubbard model, $\hat H_t + \hat H_U$ and its AF phase; the key passage is there given by the approximation
 \begin{equation}\label{eq:mft-pure-hubbard-wick-decomposition}
 	\hat n_{i\uparrow} \hat n_{i\downarrow} \simeq \hat n_{i\uparrow} \langle \hat n_{i\downarrow} \rangle + \langle \hat n_{i\uparrow} \rangle \hat n_{i\downarrow} + (\mathrm{constants})
 \end{equation}
@@ -59,7 +76,12 @@ from which the AF structure is simply recovered. However, to perform the above a
 		\rangle
 	}_{\text{Hartree}}
 \end{equation}
-As a first approximation, the theorem is assumed to hold (which, in a $\mathrm{BCS}$-like fashion, is equivalent to assuming for the ground-state to be a coherent state). Of the three terms above, the AF phase description fo the pure Hubbard Model only allows for the Hartree term to be non-zero. Cooper fluctuations are suppressed, because only the translational invariance is broken, and the Fock term is null as well because if $i=j$ and $\sigma'=\overline{\sigma}$ (as is for the local interaction, which contains the operator $\hat n_{i\uparrow} \hat n_{i\downarrow}$) the expectation values involved are describing a process breaking $\mathrm{SU}(2)$ spin symmetry. Thus, correctly, the Wick's decomposition of Eq.~\eqref{eq:mft-pure-hubbard-wick-decomposition} only involves Hartree-terms of Eq.~\eqref{eq:mft-extended-hubbard-wick-decomposition}. In general, however, the three terms need to be considered altogether: this is what is done in the next section.
+As a first approximation, the theorem is assumed to hold (which, in a $\mathrm{BCS}$-like fashion, is equivalent to assuming for the ground-state to be a coherent state). The AF ground state breaks translational invariance and reduces rotational symmetry, $\mathrm{SU}(2) \to \mathrm{U}^z(1$. Thus, of the three terms above: 
+\begin{itemize}
+	\item Cooper fluctuations are suppressed, because they break charge conservation;
+	\item Similarly the Fock term is null as well because if $i=j$ and $\sigma'=\overline{\sigma}$ (as is for the local interaction, which contains the operator $\hat n_{i\uparrow} \hat n_{i\downarrow}$) the expectation values involved are describing a process breaking the survivor $\mathrm{U}^z(1)$ spin symmetry. 
+\end{itemize}
+Thus, correctly, the Wick's decomposition of Eq.~\eqref{eq:mft-pure-hubbard-wick-decomposition} only involves Hartree-terms of Eq.~\eqref{eq:mft-extended-hubbard-wick-decomposition}. In general, however, the three terms need to be considered altogether: this is what is done in the next section.
 
 {\color{tabred}[
 	Insert here a comment anticipating the discussion of different symmetry structures ($s$,$s^*$, $p_x$, $p_y$, $d_{x^2-y^2}$).
@@ -89,7 +111,7 @@ Evidently the hamiltonian can be decomposed in various spin terms,
 	}_\text{Opposite-spin}
 \end{aligned}
 \]
-Evidently, to carry out a summation over nearest neighbors $\ev{ij}$ of a square lattice means precisely to sum over all links of the lattice. Then we can identify the generic opposite-spin (o.s.) term $\hat H_V^{\sigma \overline{\sigma}}$ as the one collecting the $\sigma$ operators of sublattice $\mathcal{S}_a$ and $\overline{\sigma}$ operators of sublattice $\mathcal{S}_b$. 
+To carry out a summation over nearest neighbors $\ev{ij}$ of a square lattice means precisely to sum over all links of the lattice. Then we can identify the generic opposite-spin (o.s.) term $\hat H_V^{\sigma \overline{\sigma}}$ as the one collecting the $\sigma$ operators of sublattice $\mathcal{S}_a$ and $\overline{\sigma}$ operators of sublattice $\mathcal{S}_b$. 
 %At half-filling, as described in Sec.~\ref{sec:antiferromagnetic-ordering-hubbard}, the ground-state leading contribution will be the antiferromagnetic state, with the square lattice decomposed in two oppositely polarized square lattices with spacing increased by a factor $\sqrt{2}$. Then, it is to be expected that on this configuration the same-spin (s.s.) contributions are suppressed\footnote{
 %	This is also due to superexchange stabilization: the triplet contribution to hamiltonian is suppressed, and this cancels out the ferromagnetic terms $\hat H_V^{\sigma\sigma}$ while privileging the singlet configuration of the anti-ferromagnetic terms $\hat H_V^{\sigma\overline{\sigma}}$.
 %}. Anyways, the calculation will be carried out considering both terms.
@@ -184,11 +206,11 @@ Consider first the o.s. terms: take e.g. the term $\hat n_{i\uparrow} \hat n_{i 
 \]
 Identical decompositions are given for all others NNs. Of the three terms above:
 \begin{itemize}
-	\item The Coooper term breaks $\mathrm{U}(1)$ charge symmetry, allowing for supeconducting instabilities;
-	\item The Fock term breaks the $\mathrm{SU}(2)$ symmetry, because it accounts for a site hop \textit{plus} spin flip process;
-	\item The Hartree term breaks translational invariance, because the mean-field to interact with is given by the local density;
+	\item The Coooper term breaks $\mathrm{U}^\mathrm{c}(1)$ charge symmetry, allowing for supeconducting instabilities;
+	\item The Fock term breaks the $\mathrm{U}^z(1)$ symmetry, because it accounts for a site hop \textit{plus} spin flip process;
+	\item The Hartree term breaks translational invariance, because the mean-field to interact with is given by the local density. $\mathrm{SU}(2)$ symmetry is also broken, because we do not have spin DoF perfect degeneracy anymore, but $\mathrm{U}^z(1$ symmetry still holds.
 \end{itemize}
-Then, to look for AF instability only the Hartree term is to be accounted; instead, in superconducting instability only the Cooper term contributes. The Fock term we always assume to be suppressed, preserving $\mathrm{SU}(2)$ symmetry. Note that for superconducting instabilities, due to superexchange mechanism (as explained in App.~\ref{appendix:mean-field-hubbard}) the o.s. term account for singlet pairing as well as zero-spin triplet pairing. Which channel is preferred, is a matter of thermodynamic advantage.
+Then, to look for AF instability only the Hartree term is to be accounted; instead, in superconducting instability only the Cooper term contributes. Note that for superconducting instabilities, due to superexchange mechanism (as explained in App.~\ref{appendix:mean-field-hubbard}) the o.s. term account for singlet pairing as well as zero-spin triplet pairing. Which channel is preferred, is a matter of thermodynamic advantage.
 
 \paragraph{Same-spin terms.} Consider then the same-spin terms: take e.g. the term $\hat n_{i\uparrow} \hat n_{i + \delta_x \uparrow}$. As above,
 \[
@@ -224,7 +246,7 @@ Then, to look for AF instability only the Hartree term is to be accounted; inste
 	}_{\text{Hartree}}
 \end{aligned}
 \]
-Identical consideration as in the above paragraph hold for each term. The only difference with the o.s. terms is given by the Fock term: since the spin-flip process is absent, now the Fock fluctuations actually contribute to the AF phase as an effective NN hopping term {\color{tabred}[Unclear: does the renormalization happen also for the Cooper phase?]}. As a final remark, notice that the superconducting instabilities of the s.s. terms account only for triplet pairing. The only possible superconducting ordering established by the means of these terms is odd in real space. Then $s$-wave and $d$-wave superconductivity cannot establish in this channel; $p_\ell$-wave superconductivity, instead, can.
+Identical consideration as in the above paragraph hold for each term. The only difference with the o.s. terms is given by the Fock term: since the spin-flip process is absent, now the Fock fluctuations actually contribute as an effective NN hopping term. In other words, this term does not break $\mathrm{U}^z(1$ symmetry and thus is perfectly legitimate, say, in AF or superconducting phase. As a final remark, notice that the superconducting instabilities of the s.s. terms account only for triplet pairing. The only possible superconducting ordering established by the means of these terms is odd in real space. Then $s$-wave and $d$-wave superconductivity cannot establish in this channel; $p_\ell$-wave superconductivity, instead, can.
 
 \subsection{Reciprocal-space transform of the non-local interaction}
 
@@ -306,26 +328,11 @@ Different Wick contraction schemes lead to different results:
 		c_{\mathbf{K}+\mathbf{k}'\sigma}
 	} &&\text{Hartree contraction} \label{eq:reciprocal-space-hartree-contraction}
 \end{align}
-%To contract means to take an average over the ground state, which by symmetry must show zero net momentum and preserve $\mathrm{SU}(2)$ symmetry. This translates in the following requirements for different schemes:
-%\begin{align}
-%	&\wick{
-%		\c c^\dagger_{\mathbf{k}_1\sigma_1}
-%		\c c^\dagger_{\mathbf{k}_2\sigma_2}
-%	} \neq 0
-%	&\text{iff $\mathbf{k}_1 + \mathbf{k}_2 = \mathbf{0}$ and $\sigma_1 = \overline{\sigma_2}$} \label{eq:reciprocal-space-dagdag-requirements} \\
-%	&\wick{
-%		\c c^\dagger_{\mathbf{k}_1\sigma_1}
-%		\c c_{\mathbf{k}_2\sigma_2}
-%	} \neq 0
-%	&\text{iff $\mathbf{k}_1 - \mathbf{k}_2 = \mathbf{0}$ and $\sigma_1 = \sigma_2$} \label{eq:reciprocal-space-dagnodag-requirements}
-%\end{align}
-%{\color{tabred}[Not sure]}
-%which will be used later.
-\todo
+which will be used explicitly later on.
 
 \section{Anti-Ferromagnetic instability} 
 
-In this section, the effect of the non-local interaction on the antiferromagnetic phase is discussed. The MFT derivation for the ``standard'' Hubbard Model is discussed in App.~\ref{appendix:mean-field-hubbard}. Recalling the main results, the Anti-Ferromagnetic phase specified by the Ansatz \eqref{appeq:af-mean-field-ansatz} (which is explicitly breaking translational invariance in each spin sector, while preserving $\mathrm{SU}(2)$ and $\mathrm{U}(1)$ symmetries) reduces the hamiltonian to the form of Eq.~\eqref{appeq:hubbard-mean-field-hamiltonian}
+In this section, the effect of the non-local interaction on the antiferromagnetic phase is discussed. The MFT derivation for the ``standard'' Hubbard Model is discussed in App.~\ref{appendix:mean-field-hubbard}. Recalling the main results, the Anti-Ferromagnetic phase specified by the Ansatz \eqref{appeq:af-mean-field-ansatz} (which is explicitly breaking translational invariance in each spin sector, while preserving $\mathrm{U}^z(1)$ and $\mathrm{U}^c(1)$ symmetries) reduces the hamiltonian to the form of Eq.~\eqref{appeq:hubbard-mean-field-hamiltonian}
 \[
 	\hat H_t + \hat H_U \stackrel{\mathrm{MFT}}{\simeq} -t \sum_{\langle \mathbf{r}\mathbf{r}' \rangle} \sum_\sigma \hat c_{\mathbf{r}\sigma}^\dagger \hat c_{\mathbf{r}'\sigma}
 	+ nU \sum_\mathbf{r} \left[
@@ -452,7 +459,7 @@ The same-spin and opposite-spin non-local Hartree terms are
 		\right]
 	}_{\mathrm{o.s.}}
 \]
-Let $i \to \mathbf{r} = (x,y)$ and $j \to \mathbf{r}' = (x',y')$. Then, using the Ansatz of Eq.~\ref{appeq:af-mean-field-ansatz}, summarized as
+Let $i \to \mathbf{r} = (x,y)$ and $j \to \mathbf{r}' = (x',y')$. Then, using the Ansatz of Eq.~\eqref{appeq:af-mean-field-ansatz}, summarized as
 \[
 	\langle \hat n_{\mathbf{r}\sigma} \rangle = n - (-1)^{x+y+\delta_{\sigma=\uparrow}} m
 \]

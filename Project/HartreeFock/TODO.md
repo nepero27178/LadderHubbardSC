@@ -1,0 +1,3 @@
+- [ ] Use DataFrames.jl to perform data retrieval, selection and plot
+- [ ] Insert graphs in report
+- [ ] Investigate superconducting phase

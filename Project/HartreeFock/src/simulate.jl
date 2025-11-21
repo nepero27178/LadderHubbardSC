@@ -78,7 +78,7 @@ function RunHFScan(
     # File initialization
     if FilePathOut != ""
         Header = "# [\"t\", \"U\", \"V\", \"Lx\", \"β\", \"δ\", " *
-            "\"v\", \"Q\", \"ΔT\"] [calculated @ $(now())]\n"
+            "\"v\", \"Q\", \"ΔT\"] [calculated @ $(now())]  \n"
         write(FilePathOut, Header)
     end
 

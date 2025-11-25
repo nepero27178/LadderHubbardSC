@@ -11,7 +11,7 @@ AllPhases = [
 AllSingletSyms = ["s", "s*", "d"]
 AllTripletSyms = ["px", "py", "p+", "p-"]
 
-Phase = "AF*"    # Choose your phase
+Phase = "AF"    # Choose your phase
 if !in(Phase, AllPhases)
     @error "Invalid phase, please modify at: " * SetupFilePath
     exit()

@@ -1,5 +1,6 @@
 #!/usr/bin/julia
 using DelimitedFiles
+using DataFrames
 
 @doc raw"""
 function GetLabels(
@@ -47,7 +48,8 @@ function PlotOrderParameter(
     pVar::String=\"V\",
     Skip::Int64=1,
     cs::Symbol=:imola50,
-    RenormalizeHopping::Bool=true
+    RenormalizeHopping::Bool=true,
+    Extension::String="pdf"::String="pdf"
 )
 
 Returns: none (plots saved at `DirPathOut`).
@@ -60,7 +62,8 @@ respectively the x variable and the parametric variable of the plot, the
 allowed are \"t\", \"U\", \"V\", \"Lx\", \"δ\", \"β\"), `Skip` (integer 
 indicating how many steps in the parametric variable to be skipped between two 
 plots), `cs` (colorscheme symbol). The boolean option `RenormalizeHopping' 
-allows for choosing to renormalize or not the hopping parameter.
+allows for choosing to renormalize or not the hopping parameter. `Extension`
+selects the file extension (the allowed are \"pdf\", \"png\", \"svg\").
 """
 function PlotOrderParameter(
 	Phase::String,						# Mean field phase
@@ -70,7 +73,8 @@ function PlotOrderParameter(
     pVar::String="V",                   # Specify parametric variable
     Skip::Int64=1,                      # xVar skip parameter
     cs::Symbol=:imola50,                # Custom colorscheme
-    RenormalizeHopping::Bool=true       # Conditional renormalization of t
+    RenormalizeHopping::Bool=true,      # Conditional renormalization of t
+    Extension::String="pdf"             # File extension
 )
     
     FilePathOut = ""
@@ -98,34 +102,22 @@ function PlotOrderParameter(
     # Initialize directory structure
     DirPathOut *= "PlotOrderParameter/xVar=" * xVar * "/pVar=" * pVar * "/"
     mkpath(DirPathOut)
-        
-    # Read header
-    Header = open(FilePathIn) do io
-        readdlm(FilePathIn, ';', '\n')[1]
-    end
-    Start = findfirst('[',Header)
-    Stop = findfirst(']',Header)
-    DataCols = eval(Meta.parse( Header[Start:Stop] ))
-    
-    # Read and assign variables
+
+    # Read data and create DataFrame
     DataIn = open(FilePathIn) do io
-        readdlm(FilePathIn, ';', comments=true, '\n')
+        readdlm(FilePathIn, ';', comments=false, '\n')
     end
+    DF = DataFrame(DataIn[2:end,:], DataIn[1,:])
+    DF.Lx = Int64.(DF.Lx)
     
-    # Create DFs
-    DF::Dict{String,Any} = Dict([])
-    uDF::Dict{String,Any} = Dict([])
-    for (v,Var) in enumerate(DataCols)
-        Data = DataIn[:,v]
-        if Var=="Lx"
-            Data=Int64.(Data)
-        end
-        DF[Var] = Data
-        uDF[Var] = unique(Data)
-    end
-    uDF[xVar] = [NaN]                   # Remove from following cycle
-    JJ::Vector = uDF[pVar][1:Skip:end]  # Parametric variable array
-    uDF[pVar] = [NaN]                   # Remove from following cycle
+    # Unique variables dictionary
+    uDict::Dict{String,Vector{Any}} = Dict([
+        Var => unique(DF[!, Symbol(Var)]) for Var in AllVars
+    ])
+    
+    uDict[xVar] = [NaN]                   # Remove from following cycle
+    JJ::Vector = uDict[pVar][1:Skip:end]  # Parametric variable array
+    uDict[pVar] = [NaN]                   # Remove from following cycle
     q = floor(Int64, length(colorschemes[cs]) / length(JJ) )
 
     # Check if the selected colorscheme is large enough
@@ -137,7 +129,7 @@ function PlotOrderParameter(
     # List HF parameters
     ListHFPs::Vector{String} = [key for key in keys(
         eval(Meta.parse(
-            DF["v"][1]
+            DF.v[1]
         ))
     )]
 
@@ -150,15 +142,15 @@ function PlotOrderParameter(
         end
     
         # Cycle over simulated points
-        for (w,t) in enumerate(uDF["t"]),
-        	(u,U) in enumerate(uDF["U"]),
-        	(v,V) in enumerate(uDF["V"]),
-        	(l,L) in enumerate(uDF["Lx"]),
-        	(d,δ) in enumerate(uDF["δ"]),
-        	(b,β) in enumerate(uDF["β"])
+        for (w,t) in enumerate(uDict["t"]),
+        	(u,U) in enumerate(uDict["U"]),
+        	(v,V) in enumerate(uDict["V"]),
+        	(l,L) in enumerate(uDict["Lx"]),
+        	(d,δ) in enumerate(uDict["δ"]),
+        	(b,β) in enumerate(uDict["β"])
         	
-        	# Initialize local dataframe
-        	lDF::Dict{String,Any} = Dict([
+        	# Initialize local dictionary
+        	lDict::Dict{String,Any} = Dict([
         	    "t" => t,
         	    "U" => U,
         	    "V" => V,
@@ -168,10 +160,13 @@ function PlotOrderParameter(
         	])
         	
         	# Select entries
-        	Selections::Vector{Bool} = [true for _ in 1:length(DF["t"])]
+        	Selections::Vector{Bool} = [true for _ in 1:length(DF.t)]
         	for Var in AllVars
         	    if !in(Var, [xVar, pVar])
-        	        Selections = Selections .* (DF[Var] .== lDF[Var])
+                    """
+        	        Selections = Selections .* (DF[Var] .== lDict[Var])
+                    """
+                    Selections = Selections .* (DF[!, Symbol(Var)] .== lDict[Var])
         	    end
         	end
     
@@ -180,7 +175,7 @@ function PlotOrderParameter(
                 size = (600,400),
                 xlabel = L"$%$(VarLabels[xVar])$",
                 ylabel = L"$%$(VarLabels[HF])$",
-                legend = :outertopright
+                legend = :outertopright,
             )
         	
         	# Write terminal message and file name
@@ -191,7 +186,7 @@ function PlotOrderParameter(
             AvoidList::Vector{String} = [xVar, pVar] #TODO Extend to pure hubbard
         	for Var in AllVars
         	    if !in(Var, AvoidList)
-                    lVar = lDF[Var]
+                    lVar = lDict[Var]
             	    TerminalMsg *= Var * "=$(lVar), "
             	    FilePathOut *= "_" * Var * "=$(lVar)"
             	    RS::String=""
@@ -208,7 +203,7 @@ function PlotOrderParameter(
         	end
         	TerminalMsg = TerminalMsg[1:end-2] * " [x variable: " * xVar *
                 ", parametric variable: " * pVar * "]"
-        	FilePathOut *= ".pdf"
+        	FilePathOut *= "." * Extension
             rawTitle *= "varying \$" * VarLabels[pVar] * "\$)"
         	printstyled("\e[2K\e[1G" * TerminalMsg, color=:yellow)
             
@@ -216,11 +211,11 @@ function PlotOrderParameter(
             for (j,J) in enumerate(JJ)
                 
                 # Run local selection
-            	lSelections = Selections .* (DF[pVar] .== J)
-            	vv = DF["v"][lSelections]
+            	lSelections = Selections .* (DF[!, Symbol(pVar)] .== J)
+            	vv = DF.v[lSelections]
         	
         	    # Define x and y variables
-            	xx::Vector{Float64} = DF[xVar][lSelections]
+            	xx::Vector{Float64} = DF[!, Symbol(xVar)][lSelections]
             	yy::Vector = [eval(Meta.parse(
             	    vv[i]
 		        ))[HF] for i in 1:length(vv)]
@@ -255,7 +250,8 @@ function PlotOrderParameter2D(
     DirPathOut::String;
     xVar::String=\"U\",
     yVar::String=\"V\",
-    cs::Symbol=:imola50
+    cs::Symbol=:imola50,
+    Extension::String="pdf"
 )
 
 Returns: none (plots saved at `DirPathOut`).
@@ -265,7 +261,8 @@ phase, the allowed are \"AF\", \"AF*\", \"SU/Singlet\", \"SU/Triplet\"), `FilePa
 (path to the data files), `DirPathOut` (path to the output directory). The
 optional parameters are `xVar` and `yVar` (strings specifying respectively the x
 variable and the y variable of the plot, the allowed are \"t\", \"U\", \"V\", 
-\"Lx\", \"δ\", \"β\"), `cs` (colorscheme symbol).
+\"Lx\", \"δ\", \"β\"), `cs` (colorscheme symbol). `Extension` selects the file 
+extension (the allowed are \"pdf\", \"png\", \"svg\").
 """
 function PlotOrderParameter2D(
 	Phase::String,						# Mean field phase
@@ -273,7 +270,8 @@ function PlotOrderParameter2D(
     DirPathOut::String;					# Output directory path
     xVar::String="U",                   # Specify x variable
     yVar::String="V",                   # Specify y variable
-    cs::Symbol=:imola50                 # Custom colorscheme
+    cs::Symbol=:imola50,                # Custom colorscheme
+    Extension::String="pdf"             # File extension
 )
     
     FilePathOut = ""
@@ -301,42 +299,30 @@ function PlotOrderParameter2D(
     # Initialize directory structure
     DirPathOut *= "Heatmaps/xVar=" * xVar * "_yVar=" * yVar * "/"
     mkpath(DirPathOut)
-        
-    # Read header
-    Header = open(FilePathIn) do io
-        readdlm(FilePathIn, ';', '\n')[1]
-    end
-    Start = findfirst('[',Header)
-    Stop = findfirst(']',Header)
-    DataCols = eval(Meta.parse( Header[Start:Stop] ))
-    
-    # Read and assign variables
+
+    # Read data and create DataFrame
     DataIn = open(FilePathIn) do io
-        readdlm(FilePathIn, ';', comments=true, '\n')
+        readdlm(FilePathIn, ';', comments=false, '\n')
     end
+    DF = DataFrame(DataIn[2:end,:], DataIn[1,:])
+    DF.Lx = Int64.(DF.Lx)
     
-    # Create DFs
-    DF::Dict{String,Any} = Dict([])
-    uDF::Dict{String,Any} = Dict([])
-    for (v,Var) in enumerate(DataCols)
-        Data = DataIn[:,v]
-        if Var=="Lx"
-            Data=Int64.(Data)
-        end
-        DF[Var] = Data
-        uDF[Var] = unique(Data)
-    end
-    xx::Vector{Float64} = uDF[xVar] # log.(uDF[xVar]) # Uncomment for loglog
+    # Unique variables dictionary
+    uDict::Dict{String,Vector{Any}} = Dict([
+        Var => unique(DF[!, Symbol(Var)]) for Var in AllVars
+    ])
+
+    xx::Vector{Float64} = uDict[xVar]
     NumX::Int64 = length(xx)
-    uDF[xVar] = [NaN]                   # Remove from following cycle
-    yy::Vector{Float64} = uDF[yVar] # log.(uDF[yVar]) # Uncomment for loglog
+    uDict[xVar] = [NaN]                   # Remove from following cycle
+    yy::Vector{Float64} = uDict[yVar]
     NumY::Int64 = length(yy)
-    uDF[yVar] = [NaN]                   # Remove from following cycle
+    uDict[yVar] = [NaN]                   # Remove from following cycle
     
     # List HF parameters
     ListHFPs::Vector{String} = [key for key in keys(
         eval(Meta.parse(
-            DF["v"][1]
+            DF.v[1]
         ))
     )]
 
@@ -349,15 +335,15 @@ function PlotOrderParameter2D(
         end
     
         # Cycle over simulated points
-        for (w,t) in enumerate(uDF["t"]),
-        	(u,U) in enumerate(uDF["U"]),
-        	(v,V) in enumerate(uDF["V"]),
-        	(l,L) in enumerate(uDF["Lx"]),
-        	(d,δ) in enumerate(uDF["δ"]),
-        	(b,β) in enumerate(uDF["β"])
+        for (w,t) in enumerate(uDict["t"]),
+        	(u,U) in enumerate(uDict["U"]),
+        	(v,V) in enumerate(uDict["V"]),
+        	(l,L) in enumerate(uDict["Lx"]),
+        	(d,δ) in enumerate(uDict["δ"]),
+        	(b,β) in enumerate(uDict["β"])
         	
         	# Initialize local dataframe
-        	lDF::Dict{String,Any} = Dict([
+        	lDict::Dict{String,Any} = Dict([
         	    "t" => t,
         	    "U" => U,
         	    "V" => V,
@@ -367,19 +353,18 @@ function PlotOrderParameter2D(
         	])
         	
         	# Select entries
-        	Selections::Vector{Bool} = [true for _ in 1:length(DF["t"])]
+        	Selections::Vector{Bool} = [true for _ in 1:length(DF.t)]
         	for Var in AllVars
         	    if !in(Var, [xVar, yVar])
-        	        Selections = Selections .* (DF[Var] .== lDF[Var])
+        	        Selections = Selections .* (DF[!, Symbol(Var)] .== lDict[Var])
         	    end
         	end
     
             # Initialize plot    	
         	H = plot(
                 size = (600,400),
-                # Uncomment for loglog
-                # xlabel = L"$\mathrm{log}%$(VarLabels[xVar])$",
-                # ylabel = L"$\mathrm{log}%$(VarLabels[yVar])$",
+                xlabel = L"$%$(VarLabels[xVar])$",
+                ylabel = L"$%$(VarLabels[yVar])$",
                 legend = :outertopright
             )
         	
@@ -389,10 +374,14 @@ function PlotOrderParameter2D(
             rawTitle::String = HFLabel * " ("
         	for Var in AllVars
         	    if !in(Var, [xVar, yVar])
-                    lVar = lDF[Var]
+                    lVar = lDict[Var]
             	    TerminalMsg *= Var * "=$(lVar), "
             	    FilePathOut *= "_" * Var * "=$(lVar)"
-                    rawTitle *= "\$$(VarLabels[Var])=$(lVar)\$, "
+                    RS::String=""
+            	    if !RenormalizeHopping && Var=="t"
+            	        RS *= "\\tilde{t}="
+            	    end
+                    rawTitle *= "\$$(VarLabels[Var])=" * RS * "$(lVar)\$, "
                     if Var=="Lx" # I am desperate about correct formatting
                         rawTitle = rawTitle[1:end-5] * "\$, "
                     elseif Var=="β" && β==Inf
@@ -402,12 +391,12 @@ function PlotOrderParameter2D(
         	end
         	TerminalMsg = TerminalMsg[1:end-2] * " [x variable: " * xVar *
                 ", y variable: " * yVar * "]"
-        	FilePathOut *= ".pdf" # "_loglog.pdf" # Uncomment for loglog
+        	FilePathOut *= "." * Extension
             rawTitle = rawTitle[1:end-2] * ")"
         	printstyled("\e[2K\e[1G" * TerminalMsg, color=:yellow)
                              	
     	    # Define x, y variables and h
-        	vv = DF["v"][Selections]
+        	vv = DF.v[Selections]
             hh::Matrix{Float64} = zeros(NumY,NumX)
             for j in 1:NumX
                 hh[:,j] .= [eval(Meta.parse(
@@ -439,7 +428,8 @@ function PlotRMPs(
     DirPathOut::String;
     xVar::String=\"U\",
     yVar::String=\"V\",
-    cs::Symbol=:imola50
+    cs::Symbol=:imola50,
+    Extension::String="pdf"
 )
 
 Returns: none (plots saved at `DirPathOut`).
@@ -450,7 +440,8 @@ specifying the mean-field phase, the allowed are \"AF\", \"SU/Singlet\",
 the output directory). The optional parameters are `xVar` and `yVar` (strings 
 specifying respectively the x variable and the y variable of the plot, the 
 allowed are \"t\", \"U\", \"V\", \"Lx\", \"δ\", \"β\"), `cs` (colorscheme 
-symbol).
+symbol). `Extension` selects the file extension (the allowed are \"pdf\", 
+\"png\", \"svg\").
 """
 function PlotRMPs(
 	Phase::String,						# Mean field phase
@@ -458,7 +449,8 @@ function PlotRMPs(
     DirPathOut::String;					# Output directory path
     xVar::String="U",                   # Specify x variable
     yVar::String="V",                   # Specify y variable
-    cs::Symbol=:imola50                 # Custom colorscheme
+    cs::Symbol=:imola50,                # Custom colorscheme
+    Extension::String="pdf"             # File extension
 )
     
     FilePathOut = ""
@@ -487,41 +479,27 @@ function PlotRMPs(
     DirPathOut *= "RMPs/xVar=" * xVar * "_yVar=" * yVar * "/"
     mkpath(DirPathOut)
         
-    # Read header
-    Header = open(FilePathIn) do io
-        readdlm(FilePathIn, ';', '\n')[1]
-    end
-    Start = findfirst('[',Header)
-    Stop = findfirst(']',Header)
-    DataCols = eval(Meta.parse( Header[Start:Stop] ))
-    
-    # Read and assign variables
+    # Read data and create DataFrame
     DataIn = open(FilePathIn) do io
-        readdlm(FilePathIn, ';', comments=true, '\n')
+        readdlm(FilePathIn, ';', comments=false, '\n')
     end
+    DF = DataFrame(DataIn[2:end,:], DataIn[1,:])
+    DF.Lx = Int64.(DF.Lx)
     
-    # Create DFs
-    DF::Dict{String,Any} = Dict([])
-    uDF::Dict{String,Any} = Dict([])
-    for (v,Var) in enumerate(DataCols)
-        Data = DataIn[:,v]
-        if Var=="Lx"
-            Data=Int64.(Data)
-        end
-        DF[Var] = Data
-        uDF[Var] = unique(Data)
-    end
-    xx::Vector{Float64} = uDF[xVar]
+    # Unique variables dictionary
+    uDict::Dict{String,Vector{Any}} = Dict([
+        Var => unique(DF[!, Symbol(Var)]) for Var in AllVars
+    ])
+
+    xx::Vector{Float64} = uDict[xVar]
     NumX::Int64 = length(xx)
-    uDF[xVar] = [NaN]                   # Remove from following cycle
-    yy::Vector{Float64} = uDF[yVar]
+    uDict[xVar] = [NaN]                   # Remove from following cycle
+    yy::Vector{Float64} = uDict[yVar]
     NumY::Int64 = length(yy)
-    uDF[yVar] = [NaN]                   # Remove from following cycle
+    uDict[yVar] = [NaN]                   # Remove from following cycle
     
-    # List renormalized model parameters #TODO Extend to other phases
-    ListRMPs::Vector{String} = [
-        "reΔ_tilde", "imΔ_tilde", "t_tilde"
-    ]
+    # List HF parameters #TODO Generalize
+    ListRMPs::Vector{String} = ["reΔ_tilde", "imΔ_tilde", "t_tilde"]
 
     # Cycle over renormalized model parameters
     for RMP in ListRMPs
@@ -529,15 +507,15 @@ function PlotRMPs(
         RMPLabel::String = "\$" * VarLabels[RMP] * "\$"
     
         # Cycle over simulated points
-        for (w,t) in enumerate(uDF["t"]),
-        	(u,U) in enumerate(uDF["U"]),
-        	(v,V) in enumerate(uDF["V"]),
-        	(l,L) in enumerate(uDF["Lx"]),
-        	(d,δ) in enumerate(uDF["δ"]),
-        	(b,β) in enumerate(uDF["β"])
+        for (w,t) in enumerate(uDict["t"]),
+        	(u,U) in enumerate(uDict["U"]),
+        	(v,V) in enumerate(uDict["V"]),
+        	(l,L) in enumerate(uDict["Lx"]),
+        	(d,δ) in enumerate(uDict["δ"]),
+        	(b,β) in enumerate(uDict["β"])
         	
         	# Initialize local dataframe
-        	lDF::Dict{String,Any} = Dict([
+        	lDict::Dict{String,Any} = Dict([
         	    "t" => t,
         	    "U" => U,
         	    "V" => V,
@@ -547,10 +525,10 @@ function PlotRMPs(
         	])
         	
         	# Select entries
-        	Selections::Vector{Bool} = [true for _ in 1:length(DF["t"])]
+        	Selections::Vector{Bool} = [true for _ in 1:length(DF.t)]
         	for Var in AllVars
         	    if !in(Var, [xVar, yVar])
-        	        Selections = Selections .* (DF[Var] .== lDF[Var])
+        	        Selections = Selections .* (DF[!, Symbol(Var)] .== lDict[Var])
         	    end
         	end
     
@@ -570,10 +548,14 @@ function PlotRMPs(
             rawTitle::String = RMPLabel * " ("
         	for Var in AllVars
         	    if !in(Var, [xVar, yVar])
-                    lVar = lDF[Var]
+                    lVar = lDict[Var]
             	    TerminalMsg *= Var * "=$(lVar), "
             	    FilePathOut *= "_" * Var * "=$(lVar)"
-                    rawTitle *= "\$$(VarLabels[Var])=$(lVar)\$, "
+                    RS::String=""
+            	    if !RenormalizeHopping && Var=="t"
+            	        RS *= "\\tilde{t}="
+            	    end
+                    rawTitle *= "\$$(VarLabels[Var])=" * RS * "$(lVar)\$, "
                     if Var=="Lx" # I am desperate about correct formatting
                         rawTitle = rawTitle[1:end-5] * "\$, "
                     elseif Var=="β" && β==Inf
@@ -583,12 +565,12 @@ function PlotRMPs(
         	end
         	TerminalMsg = TerminalMsg[1:end-2] * " [x variable: " * xVar *
                 ", y variable: " * yVar * "]"
-        	FilePathOut *= ".pdf"
+        	FilePathOut *= "." * Extension
             rawTitle *= " \$k_\\ell=\\pi/3\$)"
         	printstyled("\e[2K\e[1G" * TerminalMsg, color=:yellow)
                              	
     	    # Define x, y variables and h
-        	vv = DF["v"][Selections]
+        	vv = DF.v[Selections]
             hh::Matrix{Float64} = zeros(NumY,NumX)
             
             # Plot individually in order to adjust visual angles
@@ -670,7 +652,8 @@ function PlotRecord(
     DirPathIn::String,
     DirPathOut::String;
     rVar::String=\"g\",
-    cs::Symbol=:imola25
+    cs::Symbol=:imola25,
+    Extension::String="pdf"
 )
 
 Returns: none (plots saved at `DirPathOut`).
@@ -679,14 +662,16 @@ Returns: none (plots saved at `DirPathOut`).
 allowed are \"AF\", \"AF*\", \"SU/Singlet\", \"SU/Triplet\"), `FilePathIn` (path
 to the data files), `DirPathOut` (path to the output directory). The optional 
 parameter is `rVar` (string specifying the recorded variable to plot), `cs`
-(colorscheme symbol).
+(colorscheme symbol). `Extension` selects the file extension (the allowed are 
+\"pdf\", \"png\", \"svg\").
 """
 function PlotRecord(
     Phase::String,                      # Mean field phase
     DirPathIn::String,                  # Data filepath
     DirPathOut::String;                 # Output directory path
     rVar::String="g",                   # Recorded variable
-    cs::Symbol=:imola25                 # Custom colorscheme
+    cs::Symbol=:imola25,                # Custom colorscheme
+    Extension::String="pdf"             # File extension
 )
         
     Files::Vector{String} = readdir(DirPathIn)
@@ -736,7 +721,8 @@ function PlotRecord(
         end
         
         # Set output filepath
-        FilePathOut::String = DirPathOut * "/" * HF * "_rVar=" * rVar * ".pdf"
+        FilePathOut::String = DirPathOut * "/" * HF * "_rVar=" * rVar
+        FilePathOut*= "." * Extension
 
         # Generate raw title
         rawTitle::String = HFLabel * " (" *

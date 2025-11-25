@@ -45,7 +45,8 @@ function main()
             xVar="V",
             pVar="δ",
             cs=:winter,
-            RenormalizeHopping
+            RenormalizeHopping,
+            Extension="png"
         )
         PlotOrderParameter(
             Phase,
@@ -55,18 +56,20 @@ function main()
             pVar="V",
             Skip=2,
             cs=:winter,
-            RenormalizeHopping
+            RenormalizeHopping,
+            Extension="png"
         )
     elseif Mode=="heatmap"
         PlotOrderParameter2D(
             Phase,
             FilePathIn,
             DirPathOut;
-#            xVar="U",
-#            yVar="V",
-            xVar="V",
-            yVar="δ",
-            cs=:imola
+            xVar="U",
+            yVar="V",
+#            xVar="V",
+#            yVar="δ",
+            cs=:imola,
+            Extension="png"
         )
     elseif Mode=="RMPs"
         PlotRMPs(
@@ -75,7 +78,8 @@ function main()
             DirPathOut;
             xVar="U",
             yVar="V",
-            cs=:imola
+            cs=:imola,
+            Extension="png"
         )
     elseif Mode=="record-g"
         PlotRecord(

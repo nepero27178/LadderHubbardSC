@@ -1,6 +1,7 @@
 #!/usr/bin/julia
 using DelimitedFiles
 using Dates
+using DataFrames
 
 # Arguments handler
 if length(ARGS) != 1
@@ -41,8 +42,7 @@ function RunHFScan(
     RenormalizeHopping::Bool=true
 )
 
-Returns: none if `FilePathOut` is specified, `ResultsTable::Matrix{Float64}` if
-`FilePathOut` is unspecified.
+Returns: none if `FilePathOut` is specified.
 
 `RunHFScan` takes as input `UU` (vector of local repulsions), `VV` (vector of
 non local attractions), `LL` (vector of the square lattice dimensions), `δδ` 
@@ -69,22 +69,43 @@ function RunHFScan(
     g::Float64;                         # Mixing parameter
     Syms::Vector{String}=["d"],		    # Gap function symmetries
     FilePathOut::String="",             # Output file
+    InitializeFile::Bool=true,          # Initialize file at FilePathOut
     RenormalizeHopping::Bool=true       # Conditional renormalization of t
 )
+
+    # Warn user of memory-heavy simulations detection
+    Iterations = length(UU) * length(VV) * length(LL) * length(ββ) * length(δδ)
+    if FilePathOut == "" && Iterations > 200
+        @warn "No output file specified and more than 200 simulations " * 
+            "request detected. Simulations results are going to be stored " *
+            "in your memory. Consider specifying a `FilePathOut` and " *
+            "unloading your memory."
+    end
 
     # Get Hartree Fock Parameters labels
     HFPs = GetHFPs(Phase)
     
-    # File initialization
-    if FilePathOut != ""
-#=         Header = "# [\"t\", \"U\", \"V\", \"Lx\", \"β\", \"δ\", " *
-            "\"v\", \"Q\", \"ΔT\"] [calculated @ $(now())]  \n" =#
+    # File coditional initialization (otherwise, just append)
+    if FilePathOut != "" && InitializeFile
             Header = "t;U;V;Lx;β;δ;v;Q;ΔT\n"
         write(FilePathOut, Header)
     end
+    
+    """ CODE CHECK
+    ResultsDF = DataFrame(
+        t=Float64[], 
+        U=Float64[], 
+        V=Float64[], 
+        Lx=Int64[], 
+        β=Float64[], 
+        δ=Float64[], 
+        v=Dict{String,Float64}[], 
+        Q=Dict{String,Float64}[], 
+        ΔT=Float64[]
+    )
+    """
 
     # HF iterations
-	Iterations = length(UU) * length(VV) * length(LL) * length(ββ) * length(δδ)
     i = 1    
     for t in tt,
         U in UU, 
@@ -115,12 +136,18 @@ function RunHFScan(
             RenormalizeHopping
         )
         
-        v::Dict{String,Float64} = Dict([key => HFResults[1][key] for key in HFPs])
-        Qs::Dict{String,Float64} = Dict([key => HFResults[2][key] for key in HFPs])        
+        v::Dict{String,Float64} = Dict([
+            key => HFResults[1][key] for key in HFPs
+        ])
+        Qs::Dict{String,Float64} = Dict([
+            key => HFResults[2][key] for key in HFPs
+        ])        
 		ResultsVector = hcat(ResultsVector[:,3:end], [v Qs HFResults[3]])
+		push!(ResultsDF, ResultsVector)
 
         i += 1
 
+        # Append to initialized or existing file
         if FilePathOut != ""
             open(FilePathOut, "a") do io
                 writedlm(io, ResultsVector, ';')
@@ -131,7 +158,10 @@ function RunHFScan(
     printstyled(
         "\e[2K\e[1GDone! Data saved at " * FilePathOut * "\n", color=:green
     )
-
+    
+    """ CODE CHECK
+    return ResultsDF
+    """
 end
 
 @doc raw"""

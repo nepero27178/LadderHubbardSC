@@ -11,13 +11,13 @@ AllPhases = [
 AllSingletSyms = ["s", "s*", "d"]
 AllTripletSyms = ["px", "py", "p+", "p-"]
 
-Phase = "AF*"    # Choose your phase
+Phase = "AF"    # Choose your phase
 if !in(Phase, AllPhases)
     @error "Invalid phase, please modify at: " * SetupFilePath
     exit()
 end
 # Model = "Renormalized-AF"
-Setup = "B[256]"  # Choose your setup #TODO Use readline()
+Setup = "Test[80]"  # Choose your setup #TODO Use readline()
 AvailableSetups = [
     "Test[80]",
     "A[128,256]",

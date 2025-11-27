@@ -105,6 +105,11 @@ function RunHFScan(
     )
     """
 
+    # Initializers
+    v0::Dict{String,Float64} = Dict([
+        key => 0.5 for key in HFPs
+    ])
+
     # HF iterations
     i = 1    
     for t in tt,
@@ -133,6 +138,7 @@ function RunHFScan(
         HFResults = RunHFAlgorithm(
             Phase,Parameters,L,0.5+δ,β,
             p,Δv,Δn,g;
+            #v0i=v0,
             RenormalizeHopping
         )
         
@@ -143,7 +149,9 @@ function RunHFScan(
             key => HFResults[2][key] for key in HFPs
         ])        
 		ResultsVector = hcat(ResultsVector[:,3:end], [v Qs HFResults[3]])
-		push!(ResultsDF, ResultsVector)
+		""" CODE CHECK
+        push!(ResultsDF, ResultsVector)
+        """
 
         i += 1
 
@@ -153,6 +161,8 @@ function RunHFScan(
                 writedlm(io, ResultsVector, ';')
         	end
         end
+
+        v0 = copy(v)
     end
     
     printstyled(

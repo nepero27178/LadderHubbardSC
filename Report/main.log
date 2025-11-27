@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.6.18)  21 NOV 2025 12:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.6.18)  26 NOV 2025 15:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1692,57 +1692,57 @@ nput line 213.
 [6]
 
 LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 7 undefined on i
-nput line 335.
+nput line 339.
 
 
 LaTeX Warning: Reference `appeq:af-mean-field-ansatz' on page 7 undefined on in
-put line 335.
+put line 339.
 
 
 LaTeX Warning: Reference `appeq:hubbard-mean-field-hamiltonian' on page 7 undef
-ined on input line 335.
+ined on input line 339.
 
 
 LaTeX Warning: Reference `appeq:hubbard-bogoliubov-hamiltonian' on page 7 undef
-ined on input line 344.
+ined on input line 348.
 
 [7]
 
 LaTeX Warning: Reference `appeq:af-diagonalized-nambu-spinor' on page 8 undefin
-ed on input line 366.
+ed on input line 370.
 
 
 LaTeX Warning: Reference `appfig:pseudo-magnetic-field' on page 8 undefined on 
-input line 381.
+input line 385.
 
 (./chapters/mft-analysis/pictures/pseudo-magnetic-field.tex)
 
 LaTeX Warning: Reference `appeq:af-mean-field-ansatz' on page 8 undefined on in
-put line 462.
+put line 466.
 
 [8] [9]
 
 LaTeX Warning: Reference `appeq:hubbard-mean-field-hamiltonian' on page 10 unde
-fined on input line 543.
+fined on input line 547.
 
 [10]
 
 LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 11 undefined on 
-input line 609.
+input line 613.
 
 
 LaTeX Warning: Reference `appeq:af-diagonalized-nambu-spinor' on page 11 undefi
-ned on input line 613.
+ned on input line 617.
 
 (./chapters/mft-analysis/pictures/af-bz-fock-terms-generic.tex)
 (./chapters/mft-analysis/pictures/af-bz-fock-terms-newvariables.tex) [11]
 [12] [13]
 
 LaTeX Warning: Reference `appeq:antiferromagnet-magnetization-self-consistence-
-finite-temperature' on page 14 undefined on input line 1063.
+finite-temperature' on page 14 undefined on input line 1067.
 
 
-Overfull \hbox (1.0612pt too wide) in paragraph at lines 1062--1064
+Overfull \hbox (1.0612pt too wide) in paragraph at lines 1066--1068
 \OT1/cmr/m/n/10 Its three com-po-nents are self-consistently de-ter-mined by Eq
 ns. [] and []. The self-consistent
  []
@@ -1750,16 +1750,16 @@ ns. [] and []. The self-consistent
 [14]
 
 LaTeX Warning: Reference `appsubsec:hartree-fock-algorithm' on page 15 undefine
-d on input line 1083.
+d on input line 1087.
 
 
 LaTeX Warning: Reference `appsubsec:hartree-fock-algorithm' on page 15 undefine
-d on input line 1087.
+d on input line 1091.
 
 [15]
 
 LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 16 undefined on 
-input line 1135.
+input line 1139.
 
 (./chapters/mft-analysis/pictures/s-wave-correlator.tex)
 (./chapters/mft-analysis/pictures/s*-wave-correlator.tex)
@@ -1768,60 +1768,60 @@ input line 1135.
 (./chapters/mft-analysis/pictures/d-wave-correlator.tex)
 
 LaTeX Warning: Reference `fig:wave-correlators' on page 16 undefined on input l
-ine 1218.
+ine 1222.
 
 
 LaTeX Warning: Reference `fig:wave-correlators' on page 16 undefined on input l
-ine 1218.
+ine 1222.
 
 
 LaTeX Warning: Reference `eq:extended-hubbard-model' on page 16 undefined on in
-put line 1227.
+put line 1231.
 
 [16]
 
 LaTeX Warning: Reference `app:mean-field-hubbard' on page 17 undefined on input
- line 1235.
+ line 1239.
 
 [17] [18]
 
 LaTeX Warning: Reference `tab:wave-correlators' on page 19 undefined on input l
-ine 1353.
+ine 1357.
 
 
 LaTeX Warning: Reference `tab:wave-correlators' on page 19 undefined on input l
-ine 1353.
+ine 1357.
 
 [19]
 
 LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 20 undefined on 
-input line 1494.
+input line 1498.
 
 [20]
 
 LaTeX Warning: Reference `app:mean-field-hubbard' on page 21 undefined on input
- line 1526.
+ line 1530.
 
 
 LaTeX Warning: Reference `appeq:hubbard-bogoliubov-hamiltonian-pseudofields' on
- page 21 undefined on input line 1548.
+ page 21 undefined on input line 1552.
 
 
 LaTeX Warning: Reference `app:mean-field-hubbard' on page 21 undefined on input
- line 1558.
+ line 1562.
 
 [21]
 
 LaTeX Warning: Reference `appeq:finite-temperature-order-parameter-derivation-i
-ntermediate' on page 22 undefined on input line 1604.
+ntermediate' on page 22 undefined on input line 1608.
 
 
 LaTeX Warning: Reference `eq:extended-hubbard-phi-psi-expression' on page 22 un
-defined on input line 1609.
+defined on input line 1613.
 
 
 LaTeX Warning: Reference `appeq:finite-temperature-order-parameter-derivation-i
-ntermediate' on page 22 undefined on input line 1633.
+ntermediate' on page 22 undefined on input line 1637.
 
 [22]) [23] [24
 
@@ -1890,7 +1890,7 @@ ype1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
 ublic/amsfonts/symbols/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super
 /sfrm0600.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/
 share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on main.pdf (27 pages, 466518 bytes).
+Output written on main.pdf (27 pages, 466573 bytes).
 PDF statistics:
  636 PDF objects out of 1000 (max. 8388607)
  511 compressed objects within 6 object streams

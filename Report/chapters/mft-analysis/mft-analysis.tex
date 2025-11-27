@@ -24,7 +24,7 @@ The general aim is to study the phase diagram of the model by comparing ground-s
 	\item Discrete translational invariance. By breaking explicitly this symmetry, the obtained state must show a Charge-Density Wave (CDW) ordering;
 	\item $\mathrm{U}^\mathrm{c}(1)$ charge conservation. By breaking this symmetry, we allow for the total charge to fluctuate in the ground state;
 	\item $\mathrm{SU}(2)$ spin rotation symmetry. If this symmetry is broken, we allow for the ground state to exhibit a preferred spin direction.
-	\item Note that the $\mathrm{SU}(2)$ group contains a $\mathrm{U}(1)$ subgroup. $\mathrm{SU}(2)$ symmetry can be broken, selecting a particular vectorial direction for the order parameter, and reduced to a smaller $\mathrm{U}^z(1$ symmetry which is essentially expressed by the conservation of the \textit{magnitude} of the order parameter.
+	\item Note that the $\mathrm{SU}(2)$ group contains a $\mathrm{U}(1)$ subgroup. $\mathrm{SU}(2)$ symmetry can be broken, selecting a particular vectorial direction for the order parameter, and reduced to a smaller $\mathrm{U}^z(1)$ symmetry which is essentially expressed by the conservation of the \textit{magnitude} of the order parameter.
 \end{enumerate}
 The last point is important: for the AF phase, for example, there is no need for the magnetization vector to be directed along the \textit{real} $z$-axis, which is the one perpendicular to the lattice plane. $\mathrm{SU}(2)$ symmetry breaks when (staggered) magnetization is established along a particular direction, but spin rotations around said direction still are ground state symmetries. The symmetries are reported synthetically in Tab.~\ref{tab:symmetry-groups}.
 
@@ -42,7 +42,7 @@ The last point is important: for the AF phase, for example, there is no need for
 	\label{tab:symmetry-groups}
 \end{table}
 
-Different phases are described by different order parameters, each one exhibiting a specific symmetry subset from the initial set, while the rest are broken. Ferromagnetic state perform $\mathrm{SU}(2) \to \mathrm{U}^z(1)$ symmetry breaking, Anti-Ferromagnetic also break translational invariance (reducing it to a smaller symmetry, relative to double-sized unitary cells). Basic superconducting models do not break translational invariance and can preserve full $\mathrm{SU}(2)$ symmetry, while breaking $U^\mathrm{c}(1)$ charge conservation.
+Different phases are described by different order parameters, each one exhibiting a specific symmetry subset from the initial set, while the rest are broken. Ferromagnetic state perform $\mathrm{SU}(2) \to \mathrm{U}^z(1)$ symmetry breaking, Anti-Ferromagnetic also break translational invariance (reducing it to a smaller symmetry, relative to double-sized unitary cells). Basic superconducting models do not break translational invariance and can preserve full $\mathrm{SU}(2)$ symmetry, while breaking $\mathrm{U}^\mathrm{c}(1)$ charge conservation.
 
 App.~\ref{appendix:mean-field-hubbard} describes in detail the MFT treatment of the pure Hubbard model, $\hat H_t + \hat H_U$ and its AF phase; the key passage is there given by the approximation
 \begin{equation}\label{eq:mft-pure-hubbard-wick-decomposition}
@@ -294,10 +294,14 @@ Let $\mathbf{k}_1 + \mathbf{k}_2 = \mathbf{k}_3 + \mathbf{k}_4 = \mathbf{K}$, an
 Sums over these variables must be intended as over the Brillouin Zone ($\mathrm{BZ}$). Then, finally
 \begin{align}
 	\hat H_V &= \sum_{j \in \mathcal{S}_a} \sum_{\sigma\sigma'} (j\sigma\sigma') \nonumber \\
-	&= - \frac{V}{L_x L_y} \sum_{\ell = x,y} \sum_{\mathbf{K}, \mathbf{k}, \mathbf{k}'} \cos\left(
+	&= - \frac{V}{L_x L_y} {
+		\color{tabred} \sum_{\sigma\sigma'}
+	} \sum_{\ell = x,y} \sum_{\mathbf{K}, \mathbf{k}, \mathbf{k}'} \cos\left(
 		\delta \mathbf{k} \cdot \bm{\delta}_\ell
 	\right)	\hat c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger \hat c_{\mathbf{K}-\mathbf{k} \sigma'}^\dagger \hat c_{\mathbf{K}-\mathbf{k}' \sigma'} \hat c_{\mathbf{K}+\mathbf{k}'\sigma} \nonumber \\
-	&= - \frac{V}{L_x L_y} \sum_{\mathbf{K}, \mathbf{k}, \mathbf{k}'} \left[
+	&= - \frac{V}{L_x L_y} {
+		\color{tabred} \sum_{\sigma\sigma'}
+	} \sum_{\mathbf{K}, \mathbf{k}, \mathbf{k}'} \left[
 	\cos \left(
 		\delta k_x
 	\right)	+ \cos \left(
@@ -1071,7 +1075,7 @@ Its three components are self-consistently determined by Eqns.~\eqref{eq:af-reno
 	&= \frac{1}{L_xL_y} \sum_{\mathbf{k} \in \mathrm{MBZ}} \langle
 		\hat \Psi_{\mathbf{k}\uparrow}^\dagger \tau^x \hat \Psi_{\mathbf{k}\uparrow}
 	\rangle \nonumber \\
-	&= \frac{1}{L_xL_y} \sum_{\mathbf{k} \in \mathrm{MBZ}} \frac{\Re\{\tilde{\Delta}_\mathbf{k}\}}{\tilde{E}_\mathbf{k}} \left[
+	&= \frac{1}{{\color{tabred}2}L_xL_y} \sum_{\mathbf{k} \in \mathrm{MBZ}} \frac{\Re\{\tilde{\Delta}_\mathbf{k}\}}{\tilde{E}_\mathbf{k}} \left[
 		f\left(
 			-\tilde{E}_\mathbf{k};\beta,\tilde{\mu}
 		\right) - f\left(

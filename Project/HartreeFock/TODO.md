@@ -1,3 +1,9 @@
-- [ ] Use DataFrames.jl to perform data retrieval, selection and plot
+- [x] Use DataFrames.jl to perform data retrieval, selection and plot
+- [ ] Time efficient code: write on file every x times, with x reasonably large
+- [x] Implement automatic safecopy of data
+- [x] Employ symmetry: many calculations are just pure repetitions
+- [x] Use normalized K
+- [x] Re-use previous value in step for fast convergence
+- [x] Restrict to MBZ calculation AND CHECK MULTIPLIERS!
 - [ ] Insert graphs in report
 - [ ] Investigate superconducting phase

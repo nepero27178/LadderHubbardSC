@@ -46,6 +46,33 @@ function GetRMPs(
 end
 
 @doc raw"""
+function GetWeight(
+    k::Vector{Float64}
+)::Int64
+
+Returns: symmetry-structured weight for vector k (expressed in pi units!) in BZ.
+"""
+function GetWeight(
+    k::Vector{Float64}                  # [kx, ky] in pi units
+)::Int64
+    wk::Int64 = 0
+    kx, ky = k
+    if abs(kx)+abs(ky) <= 1
+        if kx>=0 && ky>0 && kx+ky<1
+            # Bulk (four times)
+            wk = 4
+        elseif kx+ky==1 && (kx!=1 && ky!=1)
+            # Edge (two times due to nesting)
+            wk = 2
+        elseif kx==0 && (ky==0 || ky==1)
+            # Special points
+            wk = 1
+        end
+    end
+    return wk
+end
+
+@doc raw"""
 function StructureFactor(
     Sym::String,
     k::Vector{Float64}
@@ -257,9 +284,12 @@ function GetKPopulation(
     	t -= v["w0"] * Parameters["V"]
     end
 
-    for (i,k) in enumerate(K)
+    # wk::Int64=0
+    for (i,k) in enumerate(K .* pi)
+        # wk = GetWeight(k) # Avoid computational redundance
+        # k .*= pi # Important: multiply k by pi
     	
-		if in(Phase, ["AF", "AF*"])
+		if in(Phase, ["AF", "AF*"]) # && in(wk,[1,2,4])
 			# Renormalized bands
 			εk::Float64 = GetHoppingEnergy(t,k)
 		    
@@ -275,7 +305,7 @@ function GetKPopulation(
 
 		elseif Phase=="SU/Singlet"
 			@error "Under construction"
-			
+			return
 		elseif Phase=="Su/Triplet"
 			@error "Under construction"
 			return
@@ -343,8 +373,8 @@ function FindRootμ(
             LowerBoundary -= 1.0
         end
         UpperBoundary = LowerBoundary + 1.0
-    elseif δn(LowerBoundary) < 0
-        while δn(UpperBoundary) < 0
+    elseif δn(UpperBoundary) <= 0
+        while δn(UpperBoundary) <= 0
             if debug
                 @warn "Moving up upper boundary"
             end
@@ -409,6 +439,7 @@ function PerformHFStep(
 	LxLy = prod(size(K))	
     μ = FindRootμ(Phase,Parameters,K,v0,n,β;debug)
 
+    # Antiferromagnet
 	if in(Phase, ["AF", "AF*"])
 		m::Float64 = 0.0
 		w0::Float64 = 0.0
@@ -420,28 +451,34 @@ function PerformHFStep(
         	t -= v["w0"] * Parameters["V"]
         end
 		
-		for (i,k) in enumerate(K)
-		    # Renormalized bands
-			εk::Float64 = GetHoppingEnergy(t,k)
-		    
-		    # Renormalized gap		
-		    reΔk::Float64 = v["m"] * (Parameters["U"] + 8*Parameters["V"])
-			imΔk::Float64 = 2*v["wp"]*Parameters["V"] * StructureFactor("s*",k)
-			
-			# Renormalized gapped bands
-			Ek::Float64 = sqrt( εk^2 + reΔk^2 + imΔk^2 )
-			
-			# Fermi-Dirac factor
-			FDk = FermiDirac(-Ek,μ,β) - FermiDirac(Ek,μ,β)
-			
-            if Ek!=0.0 # Otherwise add nothing
-			    m += reΔk/Ek * FDk
-			    w0 -= εk/Ek * FDk * StructureFactor("s*",k)
-			    wpi += imΔk/Ek * FDk * StructureFactor("s*",k)
+        wk::Int64=0
+		for (i,q) in enumerate(K)
+            wk = GetWeight(q) # Avoid computational redundance
+            k = q .* pi # Important: multiply k by pi
+            if in(wk,[1,2,4]) # Allowed weights
+                # Renormalized bands
+    			εk::Float64 = GetHoppingEnergy(t,k)
+                
+                # Renormalized gap		
+                reΔk::Float64 = v["m"] * (Parameters["U"] + 8*Parameters["V"])
+                imΔk::Float64 = 2*v["wp"]*Parameters["V"] * StructureFactor("s*",k)
+                
+                # Renormalized gapped bands
+                Ek::Float64 = sqrt( εk^2 + reΔk^2 + imΔk^2 )
+                
+                # Fermi-Dirac factor
+                FDk = FermiDirac(-Ek,μ,β) - FermiDirac(Ek,μ,β)
+                
+                if Ek!=0.0 # Otherwise add nothing
+                    m += wk * reΔk/Ek * FDk
+                    w0 -= wk * εk/Ek * FDk * StructureFactor("s*",k)
+                    wpi += wk * imΔk/Ek * FDk * StructureFactor("s*",k)
+                end
             end
+            wk = 0
 		end
 		
-		v["m"] = m/(4*LxLy)
+		v["m"] = m/(2*LxLy)
 		v["w0"] = w0/(4*LxLy)
 		v["wp"] = wpi/(4*LxLy)
 
@@ -552,10 +589,19 @@ function RunHFAlgorithm(
         @info "Convergence parameters" p Δv Δn g
     end
 
+    """
     # Reciprocal space discretization    
     Kx::Vector{Float64} = [kx for kx in -pi:2*pi/L[1]:pi]
     pop!(Kx)
     Ky::Vector{Float64} = [ky for ky in -pi:2*pi/L[2]:pi]
+    pop!(Ky)
+    K::Matrix{Vector{Float64}} = [ [kx,ky] for kx in Kx, ky in Ky ]
+    """
+
+    # Reciprocal space discretization (normalized to 1)
+    Kx::Vector{Float64} = [kx for kx in -1:2/L[1]:1]
+    pop!(Kx)
+    Ky::Vector{Float64} = [ky for ky in -1:2/L[2]:1]
     pop!(Ky)
     K::Matrix{Vector{Float64}} = [ [kx,ky] for kx in Kx, ky in Ky ]
     
@@ -565,11 +611,13 @@ function RunHFAlgorithm(
     # Initialize HF dictionaries
     v0::Dict{String,Float64} = Dict([])
 
-    for key in HFPs
-        if v0i==Dict([])
-            v0[key] = rand()
-        elseif all([ in(key,HFPs) for key in keys(v0i) ])
-            v0[key] = v0i[key]
+    if v0i==Dict([])
+        for HFP in HFPs
+            v0[HFP] = rand()
+        end
+    elseif all([ in(key,HFPs) for key in keys(v0i) ])
+        for HFP in HFPs
+            v0[HFP] = copy(v0i[HFP])
         end
     end
     v = copy(v0)    # Shallow copy of values

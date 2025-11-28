@@ -7,3 +7,4 @@
 - [x] Restrict to MBZ calculation AND CHECK MULTIPLIERS!
 - [ ] Insert graphs in report
 - [ ] Investigate superconducting phase
+- [ ] Finite size scaling on the boundary

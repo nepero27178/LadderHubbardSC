@@ -2,6 +2,7 @@
 using LinearAlgebra
 using Roots
 using Random
+LinearAlgebra.BLAS.set_num_threads(Threads.nthreads()) # Parallel optimization
 
 @doc raw"""
 function GetHFPs(

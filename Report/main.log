@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.6.18)  26 NOV 2025 15:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.6.18)  28 NOV 2025 19:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1617,8 +1617,13 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (./main.toc)
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-(./misc/abbreviations.tex
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]pdfTeX warning (ext4): dest
+ination with the same identifier (name{page.}) has been already used, duplicate
+ ignored
+<to be read again> 
+                   \relax 
+l.36 \clearpage
+                [2] (./misc/abbreviations.tex
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: pdftex
 * paper: a4paper
@@ -1656,183 +1661,187 @@ een already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.20 \restoregeometry
-                      [2]) (./misc/introduction.tex)
-(./chapters/mft-analysis/mft-analysis.tex [1
+                      [3])
+(./parts/theoretical-introduction/theoretical-introduction.tex
+
+LaTeX Warning: Reference `appendix:superexchange-virtual-hopping' on page 1 und
+efined on input line 16.
+
+
+LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 1 undefined on i
+nput line 16.
+
+(./parts/theoretical-introduction/pictures/antiferromagnet-phase.tex
+\xLength=\count547
+\yLength=\count548
+\xStop=\count549
+\yStop=\count550
+)
+(./parts/theoretical-introduction/pictures/antiferromagnet-sublattices.tex
+\xLength=\count551
+\yLength=\count552
+\xStop=\count553
+\yStop=\count554
+)
+[1
 
 
 
 
 
-] [2
+]) [2] [3
+
+] [4]
+(./parts/mft-analysis/chapters/mft-discussion/mft-discussion.tex
+
+LaTeX Warning: Reference `chap:mft-af-instability' on page 5 undefined on input
+ line 19.
+
+
+LaTeX Warning: Reference `sec:mft-analysis-non-local-source' on page 5 undefine
+d on input line 23.
+
+[5
 
 ]
 
-LaTeX Warning: Reference `eq:extended-hubbard-model' on page 3 undefined on inp
-ut line 3.
+LaTeX Warning: Reference `subsec:mft-discussion-reciprocal-non-local' on page 6
+ undefined on input line 51.
 
-[3]
-
-LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 4 undefined on i
-nput line 47.
-
-(./chapters/mft-analysis/pictures/square-nearest-neighbors.tex) [4]
-
-LaTeX Warning: Reference `subfig:antiferromagnet-sublattices' on page 5 undefin
-ed on input line 118.
-
-
-LaTeX Warning: Reference `subfig:antiferromagnet-sublattices' on page 5 undefin
-ed on input line 132.
-
-[5]
 
 LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 6 undefined on i
+nput line 53.
+
+
+(./parts/mft-analysis/chapters/mft-discussion/pictures/square-nearest-neighbors
+.tex) [6]
+
+Class memoir Warning: The material used in the headers is too large
+(24.0pt) for the given head height (12.0pt), it is recommended to
+either increase the head height or redesign the header
+(in both cases you will find help in the memoir manual). on input line 164.
+
+
+Overfull \vbox (12.0pt too high) has occurred while \output is active []
+
+ [7]
+
+LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 8 undefined on i
 nput line 213.
 
-[6]
+[8]
+Overfull \vbox (12.0pt too high) has occurred while \output is active []
 
-LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 7 undefined on i
-nput line 339.
-
-
-LaTeX Warning: Reference `appeq:af-mean-field-ansatz' on page 7 undefined on in
-put line 339.
-
-
-LaTeX Warning: Reference `appeq:hubbard-mean-field-hamiltonian' on page 7 undef
-ined on input line 339.
-
-
-LaTeX Warning: Reference `appeq:hubbard-bogoliubov-hamiltonian' on page 7 undef
-ined on input line 348.
-
-[7]
-
-LaTeX Warning: Reference `appeq:af-diagonalized-nambu-spinor' on page 8 undefin
-ed on input line 370.
-
-
-LaTeX Warning: Reference `appfig:pseudo-magnetic-field' on page 8 undefined on 
-input line 385.
-
-(./chapters/mft-analysis/pictures/pseudo-magnetic-field.tex)
-
-LaTeX Warning: Reference `appeq:af-mean-field-ansatz' on page 8 undefined on in
-put line 466.
-
-[8] [9]
-
-LaTeX Warning: Reference `appeq:hubbard-mean-field-hamiltonian' on page 10 unde
-fined on input line 547.
-
-[10]
-
-LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 11 undefined on 
-input line 613.
-
-
-LaTeX Warning: Reference `appeq:af-diagonalized-nambu-spinor' on page 11 undefi
-ned on input line 617.
-
-(./chapters/mft-analysis/pictures/af-bz-fock-terms-generic.tex)
-(./chapters/mft-analysis/pictures/af-bz-fock-terms-newvariables.tex) [11]
-[12] [13]
-
-LaTeX Warning: Reference `appeq:antiferromagnet-magnetization-self-consistence-
-finite-temperature' on page 14 undefined on input line 1067.
-
-
-Overfull \hbox (1.0612pt too wide) in paragraph at lines 1066--1068
-\OT1/cmr/m/n/10 Its three com-po-nents are self-consistently de-ter-mined by Eq
-ns. [] and []. The self-consistent
+ [9]
+(./parts/mft-analysis/chapters/mft-discussion/pictures/effective-model-scheme.t
+ex)
+Overfull \hbox (1.66963pt too wide) in paragraph at lines 391--392
+[]\OT1/cmr/m/n/10 Diagonalize the ef-fec-tive hamil-to-nian $[][\OML/cmm/m/it/1
+0 C; D\OT1/cmr/m/n/10 ]$ and re-cover the ground-state $[]$; 
  []
 
+
+LaTeX Warning: Reference `appsubsec:hartree-fock-algorithm' on page 10 undefine
+d on input line 396.
+
+[10])
+(./parts/mft-analysis/chapters/superconducting-instability/superconducting-inst
+ability.tex [11] [12
+
+]
+
+LaTeX Warning: Reference `subsec:fock-renormalization-hopping-amplitude' on pag
+e 13 undefined on input line 4.
+
+LaTeX Font Info:    Trying to load font information for U+euf on input line 34.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/ueuf.fd
+File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
+) [13]
+
+LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 14 undefined on 
+input line 149.
+
 [14]
+(./parts/mft-analysis/chapters/superconducting-instability/pictures/s-wave-corr
+elator.tex)
+(./parts/mft-analysis/chapters/superconducting-instability/pictures/s*-wave-cor
+relator.tex)
+(./parts/mft-analysis/chapters/superconducting-instability/pictures/px-wave-cor
+relator.tex)
+(./parts/mft-analysis/chapters/superconducting-instability/pictures/py-wave-cor
+relator.tex)
+(./parts/mft-analysis/chapters/superconducting-instability/pictures/d-wave-corr
+elator.tex)
 
-LaTeX Warning: Reference `appsubsec:hartree-fock-algorithm' on page 15 undefine
-d on input line 1087.
+LaTeX Warning: Reference `fig:wave-correlators' on page 15 undefined on input l
+ine 232.
 
 
-LaTeX Warning: Reference `appsubsec:hartree-fock-algorithm' on page 15 undefine
-d on input line 1091.
+LaTeX Warning: Reference `fig:wave-correlators' on page 15 undefined on input l
+ine 232.
 
 [15]
 
-LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 16 undefined on 
-input line 1139.
-
-(./chapters/mft-analysis/pictures/s-wave-correlator.tex)
-(./chapters/mft-analysis/pictures/s*-wave-correlator.tex)
-(./chapters/mft-analysis/pictures/px-wave-correlator.tex)
-(./chapters/mft-analysis/pictures/py-wave-correlator.tex)
-(./chapters/mft-analysis/pictures/d-wave-correlator.tex)
-
-LaTeX Warning: Reference `fig:wave-correlators' on page 16 undefined on input l
-ine 1222.
-
-
-LaTeX Warning: Reference `fig:wave-correlators' on page 16 undefined on input l
-ine 1222.
-
-
-LaTeX Warning: Reference `eq:extended-hubbard-model' on page 16 undefined on in
-put line 1231.
+LaTeX Warning: Reference `app:mean-field-hubbard' on page 16 undefined on input
+ line 249.
 
 [16]
 
-LaTeX Warning: Reference `app:mean-field-hubbard' on page 17 undefined on input
- line 1239.
+LaTeX Warning: Reference `tab:wave-correlators' on page 17 undefined on input l
+ine 361.
+
+
+LaTeX Warning: Reference `tab:wave-correlators' on page 17 undefined on input l
+ine 361.
 
 [17] [18]
 
-LaTeX Warning: Reference `tab:wave-correlators' on page 19 undefined on input l
-ine 1357.
+LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 19 undefined on 
+input line 502.
 
 
-LaTeX Warning: Reference `tab:wave-correlators' on page 19 undefined on input l
-ine 1357.
+LaTeX Warning: Reference `app:mean-field-hubbard' on page 19 undefined on input
+ line 534.
 
 [19]
 
-LaTeX Warning: Reference `appendix:mean-field-hubbard' on page 20 undefined on 
-input line 1498.
+LaTeX Warning: Reference `appeq:hubbard-bogoliubov-hamiltonian-pseudofields' on
+ page 20 undefined on input line 556.
+
+
+LaTeX Warning: Reference `app:mean-field-hubbard' on page 20 undefined on input
+ line 566.
 
 [20]
 
-LaTeX Warning: Reference `app:mean-field-hubbard' on page 21 undefined on input
- line 1530.
-
-
-LaTeX Warning: Reference `appeq:hubbard-bogoliubov-hamiltonian-pseudofields' on
- page 21 undefined on input line 1552.
-
-
-LaTeX Warning: Reference `app:mean-field-hubbard' on page 21 undefined on input
- line 1562.
-
-[21]
-
 LaTeX Warning: Reference `appeq:finite-temperature-order-parameter-derivation-i
-ntermediate' on page 22 undefined on input line 1608.
+ntermediate' on page 21 undefined on input line 612.
 
 
-LaTeX Warning: Reference `eq:extended-hubbard-phi-psi-expression' on page 22 un
-defined on input line 1613.
+LaTeX Warning: Reference `eq:extended-hubbard-phi-psi-expression' on page 21 un
+defined on input line 617.
 
 
 LaTeX Warning: Reference `appeq:finite-temperature-order-parameter-derivation-i
-ntermediate' on page 22 undefined on input line 1637.
+ntermediate' on page 21 undefined on input line 641.
 
-[22]) [23] [24
-
-]
-Overfull \hbox (5.7575pt too wide) in paragraph at lines 57--57
+[21]) [22]
+Overfull \hbox (5.7575pt too wide) in paragraph at lines 61--61
 \OT1/cmtt/m/n/10 48550 / arXiv . 2408 . 01113$[][]\OT1/cmr/m/n/10 . \OT1/cmr/m/
 sc/10 url\OT1/cmr/m/n/10 : [][]$\OT1/cmtt/m/n/10 http : / / arxiv . org / abs /
  2408 . 01113$[][] \OT1/cmr/m/n/10 (vis-ited on 03/15/2025). 
  []
 
-[25]
+
+Class memoir Warning: The material used in the headers is too large
+(24.0pt) for the given head height (12.0pt), it is recommended to
+either increase the head height or redesign the header
+(in both cases you will find help in the memoir manual). on input line 63.
+
+[23
+
+]
 \tf@toc=\write8
 \openout8 = `main.toc'.
 
@@ -1841,24 +1850,19 @@ sc/10 url\OT1/cmr/m/n/10 : [][]$\OT1/cmtt/m/n/10 http : / / arxiv . org / abs /
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 3A6AF4923F0BFE88892028CA66E8CCF3;5151.
-
-Package biblatex Warning: Please (re)run Biber on the file:
-(biblatex)                main
-(biblatex)                and rerun LaTeX afterwards.
-
+(rerunfilecheck)             Checksum: 8C7315BC968B06F7F998C29C2FAFEC8D;6205.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 50586 strings out of 478287
- 1147809 string characters out of 5849289
- 2031344 words of memory out of 5000000
- 67895 multiletter control sequences out of 15000+600000
- 487243 words of font info for 93 fonts, out of 8000000 for 9000
+ 50251 strings out of 478287
+ 1139007 string characters out of 5849289
+ 2029497 words of memory out of 5000000
+ 67548 multiletter control sequences out of 15000+600000
+ 489012 words of font info for 100 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,17n,93p,2046b,2192s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 90i,17n,93p,2046b,1332s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dis
@@ -1871,29 +1875,31 @@ cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10
 .pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></
 usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texlive/texmf-di
-st/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cmextra/cmmib9.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pf
-b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/symbols/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super
-/sfrm0600.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/
-share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on main.pdf (27 pages, 466573 bytes).
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texlive/texmf-dist/font
+s/type1/public/amsfonts/cmextra/cmmib7.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
+ts/euler/eufm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+symbols/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0600.pfb><
+/usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fon
+ts/type1/public/cm-super/sfrm1000.pfb>
+Output written on main.pdf (26 pages, 469029 bytes).
 PDF statistics:
- 636 PDF objects out of 1000 (max. 8388607)
- 511 compressed objects within 6 object streams
- 132 named destinations out of 1000 (max. 500000)
- 289 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 653 PDF objects out of 1000 (max. 8388607)
+ 525 compressed objects within 6 object streams
+ 130 named destinations out of 1000 (max. 500000)
+ 337 words of extra memory for PDF output out of 10000 (max. 10000000)
 

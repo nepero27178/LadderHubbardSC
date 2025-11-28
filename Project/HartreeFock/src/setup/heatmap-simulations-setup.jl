@@ -17,7 +17,7 @@ if !in(Phase, AllPhases)
     exit()
 end
 # Model = "Renormalized-AF"
-Setup = "Test[80]"  # Choose your setup #TODO Use readline()
+Setup = "A[128]"  # Choose your setup #TODO Use readline()
 AvailableSetups = [
     "Test[80]",
     "A[128]",

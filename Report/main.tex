@@ -41,18 +41,22 @@
 %\checkandfixthelayout
 
 % Front matter
-\input{misc/introduction}	% Uncomment
+%\input{misc/introduction}	% Uncomment
 
 % Main matter
 \pagenumbering{arabic}
-% \input{misc/foo} % Test chapter
-%\input{chapters/theoretical-introduction/theoretical-introduction}
-\input{chapters/mft-analysis/mft-analysis}
+
+\input{parts/theoretical-introduction/theoretical-introduction}
+
+\part{Mean-Field-Theory analysis}
+\input{parts/mft-analysis/chapters/mft-discussion/mft-discussion}
+%\input{parts/mft-analysis/chapters/antiferromagnetic-instability/antiferromagnetic-instability}
+\input{parts/mft-analysis/chapters/superconducting-instability/superconducting-instability}
 
 % Back matter
-%\appendix
+\appendix
 %\input{appendices/superexchange-virtual-hopping/superexchange-virtual-hopping}
-%\input{appendices/mean-field-hubbard/mean-field-hubbard}
+%\input{parts/appendices/mean-field-hubbard/mean-field-hubbard}
 
 \printbibliography \nocite{*}
 

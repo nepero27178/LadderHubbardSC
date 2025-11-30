@@ -14,7 +14,6 @@ AllTripletSyms = ["px", "py", "p+", "p-"]
 Phase = "AF"    # Choose your phase
 if !in(Phase, AllPhases)
     @error "Invalid phase, please modify at: " * SetupFilePath
-    exit()
 end
 # Model = "Renormalized-AF"
 Setup = "A[128]"  # Choose your setup #TODO Use readline()
@@ -32,7 +31,6 @@ end
 
 if !in(Setup, AvailableSetups)
     @error "Invalid setup, please modify at: " * SetupFilePath
-    exit()
 elseif Setup=="Test[80]"
     # TEST-SETUP
     tt = [1.0]

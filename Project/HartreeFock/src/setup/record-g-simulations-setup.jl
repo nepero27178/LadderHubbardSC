@@ -33,7 +33,6 @@ end
 
 if !in(Setup, AvailableSetups)
     @error "Invalid setup, please modify at: " * SetupFilePath
-    exit()
 elseif Setup=="Test16"
     # A point, L=32
     t = 1.0

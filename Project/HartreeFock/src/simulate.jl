@@ -22,7 +22,6 @@ if in(Mode, ["scan", "heatmap", "record-g"])
     include(PROJECT_ROOT * "/src/setup/" * Mode * "-simulations-setup.jl")
 else
     @error "Invalid argument. Use: --mode = --scan / --heatmap / --record-g"
-    exit()
 end
 include(PROJECT_ROOT * "/src/modules/methods-simulating.jl")
 

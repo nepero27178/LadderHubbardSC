@@ -623,12 +623,18 @@ function PlotRMPs(
                 end
 
                 # Plot parametrically
-                zz = t*ones(size(hh)) .- hh .* (yy * ones(1,length(xx)))
+                zV::Vector{Float64} = zeros(size(hh))
+                if xVar=="V"
+                    zV = ones(length(yy),1) * xx'
+                elseif yVar=="V"
+                    zV = yy * ones(1,length(xx))
+                end
+                zz = t*ones(size(hh)) .- hh .* zV
 	            surface!(
                     xx, yy, zz,
                     color=cs,
                     label=L"$%$(VarLabels[RMP])$",
-                    camera=(220,25),
+                    camera=(80,25),
                     zlim=(0.65,1),
                     clim=(0.65,1)
                 )

@@ -24,7 +24,6 @@ elseif Mode=="RMPs"
 else
     @error "Invalid argument. Use: mode = --scan / --heatmap / --RMPs " * 
         "/ --Record-g"
-    exit()
 end
 include(PROJECT_ROOT * "/src/setup/graphic-setup.jl")
 include(PROJECT_ROOT * "/src/modules/methods-plotting.jl")
@@ -46,7 +45,7 @@ function main()
             pVar="δ",
             cs=:winter,
             RenormalizeHopping,
-            Extension="png"
+            Extension="pdf"
         )
         PlotOrderParameter(
             Phase,
@@ -57,7 +56,7 @@ function main()
             Skip=2,
             cs=:winter,
             RenormalizeHopping,
-            Extension="png"
+            Extension="pdf"
         )
     elseif Mode=="heatmap"
         PlotOrderParameter2D(
@@ -69,18 +68,24 @@ function main()
 #            xVar="V",
 #            yVar="δ",
             cs=:imola,
-            Extension="png"
+            Extension="pdf"
         )
     elseif Mode=="RMPs"
-        PlotRMPs(
-            Phase,
-            FilePathIn,
-            DirPathOut;
-            xVar="U",
-            yVar="V",
-            cs=:imola,
-            Extension="png"
-        )
+        if Phase=="AF*"
+            @error "It makes no sense to plot RMPs for Phase=$(Phase)!"
+        else 
+            PlotRMPs(
+                Phase,
+                FilePathIn,
+                DirPathOut;
+#                xVar="U",
+#                yVar="V",
+                xVar="V",
+                yVar="δ",
+                cs=:imola,
+                Extension="pdf"
+            )
+        end
     elseif Mode=="record-g"
         PlotRecord(
             Phase,

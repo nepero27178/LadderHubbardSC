@@ -19,7 +19,65 @@
 
 \refsection{0}
   \datalist[entry]{nty/global//global/global}
-    \entry{cao2025p-wave}{misc}{}
+    \entry{arovas2022hubbard}{article}{}
+      \name{author}{4}{}{%
+        {{hash=9687db06e793f50167707ab780c3e9b4}{%
+           family={Arovas},
+           familyi={A\bibinitperiod},
+           given={Daniel\bibnamedelima P.},
+           giveni={D\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=bc43d7a0dc0e940896045dd1750d73be}{%
+           family={Berg},
+           familyi={B\bibinitperiod},
+           given={Erez},
+           giveni={E\bibinitperiod}}}%
+        {{hash=f785ffec18536d263ffcc08eba7cd6e6}{%
+           family={Kivelson},
+           familyi={K\bibinitperiod},
+           given={Steven\bibnamedelima A.},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=1d0f71e7476a53f68f66088722b4ce66}{%
+           family={Raghu},
+           familyi={R\bibinitperiod},
+           given={Srinivas},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Annual Reviews}%
+      }
+      \strng{namehash}{23278801434d366953815cc448fead72}
+      \strng{fullhash}{76310fa5b8e9c31b1d735a772b1eb24c}
+      \strng{bibnamehash}{23278801434d366953815cc448fead72}
+      \strng{authorbibnamehash}{23278801434d366953815cc448fead72}
+      \strng{authornamehash}{23278801434d366953815cc448fead72}
+      \strng{authorfullhash}{76310fa5b8e9c31b1d735a772b1eb24c}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The repulsive Hubbard model has been immensely useful in understanding strongly correlated electron systems and serves as the paradigmatic model of the field. Despite its simplicity, it exhibits a strikingly rich phenomenology reminiscent of that observed in quantum materials. Nevertheless, much of its phase diagram remains controversial. Here, we review a subset of what is known about the Hubbard model based on exact results or controlled approximate solutions in various limits, for which there is a suitable small parameter. Our primary focus is on the ground state properties of the system on various lattices in two spatial dimensions, although both lower and higher dimensions are discussed as well. Finally, we highlight some of the important outstanding open questions.}
+      \field{issn}{1947-5462}
+      \field{journaltitle}{Annual Review of Condensed Matter Physics}
+      \field{number}{Volume 13, 2022}
+      \field{title}{The Hubbard Model}
+      \field{type}{Journal Article}
+      \field{volume}{13}
+      \field{year}{2022}
+      \true{nocite}
+      \field{pages}{239\bibrangedash 274}
+      \range{pages}{36}
+      \verb{doi}
+      \verb https://doi.org/10.1146/annurev-conmatphys-031620-102024
+      \endverb
+      \verb{urlraw}
+      \verb https://www.annualreviews.org/content/journals/10.1146/annurev-conmatphys-031620-102024
+      \endverb
+      \verb{url}
+      \verb https://www.annualreviews.org/content/journals/10.1146/annurev-conmatphys-031620-102024
+      \endverb
+      \keyw{magnetism}
+    \endentry
+    \entry{PhysRevB.111.024509}{article}{}
       \name{author}{5}{}{%
         {{hash=d51247ca2869f2127e8bf79dd1f28ad3}{%
            family={Cao},
@@ -47,11 +105,8 @@
            given={Ho-Kin},
            giveni={H\bibinithyphendelim K\bibinitperiod}}}%
       }
-      \list{language}{1}{%
-        {en}%
-      }
       \list{publisher}{1}{%
-        {arXiv}%
+        {American Physical Society}%
       }
       \strng{namehash}{43991ff1ed7480fe36ba020e0fec100b}
       \strng{fullhash}{5f2371c28625d4b83b8cbee2c4a711cd}
@@ -63,30 +118,24 @@
       \field{sortinithash}{4d103a86280481745c9c897c925753c0}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{The two-dimensional (2D) Hubbard model is widely believed to contain the key ingredients of high-temperature superconductivity in cuprate materials. Here, we report a constrained path quantum Monte Carlo (CPQMC) study of the square-lattice extended Hubbard model with on-site Coulomb repulsion U and nearest-neighbor (NN) electron attraction V. Upon doping \${\textbackslash}delta\$= 0.125, we find that the NN electron attraction V can notably drive an exotic spin-triplet (p-wave) superconducting (SC) phase, and enhance the p-wave SC correlations with the increase of V. But in the intermediate coupling regime, the \$d\_\{x{\textasciicircum}2-y{\textasciicircum}2\}\$-wave (d-wave) does not significantly increase with the increase of V, indicating that the d-wave is not affected by V in strongly correlated system. Besides the pairing phase, a spin density wave (SDW) only exists near the half-filling in the particle-hole channel, and doping disrupts the formation of SDW order. Especially, the NN electron attraction V has no significant effect on SDW, reflecting the consistent relationship between d-wave SC and spin correlation. Moreover, as doping increases, the dominant region of p-wave also expands, further suppressing the presence of d-wave, which may help explain the disappearance of d-wave SC in overdoped cuprate superconductors. We also find the d-wave exhibits a singular nonzero (near point (\$2\{{\textbackslash}pi\}/3, \{{\textbackslash}pi\}\$)) condensation structure in momentum space, resulting in a different staggered behavior in the x and y direction with distance in real space. On the contrary, the p-wave condensed at zero momentum, and the p-wave correlation exhibits exponential decay in real space. Our work suggests the p-wave SC region can be induced and further broadened by the NN electron attraction V, offering a feasible mechanism to realize p-wave superconductivity in realistic cuprate materials.}
-      \field{annotation}{Comment: 7 pages, 4 figures in the main text and 4 page, 4 figure in the supplemental material}
+      \field{issue}{2}
+      \field{journaltitle}{Phys. Rev. B}
       \field{month}{1}
-      \field{note}{arXiv:2408.01113 [cond-mat]}
-      \field{title}{p-wave superconductivity induced by nearest-neighbor attraction in the square-lattice extended {Hubbard} model}
-      \field{urlday}{15}
-      \field{urlmonth}{3}
-      \field{urlyear}{2025}
+      \field{title}{Dominant $p$-wave pairing induced by nearest-neighbor attraction in the square-lattice extended Hubbard model}
+      \field{volume}{111}
       \field{year}{2025}
-      \field{urldateera}{ce}
       \true{nocite}
+      \field{pages}{024509}
+      \range{pages}{1}
       \verb{doi}
-      \verb 10.48550/arXiv.2408.01113
-      \endverb
-      \verb{file}
-      \verb PDF:/home/nepero27178/snap/zotero-snap/common/Zotero/storage/XYJ3EHUC/Cao et al. - 2025 - p-wave superconductivity induced by nearest-neighbor attraction in the square-lattice extended Hubba.pdf:application/pdf
+      \verb 10.1103/PhysRevB.111.024509
       \endverb
       \verb{urlraw}
-      \verb http://arxiv.org/abs/2408.01113
+      \verb https://link.aps.org/doi/10.1103/PhysRevB.111.024509
       \endverb
       \verb{url}
-      \verb http://arxiv.org/abs/2408.01113
+      \verb https://link.aps.org/doi/10.1103/PhysRevB.111.024509
       \endverb
-      \keyw{Condensed Matter - Strongly Correlated Electrons,Condensed Matter - Superconductivity}
     \endentry
     \entry{coleman2015introduction}{book}{}
       \name{author}{1}{}{%
@@ -136,7 +185,6 @@
       \field{labeltitlesource}{title}
       \field{title}{A Course in Quantum Many-Body Theory}
       \field{year}{2022}
-      \true{nocite}
     \endentry
     \entry{giuliani2005quantum}{book}{}
       \name{author}{2}{}{%
@@ -197,7 +245,7 @@
       \field{title}{Solid State Physics}
       \field{year}{2014}
     \endentry
-    \entry{hirsch1985hubbard}{article}{}
+    \entry{PhysRevB.31.4403}{article}{}
       \name{author}{1}{}{%
         {{hash=36d434a8bf3ddfb566c22d141a82c22e}{%
            family={Hirsch},
@@ -237,7 +285,7 @@
       \verb https://link.aps.org/doi/10.1103/PhysRevB.31.4403
       \endverb
     \endentry
-    \entry{scholle2023comprehensive}{article}{}
+    \entry{PhysRevB.108.035139}{article}{}
       \name{author}{4}{}{%
         {{hash=50ce22642db5593d76639d8a2cfa9dae}{%
            family={Scholle},

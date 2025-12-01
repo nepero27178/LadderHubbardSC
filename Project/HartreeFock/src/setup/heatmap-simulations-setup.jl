@@ -16,11 +16,12 @@ if !in(Phase, AllPhases)
     @error "Invalid phase, please modify at: " * SetupFilePath
 end
 # Model = "Renormalized-AF"
-Setup = "A[128]"  # Choose your setup #TODO Use readline()
+Setup = "B[128]-t=0.7"  # Choose your setup #TODO Use readline()
 AvailableSetups = [
     "Test[80]",
     "A[128]",
     "B[128]",
+    "B[128]-t=0.7",
     "C[128]"
 ]
 
@@ -64,6 +65,21 @@ elseif Setup=="A[128]"
     g = 0.5
 elseif Setup=="B[128]"
     tt = [1.0]
+    UU = [4.0]
+    VV = [V for V in 0.0:0.1:4.0]
+    LL = [128]
+    δδ = [δ for δ in 0.0:0.01:0.49]
+    ββ = [100.0]
+    p = 100
+	Δv::Dict{String,Float64} = Dict([
+	    "m" => 1e-4,
+	    "w0" => 1e-4,
+	    "wp" => 1e-4
+	])
+    Δn = 1e-2
+    g = 0.5
+elseif Setup=="B[128]-t=0.7"
+    tt = [0.7]
     UU = [4.0]
     VV = [V for V in 0.0:0.1:4.0]
     LL = [128]

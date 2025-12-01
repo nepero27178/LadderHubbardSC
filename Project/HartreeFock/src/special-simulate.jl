@@ -120,13 +120,13 @@ function SpecialScan()
     g::Float64 = 0.5
 
     # Special selection
-    VV::Vector{Float64} = [V for V in 0.0:0.08:4.0]
+    VV::Vector{Float64} = [V for V in 0.0:0.04:4.0]
      
-    # Lab fit results
-    a::Float64 = -0.09605711177480959
-    b::Float64 = 0.3068791258464743
-    n::Float64 = 0.3446445769685517
-    
+    # Rough lab fit results
+    a::Float64 = -0.05
+    b::Float64 = 0.25
+    n::Float64 = 0.40
+
     # Upper and lower boundaries
     uu::Vector{Float64} = a .+ b .* VV.^ n .+ 0.03
     ll::Vector{Float64} = a .+ b .* VV.^ n .- 0.03

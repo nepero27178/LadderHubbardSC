@@ -1,0 +1,27 @@
+\begin{tikzpicture}
+	\fill[color=lightgray] 
+	(0,0) circle (1.5pt)
+		node[anchor=south west]
+			{$0$}
+	(1,0) circle (1.5pt)
+		node[anchor=west]
+			{$0$}
+	(-1,0) circle (1.5pt)
+		node[anchor=east]
+			{$0$}
+	(0,1) circle (1.5pt)
+		node[anchor=south, color=black]
+			{$1$}
+	(0,-1) circle (1.5pt)
+		node[anchor=north, color=black]
+			{$-1$};
+			
+	\node[anchor=center] 
+		at (-1,1)
+			{$\varphi^{(p_y)}_{ij}$};
+	
+	\draw[color=lightgray, dashed] 
+		(-1,0) -- (1,0);
+	\draw[color=lightgray] 
+		(0,-1) -- (0,1);
+\end{tikzpicture}

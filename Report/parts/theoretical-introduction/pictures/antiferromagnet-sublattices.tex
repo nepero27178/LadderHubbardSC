@@ -1,0 +1,92 @@
+\newcount\xLength
+\xLength=4	% Even!
+\newcount\yLength
+\yLength=2	% Even!
+
+\newcount\xStop
+\xStop=\xLength
+\divide\xStop by 2 \advance\xStop by -1\relax
+
+\newcount\yStop
+\yStop=\yLength
+\divide\yStop by 2 \advance\yStop by -1\relax
+
+\begin{tikzpicture}
+	\draw[
+		color=lightgray, dashed
+	] 
+		(-0.25,-0.25) grid ({\xLength+0.25}, {\yLength+0.25});
+		
+	% Nested, no indentation
+	\foreach \x in {
+		0,...,\xStop
+	}{
+	\foreach \y in {
+		0,...,\yStop
+	}{
+		% Up sites
+		\fill[color=tabred] 
+			({2*\x},{2*\y}) circle (1.5pt)
+			({2*\x+1},{2*\y+1}) circle (1.5pt)
+		;
+		
+		% Red sublattice
+		\draw[color=tabred] 
+			({2*\x},{2*\y}) -- ++ (2,2)
+			({2*\x},{2-2*\y}) -- ++ (2,-2)
+		;
+		
+		% Down sites
+		\fill[color=tabblue] 
+			({2*\x},{2*\y+1}) circle (1.5pt)
+			({2*\x+1},{2*\y}) circle (1.5pt)
+		;
+		
+		% Blue sublattice
+		\draw[color=tabblue] 
+			({2*\x},{2*\y+1}) -- ++ (1,1)
+			-- ++ (1,-1)
+			-- ++ (-1,-1)
+			-- ++ (-1,1)
+		;
+	}}
+
+	% Border
+	\foreach \x in {
+		0, ..., \xStop
+	}{
+	\foreach \y in {
+		0, ..., \yStop
+	}{
+	
+		% Up sites
+		\fill[color=tabred] 
+			({2*\x},\yLength) circle (1.5pt)
+			(\xLength,{2*\y}) circle (1.5pt)
+		;
+		
+		% Down sites
+		\fill[color=tabblue] 
+			({2*\x+1},\yLength) circle (1.5pt)
+			(\xLength,{2*\y+1}) circle (1.5pt)
+		;
+		
+	}}
+
+	% Topright
+	\fill[color=tabred] 
+		(\xLength,\yLength) circle (1.5pt);
+		
+	\node[color=lightgray, anchor=east] 
+		at (0,0.5)
+			{$\mathcal{S}$};
+			
+	\node[color=tabred, anchor=west] 
+		at (\xLength+0.25,2)
+			{$\mathcal{S}_a$};
+	
+	\node[color=tabblue, anchor=west] 
+		at (\xLength+0.25,1)
+			{$\mathcal{S}_b$};
+		
+\end{tikzpicture}

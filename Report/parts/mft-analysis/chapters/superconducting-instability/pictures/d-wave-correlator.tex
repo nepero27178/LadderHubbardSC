@@ -1,0 +1,26 @@
+\begin{tikzpicture}
+	\fill[color=lightgray] 
+	(0,0) circle (1.5pt)
+		node[anchor=south west]
+			{$0$}
+	(1,0) circle (1.5pt)
+		node[anchor=west, color=black]
+			{$1$}
+	(-1,0) circle (1.5pt)
+		node[anchor=east, color=black]
+			{$1$}
+	(0,1) circle (1.5pt)
+		node[anchor=south, color=black]
+			{$-1$}
+	(0,-1) circle (1.5pt)
+		node[anchor=north, color=black]
+			{$-1$};
+			
+	\node[anchor=center] 
+		at (-1,1)
+			{$\varphi^{(d)}_{ij}$};
+	
+	\draw[color=lightgray] 
+		(-1,0) -- (1,0)
+		(0,-1) -- (0,1);
+\end{tikzpicture}

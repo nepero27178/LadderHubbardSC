@@ -1,0 +1,32 @@
+\def\rotationSphere{-100}
+\def\tiltsphere{20}
+\def\radiusSphere{2cm}
+\begin{blochsphere}[
+	radius=\radiusSphere,
+	tilt=\tiltsphere,
+	rotation=\rotationSphere,
+	opacity=0.1,
+	color=tabblue
+	]
+	% --- Ball setup ---
+	\drawBallGrid[style={opacity=0.05}]{30}{45}
+	\drawLongitudeCircle[style={dashed,color=lightgray}]{0}
+		\drawLongitudeCircle[style={dashed,color=lightgray}]{90}
+	\drawLatitudeCircle[style={dashed,color=lightgray}]{0}
+	
+	% --- Points ---
+	\labelLatLon{z+}{90}{0};
+	\labelLatLon{z-}{-90}{0};
+	\labelLatLon{x-}{0}{180};
+	\labelLatLon{x+}{0}{0};
+	\labelLatLon{y+}{0}{270};
+	
+	% --- Axis ---
+	\draw[-stealth]
+		(0,0) -- ($($(0,0)!0.5!(z+)$)$) node[anchor=south] {\footnotesize $z$};
+	\draw[-stealth] 
+		(0,0) -- ($($(0,0)!0.5!(x+)$)$) node[anchor=east,yshift=-0.2em] {\footnotesize$x$};
+	\draw[-stealth] 
+		(0,0) -- ($($(0,0)!0.5!(y+)$)$) node[anchor=west,yshift=-0.1em] {\footnotesize $y$};
+			
+\end{blochsphere}

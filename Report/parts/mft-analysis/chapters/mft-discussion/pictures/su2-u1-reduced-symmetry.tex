@@ -1,0 +1,42 @@
+\def\rotationSphere{-100}
+\def\tiltsphere{25}
+\def\ThetaParameter{45}
+\def\PhiParameter{80}
+\def\radiusSphere{2cm}
+\begin{blochsphere}[
+	radius=\radiusSphere,
+	tilt=\tiltsphere,
+	rotation=\rotationSphere,
+	opacity=0
+	]
+	% --- Ball setup ---
+	\drawBallGrid[style={opacity=0.05}]{30}{45}
+	
+	% --- Points ---
+	\labelLatLon{z+}{90}{0};
+	\labelLatLon{z-}{-90}{0};
+	\labelLatLon{x-}{0}{180};
+	\labelLatLon{x+}{0}{0};
+	\labelLatLon{y+}{0}{270};
+	\labelLatLon{versor}{\ThetaParameter}{-\PhiParameter};
+	
+	% Rotation
+	\drawGreatCircle[style={dashed,color=tabblue}]{\ThetaParameter}{-\PhiParameter}
+	\drawRotationRight[scale=1.1,style={color=tabblue}]{\ThetaParameter}{-\PhiParameter}{0}{15}	
+	
+	% --- Axis ---
+	\draw[-stealth,color=lightgray]
+		(0,0) -- ($($(0,0)!0.5!(z+)$)$) node[anchor=south] 
+			{\footnotesize $z$};
+	\draw[-stealth,color=lightgray] 
+		(0,0) -- ($($(0,0)!0.5!(x+)$)$) node[anchor=east,yshift=-0.2em] 
+			{\footnotesize$x$};
+	\draw[-stealth,color=lightgray] 
+		(0,0) -- ($($(0,0)!0.5!(y+)$)$) node[anchor=west,yshift=-0.1em] 
+			{\footnotesize $y$};
+	
+	% --- Versor ---
+	\draw[color=tabblue,-stealth]
+		(0,0) -- (versor) node[anchor=south west]
+			{$\mathbf{m}$};
+\end{blochsphere}

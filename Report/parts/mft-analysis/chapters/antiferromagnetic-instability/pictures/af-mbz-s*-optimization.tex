@@ -1,0 +1,78 @@
+\begin{tikzpicture}
+	\begin{axis}[
+			axis lines=center,
+			grid=both,
+			grid style={color=lightgray,dashed},
+			%
+			xlabel={$k_x$},
+			xlabel style={right},
+			ylabel={$k_y$},
+			ylabel style={above},
+			xtick={-1},
+			xticklabel={$-\pi$},
+			xticklabel style={below left},
+			extra x ticks={1},
+			extra x tick label={$\pi$},
+			extra x tick style={xticklabel style={below right}},
+			ytick={-1},
+			yticklabel={$-\pi$},
+			yticklabel style={below left},
+			extra y ticks={1},
+			extra y tick label={$\pi$},
+			extra y tick style={yticklabel style={above left}},
+			xmin=-1.32, xmax=1.32,
+			ymin=-1.32, ymax=1.32,
+			%
+			width=0.5\textwidth,
+			height=0.5\textwidth
+		]
+							
+        % Down paths
+	    \addplot [color=lightgray,name path=D1,domain=-1:0]
+	        {abs(x)-1};
+	    \addplot [color=lightgray,name path=D2,domain=0:1]
+	        {abs(x)-1};
+	        
+	    % Up paths
+	    \addplot [color=lightgray,name path=U1,domain=-1:0] 
+	        {-abs(x)+1};
+	    \addplot [color=tabred,name path=U2,domain=0:1,line width=1] 
+	        {-abs(x)+1};
+	     
+	    % Zero path
+	    \addplot[name path=Z,domain=0:1,opacity=0]
+	        {0};
+	        
+	    % Fill between, nodes and points
+	    \addplot[color=tabgreen,opacity=0.25] 
+	        fill between [of=U2 and Z];
+	    \addplot[color=lightgray,opacity=0.25] 
+	        fill between [of=U1 and D1];
+	    \addplot[color=lightgray,opacity=0.25] 
+	        fill between [of=Z and D2];
+	    \draw[color=tabgreen,line width=1]
+	        (axis cs:0,0) -- (axis cs:0,1);
+	    \fill[color=tabblue]
+			(axis cs:0,0) circle (1.5pt)
+			(axis cs:0,1) circle (1.5pt);
+			
+		\node[anchor=north west]
+		    at (-1,1) {BZ};
+		\node[color=gray,anchor=north west]
+		    at (-0.5,0.5) {MBZ};
+	\end{axis}
+	
+	\node
+		at (9,3) {
+			\begin{tabular}{c c}
+				\textbf{Color code} & $w(\mathbf{k})$ \\
+					\midrule
+				White & 0 \\
+				{\color{gray}Gray} & 0 \\
+				{\color{tabblue}Blue} & 1 \\
+				{\color{tabred}Red} & 2 \\
+				{\color{tabgreen}Green} & 4 \\
+				\bottomrule
+			\end{tabular}
+		};
+\end{tikzpicture}

@@ -1,0 +1,121 @@
+\def\xSeparation{2}			% Lattice spacing
+\def\ySeparation{1.5}		% Rows spacing
+\def\angle{90}				% Arrows angle (0 is horizontal)
+\def\arrowLength{0.5}		% Arrows length
+\def\onSiteSeparation{0.1}  % Arrows horizontal separation on site
+\begin{tikzpicture}
+	
+	% Lattice
+	\foreach \i in {0,1,2}{
+		\filldraw[color=lightgray, fill=lightgray] 
+			(0,{\i*\ySeparation}) circle (1.5pt) 
+			--++ 
+			({\xSeparation},0) circle (1.5pt);
+	}
+	
+	% Local repulsion
+	\node[anchor=west, align=left, xshift=1cm]
+		at (
+			{0 + \xSeparation},
+			{0 + 2 * \ySeparation}
+		) {Local repulsion};
+	
+	\fill[color=tabred!80, path fading=fade out]
+		(
+			{0},
+			{2 * \ySeparation}
+		) circle (10pt) node (LocRep) {};
+	% Label must be defined outside not to conflict with path fading
+	
+	\node[color=tabred, anchor=east, xshift=-0.25cm]
+		at (LocRep) {\small $U$};
+	
+	\draw[color=tabblue, -stealth]
+		(
+			{0 - \onSiteSeparation/2 - \arrowLength/2 * cos(\angle)},
+			{0 + 2 * \ySeparation - \arrowLength/2 * sin(\angle)}
+		) --++ (
+			{\arrowLength * cos(\angle)},
+			{\arrowLength * sin(\angle)}
+		);
+	\draw[color=tabblue, stealth-]
+		(
+			{0 + \onSiteSeparation/2 - \arrowLength/2 * cos(\angle)},
+			{0 + 2 * \ySeparation - \arrowLength/2 * sin(\angle)}
+		) --++ (
+			{\arrowLength * cos(\angle)},
+			{\arrowLength * sin(\angle)}
+		);
+	
+	% Single hop
+	\node[anchor=west, align=left, xshift=1cm]
+		at (
+			{0 + \xSeparation},
+			{0 + \ySeparation}
+		) {Single hop};
+	\draw[color=tabblue, -stealth]
+		(
+			{0 - \arrowLength/2 * cos(\angle)},
+			{0 + \ySeparation - \arrowLength/2 * sin(\angle)}
+		) --++ (
+			{\arrowLength * cos(\angle)},
+			{\arrowLength * sin(\angle)}
+		);
+	
+	\draw[color=tabgreen, dashed] 
+		(
+			{0 + \arrowLength/2 * cos(\angle)},
+			{\ySeparation}
+		) edge [-stealth, bend left=30]
+			node[midway, anchor=south]
+				{\small $-t$}
+		(
+			{0 + \xSeparation + \arrowLength/2 * cos(\angle)},
+			{\ySeparation}
+		);
+	
+	% Double hop
+	\node[anchor=west, align=left, xshift=1cm]
+		at (
+			{0 + \xSeparation},
+			{0}
+		) {Double hop};
+	\draw[color=tabblue, -stealth]
+		(
+			{0 - \arrowLength/2 * cos(\angle)},
+			{0 - \arrowLength/2 * sin(\angle)}
+		) --++ (
+			{\arrowLength * cos(\angle)},
+			{\arrowLength * sin(\angle)}
+		);
+	\draw[color=tabblue, stealth-]
+		(
+			{0 + \xSeparation - \arrowLength/2 * cos(\angle)},
+			{0 - \arrowLength/2 * sin(\angle)}
+		) --++ (
+			{\arrowLength * cos(\angle)},
+			{\arrowLength * sin(\angle)}
+		);
+		
+	\draw[color=tabgreen, dashed] 
+		(
+			{0 + \arrowLength/2 * cos(\angle)},
+			{0 + \arrowLength/2 * sin(\angle)}
+		) edge [-stealth, bend left=30]
+			node[midway, anchor=south]
+				{\small $-t$}
+		(
+			{0 + \xSeparation + \arrowLength/2 * cos(\angle)},
+			{0 + \arrowLength/2 * sin(\angle)}
+		)
+		(
+			{0 - \arrowLength/2 * cos(\angle)},
+			{0 - \arrowLength/2 * sin(\angle)}
+		) edge [stealth-, bend right=30]
+			node[midway, anchor=north]
+				{\small $-t$}
+		(
+			{0 + \xSeparation - \arrowLength/2 * cos(\angle)},
+			{0 - \arrowLength/2 * sin(\angle)}
+		);
+\end{tikzpicture}

@@ -239,7 +239,7 @@ From Wick's decomposition of $\hat H_V$, the only allowed Fock term comes from t
 	V \sum_{\ev{ij}} \sum_\sigma \left[
 	\langle
 	\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
-	\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} + \mathrm{h.c.}
+	\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} + \hc
 	\right]
 \end{equation}
 (note the $+$ sign in front of it). A bond-wise hopping amplitude can be defined,
@@ -255,11 +255,11 @@ In the AF phase, given some site $i$ and a spin $\sigma$, evidently $\tilde{t}_{
 	\hat H_{\tilde{t}} &= \hat H_t + V \sum_{\ev{ij}} \sum_\sigma \left[
 	\langle
 	\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
-	\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} + \mathrm{h.c.}
+	\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} + \hc
 	\right] \\
 	&= - \sum_{\ev{ij}} \sum_\sigma 
 	\left[
-	\tilde{t}_{ij\sigma} \hat c_{i\sigma}^\dagger \hat c_{j\sigma} + \mathrm{h.c.}
+	\tilde{t}_{ij\sigma} \hat c_{i\sigma}^\dagger \hat c_{j\sigma} + \hc
 	\right]
 \end{aligned}
 \]
@@ -270,7 +270,7 @@ In reciprocal space, the effective hopping must be transformed as well. Consider
 	V \sum_{\ev{ij}} \sum_\sigma \left[
 	\langle
 	\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
-	\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} + \mathrm{h.c.}
+	\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} + \hc
 	\right] \\
 	= \frac{2V}{L_x L_y} \sum_{\mathbf{K}, \mathbf{k}, \mathbf{k}'} \sum_\sigma \left[
 	\cos \left(
@@ -285,7 +285,7 @@ In reciprocal space, the effective hopping must be transformed as well. Consider
 	\rangle
 	\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}+\mathbf{k}'\sigma} \label{eq:reciprocal-space-non-local-interaction-fock-intermediate}
 \end{multline}
-where the $2$ prefactor comes from recognizing that the $\mathrm{h.c.}$ generates an identical contribution to the full sum. In order to proceed, it is now necessary to understand how the AF phase is realized in reciprocal space. As is exposed in App.~\ref{appendix:mean-field-hubbard}, to impose an AF Ansatz of the form
+where the $2$ prefactor comes from recognizing that the $\hc$ generates an identical contribution to the full sum. In order to proceed, it is now necessary to understand how the AF phase is realized in reciprocal space. As is exposed in App.~\ref{appendix:mean-field-hubbard}, to impose an AF Ansatz of the form
 \[
 \langle \hat n_{\mathbf{r}\sigma} \rangle = n - (-1)^{x+y+\delta_{\sigma=\uparrow}} m
 \]

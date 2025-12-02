@@ -377,12 +377,12 @@ When contracting these fermionic operators, identical considerations as for the 
 
 The general sketch of a self-consistent Hartree-Fock algorithm in our context is simple enough. Start from a fermionic quartic hamiltonian,
 \begin{equation}\label{eq:generic-quartic-hamiltonian}
-	\hat H = \sum_{\alpha\beta} A_{\alpha\beta} \hat c_\alpha^\dagger \hat c_\beta + \sum_{\alpha\beta\gamma\delta} B_{\alpha\beta\gamma\delta} \hat c_\alpha^\dagger \hat c_\beta^\dagger \hat c_\gamma \hat c_\delta + \mathrm{h.c.}
+	\hat H = \sum_{\alpha\beta} A_{\alpha\beta} \hat c_\alpha^\dagger \hat c_\beta + \sum_{\alpha\beta\gamma\delta} B_{\alpha\beta\gamma\delta} \hat c_\alpha^\dagger \hat c_\beta^\dagger \hat c_\gamma \hat c_\delta + \hc
 \end{equation}
 where $A_{\alpha\beta}$, $B_{\alpha\beta\gamma\delta}$ are model parameters. We limit ourselves to quartic hamiltonians, but the idea can be extended. As discussed before, in this kind of context MFT is employed by applying Wick's theorem. This way, the quartic hamiltonian is effectively reduced to a quadratic hamiltonian,
 \begin{equation}\label{eq:generic-quadratic-effective-hamiltonian}
 	\hat H \simeq \hat H^{(\mathrm{eff})} = 
-	\sum_{\alpha\beta} C_{\alpha\beta} \hat c_\alpha^\dagger \hat c_\beta + \sum_{\alpha\beta} D_{\alpha\beta} \hat c_\alpha^\dagger \hat c_\beta^\dagger + \mathrm{h.c.}
+	\sum_{\alpha\beta} C_{\alpha\beta} \hat c_\alpha^\dagger \hat c_\beta + \sum_{\alpha\beta} D_{\alpha\beta} \hat c_\alpha^\dagger \hat c_\beta^\dagger + \hc
 \end{equation}
 where now the new parameters, which we will refer to as Hartree-Fock parameters (HFP), depend on the model itself via the equations
 \[

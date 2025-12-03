@@ -4,19 +4,19 @@ SetupFilePath = @__FILE__
 # All possible simulations
 AllPhases = [
     "AF",               # Renormalized AntiFerromagnet
-    "AF*",              # As for AF, but with pure Hopping
+    "FakeAF",              # As for AF, but with pure Hopping
     "SU/Singlet",       # Singlet superconductor
     "SU/Triplet"        # Triplet superconductor
 ]
 AllSingletSyms = ["s", "s*", "d"]
 AllTripletSyms = ["px", "py", "p+", "p-"]
 
-Phase = "AF"    # Choose your phase
+Phase = "FakeAF"    # Choose your phase
 if !in(Phase, AllPhases)
     @error "Invalid phase, please modify at: " * SetupFilePath
 end
 # Model = "Renormalized-AF"
-Setup = "B[128]-t=0.7"  # Choose your setup #TODO Use readline()
+Setup = "B[128]"  # Choose your setup #TODO Use readline()
 AvailableSetups = [
     "Test[80]",
     "A[128]",
@@ -26,7 +26,7 @@ AvailableSetups = [
 ]
 
 RenormalizeHopping::Bool = true
-if Phase=="AF*"
+if Phase=="FakeAF"
     RenormalizeHopping::Bool = false
 end
 

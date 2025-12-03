@@ -4,7 +4,7 @@ SetupFilePath = @__FILE__
 # All possible simulations
 AllPhases = [
     "AF",               # Renormalized AntiFerromagnet
-    "AF*",              # As for AF, but with pure Hopping
+    "FakeAF",              # As for AF, but with pure Hopping
     "SU/Singlet",       # Singlet superconductor
     "SU/Triplet"        # Triplet superconductor
 ]
@@ -27,7 +27,7 @@ AvailableSetups = [
 ]
 
 RenormalizeHopping::Bool = true
-if Phase=="AF*"
+if Phase=="FakeAF"
     RenormalizeHopping::Bool = false
 end
 

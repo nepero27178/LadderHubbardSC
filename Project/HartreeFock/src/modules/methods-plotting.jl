@@ -13,7 +13,7 @@ function GetLabels(
     Phase::String
 )::Dict{String,String}
 
-    if in(Phase, ["AF", "AF*"])
+    if in(Phase, ["AF", "FakeAF"])
         VarLabels = Dict([
             "t" => "t",
             "U" => "U",
@@ -55,7 +55,7 @@ function PlotOrderParameter(
 Returns: none (plots saved at `DirPathOut`).
 
 `PlotOrderParameter` takes as input `Phase` (string specifying the mean-field
-phase, the allowed are \"AF\", \"AF*\", \"SU/Singlet\", \"SU/Triplet\"), 
+phase, the allowed are \"AF\", \"FakeAF\", \"SU/Singlet\", \"SU/Triplet\"), 
 `FilePathIn` (path to the data files), `DirPathOut` (path to the output
 directory). The optional parameters are `xVar` and `pVar` (strings specifying
 respectively the x variable and the parametric variable of the plot, the 
@@ -257,7 +257,7 @@ function PlotOrderParameter2D(
 Returns: none (plots saved at `DirPathOut`).
 
 `PlotOrderParameter2D` takes as input `Phase` (string specifying the mean-field
-phase, the allowed are \"AF\", \"AF*\", \"SU/Singlet\", \"SU/Triplet\"), `FilePathIn`
+phase, the allowed are \"AF\", \"FakeAF\", \"SU/Singlet\", \"SU/Triplet\"), `FilePathIn`
 (path to the data files), `DirPathOut` (path to the output directory). The
 optional parameters are `xVar` and `yVar` (strings specifying respectively the x
 variable and the y variable of the plot, the allowed are \"t\", \"U\", \"V\", 
@@ -665,7 +665,7 @@ function PlotRecord(
 Returns: none (plots saved at `DirPathOut`).
 
 `PlotRecord` takes as input `Phase` (string specifying the mean-field phase, the
-allowed are \"AF\", \"AF*\", \"SU/Singlet\", \"SU/Triplet\"), `FilePathIn` (path
+allowed are \"AF\", \"FakeAF\", \"SU/Singlet\", \"SU/Triplet\"), `FilePathIn` (path
 to the data files), `DirPathOut` (path to the output directory). The optional 
 parameter is `rVar` (string specifying the recorded variable to plot), `cs`
 (colorscheme symbol). `Extension` selects the file extension (the allowed are 

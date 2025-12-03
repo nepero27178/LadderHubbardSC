@@ -137,7 +137,7 @@ function RunHFScan(
         HFResults = RunHFAlgorithm(
             Phase,Parameters,L,0.5+δ,β,
             p,Δv,Δn,g;
-            #v0i=v0,
+            v0i=v0,
             RenormalizeHopping
         )
         

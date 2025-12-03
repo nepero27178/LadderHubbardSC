@@ -71,7 +71,7 @@ function main()
             Extension="pdf"
         )
     elseif Mode=="RMPs"
-        if Phase=="AF*"
+        if Phase=="FakeAF"
             @error "It makes no sense to plot RMPs for Phase=$(Phase)!"
         else 
             PlotRMPs(

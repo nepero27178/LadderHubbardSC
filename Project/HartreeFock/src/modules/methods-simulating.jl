@@ -17,7 +17,7 @@ function GetHFPs(
 
     KeysList::Dict{String,Vector{String}} = Dict([
         "AF" => ["m", "w0", "wp"],
-        "AF*" => ["m", "w0", "wp"],
+        "FakeAF" => ["m", "w0", "wp"],
         # "SU/Singlet" => ["s", "s*", "d"],
         # "SU/Triplet" => ["px", "py", "p+", "p-"]
     ])
@@ -38,7 +38,7 @@ function GetRMPs(
 
     KeysList::Dict{String,Vector{String}} = Dict([
         "AF" => ["reΔ_tilde", "imΔ_tilde", "t_tilde"],
-        "AF*" => ["reΔ_tilde", "imΔ_tilde", "t_tilde"],
+        "FakeAF" => ["reΔ_tilde", "imΔ_tilde", "t_tilde"],
         # "SU/Singlet" => ["s", "s*", "d"],
         # "SU/Triplet" => ["px", "py", "p+", "p-"]
     ])
@@ -141,7 +141,7 @@ function GetHamiltonian(
 Returns: the Nambu-Bogoliubov hamiltonian at wavevector (`k[1]`, `k[2]`).
 
 `GetHamiltonian` takes as input `Phase` (string specifying the mean-field phase,
-the allowed are \"AF\", \"AF*\", \"SU/Singlet\", \"SU/Triplet\"), `Parameters` 
+the allowed are \"AF\", \"FakeAF\", \"SU/Singlet\", \"SU/Triplet\"), `Parameters` 
 (dictionary of model parameters containing `t`, `U`, `V`), `k` (coordinate in 
 k-space) and `v` (dictionary of real HF parameters). It computes the 
 contribution at wavevector (`k[1]`, `k[2]`) to the many-body second-quantized 
@@ -157,7 +157,7 @@ function GetHamiltonian(
 	RenormalizeHopping::Bool=true       # Conditional renormalization of t
 )::Matrix{Complex{Float64}}
 
-	if in(Phase, ["AF", "AF*"])
+	if in(Phase, ["AF", "FakeAF"])
 		
 		# Empty hamiltonian
 		hk = zeros(Complex{Float64},2,2)
@@ -260,7 +260,7 @@ function GetKPopulation(
 Returns: matrix of single-particle k-states populations.
 
 `GetKPopulation` takes as input `Phase` (string specifying the 
-mean-field phase, the allowed are \"AF\", \"AF*\", \"SU/Singlet\", \"SU/Triplet\"),
+mean-field phase, the allowed are \"AF\", \"FakeAF\", \"SU/Singlet\", \"SU/Triplet\"),
 `Parameters`  (dictionary of model parameters containing `t`, `U`, `V`), `K`
 (k-points in the BZ), `v` (dictionary of real HF parameters), `μ` (chemical 
 potential) and `β` (inverse temperature). It computes a matrix of occupation 
@@ -290,7 +290,7 @@ function GetKPopulation(
         # wk = GetWeight(k) # Avoid computational redundance
         # k .*= pi # Important: multiply k by pi
     	
-		if in(Phase, ["AF", "AF*"]) # && in(wk,[1,2,4])
+		if in(Phase, ["AF", "FakeAF"]) # && in(wk,[1,2,4])
 			# Renormalized bands
 			εk::Float64 = GetHoppingEnergy(t,k)
 		    
@@ -409,7 +409,7 @@ function PerformHFStep(
 Returns: HF estimation for Cooper instability parameter based on input.
 
 `PerformHFStep` takes as input `Phase` (string specifying the mean-field phase, 
-the allowed are \"AF\", \"AF*\", \"SU/Singlet\", \"SU/Triplet\"), `Parameters` 
+the allowed are \"AF\", \"FakeAF\", \"SU/Singlet\", \"SU/Triplet\"), `Parameters` 
 (dictionary of model parameters containing `t`, `U`, `V`), `K` (k-points in the
 BZ) , `m0` (dictionary of  real HF initializers), 'U` (local interaction), `V`
 (non-local interaction), `n` (density) and `β` (inverse temperature). It
@@ -441,7 +441,7 @@ function PerformHFStep(
     μ = FindRootμ(Phase,Parameters,K,v0,n,β;debug)
 
     # Antiferromagnet
-	if in(Phase, ["AF", "AF*"])
+	if in(Phase, ["AF", "FakeAF"])
 		m::Float64 = 0.0
 		w0::Float64 = 0.0
 		wpi::Float64 = 0.0
@@ -552,7 +552,7 @@ parameters `Q` and computational time `ΔT`. If `record` is set to true, the
 last output contains the entire evolution of the parameters.
 
 `RunHFAlgorithm` takes as input `Phase` (string specifying the mean-field phase, 
-the allowed are \"AF\", \"AF*\", \"SU/Singlet\", \"SU/Triplet\"), `Parameters` 
+the allowed are \"AF\", \"FakeAF\", \"SU/Singlet\", \"SU/Triplet\"), `Parameters` 
 (dictionary of model parameters containing `t`, `U`, `V`), `L` (square lattice 
 dimensions), `n` (density), `β` (inverse temperature), `p` (maximum number of HF
 iterations), `Δm` (tolerance on each order parameter) and `Δn` (tolerance on

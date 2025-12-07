@@ -5,6 +5,8 @@
 - [x] Use normalized K
 - [x] Re-use previous value in step for fast convergence
 - [x] Restrict to MBZ calculation AND CHECK MULTIPLIERS!
-- [ ] Insert graphs in report
+- [x] Insert graphs in report
 - [ ] Investigate superconducting phase
 - [ ] Finite size scaling on the boundary
+- [ ] Extract and plot Fermi surface
+- [ ] Fake rigid shift of hopping

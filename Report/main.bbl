@@ -63,7 +63,6 @@
       \field{type}{Journal Article}
       \field{volume}{13}
       \field{year}{2022}
-      \true{nocite}
       \field{pages}{239\bibrangedash 274}
       \range{pages}{36}
       \verb{doi}
@@ -185,6 +184,7 @@
       \field{labeltitlesource}{title}
       \field{title}{A Course in Quantum Many-Body Theory}
       \field{year}{2022}
+      \true{nocite}
     \endentry
     \entry{giuliani2005quantum}{book}{}
       \name{author}{2}{}{%

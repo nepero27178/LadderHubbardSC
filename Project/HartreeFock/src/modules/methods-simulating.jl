@@ -285,11 +285,10 @@ function GetKPopulation(
     	t -= v["w0"] * Parameters["V"]
     end
 
-    # wk::Int64=0
-    for (i,k) in enumerate(K .* pi)
-        # wk = GetWeight(k) # Avoid computational redundance
-        # k .*= pi # Important: multiply k by pi
-    	
+    wk::Int64=0
+    for (i,q) in enumerate(K)
+        wk = GetWeight(q) # Avoid computational redundance
+        k = q .* pi # Important: multiply k by pi
 		if in(Phase, ["AF", "FakeAF"]) # && in(wk,[1,2,4])
 			# Renormalized bands
 			εk::Float64 = GetHoppingEnergy(t,k)
@@ -302,7 +301,7 @@ function GetKPopulation(
 			Ek::Float64 = sqrt( εk^2 + reΔk^2 + imΔk^2 )
 			
 			# Fermi-Dirac factor
-			Nk[i] = FermiDirac(-Ek,μ,β) + FermiDirac(Ek,μ,β)
+			Nk[i] = 2*wk* (FermiDirac(-Ek,μ,β) + FermiDirac(Ek,μ,β))
 
 		elseif Phase=="SU/Singlet"
 			@error "Under construction"
@@ -358,33 +357,36 @@ function FindRootμ(
 		return
 	end
 
-    D = 2 * prod(size(K))
+    D::Int64 = 2 * prod(size(K))
     # Define function to be minimized
     δn(μ::Float64) = sum( 
             GetKPopulation(Phase,Parameters,K,v,μ,β;RenormalizeHopping)
         )/D - nt
 
-    LowerBoundary = 0.0
-    UpperBoundary = LowerBoundary
-    if δn(LowerBoundary) >= 0
-        while δn(LowerBoundary) >= 0
-            if debug
-                @warn "Moving down lower boundary"
+    μ::Float64 = 0.0
+    LowerBoundary::Float64 = 0.0
+    UpperBoundary::Float64 = LowerBoundary
+    if abs(δn(LowerBoundary)) > Δn
+        if δn(LowerBoundary) > 0
+            while δn(LowerBoundary) > 0
+                if debug
+                    @warn "Moving down lower boundary"
+                end
+                LowerBoundary -= 1.0
             end
-            LowerBoundary -= 1.0
-        end
-        UpperBoundary = LowerBoundary + 1.0
-    elseif δn(UpperBoundary) <= 0
-        while δn(UpperBoundary) <= 0
-            if debug
-                @warn "Moving up upper boundary"
+            UpperBoundary = LowerBoundary + 1.0
+        elseif δn(UpperBoundary) < 0
+            while δn(UpperBoundary) < 0
+                if debug
+                    @warn "Moving up upper boundary"
+                end
+                UpperBoundary += 1.0
             end
-            UpperBoundary += 1.0
+            LowerBoundary = UpperBoundary - 1.0        
         end
-        LowerBoundary = UpperBoundary - 1.0        
+        μ = find_zero(δn, (LowerBoundary, UpperBoundary))
     end
-    μ = find_zero(δn, (LowerBoundary, UpperBoundary))
-
+    
     if debug
         n = sum( GetKPopulation(Phase,Parameters,K,v,μ,β) )/D
         @info "Optimal chemical potential and density:" μ n    
@@ -404,7 +406,7 @@ function PerformHFStep(
 	Syms::Vector{String}=[\"d\"],
     debug::Bool=false,
     RenormalizeHopping::Bool=true
-)::Dict{String,Float64}
+)::Tuple{Dict{String,Float64},Float64}
 
 Returns: HF estimation for Cooper instability parameter based on input.
 
@@ -434,7 +436,7 @@ function PerformHFStep(
 	Syms::Vector{String}=["d"],		    # Gap function symmetries
 	debug::Bool=false,					# Debug mode
 	RenormalizeHopping::Bool=true       # Conditional renormalization of t
-)::Dict{String,Float64}
+)::Tuple{Dict{String,Float64},Float64}
 
 	v = copy(v0)	
 	LxLy = prod(size(K))	
@@ -524,7 +526,7 @@ function PerformHFStep(
 		return
 	end
 
-    return v
+    return v, μ
 end
 
 @doc raw"""
@@ -583,7 +585,7 @@ function RunHFAlgorithm(
     debug::Bool=false,
     record::Bool=false,
     RenormalizeHopping::Bool=true       # Conditional renormalization of t
-)::Tuple{Dict{String,Float64}, Dict{String,Float64}, Float64, Dict{String,Vector{Float64}}}
+)::Tuple{Dict{String,Float64}, Dict{String,Float64}, Float64, Float64, Dict{String,Vector{Float64}}}
 
     if verbose
         @info "Running HF convergence algorithm" Phase Parameters L n β
@@ -601,9 +603,9 @@ function RunHFAlgorithm(
 
     # Reciprocal space discretization (normalized to 1)
     Kx::Vector{Float64} = [kx for kx in -1:2/L[1]:1]
-    pop!(Kx)
+    popfirst!(Kx)
     Ky::Vector{Float64} = [ky for ky in -1:2/L[2]:1]
-    pop!(Ky)
+    popfirst!(Ky)
     K::Matrix{Vector{Float64}} = [ [kx,ky] for kx in Kx, ky in Ky ]
     
     # Get Hartree Fock Parameters labels
@@ -611,6 +613,7 @@ function RunHFAlgorithm(
 
     # Initialize HF dictionaries
     v0::Dict{String,Float64} = Dict([])
+    μ::Float64 = 0.0
 
     if v0i==Dict([])
         for HFP in HFPs
@@ -638,14 +641,16 @@ function RunHFAlgorithm(
                 printstyled("\n---Step $i---\n", color=:yellow)
             end
 
-            v = copy( PerformHFStep(
+            Results = PerformHFStep(
                 Phase,
                 Parameters,
                 K,v0,n,β;
                 Syms,
                 debug,
                 RenormalizeHopping
-            ))
+            )
+            v = copy(Results[1])
+            μ = Results[2]
             for key in keys(v0)
             	current = v[key]
             	previous = v0[key]
@@ -692,5 +697,5 @@ function RunHFAlgorithm(
         end
     end
 
-    return v,Qs,ΔT,Record
+    return v,Qs,ΔT,μ,Record
 end

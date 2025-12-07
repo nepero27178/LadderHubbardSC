@@ -86,7 +86,7 @@ function RunHFScan(
     
     # File coditional initialization (otherwise, just append)
     if FilePathOut != "" && InitializeFile
-            Header = "t;U;V;Lx;β;δ;v;Q;ΔT\n"
+            Header = "t;U;V;Lx;β;δ;v;Q;ΔT;μ\n"
         write(FilePathOut, Header)
     end
     
@@ -147,7 +147,7 @@ function RunHFScan(
         Qs::Dict{String,Float64} = Dict([
             key => HFResults[2][key] for key in HFPs
         ])        
-		ResultsVector = hcat(ResultsVector[:,3:end], [v Qs HFResults[3]])
+		ResultsVector = hcat(ResultsVector[:,3:end], [v Qs HFResults[3] HFResults[4]])
 		""" CODE CHECK
         push!(ResultsDF, ResultsVector)
         """
@@ -223,7 +223,7 @@ function RunHFRecord(
         )
         ΔT::Float64 = HFResults[3]
         gRecord::Dict{String,Vector{Float64}} = Dict([
-            key => HFResults[4][key] for key in HFPs
+            key => HFResults[5][key] for key in HFPs
         ])
 
         # Write record on matrix

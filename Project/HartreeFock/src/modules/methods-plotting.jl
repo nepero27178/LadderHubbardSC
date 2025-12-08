@@ -4,52 +4,52 @@ using DataFrames
 
 @doc raw"""
 function GetLabels(
-    Phase::String
+	Phase::String
 )::Dict{String,String}
 
 Returns: LaTeX formatted variable labels.
 """
 function GetLabels(
-    Phase::String
+	Phase::String
 )::Dict{String,String}
 
-    if in(Phase, ["AF", "FakeAF"])
-        VarLabels = Dict([
-            "t" => "t",
-            "U" => "U",
-            "V" => "V",
-            "Lx" => "L_x",
-            "δ" => "\\delta",
-            "β" => "\\beta",
-            "m" => "m",
-            "w0" => "w^{(\\mathbf{0})}",
-            "wp" => "w^{(\\bm{\\pi})}",
-            "reΔ_tilde" => "\\mathrm{Re}\\{\\tilde{\\Delta}_\\mathbf{k}\\}", 
-            "imΔ_tilde" => "\\mathrm{Im}\\{\\tilde{\\Delta}_\\mathbf{k}\\}",
-            "t_tilde" => "\\tilde{t}"
-            # ...
-        ])
-    elseif Phase=="Fake"
-        VarLabels = Dict([
-            "g" => "g"
-        ])
-    end
+	if in(Phase, ["AF", "FakeAF"])
+		VarLabels = Dict([
+			"t" => "t",
+			"U" => "U",
+			"V" => "V",
+			"Lx" => "L_x",
+			"δ" => "\\delta",
+			"β" => "\\beta",
+			"m" => "m",
+			"w0" => "w^{(\\mathbf{0})}",
+			"wp" => "w^{(\\bm{\\pi})}",
+			"reΔ_tilde" => "\\mathrm{Re}\\{\\tilde{\\Delta}_\\mathbf{k}\\}",
+			"imΔ_tilde" => "\\mathrm{Im}\\{\\tilde{\\Delta}_\\mathbf{k}\\}",
+			"t_tilde" => "\\tilde{t}"
+			# ...
+		])
+	elseif Phase=="Fake"
+		VarLabels = Dict([
+			"g" => "g"
+		])
+	end
 
-    return VarLabels
+	return VarLabels
 
 end
 
 @doc raw"""
 function PlotOrderParameter(
 	Phase::String,
-    FilePathIn::String,
-    DirPathOut::String;
-    xVar::String=\"U\",
-    pVar::String=\"V\",
-    Skip::Int64=1,
-    cs::Symbol=:imola50,
-    RenormalizeHopping::Bool=true,
-    Extension::String="pdf"::String="pdf"
+	FilePathIn::String,
+	DirPathOut::String;
+	xVar::String=\"U\",
+	pVar::String=\"V\",
+	Skip::Int64=1,
+	cs::Symbol=:imola50,
+	RenormalizeHopping::Bool=true,
+	Extension::String="pdf"::String="pdf"
 )
 
 Returns: none (plots saved at `DirPathOut`).
@@ -67,191 +67,191 @@ selects the file extension (the allowed are \"pdf\", \"png\", \"svg\").
 """
 function PlotOrderParameter(
 	Phase::String,						# Mean field phase
-    FilePathIn::String,					# Data filepath
-    DirPathOut::String;					# Output directory path
-    xVar::String="U",                   # Specify x variable
-    pVar::String="V",                   # Specify parametric variable
-    Skip::Int64=1,                      # xVar skip parameter
-    cs::Symbol=:imola50,                # Custom colorscheme
-    RenormalizeHopping::Bool=true,      # Conditional renormalization of t
-    Extension::String="pdf"             # File extension
+	FilePathIn::String,					# Data filepath
+	DirPathOut::String;					# Output directory path
+	xVar::String="U",					# Specify x variable
+	pVar::String="V",					# Specify parametric variable
+	Skip::Int64=1,						# xVar skip parameter
+	cs::Symbol=:imola50,					# Custom colorscheme
+	RenormalizeHopping::Bool=true,		# Conditional renormalization of t
+	Extension::String="pdf"				# File extension
 )
-    
-    FilePathOut = ""
-    AllVars = ["t", "U", "V", "Lx", "δ", "β"]
-    
-    # Input safecheck
-    if !in(xVar, AllVars)
-        @error "Invalid x variable, choose one of $(AllVars)"
-        exit()
-    end
-    
-    if !in(pVar, AllVars)
-        @error "Invalid parametric variable, choose one of $(AllVars)"
-        exit()
-    end
-    
-    if xVar==pVar
-        @error "You have chosen xVar=pVar!"
-        exit()
-    end
 
-    # Get LaTeX formatted labels
-    VarLabels = GetLabels(Phase)
+	FilePathOut = ""
+	AllVars = ["t", "U", "V", "Lx", "δ", "β"]
 
-    # Initialize directory structure
-    DirPathOut *= "PlotOrderParameter/xVar=" * xVar * "/pVar=" * pVar * "/"
-    mkpath(DirPathOut)
+	# Input safecheck
+	if !in(xVar, AllVars)
+		@error "Invalid x variable, choose one of $(AllVars)"
+		exit()
+	end
 
-    # Read data and create DataFrame
-    DataIn = open(FilePathIn) do io
-        readdlm(FilePathIn, ';', comments=false, '\n')
-    end
-    DF = DataFrame(DataIn[2:end,:], DataIn[1,:])
-    DF.Lx = Int64.(DF.Lx)
-    
-    # Unique variables dictionary
-    uDict::Dict{String,Vector{Any}} = Dict([
-        Var => unique(DF[!, Symbol(Var)]) for Var in AllVars
-    ])
-    
-    uDict[xVar] = [NaN]                   # Remove from following cycle
-    JJ::Vector = uDict[pVar][1:Skip:end]  # Parametric variable array
-    uDict[pVar] = [NaN]                   # Remove from following cycle
-    q = floor(Int64, length(colorschemes[cs]) / length(JJ) )
+	if !in(pVar, AllVars)
+		@error "Invalid parametric variable, choose one of $(AllVars)"
+		exit()
+	end
 
-    # Check if the selected colorscheme is large enough
-    if q==0
-        @error "Your cs (ColorScheme) is not large enough. Select another."
-        exit()
-    end
-    
-    # List HF parameters
-    ListHFPs::Vector{String} = [key for key in keys(
-        eval(Meta.parse(
-            DF.v[1]
-        ))
-    )]
+	if xVar==pVar
+		@error "You have chosen xVar=pVar!"
+		exit()
+	end
 
-    # Cycle over HF parameters
-    for HF in ListHFPs
+	# Get LaTeX formatted labels
+	VarLabels = GetLabels(Phase)
 
-        HFLabel::String = "\$" * VarLabels[HF] * "\$"
-        if HF=="m"
-            HFLabel = "Magnetization"
-        end
-    
-        # Cycle over simulated points
-        for (w,t) in enumerate(uDict["t"]),
-        	(u,U) in enumerate(uDict["U"]),
-        	(v,V) in enumerate(uDict["V"]),
-        	(l,L) in enumerate(uDict["Lx"]),
-        	(d,δ) in enumerate(uDict["δ"]),
-        	(b,β) in enumerate(uDict["β"])
-        	
-        	# Initialize local dictionary
-        	lDict::Dict{String,Any} = Dict([
-        	    "t" => t,
-        	    "U" => U,
-        	    "V" => V,
-        	    "Lx" => L,
-        	    "δ" => δ,
-        	    "β" => β
-        	])
-        	
-        	# Select entries
-        	Selections::Vector{Bool} = [true for _ in 1:length(DF.t)]
-        	for Var in AllVars
-        	    if !in(Var, [xVar, pVar])
-                    """
-        	        Selections = Selections .* (DF[Var] .== lDict[Var])
-                    """
-                    Selections = Selections .* (DF[!, Symbol(Var)] .== lDict[Var])
-        	    end
-        	end
-    
-            # Initialize plot    	
-        	P = plot(
-                size = (600,400),
-                xlabel = L"$%$(VarLabels[xVar])$",
-                ylabel = L"$%$(VarLabels[HF])$",
-                legend = :outertopright,
-            )
-        	
-        	# Write terminal message and file name
-        	TerminalMsg::String = "\e[2K\e[1GPlotting $(Phase) HF $(HF) data: "
-        	FilePathOut::String = DirPathOut * "/" * HF
-            rawTitle::String = HFLabel * " ("
+	# Initialize directory structure
+	DirPathOut *= "PlotOrderParameter/xVar=" * xVar * "/pVar=" * pVar * "/"
+	mkpath(DirPathOut)
 
-            AvoidList::Vector{String} = [xVar, pVar] #TODO Extend to pure hubbard
-        	for Var in AllVars
-        	    if !in(Var, AvoidList)
-                    lVar = lDict[Var]
-            	    TerminalMsg *= Var * "=$(lVar), "
-            	    FilePathOut *= "_" * Var * "=$(lVar)"
-            	    RS::String=""
-            	    if !RenormalizeHopping && Var=="t"
-            	        RS *= "\\tilde{t}="
-            	    end
-                    rawTitle *= "\$$(VarLabels[Var])=" * RS * "$(lVar)\$, "
-                    if Var=="Lx" # I am desperate about correct formatting
-                        rawTitle = rawTitle[1:end-5] * "\$, "
-                    elseif Var=="β" && β==Inf
-                        rawTitle = rawTitle[1:end-6] * "\\infty\$, "
-                    end
-            	end
-        	end
-        	TerminalMsg = TerminalMsg[1:end-2] * " [x variable: " * xVar *
-                ", parametric variable: " * pVar * "]"
-        	FilePathOut *= "." * Extension
-            rawTitle *= "varying \$" * VarLabels[pVar] * "\$)"
-        	printstyled("\e[2K\e[1G" * TerminalMsg, color=:yellow)
-            
-            # Cycle over parametric variable
-            for (j,J) in enumerate(JJ)
-                
-                # Run local selection
-            	lSelections = Selections .* (DF[!, Symbol(pVar)] .== J)
-            	vv = DF.v[lSelections]
-        	
-        	    # Define x and y variables
-            	xx::Vector{Float64} = DF[!, Symbol(xVar)][lSelections]
-            	yy::Vector = [eval(Meta.parse(
-            	    vv[i]
-		        ))[HF] for i in 1:length(vv)]
+	# Read data and create DataFrame
+	DataIn = open(FilePathIn) do io
+		readdlm(FilePathIn, ';', comments=false, '\n')
+	end
+	DF = DataFrame(DataIn[2:end,:], DataIn[1,:])
+	DF.Lx = Int64.(DF.Lx)
 
-                # Plot parametrically
-		        plot!(
-                    xx, yy,
-                    markershape = :circle,
-                    markercolor = colorschemes[cs][q*j],
-                    markersize = 1.5,
-                    linecolor = colorschemes[cs][q*j],
-                    label = L"$%$(VarLabels[pVar])=%$(J)$",
-                    legendfonthalign = :left
-                )
-                title!(L"%$(rawTitle)")
-            end
-            
-            # Save figure
-            Plots.PGFPlotsX.push_preamble!(
-                backend_object(P).the_plot, "\\usepackage{bm}"
-            )
-            savefig(P, FilePathOut)
+	# Unique variables dictionary
+	uDict::Dict{String,Vector{Any}} = Dict([
+		Var => unique(DF[!, Symbol(Var)]) for Var in AllVars
+	])
+
+	uDict[xVar] = [NaN]					# Remove from following cycle
+	JJ::Vector = uDict[pVar][1:Skip:end]
+	uDict[pVar] = [NaN]					# Remove from following cycle
+	q = floor(Int64, length(colorschemes[cs]) / length(JJ) )
+
+	# Check if the selected colorscheme is large enough
+	if q==0
+		@error "Your cs (ColorScheme) is not large enough. Select another."
+		exit()
+	end
+
+	# List HF parameters
+	ListHFPs::Vector{String} = [key for key in keys(
+		eval(Meta.parse(
+			DF.v[1]
+		))
+	)]
+
+	# Cycle over HF parameters
+	for HF in ListHFPs
+
+		HFLabel::String = "\$" * VarLabels[HF] * "\$"
+		if HF=="m"
+			HFLabel = "Magnetization"
 		end
-    end
-    printstyled("\e[2K\e[1GDone! Plots saved at $(DirPathOut)\n", color=:green)
+
+		# Cycle over simulated points
+		for (w,t) in enumerate(uDict["t"]),
+			(u,U) in enumerate(uDict["U"]),
+			(v,V) in enumerate(uDict["V"]),
+			(l,L) in enumerate(uDict["Lx"]),
+			(d,δ) in enumerate(uDict["δ"]),
+			(b,β) in enumerate(uDict["β"])
+
+			# Initialize local dictionary
+			lDict::Dict{String,Any} = Dict([
+				"t" => t,
+				"U" => U,
+				"V" => V,
+				"Lx" => L,
+				"δ" => δ,
+				"β" => β
+			])
+
+			# Select entries
+			Selections::Vector{Bool} = [true for _ in 1:length(DF.t)]
+			for Var in AllVars
+				if !in(Var, [xVar, pVar])
+					"""
+					Selections = Selections .* (DF[Var] .== lDict[Var])
+					"""
+					Selections = Selections .* (DF[!, Symbol(Var)] .== lDict[Var])
+				end
+			end
+
+			# Initialize plot
+			P = plot(
+				size = (600,400),
+				xlabel = L"$%$(VarLabels[xVar])$",
+				ylabel = L"$%$(VarLabels[HF])$",
+				legend = :outertopright,
+			)
+
+			# Write terminal message and file name
+			TerminalMsg::String = "\e[2K\e[1GPlotting $(Phase) HF $(HF) data: "
+			FilePathOut::String = DirPathOut * "/" * HF
+			rawTitle::String = HFLabel * " ("
+
+			AvoidList::Vector{String} = [xVar, pVar] #TODO Extend to pure hubbard
+			for Var in AllVars
+				if !in(Var, AvoidList)
+					lVar = lDict[Var]
+					TerminalMsg *= Var * "=$(lVar), "
+					FilePathOut *= "_" * Var * "=$(lVar)"
+					RS::String=""
+					if !RenormalizeHopping && Var=="t"
+						RS *= "\\tilde{t}="
+					end
+					rawTitle *= "\$$(VarLabels[Var])=" * RS * "$(lVar)\$, "
+					if Var=="Lx" # I am desperate about correct formatting
+						rawTitle = rawTitle[1:end-5] * "\$, "
+					elseif Var=="β" && β==Inf
+						rawTitle = rawTitle[1:end-6] * "\\infty\$, "
+					end
+				end
+			end
+			TerminalMsg = TerminalMsg[1:end-2] * " [x variable: " * xVar *
+				", parametric variable: " * pVar * "]"
+			FilePathOut *= "." * Extension
+			rawTitle *= "varying \$" * VarLabels[pVar] * "\$)"
+			printstyled("\e[2K\e[1G" * TerminalMsg, color=:yellow)
+
+			# Cycle over parametric variable
+			for (j,J) in enumerate(JJ)
+
+				# Run local selection
+				lSelections = Selections .* (DF[!, Symbol(pVar)] .== J)
+				vv = DF.v[lSelections]
+
+				# Define x and y variables
+				xx::Vector{Float64} = DF[!, Symbol(xVar)][lSelections]
+				yy::Vector = [eval(Meta.parse(
+					vv[i]
+				))[HF] for i in 1:length(vv)]
+
+				# Plot parametrically
+				plot!(
+					xx, yy,
+					markershape = :circle,
+					markercolor = colorschemes[cs][q*j],
+					markersize = 1.5,
+					linecolor = colorschemes[cs][q*j],
+					label = L"$%$(VarLabels[pVar])=%$(J)$",
+					legendfonthalign = :left
+				)
+				title!(L"%$(rawTitle)")
+			end
+
+			# Save figure
+			Plots.PGFPlotsX.push_preamble!(
+				backend_object(P).the_plot, "\\usepackage{bm}"
+			)
+			savefig(P, FilePathOut)
+		end
+	end
+	printstyled("\e[2K\e[1GDone! Plots saved at $(DirPathOut)\n", color=:green)
 end
 
 @doc raw"""
 function PlotOrderParameter2D(
 	Phase::String,
-    FilePathIn::String,
-    DirPathOut::String;
-    xVar::String=\"U\",
-    yVar::String=\"V\",
-    cs::Symbol=:imola50,
-    Extension::String="pdf"
+	FilePathIn::String,
+	DirPathOut::String;
+	xVar::String=\"U\",
+	yVar::String=\"V\",
+	cs::Symbol=:imola50,
+	Extension::String="pdf"
 )
 
 Returns: none (plots saved at `DirPathOut`).
@@ -266,170 +266,170 @@ extension (the allowed are \"pdf\", \"png\", \"svg\").
 """
 function PlotOrderParameter2D(
 	Phase::String,						# Mean field phase
-    FilePathIn::String,					# Data filepath
-    DirPathOut::String;					# Output directory path
-    xVar::String="U",                   # Specify x variable
-    yVar::String="V",                   # Specify y variable
-    cs::Symbol=:imola50,                # Custom colorscheme
-    Extension::String="pdf"             # File extension
+	FilePathIn::String,					# Data filepath
+	DirPathOut::String;					# Output directory path
+	xVar::String="U",                   # Specify x variable
+	yVar::String="V",                   # Specify y variable
+	cs::Symbol=:imola50,                # Custom colorscheme
+	Extension::String="pdf"             # File extension
 )
-    
-    FilePathOut = ""
-    AllVars = ["t", "U", "V", "Lx", "δ", "β"]
-    
-    # Input safecheck
-    if !in(xVar, AllVars)
-        @error "Invalid x variable, choose one of $(AllVars)"
-        exit()
-    end
-    
-    if !in(yVar, AllVars)
-        @error "Invalid parametric variable, choose one of $(AllVars)"
-        exit()
-    end
-    
-    if xVar==yVar
-        @error "You have chosen xVar=yVar!"
-        exit()
-    end
 
-    # Get LaTeX formatted labels
-    VarLabels = GetLabels(Phase)
+	FilePathOut = ""
+	AllVars = ["t", "U", "V", "Lx", "δ", "β"]
 
-    # Initialize directory structure
-    DirPathOut *= "Heatmaps/xVar=" * xVar * "_yVar=" * yVar * "/"
-    mkpath(DirPathOut)
+	# Input safecheck
+	if !in(xVar, AllVars)
+		@error "Invalid x variable, choose one of $(AllVars)"
+		exit()
+	end
 
-    # Read data and create DataFrame
-    DataIn = open(FilePathIn) do io
-        readdlm(FilePathIn, ';', comments=false, '\n')
-    end
-    DF = DataFrame(DataIn[2:end,:], DataIn[1,:])
-    DF.Lx = Int64.(DF.Lx)
-    
-    # Unique variables dictionary
-    uDict::Dict{String,Vector{Any}} = Dict([
-        Var => unique(DF[!, Symbol(Var)]) for Var in AllVars
-    ])
+	if !in(yVar, AllVars)
+		@error "Invalid parametric variable, choose one of $(AllVars)"
+		exit()
+	end
 
-    xx::Vector{Float64} = uDict[xVar]
-    NumX::Int64 = length(xx)
-    uDict[xVar] = [NaN]                   # Remove from following cycle
-    yy::Vector{Float64} = uDict[yVar]
-    NumY::Int64 = length(yy)
-    uDict[yVar] = [NaN]                   # Remove from following cycle
-    
-    # List HF parameters
-    ListHFPs::Vector{String} = [key for key in keys(
-        eval(Meta.parse(
-            DF.v[1]
-        ))
-    )]
+	if xVar==yVar
+		@error "You have chosen xVar=yVar!"
+		exit()
+	end
 
-    # Cycle over HF parameters
-    for HF in ListHFPs
+	# Get LaTeX formatted labels
+	VarLabels = GetLabels(Phase)
 
-        HFLabel::String = "\$" * VarLabels[HF] * "\$"
-        if HF=="m"
-            HFLabel = "Magnetization"
-        end
-    
-        # Cycle over simulated points
-        for (w,t) in enumerate(uDict["t"]),
-        	(u,U) in enumerate(uDict["U"]),
-        	(v,V) in enumerate(uDict["V"]),
-        	(l,L) in enumerate(uDict["Lx"]),
-        	(d,δ) in enumerate(uDict["δ"]),
-        	(b,β) in enumerate(uDict["β"])
-        	
-        	# Initialize local dataframe
-        	lDict::Dict{String,Any} = Dict([
-        	    "t" => t,
-        	    "U" => U,
-        	    "V" => V,
-        	    "Lx" => L,
-        	    "δ" => δ,
-        	    "β" => β
-        	])
-        	
-        	# Select entries
-        	Selections::Vector{Bool} = [true for _ in 1:length(DF.t)]
-        	for Var in AllVars
-        	    if !in(Var, [xVar, yVar])
-        	        Selections = Selections .* (DF[!, Symbol(Var)] .== lDict[Var])
-        	    end
-        	end
-    
-            # Initialize plot    	
-        	H = plot(
-                size = (600,400),
-                xlabel = L"$%$(VarLabels[xVar])$",
-                ylabel = L"$%$(VarLabels[yVar])$",
-                legend = :outertopright
-            )
-        	
-        	# Write terminal message and file name
-        	TerminalMsg::String = "\e[2K\e[1GPlotting $(Phase) HF $(HF) data: "
-        	FilePathOut::String = DirPathOut * "/" * HF
-            rawTitle::String = HFLabel * " ("
-        	for Var in AllVars
-        	    if !in(Var, [xVar, yVar])
-                    lVar = lDict[Var]
-            	    TerminalMsg *= Var * "=$(lVar), "
-            	    FilePathOut *= "_" * Var * "=$(lVar)"
-                    RS::String=""
-            	    if !RenormalizeHopping && Var=="t"
-            	        RS *= "\\tilde{t}="
-            	    end
-                    rawTitle *= "\$$(VarLabels[Var])=" * RS * "$(lVar)\$, "
-                    if Var=="Lx" # I am desperate about correct formatting
-                        rawTitle = rawTitle[1:end-5] * "\$, "
-                    elseif Var=="β" && β==Inf
-                        rawTitle = rawTitle[1:end-6] * "\\infty\$, "
-                    end
-            	end
-        	end
-        	TerminalMsg = TerminalMsg[1:end-2] * " [x variable: " * xVar *
-                ", y variable: " * yVar * "]"
-        	FilePathOut *= "." * Extension
-            rawTitle = rawTitle[1:end-2] * ")"
-        	printstyled("\e[2K\e[1G" * TerminalMsg, color=:yellow)
-                             	
-    	    # Define x, y variables and h
-        	vv = DF.v[Selections]
-            hh::Matrix{Float64} = zeros(NumY,NumX)
-            for j in 1:NumX
-                hh[:,j] .= [eval(Meta.parse(
-            	    vv[(j-1) * NumY + i]
-                ))[HF] for i in 1:NumY]
-            end
+	# Initialize directory structure
+	DirPathOut *= "Heatmaps/xVar=" * xVar * "_yVar=" * yVar * "/"
+	mkpath(DirPathOut)
 
-            # Plot parametrically
-	        heatmap!(
-                xx, yy, hh,
-                color=cs
-            )
-            title!(L"%$(rawTitle)")
+	# Read data and create DataFrame
+	DataIn = open(FilePathIn) do io
+		readdlm(FilePathIn, ';', comments=false, '\n')
+	end
+	DF = DataFrame(DataIn[2:end,:], DataIn[1,:])
+	DF.Lx = Int64.(DF.Lx)
 
-            # Save figure
-            Plots.PGFPlotsX.push_preamble!(
-                backend_object(H).the_plot, "\\usepackage{bm}"
-            )
-            savefig(H, FilePathOut)
-        end
-    end
-    printstyled("\e[2K\e[1GDone! Plots saved at $(DirPathOut)\n", color=:green)
+	# Unique variables dictionary
+	uDict::Dict{String,Vector{Any}} = Dict([
+		Var => unique(DF[!, Symbol(Var)]) for Var in AllVars
+	])
+
+	xx::Vector{Float64} = uDict[xVar]
+	NumX::Int64 = length(xx)
+	uDict[xVar] = [NaN]                   # Remove from following cycle
+	yy::Vector{Float64} = uDict[yVar]
+	NumY::Int64 = length(yy)
+	uDict[yVar] = [NaN]                   # Remove from following cycle
+
+	# List HF parameters
+	ListHFPs::Vector{String} = [key for key in keys(
+		eval(Meta.parse(
+			DF.v[1]
+		))
+	)]
+
+	# Cycle over HF parameters
+	for HF in ListHFPs
+
+		HFLabel::String = "\$" * VarLabels[HF] * "\$"
+		if HF=="m"
+			HFLabel = "Magnetization"
+		end
+
+		# Cycle over simulated points
+		for (w,t) in enumerate(uDict["t"]),
+			(u,U) in enumerate(uDict["U"]),
+			(v,V) in enumerate(uDict["V"]),
+			(l,L) in enumerate(uDict["Lx"]),
+			(d,δ) in enumerate(uDict["δ"]),
+			(b,β) in enumerate(uDict["β"])
+
+			# Initialize local dataframe
+			lDict::Dict{String,Any} = Dict([
+				"t" => t,
+				"U" => U,
+				"V" => V,
+				"Lx" => L,
+				"δ" => δ,
+				"β" => β
+			])
+
+			# Select entries
+			Selections::Vector{Bool} = [true for _ in 1:length(DF.t)]
+			for Var in AllVars
+				if !in(Var, [xVar, yVar])
+					Selections = Selections .* (DF[!, Symbol(Var)] .== lDict[Var])
+				end
+			end
+
+			# Initialize plot
+			H = plot(
+				size = (600,400),
+				xlabel = L"$%$(VarLabels[xVar])$",
+				ylabel = L"$%$(VarLabels[yVar])$",
+				legend = :outertopright
+			)
+
+			# Write terminal message and file name
+			TerminalMsg::String = "\e[2K\e[1GPlotting $(Phase) HF $(HF) data: "
+			FilePathOut::String = DirPathOut * "/" * HF
+			rawTitle::String = HFLabel * " ("
+			for Var in AllVars
+				if !in(Var, [xVar, yVar])
+					lVar = lDict[Var]
+					TerminalMsg *= Var * "=$(lVar), "
+					FilePathOut *= "_" * Var * "=$(lVar)"
+					RS::String=""
+					if !RenormalizeHopping && Var=="t"
+						RS *= "\\tilde{t}="
+					end
+					rawTitle *= "\$$(VarLabels[Var])=" * RS * "$(lVar)\$, "
+					if Var=="Lx" # I am desperate about correct formatting
+						rawTitle = rawTitle[1:end-5] * "\$, "
+					elseif Var=="β" && β==Inf
+						rawTitle = rawTitle[1:end-6] * "\\infty\$, "
+					end
+				end
+			end
+			TerminalMsg = TerminalMsg[1:end-2] * " [x variable: " * xVar *
+				", y variable: " * yVar * "]"
+			FilePathOut *= "." * Extension
+			rawTitle = rawTitle[1:end-2] * ")"
+			printstyled("\e[2K\e[1G" * TerminalMsg, color=:yellow)
+
+			# Define x, y variables and h
+			vv = DF.v[Selections]
+			hh::Matrix{Float64} = zeros(NumY,NumX)
+			for j in 1:NumX
+				hh[:,j] .= [eval(Meta.parse(
+					vv[(j-1) * NumY + i]
+				))[HF] for i in 1:NumY]
+			end
+
+			# Plot parametrically
+			heatmap!(
+				xx, yy, hh,
+				color=cs
+			)
+			title!(L"%$(rawTitle)")
+
+			# Save figure
+			Plots.PGFPlotsX.push_preamble!(
+				backend_object(H).the_plot, "\\usepackage{bm}"
+			)
+			savefig(H, FilePathOut)
+		end
+	end
+	printstyled("\e[2K\e[1GDone! Plots saved at $(DirPathOut)\n", color=:green)
 end
 
 @doc raw"""
 function PlotRMPs(
 	Phase::String,
-    FilePathIn::String,
-    DirPathOut::String;
-    xVar::String=\"U\",
-    yVar::String=\"V\",
-    cs::Symbol=:imola50,
-    Extension::String="pdf"
+	FilePathIn::String,
+	DirPathOut::String;
+	xVar::String=\"U\",
+	yVar::String=\"V\",
+	cs::Symbol=:imola50,
+	Extension::String="pdf"
 )
 
 Returns: none (plots saved at `DirPathOut`).
@@ -445,221 +445,221 @@ symbol). `Extension` selects the file extension (the allowed are \"pdf\",
 """
 function PlotRMPs(
 	Phase::String,						# Mean field phase
-    FilePathIn::String,					# Data filepath
-    DirPathOut::String;					# Output directory path
-    xVar::String="U",                   # Specify x variable
-    yVar::String="V",                   # Specify y variable
-    cs::Symbol=:imola50,                # Custom colorscheme
-    Extension::String="pdf"             # File extension
+	FilePathIn::String,					# Data filepath
+	DirPathOut::String;					# Output directory path
+	xVar::String="U",                   # Specify x variable
+	yVar::String="V",                   # Specify y variable
+	cs::Symbol=:imola50,                # Custom colorscheme
+	Extension::String="pdf"             # File extension
 )
-    
-    FilePathOut = ""
-    AllVars = ["t", "U", "V", "Lx", "δ", "β"]
-    
-    # Input safecheck
-    if !in(xVar, AllVars)
-        @error "Invalid x variable, choose one of $(AllVars)"
-        exit()
-    end
-    
-    if !in(yVar, AllVars)
-        @error "Invalid parametric variable, choose one of $(AllVars)"
-        exit()
-    end
-    
-    if xVar==yVar
-        @error "You have chosen xVar=yVar!"
-        exit()
-    end
 
-    # Get LaTeX formatted labels
-    VarLabels = GetLabels(Phase)
+	FilePathOut = ""
+	AllVars = ["t", "U", "V", "Lx", "δ", "β"]
 
-    # Initialize directory structure
-    DirPathOut *= "RMPs/xVar=" * xVar * "_yVar=" * yVar * "/"
-    mkpath(DirPathOut)
-        
-    # Read data and create DataFrame
-    DataIn = open(FilePathIn) do io
-        readdlm(FilePathIn, ';', comments=false, '\n')
-    end
-    DF = DataFrame(DataIn[2:end,:], DataIn[1,:])
-    DF.Lx = Int64.(DF.Lx)
-    
-    # Unique variables dictionary
-    uDict::Dict{String,Vector{Any}} = Dict([
-        Var => unique(DF[!, Symbol(Var)]) for Var in AllVars
-    ])
+	# Input safecheck
+	if !in(xVar, AllVars)
+		@error "Invalid x variable, choose one of $(AllVars)"
+		exit()
+	end
 
-    xx::Vector{Float64} = uDict[xVar]
-    NumX::Int64 = length(xx)
-    uDict[xVar] = [NaN]                   # Remove from following cycle
-    yy::Vector{Float64} = uDict[yVar]
-    NumY::Int64 = length(yy)
-    uDict[yVar] = [NaN]                   # Remove from following cycle
-    
-    # List HF parameters #TODO Generalize
-    ListRMPs::Vector{String} = ["reΔ_tilde", "imΔ_tilde", "t_tilde"]
+	if !in(yVar, AllVars)
+		@error "Invalid parametric variable, choose one of $(AllVars)"
+		exit()
+	end
 
-    # Cycle over renormalized model parameters
-    for RMP in ListRMPs
+	if xVar==yVar
+		@error "You have chosen xVar=yVar!"
+		exit()
+	end
 
-        RMPLabel::String = "\$" * VarLabels[RMP] * "\$"
-    
-        # Cycle over simulated points
-        for (w,t) in enumerate(uDict["t"]),
-        	(u,U) in enumerate(uDict["U"]),
-        	(v,V) in enumerate(uDict["V"]),
-        	(l,L) in enumerate(uDict["Lx"]),
-        	(d,δ) in enumerate(uDict["δ"]),
-        	(b,β) in enumerate(uDict["β"])
-        	
-        	# Initialize local dataframe
-        	lDict::Dict{String,Any} = Dict([
-        	    "t" => t,
-        	    "U" => U,
-        	    "V" => V,
-        	    "Lx" => L,
-        	    "δ" => δ,
-        	    "β" => β
-        	])
-        	
-        	# Select entries
-        	Selections::Vector{Bool} = [true for _ in 1:length(DF.t)]
-        	for Var in AllVars
-        	    if !in(Var, [xVar, yVar])
-        	        Selections = Selections .* (DF[!, Symbol(Var)] .== lDict[Var])
-        	    end
-        	end
-    
-            # Initialize plot    	
-        	S = plot(
-                size = (600,400),
-                 xlabel = L"$%$(VarLabels[xVar])$",
-                 ylabel = L"$%$(VarLabels[yVar])$",
-                 zlabel = L"$%$(VarLabels[RMP])$",
-                legend = :outertopright
-            )
-        	
-        	# Write terminal message and file name
-        	TerminalMsg::String = "\e[2K\e[1GPlotting $(Phase) RMP $(RMP) " * 
-                "data: "
-        	FilePathOut::String = DirPathOut * "/" * RMP
-            rawTitle::String = RMPLabel * " ("
-        	for Var in AllVars
-        	    if !in(Var, [xVar, yVar])
-                    lVar = lDict[Var]
-            	    TerminalMsg *= Var * "=$(lVar), "
-            	    FilePathOut *= "_" * Var * "=$(lVar)"
-                    RS::String=""
-            	    if !RenormalizeHopping && Var=="t"
-            	        RS *= "\\tilde{t}="
-            	    end
-                    rawTitle *= "\$$(VarLabels[Var])=" * RS * "$(lVar)\$, "
-                    if Var=="Lx" # I am desperate about correct formatting
-                        rawTitle = rawTitle[1:end-5] * "\$, "
-                    elseif Var=="β" && β==Inf
-                        rawTitle = rawTitle[1:end-6] * "\\infty\$, "
-                    end
-            	end
-        	end
-        	TerminalMsg = TerminalMsg[1:end-2] * " [x variable: " * xVar *
-                ", y variable: " * yVar * "]"
-        	FilePathOut *= "." * Extension
-            rawTitle *= " \$k_\\ell=\\pi/3\$)"
-        	printstyled("\e[2K\e[1G" * TerminalMsg, color=:yellow)
-                             	
-    	    # Define x, y variables and h
-        	vv = DF.v[Selections]
-            hh::Matrix{Float64} = zeros(NumY,NumX)
-            
-            # Plot individually in order to adjust visual angles
-            if RMP=="reΔ_tilde"
-                
-                for j in 1:NumX
-                    hh[:,j] .= [eval(Meta.parse(
-                	    vv[(j-1) * NumY + i]
-                    ))["m"] for i in 1:NumY]
-                end
-                
-                # Plot parametrically
-                zz = hh .* (xx' .+ 8*yy)
-                surface!(
-                    xx, yy, zz,
-                    color=cs,
-                    label=L"$%$(VarLabels[RMP])$",
-                    camera=(30,25),
+	# Get LaTeX formatted labels
+	VarLabels = GetLabels(Phase)
+
+	# Initialize directory structure
+	DirPathOut *= "RMPs/xVar=" * xVar * "_yVar=" * yVar * "/"
+	mkpath(DirPathOut)
+
+	# Read data and create DataFrame
+	DataIn = open(FilePathIn) do io
+		readdlm(FilePathIn, ';', comments=false, '\n')
+	end
+	DF = DataFrame(DataIn[2:end,:], DataIn[1,:])
+	DF.Lx = Int64.(DF.Lx)
+
+	# Unique variables dictionary
+	uDict::Dict{String,Vector{Any}} = Dict([
+		Var => unique(DF[!, Symbol(Var)]) for Var in AllVars
+	])
+
+	xx::Vector{Float64} = uDict[xVar]
+	NumX::Int64 = length(xx)
+	uDict[xVar] = [NaN]                   # Remove from following cycle
+	yy::Vector{Float64} = uDict[yVar]
+	NumY::Int64 = length(yy)
+	uDict[yVar] = [NaN]                   # Remove from following cycle
+
+	# List HF parameters #TODO Generalize
+	ListRMPs::Vector{String} = ["reΔ_tilde", "imΔ_tilde", "t_tilde"]
+
+	# Cycle over renormalized model parameters
+	for RMP in ListRMPs
+
+		RMPLabel::String = "\$" * VarLabels[RMP] * "\$"
+
+		# Cycle over simulated points
+		for (w,t) in enumerate(uDict["t"]),
+			(u,U) in enumerate(uDict["U"]),
+			(v,V) in enumerate(uDict["V"]),
+			(l,L) in enumerate(uDict["Lx"]),
+			(d,δ) in enumerate(uDict["δ"]),
+			(b,β) in enumerate(uDict["β"])
+
+			# Initialize local dataframe
+			lDict::Dict{String,Any} = Dict([
+				"t" => t,
+				"U" => U,
+				"V" => V,
+				"Lx" => L,
+				"δ" => δ,
+				"β" => β
+			])
+
+			# Select entries
+			Selections::Vector{Bool} = [true for _ in 1:length(DF.t)]
+			for Var in AllVars
+				if !in(Var, [xVar, yVar])
+					Selections = Selections .* (DF[!, Symbol(Var)] .== lDict[Var])
+				end
+			end
+
+			# Initialize plot
+			S = plot(
+				size = (600,400),
+				 xlabel = L"$%$(VarLabels[xVar])$",
+				 ylabel = L"$%$(VarLabels[yVar])$",
+				 zlabel = L"$%$(VarLabels[RMP])$",
+				legend = :outertopright
+			)
+
+			# Write terminal message and file name
+			TerminalMsg::String = "\e[2K\e[1GPlotting $(Phase) RMP $(RMP) " *
+				"data: "
+			FilePathOut::String = DirPathOut * "/" * RMP
+			rawTitle::String = RMPLabel * " ("
+			for Var in AllVars
+				if !in(Var, [xVar, yVar])
+					lVar = lDict[Var]
+					TerminalMsg *= Var * "=$(lVar), "
+					FilePathOut *= "_" * Var * "=$(lVar)"
+					RS::String=""
+					if !RenormalizeHopping && Var=="t"
+						RS *= "\\tilde{t}="
+					end
+					rawTitle *= "\$$(VarLabels[Var])=" * RS * "$(lVar)\$, "
+					if Var=="Lx" # I am desperate about correct formatting
+						rawTitle = rawTitle[1:end-5] * "\$, "
+					elseif Var=="β" && β==Inf
+						rawTitle = rawTitle[1:end-6] * "\\infty\$, "
+					end
+				end
+			end
+			TerminalMsg = TerminalMsg[1:end-2] * " [x variable: " * xVar *
+				", y variable: " * yVar * "]"
+			FilePathOut *= "." * Extension
+			rawTitle *= " \$k_\\ell=\\pi/3\$)"
+			printstyled("\e[2K\e[1G" * TerminalMsg, color=:yellow)
+
+			# Define x, y variables and h
+			vv = DF.v[Selections]
+			hh::Matrix{Float64} = zeros(NumY,NumX)
+
+			# Plot individually in order to adjust visual angles
+			if RMP=="reΔ_tilde"
+
+				for j in 1:NumX
+					hh[:,j] .= [eval(Meta.parse(
+						vv[(j-1) * NumY + i]
+					))["m"] for i in 1:NumY]
+				end
+
+				# Plot parametrically
+				zz = hh .* (xx' .+ 8*yy)
+				surface!(
+					xx, yy, zz,
+					color=cs,
+					label=L"$%$(VarLabels[RMP])$",
+					camera=(30,25),
 #                    zlim=(0.65,1),
 #                    clim=(0.65,1)
-                )
-                title!(L"%$(rawTitle)")
-            
-            elseif RMP=="imΔ_tilde"
-            
-                for j in 1:NumX
-                    hh[:,j] .= [eval(Meta.parse(
-                	    vv[(j-1) * NumY + i]
-                    ))["wp"] for i in 1:NumY]
-                end
-                
-                # Plot parametrically
-                zz = hh .* (2 .* yy * ones(1,length(xx)))
-                surface!(
-                    xx, yy, zz,
-                    color=cs,
-                    label=L"$%$(VarLabels[RMP])$",
-                    camera=(30,25),
+				)
+				title!(L"%$(rawTitle)")
+
+			elseif RMP=="imΔ_tilde"
+
+				for j in 1:NumX
+					hh[:,j] .= [eval(Meta.parse(
+						vv[(j-1) * NumY + i]
+					))["wp"] for i in 1:NumY]
+				end
+
+				# Plot parametrically
+				zz = hh .* (2 .* yy * ones(1,length(xx)))
+				surface!(
+					xx, yy, zz,
+					color=cs,
+					label=L"$%$(VarLabels[RMP])$",
+					camera=(30,25),
 #                    zlim=(0.65,1),
 #                    clim=(0.65,1)
-                )
-                title!(L"%$(rawTitle)")
-            
-            elseif RMP=="t_tilde"
-            
-                for j in 1:NumX
-                    hh[:,j] .= [eval(Meta.parse(
-                	    vv[(j-1) * NumY + i]
-                    ))["w0"] for i in 1:NumY]
-                end
+				)
+				title!(L"%$(rawTitle)")
 
-                # Plot parametrically
-                zV::Vector{Float64} = zeros(size(hh))
-                if xVar=="V"
-                    zV = ones(length(yy),1) * xx'
-                elseif yVar=="V"
-                    zV = yy * ones(1,length(xx))
-                end
-                zz = t*ones(size(hh)) .- hh .* zV
-	            surface!(
-                    xx, yy, zz,
-                    color=cs,
-                    label=L"$%$(VarLabels[RMP])$",
-                    camera=(80,25),
-                    zlim=(0.65,1),
-                    clim=(0.65,1)
-                )
-                title!(L"%$(rawTitle)")
-            end
+			elseif RMP=="t_tilde"
 
-            # Save figure
-            Plots.PGFPlotsX.push_preamble!(
-                backend_object(S).the_plot, "\\usepackage{bm}"
-            )
-            savefig(S, FilePathOut)
-        end
-    end
-    printstyled("\e[2K\e[1GDone! Plots saved at $(DirPathOut)\n", color=:green)
+				for j in 1:NumX
+					hh[:,j] .= [eval(Meta.parse(
+						vv[(j-1) * NumY + i]
+					))["w0"] for i in 1:NumY]
+				end
+
+				# Plot parametrically
+				zV::Matrix{Float64} = zeros(size(hh))
+				if xVar=="V"
+					zV = ones(length(yy),1) * xx'
+				elseif yVar=="V"
+					zV = yy * ones(1,length(xx))
+				end
+				zz = t*ones(size(hh)) .- hh .* zV
+				surface!(
+					xx, yy, zz,
+					color=cs,
+					label=L"$%$(VarLabels[RMP])$",
+					camera=(80,25),
+					zlim=(0.65,1),
+					clim=(0.65,1)
+				)
+				title!(L"%$(rawTitle)")
+			end
+
+			# Save figure
+			Plots.PGFPlotsX.push_preamble!(
+				backend_object(S).the_plot, "\\usepackage{bm}"
+			)
+			savefig(S, FilePathOut)
+		end
+	end
+	printstyled("\e[2K\e[1GDone! Plots saved at $(DirPathOut)\n", color=:green)
 end
 
 
 @doc raw"""
 function PlotRecord(
-    Phase::String,
-    DirPathIn::String,
-    DirPathOut::String;
-    rVar::String=\"g\",
-    cs::Symbol=:imola25,
-    Extension::String="pdf"
+	Phase::String,
+	DirPathIn::String,
+	DirPathOut::String;
+	rVar::String=\"g\",
+	cs::Symbol=:imola25,
+	Extension::String="pdf"
 )
 
 Returns: none (plots saved at `DirPathOut`).
@@ -672,123 +672,123 @@ parameter is `rVar` (string specifying the recorded variable to plot), `cs`
 \"pdf\", \"png\", \"svg\").
 """
 function PlotRecord(
-    Phase::String,                      # Mean field phase
-    DirPathIn::String,                  # Data filepath
-    DirPathOut::String;                 # Output directory path
-    rVar::String="g",                   # Recorded variable
-    cs::Symbol=:imola25,                # Custom colorscheme
-    Extension::String="pdf"             # File extension
+	Phase::String,                      # Mean field phase
+	DirPathIn::String,                  # Data filepath
+	DirPathOut::String;                 # Output directory path
+	rVar::String="g",                   # Recorded variable
+	cs::Symbol=:imola25,                # Custom colorscheme
+	Extension::String="pdf"             # File extension
 )
-        
-    Files::Vector{String} = readdir(DirPathIn)
-    rFiles::Dict{Float64,String} = Dict([])
-    DataCols::Vector{String} = [""]
 
-    # Check data structure and extract r values
-    for (j,F) in enumerate(Files)
-        FilePathIn::String = DirPathIn * "/" * F
-        eqIndex::Int64 = findfirst('=', F)
-        if F[1:eqIndex-1]==rVar
+	Files::Vector{String} = readdir(DirPathIn)
+	rFiles::Dict{Float64,String} = Dict([])
+	DataCols::Vector{String} = [""]
 
-            # Read header
-            Header = open(FilePathIn) do io
-                readdlm(FilePathIn, ';', '\n')[1]
-            end
-            Start = findfirst('[',Header)
-            Stop = findfirst(']',Header)
-            if j==1
-                DataCols = eval(Meta.parse( Header[Start:Stop] ))
-            elseif j>1
-                if DataCols != eval(Meta.parse( Header[Start:Stop] ))
-                    @error "Bad data structure (DataCols inconsistent). " * 
-                        "Check data integrity at " * DirPathIn
-                    exit()
-                end
-            end
-            r = parse(Float64, F[eqIndex+1:end-4]) # Remove .txt
-            rFiles[r] = FilePathIn
+	# Check data structure and extract r values
+	for (j,F) in enumerate(Files)
+		FilePathIn::String = DirPathIn * "/" * F
+		eqIndex::Int64 = findfirst('=', F)
+		if F[1:eqIndex-1]==rVar
 
-        elseif F[1:eqIndex-1]!=rVar
-            @error "Bad data structure (rVar not found). " * 
-                "Check data integrity at " * DirPathIn
-            exit()
-        end
-    end
+			# Read header
+			Header = open(FilePathIn) do io
+				readdlm(FilePathIn, ';', '\n')[1]
+			end
+			Start = findfirst('[',Header)
+			Stop = findfirst(']',Header)
+			if j==1
+				DataCols = eval(Meta.parse( Header[Start:Stop] ))
+			elseif j>1
+				if DataCols != eval(Meta.parse( Header[Start:Stop] ))
+					@error "Bad data structure (DataCols inconsistent). " *
+						"Check data integrity at " * DirPathIn
+					exit()
+				end
+			end
+			r = parse(Float64, F[eqIndex+1:end-4]) # Remove .txt
+			rFiles[r] = FilePathIn
 
-    # Get LaTeX formatted labels
-    VarLabels = GetLabels(Phase)
-    pVarLabels = GetLabels("Fake")
-    
-    for (hf,HF) in enumerate(DataCols)
+		elseif F[1:eqIndex-1]!=rVar
+			@error "Bad data structure (rVar not found). " *
+				"Check data integrity at " * DirPathIn
+			exit()
+		end
+	end
 
-        HFLabel::String = "\$" * VarLabels[HF] * "\$"
-        if HF=="m"
-            HFLabel = "Magnetization"
-        end
-        
-        # Set output filepath
-        FilePathOut::String = DirPathOut * "/" * HF * "_rVar=" * rVar
-        FilePathOut*= "." * Extension
+	# Get LaTeX formatted labels
+	VarLabels = GetLabels(Phase)
+	pVarLabels = GetLabels("Fake")
 
-        # Generate raw title
-        rawTitle::String = HFLabel * " (" *
-            "\$t=$(t)\$, " *
-            "\$U=$(U)\$, " *
-            "\$V=$(V)\$, " *
-            "\$L=$(L)\$, " *
-    	    "\$\\delta=$(δ)\$, "
-    	    
-        if β==Inf
-    	    rawTitle *= "\$\\beta=\\infty\$)"
-    	elseif β!=Inf
-    	    rawTitle *= "\$\\beta=$(β)\$)"
-    	end
+	for (hf,HF) in enumerate(DataCols)
 
-        # Initialize plot
-        P = plot(
-            size = (600,400),
-            xlim = (1,25),
-            xlabel = L"\mathrm{Step}",
-            ylabel = L"$%$(VarLabels[HF])$",
-            legend = :outertopright
-        )
-        title!(L"%$(rawTitle)")
+		HFLabel::String = "\$" * VarLabels[HF] * "\$"
+		if HF=="m"
+			HFLabel = "Magnetization"
+		end
 
-        # Cycle over data
-        for (j,r) in enumerate( sort([key for key in keys(rFiles)]) )
+		# Set output filepath
+		FilePathOut::String = DirPathOut * "/" * HF * "_rVar=" * rVar
+		FilePathOut*= "." * Extension
 
-            # Generate FilePathIn
-            FilePathIn = rFiles[r]
+		# Generate raw title
+		rawTitle::String = HFLabel * " (" *
+			"\$t=$(t)\$, " *
+			"\$U=$(U)\$, " *
+			"\$V=$(V)\$, " *
+			"\$L=$(L)\$, " *
+			"\$\\delta=$(δ)\$, "
 
-            # Read and assign variables
-            DataIn = open(FilePathIn) do io
-                readdlm(FilePathIn, ';', comments=true, '\n')
-            end
+		if β==Inf
+			rawTitle *= "\$\\beta=\\infty\$)"
+		elseif β!=Inf
+			rawTitle *= "\$\\beta=$(β)\$)"
+		end
 
-            yy = DataIn[:,hf]
-            LineStyle = :solid
-            if length(yy)>100
-                yy = yy[1:100]
-                LineStyle = :dash
-            end
-            xx = [x for x in 1:length(yy)]
-            plot!(
-                xx,yy,
-                markershape = :circle,
-                markercolor = colorschemes[cs][j],
-                markersize = 1.5,
-                linestyle = LineStyle,
-                linecolor = colorschemes[cs][j],
-                label = L"$%$(pVarLabels[rVar])=%$(r)$",
-            )
+		# Initialize plot
+		P = plot(
+			size = (600,400),
+			xlim = (1,25),
+			xlabel = L"\mathrm{Step}",
+			ylabel = L"$%$(VarLabels[HF])$",
+			legend = :outertopright
+		)
+		title!(L"%$(rawTitle)")
 
-        end
+		# Cycle over data
+		for (j,r) in enumerate( sort([key for key in keys(rFiles)]) )
 
-        # Save figure
-        Plots.PGFPlotsX.push_preamble!(
-            backend_object(P).the_plot, "\\usepackage{bm}"
-        )
-        savefig(P, FilePathOut)
-    end
-    printstyled("\e[2K\e[1GDone! Plots saved at $(DirPathOut)\n", color=:green)
+			# Generate FilePathIn
+			FilePathIn = rFiles[r]
+
+			# Read and assign variables
+			DataIn = open(FilePathIn) do io
+				readdlm(FilePathIn, ';', comments=true, '\n')
+			end
+
+			yy = DataIn[:,hf]
+			LineStyle = :solid
+			if length(yy)>100
+				yy = yy[1:100]
+				LineStyle = :dash
+			end
+			xx = [x for x in 1:length(yy)]
+			plot!(
+				xx,yy,
+				markershape = :circle,
+				markercolor = colorschemes[cs][j],
+				markersize = 1.5,
+				linestyle = LineStyle,
+				linecolor = colorschemes[cs][j],
+				label = L"$%$(pVarLabels[rVar])=%$(r)$",
+			)
+
+		end
+
+		# Save figure
+		Plots.PGFPlotsX.push_preamble!(
+			backend_object(P).the_plot, "\\usepackage{bm}"
+		)
+		savefig(P, FilePathOut)
+	end
+	printstyled("\e[2K\e[1GDone! Plots saved at $(DirPathOut)\n", color=:green)
 end

@@ -18,6 +18,7 @@ function GetHFPs(
     KeysList::Dict{String,Vector{String}} = Dict([
         "AF" => ["m", "w0", "wp"],
         "FakeAF" => ["m", "w0", "wp"],
+        "PH-AF" => ["m"],
         # "SU/Singlet" => ["s", "s*", "d"],
         # "SU/Triplet" => ["px", "py", "p+", "p-"]
     ])

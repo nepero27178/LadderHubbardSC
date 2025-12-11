@@ -16,9 +16,9 @@ function FindFS(
     Phase::String,						# Mean field phase
 	Parameters::Dict{String,Float64},	# Model parameters t,U,V
     K::Matrix{Vector{Float64}},			# BZ grid
-    v::Dict{String,Float64},         	# HF parameters
-    μ::Float64;                 		# Chemical potential
-    RenormalizeHopping::Bool=true       # Conditional renormalization of t
+    v::Dict{String,Float64},				# HF parameters
+    μ::Float64;							# Chemical potential
+    RenormalizeHopping::Bool=true		# Conditional renormalization of t
 )::Tuple{Vector{Float64}, Vector{Float64}}
 
     # Initialize collectors

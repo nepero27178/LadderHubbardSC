@@ -301,6 +301,7 @@ if abspath(PROGRAM_FILE) == @__FILE__
 		Setup;
 		xVar="V", 
 		pVar="δ",
-		cs=:winter
+		cs=:winter,
+		Extension="png"
 	)
 end

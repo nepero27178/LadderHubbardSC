@@ -18,7 +18,6 @@ function GetHFPs(
     KeysList::Dict{String,Vector{String}} = Dict([
         "AF" => ["m", "w0", "wp"],
         "FakeAF" => ["m", "w0", "wp"],
-        "PH-AF" => ["m"],
         # "SU/Singlet" => ["s", "s*", "d"],
         # "SU/Triplet" => ["px", "py", "p+", "p-"]
     ])
@@ -286,10 +285,12 @@ function GetKPopulation(
     	t -= v["w0"] * Parameters["V"]
     end
 
-    wk::Int64=0
-    for (i,q) in enumerate(K)
-        wk = GetWeight(q) # Avoid computational redundance
-        k = q .* pi # Important: multiply k by pi
+    #TODO Make this more efficient with BZ -> partial MBZ reduction
+    # wk::Int64=0
+    for (i,k) in enumerate(K .* pi)
+        # wk = GetWeight(k) # Avoid computational redundance
+        # k .*= pi # Important: multiply k by pi
+    	
 		if in(Phase, ["AF", "FakeAF"]) # && in(wk,[1,2,4])
 			# Renormalized bands
 			εk::Float64 = GetHoppingEnergy(t,k)
@@ -302,7 +303,7 @@ function GetKPopulation(
 			Ek::Float64 = sqrt( εk^2 + reΔk^2 + imΔk^2 )
 			
 			# Fermi-Dirac factor
-			Nk[i] = 2*wk* (FermiDirac(-Ek,μ,β) + FermiDirac(Ek,μ,β))
+			Nk[i] = FermiDirac(-Ek,μ,β) + FermiDirac(Ek,μ,β)
 
 		elseif Phase=="SU/Singlet"
 			@error "Under construction"
@@ -358,36 +359,33 @@ function FindRootμ(
 		return
 	end
 
-    D::Int64 = 2 * prod(size(K))
+    D = 2 * prod(size(K))
     # Define function to be minimized
     δn(μ::Float64) = sum( 
             GetKPopulation(Phase,Parameters,K,v,μ,β;RenormalizeHopping)
         )/D - nt
 
-    μ::Float64 = 0.0
-    LowerBoundary::Float64 = 0.0
-    UpperBoundary::Float64 = LowerBoundary
-    if abs(δn(LowerBoundary)) > Δn
-        if δn(LowerBoundary) > 0
-            while δn(LowerBoundary) > 0
-                if debug
-                    @warn "Moving down lower boundary"
-                end
-                LowerBoundary -= 1.0
+    LowerBoundary = 0.0
+    UpperBoundary = LowerBoundary
+    if δn(LowerBoundary) >= 0
+        while δn(LowerBoundary) >= 0
+            if debug
+                @warn "Moving down lower boundary"
             end
-            UpperBoundary = LowerBoundary + 1.0
-        elseif δn(UpperBoundary) < 0
-            while δn(UpperBoundary) < 0
-                if debug
-                    @warn "Moving up upper boundary"
-                end
-                UpperBoundary += 1.0
-            end
-            LowerBoundary = UpperBoundary - 1.0        
+            LowerBoundary -= 1.0
         end
-        μ = find_zero(δn, (LowerBoundary, UpperBoundary))
+        UpperBoundary = LowerBoundary + 1.0
+    elseif δn(UpperBoundary) <= 0
+        while δn(UpperBoundary) <= 0
+            if debug
+                @warn "Moving up upper boundary"
+            end
+            UpperBoundary += 1.0
+        end
+        LowerBoundary = UpperBoundary - 1.0        
     end
-    
+    μ = find_zero(δn, (LowerBoundary, UpperBoundary))
+
     if debug
         n = sum( GetKPopulation(Phase,Parameters,K,v,μ,β) )/D
         @info "Optimal chemical potential and density:" μ n    
@@ -407,7 +405,7 @@ function PerformHFStep(
 	Syms::Vector{String}=[\"d\"],
     debug::Bool=false,
     RenormalizeHopping::Bool=true
-)::Tuple{Dict{String,Float64},Float64}
+)::Dict{String,Float64}
 
 Returns: HF estimation for Cooper instability parameter based on input.
 
@@ -437,7 +435,7 @@ function PerformHFStep(
 	Syms::Vector{String}=["d"],		    # Gap function symmetries
 	debug::Bool=false,					# Debug mode
 	RenormalizeHopping::Bool=true       # Conditional renormalization of t
-)::Tuple{Dict{String,Float64},Float64}
+)::Dict{String,Float64}
 
 	v = copy(v0)	
 	LxLy = prod(size(K))	

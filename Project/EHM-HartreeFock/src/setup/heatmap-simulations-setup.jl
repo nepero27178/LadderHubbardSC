@@ -3,20 +3,33 @@ SetupFilePath = @__FILE__
 
 # All possible simulations
 AllPhases = [
-	"AF",               # Renormalized AntiFerromagnet
-	"FakeAF",              # As for AF, but with pure Hopping
-	"SU/Singlet",       # Singlet superconductor
-	"SU/Triplet"        # Triplet superconductor
+	"AF",				# Renormalized AntiFerromagnet
+	"FakeAF",			# As for AF, but with pure Hopping
+	"SU-Singlet",		# Singlet superconductor
+	"SU-Triplet"			# Triplet superconductor
 ]
-AllSingletSyms = ["s", "s*", "d"]
-AllTripletSyms = ["px", "py", "p+", "p-"]
-
-Phase = "AF"    # Choose your phase
+Phase = "SU-Singlet" # Choose your phase
 if !in(Phase, AllPhases)
 	@error "Invalid phase, please modify at: " * SetupFilePath
+	exit()
 end
-# Model = "Renormalized-AF"
-Setup = "B[128]"  # Choose your setup #TODO Use readline()
+
+AllSingletSyms = ["s", "S", "d"]
+AllTripletSyms = ["px", "py", "p+", "p-"]
+Syms = ["s", "S", "d"]
+if Phase=="SU-Singlet"
+	if !issubset(Syms, AllSingletSyms)
+		@error "Invalid symmetries. $(Syms) is incoherent with $(Phase)." *
+			"Please modify at: " * SetupFilePath
+	end
+elseif Phase=="SU-Triplet"
+	if !issubset(Syms, AllTripletSyms)
+		@error "Invalid symmetries. $(Syms) is incoherent with $(Phase)." *
+			"Please modify at: " * SetupFilePath
+	end
+end
+
+Setup = "A[128]" # Choose your setup #TODO Use readline()
 AvailableSetups = [
 	"Test[80]",
 	"A[128]",
@@ -44,7 +57,14 @@ elseif Setup=="Test[80]"
 	Δv::Dict{String,Float64} = Dict([
 		"m" => 1e-3,
 		"w0" => 1e-3,
-		"wp" => 1e-3
+		"wp" => 1e-3,
+		"Δs" => 1e-3,
+		"ΔS" => 1e-3,
+		"Δd" => 1e-3,
+		"Δpx" => 1e-3,
+		"Δpy" => 1e-3,
+		"Δp+" => 1e-3,
+		"Δp-" => 1e-3,
 	])
 	Δn = 1e-2
 	g = 0.5
@@ -59,7 +79,14 @@ elseif Setup=="A[128]"
 	Δv::Dict{String,Float64} = Dict([
 		"m" => 1e-4,
 		"w0" => 1e-4,
-		"wp" => 1e-4
+		"wp" => 1e-4,
+		"Δs" => 1e-4,
+		"ΔS" => 1e-4,
+		"Δd" => 1e-4,
+		"Δpx" => 1e-4,
+		"Δpy" => 1e-4,
+		"Δp+" => 1e-4,
+		"Δp-" => 1e-4,
 	])
 	Δn = 1e-2
 	g = 0.5
@@ -74,7 +101,14 @@ elseif Setup=="B[128]"
 	Δv::Dict{String,Float64} = Dict([
 		"m" => 1e-4,
 		"w0" => 1e-4,
-		"wp" => 1e-4
+		"wp" => 1e-4,
+		"Δs" => 1e-4,
+		"ΔS" => 1e-4,
+		"Δd" => 1e-4,
+		"Δpx" => 1e-4,
+		"Δpy" => 1e-4,
+		"Δp+" => 1e-4,
+		"Δp-" => 1e-4,
 	])
 	Δn = 1e-2
 	g = 0.5
@@ -89,7 +123,14 @@ elseif Setup=="B[128]-t=0.7"
 	Δv::Dict{String,Float64} = Dict([
 		"m" => 1e-4,
 		"w0" => 1e-4,
-		"wp" => 1e-4
+		"wp" => 1e-4,
+		"Δs" => 1e-4,
+		"ΔS" => 1e-4,
+		"Δd" => 1e-4,
+		"Δpx" => 1e-4,
+		"Δpy" => 1e-4,
+		"Δp+" => 1e-4,
+		"Δp-" => 1e-4,
 	])
 	Δn = 1e-2
 	g = 0.5
@@ -104,7 +145,14 @@ elseif Setup=="C[128]"
 	Δv::Dict{String,Float64} = Dict([
 		"m" => 1e-4,
 		"w0" => 1e-4,
-		"wp" => 1e-4
+		"wp" => 1e-4,
+		"Δs" => 1e-4,
+		"ΔS" => 1e-4,
+		"Δd" => 1e-4,
+		"Δpx" => 1e-4,
+		"Δpy" => 1e-4,
+		"Δp+" => 1e-4,
+		"Δp-" => 1e-4,
 	])
 	Δn = 1e-2
 	g = 0.5

@@ -33,6 +33,31 @@ function GetLabels(
 		VarLabels = Dict([
 			"g" => "g"
 		])
+	elseif Phase=="SU-Singlet"
+		VarLabels = Dict([
+			"t" => "t",
+			"U" => "U",
+			"V" => "V",
+			"Lx" => "L_x",
+			"δ" => "\\delta",
+			"β" => "\\beta",
+			"Δs" => "\\Delta_s",
+			"ΔS" => "\\Delta_{s*}",
+			"Δd" => "\\Delta_d"
+		])
+	elseif Phase=="SU-Triplet"
+		VarLabels = Dict([
+			"t" => "t",
+			"U" => "U",
+			"V" => "V",
+			"Lx" => "L_x",
+			"δ" => "\\delta",
+			"β" => "\\beta",
+			"Δpx" => "\\Delta_{p_x}",
+			"Δpy" => "\\Delta_{p_y}",
+			"Δp+" => "\\Delta_{p_+}",
+			"Δp-" => "\\Delta_{p_-}",
+		])
 	end
 
 	return VarLabels
@@ -55,7 +80,7 @@ function PlotOrderParameter(
 Returns: none (plots saved at `DirPathOut`).
 
 `PlotOrderParameter` takes as input `Phase` (string specifying the mean-field
-phase, the allowed are \"AF\", \"FakeAF\", \"SU/Singlet\", \"SU/Triplet\"), 
+phase, the allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"SU-Triplet\"),
 `FilePathIn` (path to the data files), `DirPathOut` (path to the output
 directory). The optional parameters are `xVar` and `pVar` (strings specifying
 respectively the x variable and the parametric variable of the plot, the 
@@ -69,6 +94,7 @@ function PlotOrderParameter(
 	Phase::String,						# Mean field phase
 	FilePathIn::String,					# Data filepath
 	DirPathOut::String;					# Output directory path
+	Syms::Vector{String}=["s"],			# Gap function symmetries
 	xVar::String="U",					# Specify x variable
 	pVar::String="V",					# Specify parametric variable
 	Skip::Int64=1,						# xVar skip parameter
@@ -100,7 +126,13 @@ function PlotOrderParameter(
 	VarLabels = GetLabels(Phase)
 
 	# Initialize directory structure
-	DirPathOut *= "PlotOrderParameter/xVar=" * xVar * "/pVar=" * pVar * "/"
+	DirPathOut *= "PlotOrderParameter"
+	if Phase=="SU-Singlet"
+		DirPathOut *= "_Syms=$(Syms...)"
+	elseif Phase=="SU-Triplet"
+		DirPathOut *= "_Syms=$(Syms...)"
+	end
+	DirPathOut *= "/xVar=" * xVar * "/pVar=" * pVar * "/"
 	mkpath(DirPathOut)
 
 	# Read data and create DataFrame
@@ -257,7 +289,7 @@ function PlotOrderParameter2D(
 Returns: none (plots saved at `DirPathOut`).
 
 `PlotOrderParameter2D` takes as input `Phase` (string specifying the mean-field
-phase, the allowed are \"AF\", \"FakeAF\", \"SU/Singlet\", \"SU/Triplet\"), `FilePathIn`
+phase, the allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"SU-Triplet\"), `FilePathIn`
 (path to the data files), `DirPathOut` (path to the output directory). The
 optional parameters are `xVar` and `yVar` (strings specifying respectively the x
 variable and the y variable of the plot, the allowed are \"t\", \"U\", \"V\", 
@@ -297,7 +329,13 @@ function PlotOrderParameter2D(
 	VarLabels = GetLabels(Phase)
 
 	# Initialize directory structure
-	DirPathOut *= "Heatmaps/xVar=" * xVar * "_yVar=" * yVar * "/"
+	DirPathOut *= "Heatmaps"
+	if Phase=="SU-Singlet"
+		DirPathOut *= "_Syms=$(Syms...)"
+	elseif Phase=="SU-Triplet"
+		DirPathOut *= "_Syms=$(Syms...)"
+	end
+	DirPathOut *= "/xVar=" * xVar * "_yVar=" * yVar * "/"
 	mkpath(DirPathOut)
 
 	# Read data and create DataFrame
@@ -435,8 +473,8 @@ function PlotRMPs(
 Returns: none (plots saved at `DirPathOut`).
 
 `PlotRMPs` (Renormalized Model Parameters) takes as input `Phase` (string 
-specifying the mean-field phase, the allowed are \"AF\", \"SU/Singlet\",
-\"SU/Triplet\"), `FilePathIn` (path to the data files), `DirPathOut` (path to 
+specifying the mean-field phase, the allowed are \"AF\", \"SU-Singlet\",
+\"SU-Triplet\"), `FilePathIn` (path to the data files), `DirPathOut` (path to
 the output directory). The optional parameters are `xVar` and `yVar` (strings 
 specifying respectively the x variable and the y variable of the plot, the 
 allowed are \"t\", \"U\", \"V\", \"Lx\", \"δ\", \"β\"), `cs` (colorscheme 
@@ -476,7 +514,13 @@ function PlotRMPs(
 	VarLabels = GetLabels(Phase)
 
 	# Initialize directory structure
-	DirPathOut *= "RMPs/xVar=" * xVar * "_yVar=" * yVar * "/"
+	DirPathOut *= "RMPs"
+	if Phase=="SU-Singlet"
+		DirPathOut *= "_Syms=$(Syms...)"
+	elseif Phase=="SU-Triplet"
+		DirPathOut *= "_Syms=$(Syms...)"
+	end
+	DirPathOut *= "/xVar=" * xVar * "_yVar=" * yVar * "/"
 	mkpath(DirPathOut)
 
 	# Read data and create DataFrame
@@ -665,7 +709,7 @@ function PlotRecord(
 Returns: none (plots saved at `DirPathOut`).
 
 `PlotRecord` takes as input `Phase` (string specifying the mean-field phase, the
-allowed are \"AF\", \"FakeAF\", \"SU/Singlet\", \"SU/Triplet\"), `FilePathIn` (path
+allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"SU-Triplet\"), `FilePathIn` (path
 to the data files), `DirPathOut` (path to the output directory). The optional 
 parameter is `rVar` (string specifying the recorded variable to plot), `cs`
 (colorscheme symbol). `Extension` selects the file extension (the allowed are 

@@ -2375,14 +2375,7 @@
     <bcf:datasource type="file" datatype="bibtex" glob="false">misc/bibliography.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1" intorder="1">arovas2022hubbard</bcf:citekey>
-    <bcf:citekey order="2" intorder="1">arovas2022hubbard</bcf:citekey>
-    <bcf:citekey order="3" intorder="1">fabrizio2022course</bcf:citekey>
-    <bcf:citekey order="4" intorder="1">fabrizio2022course</bcf:citekey>
-    <bcf:citekey order="5" intorder="1">fabrizio2022course</bcf:citekey>
-    <bcf:citekey order="6" intorder="1">fabrizio2022course</bcf:citekey>
-    <bcf:citekey order="7" intorder="1">scholle2023comprehensive</bcf:citekey>
-    <bcf:citekey order="8" intorder="1" nocite="1">*</bcf:citekey>
+    <bcf:citekey order="1" intorder="1" nocite="1">*</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">

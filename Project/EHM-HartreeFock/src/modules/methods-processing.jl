@@ -51,7 +51,7 @@ function FindFS(
                     εk::Float64 = GetHoppingEnergy(t,k)
                     
                     # Renormalized gap		
-                    imΔk::Float64 = 2 * v["wp"] * Parameters["V"] * StructureFactor("s*",k)
+                    imΔk::Float64 = 2 * v["wp"] * Parameters["V"] * StructureFactor("S",k)
                     
                     # Renormalized gapped bands
                     Ek::Float64 = sqrt( εk^2 + reΔk^2 + imΔk^2 )
@@ -69,7 +69,7 @@ function FindFS(
                     F(g) = Float64(sqrt( 
                             ( GetHoppingEnergy(t,k(g)) )^2 +
                             ( reΔk )^2 +
-                            ( 2 * v["wp"] * Parameters["V"] * StructureFactor("s*",k(g)) )^2
+                            ( 2 * v["wp"] * Parameters["V"] * StructureFactor("S",k(g)) )^2
                         )) - μ
 
                     # Bisect until convergence

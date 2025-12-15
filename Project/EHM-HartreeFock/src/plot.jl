@@ -28,19 +28,31 @@ end
 include(PROJECT_ROOT * "/src/setup/graphic-setup.jl")
 include(PROJECT_ROOT * "/src/modules/methods-plotting.jl")
 
-function main()    
-	# DirPathIn = PROJECT_ROOT * "/simulations/Phase=" * Phase * "/" *
+function main()
+
+	# Read files
 	DirPathIn = PROJECT_ROOT * "/simulations/" *
-		InMode * "/Setup=$(Setup)/"
-	FilePathIn = DirPathIn * Phase * ".txt"
+		InMode * "/Setup=$(Setup)/Phase="
+	if Phase=="SU-Singlet"
+		FilePathIn = DirPathIn * "SU-Singlet/Syms=$(Syms...).txt"
+	elseif Phase=="SU-Triplet"
+		FilePathIn = DirPathIn * "SU-Triplet/Syms=$(Syms...).txt"
+	else
+		FilePathIn = DirPathIn * Phase * ".txt"
+	end
+
+	# Create output directory
 	DirPathOut = PROJECT_ROOT * "/analysis/Phase=" * Phase * "/" *
 		Mode * "/Setup=$(Setup)/"
 	mkpath(DirPathOut)
+
+	# Run plot modules
 	if Mode=="scan"
 		PlotOrderParameter(
 			Phase,
 			FilePathIn,
 			DirPathOut;
+			Syms,
 			xVar="V",
 			pVar="δ",
 			cs=:winter,

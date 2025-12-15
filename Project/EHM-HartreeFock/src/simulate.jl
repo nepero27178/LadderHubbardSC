@@ -66,7 +66,7 @@ function RunHFScan(
 	Δv::Dict{String,Float64},			# Tolerance on magnetization
 	Δn::Float64,							# Tolerance on density
 	g::Float64;							# Mixing parameter
-	Syms::Vector{String}=["d"],			# Gap function symmetries
+	Syms::Vector{String}=["s"],			# Gap function symmetries
 	FilePathOut::String="",				# Output file
 	InitializeFile::Bool=true,			# Initialize file at FilePathOut
 	RenormalizeHopping::Bool=true		# Conditional renormalization of t
@@ -82,7 +82,7 @@ function RunHFScan(
 	end
 
 	# Get Hartree Fock Parameters labels
-	HFPs = GetHFPs(Phase)
+	HFPs = GetHFPs(Phase;Syms)
 
 	# File coditional initialization (otherwise, just append)
 	if FilePathOut != "" && InitializeFile
@@ -124,6 +124,7 @@ function RunHFScan(
 			Phase,Parameters,L,0.5+δ,β,
 			p,Δv,Δn,g;
 			v0i=v0,
+			Syms,
 			RenormalizeHopping
 		)
 
@@ -241,18 +242,23 @@ end
 
 # Main run
 function main()
-	# DirPathOut = PROJECT_ROOT * "/simulations/Phase=" * Phase * "/" *
 	DirPathOut = PROJECT_ROOT * "/simulations/" *
-	Mode * "/Setup=$(Setup)/"
-	mkpath(DirPathOut)
+		Mode * "/Setup=$(Setup)/Phase="
 	if in(Mode, ["scan", "heatmap"])
-		# FilePathOut = DirPathOut * Model * ".txt"
-		FilePathOut = DirPathOut * Phase * ".txt"
+		if Phase=="SU-Singlet"
+			FilePathOut = DirPathOut * "SU-Singlet/Syms=$(Syms...).txt"
+		elseif Phase=="SU-Triplet"
+			FilePathOut = DirPathOut * "SU-Triplet/Syms=$(Syms...).txt"
+		else
+			FilePathOut = DirPathOut * Phase * ".txt"
+		end
+		mkpath(dirname(FilePathOut))
 		RunHFScan(
 			Phase,
 			tt,UU,VV,
 			LL,δδ,ββ,
 			p,Δv,Δn,g;
+			Syms,
 			FilePathOut,
 			RenormalizeHopping
 		)
@@ -262,6 +268,7 @@ function main()
 			t,U,V,
 			L,δ,β,
 			p,Δv,Δn,gg;
+			Syms,
 			DirPathOut,
 			RenormalizeHopping
 		)

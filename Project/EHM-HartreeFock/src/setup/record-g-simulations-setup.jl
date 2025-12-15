@@ -5,10 +5,10 @@ SetupFilePath = @__FILE__
 AllPhases = [
 	"AF",               # Renormalized AntiFerromagnet
 	"FakeAF",              # As for AF, but with pure Hopping
-	"SU/Singlet",       # Singlet superconductor
-	"SU/Triplet"        # Triplet superconductor
+	"SU-Singlet",       # Singlet superconductor
+	"SU-Triplet"        # Triplet superconductor
 ]
-AllSingletSyms = ["s", "s*", "d"]
+AllSingletSyms = ["s", "S", "d"]
 AllTripletSyms = ["px", "py", "p+", "p-"]
 
 Phase = "AF"    # Choose your phase

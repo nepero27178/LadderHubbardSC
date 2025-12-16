@@ -577,12 +577,15 @@ function PerformHFStep(
 				ΔS += sk * StructureFactor("S",k)
 				Δd += sk * StructureFactor("d",k)
 			end
-			wk = 0
 		end
 
-		"Δs" in keys(v0) ? v["Δs"] = Parameters["U"] * Δs/(2*LxLy) : 0
-		"ΔS" in keys(v0) ? v["ΔS"] = Parameters["V"] * ΔS/LxLy : 0
-		"Δd" in keys(v0) ? v["Δd"] = Parameters["V"] * Δd/LxLy : 0
+		Δs *= Parameters["U"] / (2*LxLy)
+		ΔS *= Parameters["V"] / LxLy
+		Δd *= Parameters["V"] / LxLy
+
+		"Δs" in keys(v0) ? v["Δs"] = Δs : 0
+		"ΔS" in keys(v0) ? v["ΔS"] = ΔS : 0
+		"Δd" in keys(v0) ? v["Δd"] = Δd : 0
 
 	elseif Phase=="SU-Triplet"
 		@error "Under construction"
@@ -651,7 +654,7 @@ function RunHFAlgorithm(
 )::Tuple{Dict{String,Float64}, Dict{String,Float64}, Float64, Float64, Dict{String,Vector{Float64}}}
 
 	if verbose
-		@info "Running HF convergence algorithm" Phase Sms Parameters L n β
+		@info "Running HF convergence algorithm" Phase Syms Parameters L n β
 		@info "Convergence parameters" p Δv Δn g
 	end
 

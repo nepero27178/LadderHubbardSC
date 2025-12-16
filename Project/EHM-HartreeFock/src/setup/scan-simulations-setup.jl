@@ -92,7 +92,7 @@ elseif Setup=="A[128]"
 elseif Setup=="B[256]"
 	tt = [1.0]
 	UU = [4.0,12.0,20.0]
-	VV = [V for V in 0.0:0.1:3.0]
+	VV = [V for V in 0.0:0.05:3.0]
 	LL = [256]
 	δδ = [δ for δ in 0.0:0.05:0.45]
 	ββ = [100.0]

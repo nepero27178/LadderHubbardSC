@@ -30,9 +30,9 @@ function GetHFPs(
 	end
 
 	KeysList::Vector{String} = ["Empty"]
-	AF ? KeysList = ["m", "w0", "wp"] : 0.0
-	Singlet ? KeysList = ["Δ$(Sym)" for Sym in Syms] : 0.0
-	Triplet ? KeysList = ["Δ$(Sym)" for Sym in Syms] : 0.0
+	AF ? KeysList = ["m", "w0", "wp"] : 0
+	Singlet ? KeysList = ["Δ$(Sym)" for Sym in Syms] : 0
+	Triplet ? KeysList = ["Δ$(Sym)" for Sym in Syms] : 0
 	return KeysList
 
 end
@@ -63,9 +63,9 @@ function GetRMPs(
 	end
 
 	KeysList::Vector{String} = ["Empty"]
-	AF ? KeysList = ["reΔ_tilde", "imΔ_tilde", "t_tilde"] : 0.0
-	Singlet ? KeysList = ["Δ$(Sym)" for Sym in Syms] : 0.0
-	Triplet ? KeysList = ["Δ$(Sym)" for Sym in Syms] : 0.0
+	AF ? KeysList = ["reΔ_tilde", "imΔ_tilde", "t_tilde"] : 0
+	Singlet ? KeysList = ["Δ$(Sym)" for Sym in Syms] : 0
+	Triplet ? KeysList = ["Δ$(Sym)" for Sym in Syms] : 0
 	return KeysList
 
 end
@@ -569,6 +569,7 @@ function PerformHFStep(
 				Ek::Float64 = sqrt( ξk^2 + abs(Δk)^2 )
 
 				# Gap factor
+				sk::Float64 = 0.0
 				if Ek!=0.0 # Otherwise add nothing
 					sk = wk * Δk/Ek * tanh(β*Ek/2)
 				end
@@ -579,9 +580,9 @@ function PerformHFStep(
 			wk = 0
 		end
 
-		"Δs" in keys(v0) ? v["Δs"] = -Parameters["U"] * Δs/(2*LxLy) : 0.0
-		"ΔS" in keys(v0) ? v["ΔS"] = Parameters["V"] * ΔS/LxLy : 0.0
-		"Δd" in keys(v0) ? v["Δd"] = Parameters["V"] * Δd/LxLy : 0.0
+		"Δs" in keys(v0) ? v["Δs"] = Parameters["U"] * Δs/(2*LxLy) : 0
+		"ΔS" in keys(v0) ? v["ΔS"] = Parameters["V"] * ΔS/LxLy : 0
+		"Δd" in keys(v0) ? v["Δd"] = Parameters["V"] * Δd/LxLy : 0
 
 	elseif Phase=="SU-Triplet"
 		@error "Under construction"

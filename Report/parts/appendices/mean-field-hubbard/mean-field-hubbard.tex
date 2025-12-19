@@ -96,12 +96,12 @@ Consider the half-filling situation. An unpolarized system will have $n=1/4$, $m
 
 \begin{figure}
 	\centering
-	\input{\GraphicsFolder/ferromagnetic-3d-band}
+%	\input{\GraphicsFolder/ferromagnetic-3d-band}
 	\caption{Depiction of the Hubbard square lattice hopping band $\epsilon_{\mathbf{k}} = -2t[\cos(k_x) + \cos(k_y)]$. The red lines mark the zero-energy intersection.}
 	\label{appfig:ferromagnetic-3d-band}
 \end{figure}
 
-\subsection{Antiferromagnetic phase}
+\section{Antiferromagnetic phase}
 
 Consider now an AF mean-field solution. Let us change notation, indicating each site as
 \[
@@ -121,7 +121,11 @@ and a mean-field Ansatz
 	\qquad
 	\ev{\hat n_{\mathbf{r}\downarrow}} = n-m_\mathbf{r}
 \end{equation}
-With respect to the solution presented above, the only detail changing is the last term,
+In next sections, the details of the MFT solution are discussed.
+
+\subsection{MFT discussion}
+
+With respect to the ferromagnetic solution presented above, the only detail changing is the last term,
 \begin{equation}\label{appeq:hubbard-mean-field-hamiltonian}
 	\hat H = -t \sum_{\langle \mathbf{r}\mathbf{r}' \rangle} \sum_\sigma \hat c_{\mathbf{r}\sigma}^\dagger \hat c_{\mathbf{r}'\sigma}
 	+ nU \sum_\mathbf{r} \left[
@@ -154,14 +158,14 @@ mU \sum_\mathbf{r} (-1)^{x+y} \left[
 
 \begin{figure}
 	\centering
-	\subfloat[Alternative band.]{
-		\input{\GraphicsFolder/alternative-ferromagnetic-3d-band}
-		\label{appsubfig:alternative-ferromagnetic-3d-band}
-	}
-	\subfloat[Contour plot.]{
-		\input{\GraphicsFolder/ferromagnetic-contour}
-		\label{appsubfig:ferromagnetic-contour}
-	}
+%	\subfloat[Alternative band.]{
+%		\input{\GraphicsFolder/alternative-ferromagnetic-3d-band}
+%		\label{appsubfig:alternative-ferromagnetic-3d-band}
+%	}
+%	\subfloat[Contour plot.]{
+%		\input{\GraphicsFolder/ferromagnetic-contour}
+%		\label{appsubfig:ferromagnetic-contour}
+%	}
 	\caption{Alternative depiction of the Hubbard square lattice hopping band previously reported in Fig.~\ref{appfig:ferromagnetic-3d-band}. The Magnetic Brillouin Zone ($\mathrm{MBZ}$) is delimited by the zero-energy contour and is indicated in figure. As it is evident, energy sign flips by taking a $(\pi,\pi)$ translation in $\mathbf{k}$ space.}
 	\label{appfig:alternative-ferromagnetic-band}
 \end{figure}
@@ -191,7 +195,7 @@ and a spin-wise gap,
 	\qquad
 	\Delta_\downarrow = -\Delta
 \]
-At fixed filling, the $U$ term is a pure energy shift, thus will be neglected. The kinetic term transforms as
+At fixed filling, the $nU$ term is a pure chemical potential shift, thus will be neglected. The kinetic term transforms as
 \[
 \begin{aligned}
 	-t \sum_{\langle ij \rangle} \sum_\sigma \hat c_{i\sigma}^\dagger \hat c_{j\sigma} &= \sum_{\mathbf{k} \in \mathrm{BZ}} \sum_\sigma \epsilon_\mathbf{k} \hat c_{\mathbf{k}\sigma}^\dagger \hat c_{\mathbf{k}\sigma} \\ 
@@ -216,6 +220,8 @@ In the second passage, the sum over the full $\mathrm{BZ}$ was written consideri
 	\end{bmatrix}
 \end{equation}
 Notice: the Nambu hamiltonian is a $2\times2$ matrix over the $\mathrm{MBZ}$ -- which is half the full $\mathrm{BZ}$, coherently with a solution which essentially bipartites the lattice giving back a double sized unit cell.
+
+\subsection{Diagonalization and AF ground state}
 
 \begin{figure}
 	\centering
@@ -277,11 +283,30 @@ Eigenvalues are:
 \[
 	E_\mathbf{k} \equiv \sqrt{\epsilon_{\mathbf{k}}^2 + \abs{\Delta_\sigma}^2}
 \]
-(superscript ``$(0)$'' has been dropped momentarily). Notice that the presence of an absolute value makes the eigenvalues independent of the $\sigma$ index. Eigenvector fermion operators are obtained simply as:
+(superscript ``$(0)$'' has been dropped momentarily).
+
+Note that considering the full hamiltonian $\hat H - \mu\hat N$, the diagonalizing matrix remains the same, being
+\[
+	-\mu\hat N = \sum_{\mathbf{k}\in\mathrm{MBZ}} \begin{bmatrix}
+		-\mu & \\ & -\mu
+	\end{bmatrix}
+\]
+thus for non-null chemical potential (i.e. finite doping) the eigenvalues are just shifted, $\pm E_\mathbf{k}-\mu$. In other words, the new bands retain the same chemical potential of the bare bands. Notice also that the presence of an absolute value makes the eigenvalues independent of the $\sigma$ index. Eigenvector fermion operators are obtained simply as:
 \begin{equation}\label{appeq:af-diagonalized-nambu-spinor}
 	\hat\Gamma_{\mathbf{k}\sigma} = W_{\mathbf{k}\sigma} \hat \Psi_{\mathbf{k}\sigma}
 \end{equation}
-The $\hat\Gamma$ spinor operators are effectively free fermionic spinor fields and as such must be treated. Note that:
+The $\hat\Gamma$ spinor operators are effectively free fermionic spinor fields and as such must be treated.
+
+\begin{figure}
+	\centering
+	\input{\GraphicsFolder/antiferromagnetic-3d-bands}
+	\caption{Depiction of the AF bands $\pm E_\mathbf{k}$}
+	\label{}
+\end{figure}
+
+\subsection{Chemical potential and system density}
+
+The total number of electrons is given by
 \begin{align}
 	N &= \sum_{\mathbf{k}\sigma} \ev{\hat n_{\mathbf{k}\sigma}} \nonumber \\
 	&= \sum_\sigma \sum_{\mathbf{k} \in \mathrm{MBZ}} \left\langle
@@ -315,7 +340,7 @@ it holds equivalently
 \end{equation}
 as is obvious. The $2$ prefactor was absorbed in doubling the integration region, $\mathrm{MBZ}\to\mathrm{BZ}$. Next sections are devoted to simplify the above theoretical results in order to obtain an algorithmic estimation for the magnetization $m$, which is just the AF instability order parameter. 
 
-\subsection{Theoretical mean-field solution}
+\subsection{Self-consistent magnetization}
 
 A convergence algorithm can be designed to find the Hartree-Fock solution to the model. Ultimately, we aim to extract $m$ self-consistently. Since
 \[
@@ -464,9 +489,56 @@ In the second passage this distribution appeared because an expectation value ov
 \end{equation}
 Then: mean-field approximations yield an estimate for the magnetization at a given temperature and chemical potential just by carefully combining the elements of the diagonalizing matrix $W$ of each Bogoliubov matrix $h_{\mathbf{k}\sigma}$.
 
-{\color{tabred}[
-	To be understood: \citeauthor{fabrizio2022course} \cite{fabrizio2022course} gets a slightly different relation, with $\tanh (\beta E_\mathbf{k}/2)$, because he is not considering the chemical potential. The same result I cannot get here, due to the presence of the Fermi-Dirac factors. This is because I work at fixed density. Am I wrong?
-]}
+\subsection{The half-filled case}
+
+Consider specifically the half-filled situation. Since due to symmetry $\mu=0$, we have the finite-temperature self-consistent equation
+\[
+\begin{aligned}
+	m &= \frac{1}{L_xL_y} \sum_{\mathbf{k} \in \mathrm{MBZ}} \sin(2\theta_\mathbf{k}) \left[
+		f\left(-E_\mathbf{k}; \beta,0\right)-f\left(E_\mathbf{k}; \beta,0\right)
+	\right] \\
+	&= \frac{1}{2L_xL_y} \sum_{\mathbf{k} \in \mathrm{MBZ}} \frac{\Delta}{\sqrt{\epsilon_{\mathbf{k}}^2 + \Delta^2}} \tanh(\frac{\beta}{2} \sqrt{\epsilon_{\mathbf{k}}^2 + \Delta^2})
+\end{aligned}
+\]
+Recalling that $m=\Delta/U$, the above equation becomes in thermodynamic limit $L \to \infty$
+\[
+	\frac{1}{U} \simeq \frac 1 2 \int_\mathrm{MBZ} \frac{\mathrm{d}\mathbf{k}}{(2\pi)^2} \frac{1}{\sqrt{\epsilon_{\mathbf{k}}^2 + \Delta^2}} \tanh(\frac{\beta}{2} \sqrt{\epsilon_{\mathbf{k}}^2 + \Delta^2})
+\]
+Substitute the momentum integral with an integral over energies, in the low temperature limit, $\beta\to\infty$ (thus approximate the hyperbolic tangent with $1$)
+\[
+	\frac{1}{U} \simeq \frac 1 2 \int_\mathrm{bands}  \frac{\mathrm{d}\epsilon \rho(\epsilon)}{\sqrt{\epsilon^2 + \Delta^2}}
+\]
+\todo
+
+\subsection{Instability of the commensurate AF solution and atypical metallic bands}
+
+A key point to be discussed is the known instability of the AF HF solution of the EHM. As is thoroughly discussed in \cite{singh1990collective}, the solution we presented above is only stable at half-filling, becoming hardly unstable at infinitesimal doping. This is due to the commensurate nature of the established AF phase: we impose SSB to take place at wavevector $\bm{\pi}$, shrinking the BZ to exactly half its size and giving back on the newly defined MBZ two bands $\pm E_\mathbf{k}$. This procedure actually works well for the half-filled case: the magnetization essentially depends on the scattering rate between points on the FS connected by a $\bm{\pi}$ vector. The half filled case, taking advantage of the natural nesting property of the bare bands,
+\[
+ 	\forall \mathbf{k}\in\partial\mathrm{MBZ}\,\colon\, \epsilon_{\mathbf{k}} = \epsilon_{\mathbf{k}+\bm{\pi}}
+\]
+(being $\partial\mathrm{MBZ}$ the boundary of the MBZ) exhibits a magnetization at infinitesimal interaction. For a many body state resulting from continuous SSB, to establish a given phase means to show the presence of a stable gapless Goldstone mode associated to the broken symmetry. Such a Goldstone mode is essentially a sharp peak at zero frequency for some dressed response function. For the AF phase, it follows from the reduced $\mathrm{U}^z(1)$ rotational symmetry and is related to the transverse pseudospin-pseudospin response function,
+\[
+	\tilde{\chi}_{\hat{\mathbf{S}}^- \hat{\mathbf{S}}^+}(\mathbf{k},\omega) = \frac{\chi_{\hat{\mathbf{S}}^- \hat{\mathbf{S}}^+}(\mathbf{k},\omega)}{1 - U \chi_{\hat{\mathbf{S}}^- \hat{\mathbf{S}}^+}(\mathbf{k},\omega)}
+\]
+As is shown in \cite{singh1990collective}, for the commensurate AF SSB at wavevector $\bm{\pi}$ the condition for the presence of a stable gapless mode reduces to a $2\times 2$ matrix equation,
+\[
+	\mathbb{I} - U \left[\chi_{\hat{\mathbf{S}}^- \hat{\mathbf{S}}^+}(\bm{\pi},0)\right] \ge 0
+\]
+with $\left[\chi_{\hat{\mathbf{S}}^- \hat{\mathbf{S}}^+}(\bm{\pi},\omega)\right]$ the response function matrix obtained by considering a matrix response function for a two-sites unit cell. Considering the eigenvalue of largest amplitude of the matrix $\lambda_\delta$ at filling $\delta$, the one most prone to instabilities, it is found that
+\[
+\begin{aligned}
+	\lambda_0(\mathbf{k}\to\bm{\pi},0) &= \frac 1 U &&\text{(half filling)} \\
+	\lambda_\delta(\mathbf{k}\to\bm{\pi},0) &= \frac 1 U + \frac{2\epsilon_\mathrm{F}}{\Delta} N(\epsilon_\mathrm{F}) &&\text{(finite doping)}
+\end{aligned}
+\]
+The reason for the distinction above is the intrinsic metallic nature of the system for infinitesimal doping. At half-filling the system is an insulator, therefore no Fermi energy is defined, as well as no FS. Evidently this implies
+\[
+\begin{aligned}
+	1 - U\lambda_0(\mathbf{k}\to\bm{\pi},0) &= 0 &&\text{(half filling)} &&\implies &&\text{stable Goldstone mode}\\
+	1 - U\lambda_\delta(\mathbf{k}\to\bm{\pi},0) &< 0 &&\text{(finite doping)} &&\implies &&\text{unstable Goldstone mode}
+\end{aligned}
+\]
+For any finite doping, the commensurate AF phase becomes unstable and is destroyed by transverse spin fluctuations.
 
 \subsection{Hartree-Fock algorithm sketch in reciprocal space}\label{appsubsec:hartree-fock-algorithm}
 
@@ -528,16 +600,14 @@ In next section some results are briefly shown.
 
 \begin{figure}
 	\centering
-	\subfloat[Local repulsion $U/t$ depencence.]{
-		\includegraphics{example-image-a}
-		%\includegraphics[width=0.45\textwidth]{../Project/HartreeFock/analysis/Phase=AF/Scan/Setup=Test256/PlotOrderParameter/xVar=U/pVar=δ/m_t=1.0_Lx=256.0_β=Inf.pdf}
-		\label{appsubfig:mU-beta=Inf}
-	}
-	\subfloat[Doping $\delta = n-0.5$ dependence.]{
-		\includegraphics{example-image-b}
-		% \includegraphics[width=0.45\textwidth]{../Project/HartreeFock/analysis/Phase=AF/Scan/Setup=Test256/PlotOrderParameter/xVar=δ/pVar=U/m_t=1.0_Lx=256.0_β=Inf.pdf}
-		\label{appsubfig:dU-beta=Inf}
-	}	
+%	\subfloat[Local repulsion $U/t$ depencence.]{
+%		\includegraphics[width=0.45\textwidth]{../Project/EHM-HartreeFock/analysis/Phase=AF/scan/Setup=A[128]_t=1.0/PlotOrderParameter/xVar=U/pVar=δ/m_t=1.0_Lx=128.0_β=Inf.pdf}
+%		\label{appsubfig:mU-beta=Inf}
+%	}
+%	\subfloat[Doping $\delta = n-0.5$ dependence.]{
+%		\includegraphics[width=0.45\textwidth]{../Project/EHM-HartreeFock/analysis/Phase=AF/scan/Setup=A[128]_t=1.0/PlotOrderParameter/xVar=δ/pVar=U/m_t=1.0_Lx=128.0_β=Inf.pdf}
+%		\label{appsubfig:dU-beta=Inf}
+%	}	
 	\caption{Plots of the zero-temperature AF instability order parameter $m$ as a function of both the local repulsion $U/t$ (Fig.~\ref{appsubfig:mU-beta=Inf}) and the doping $\delta = n-1/2$ (Fig.~\ref{appsubfig:dU-beta=Inf}).}
 	\label{appfig:mdU-beta=Inf}
 \end{figure}
@@ -558,13 +628,11 @@ In Fig.~\ref{appfig:mdU-beta=Inf} plots at $\beta=\infty$ of the magnetization $
 \begin{figure}
 	\centering
 	\subfloat[Local repulsion $U/t$ depencence.]{
-		\includegraphics{example-image-a}
-		% \includegraphics[width=0.45\textwidth]{../Project/HartreeFock/analysis/Phase=AF/Scan/Setup=Test256/PlotOrderParameter/xVar=U/pVar=δ/m_t=1.0_Lx=256.0_β=100.0.pdf}
+		\includegraphics[width=0.5\textwidth]{../Project/HM-HartreeFock/analysis/Phase=AF/scan/Setup=A[128]_t=1.0/PlotOrderParameter/xVar=U/pVar=δ/m_t=1.0_Lx=128.0_β=100.0.pdf}
 		\label{appsubfig:mU-beta=100}
 	}
 	\subfloat[Doping $\delta = n-0.5$ dependence.]{
-		\includegraphics{example-image-b}
-%		\includegraphics[width=0.45\textwidth]{../Project/HartreeFock/analysis/Phase=AF/Scan/Setup=Test256/PlotOrderParameter/xVar=δ/pVar=U/m_t=1.0_Lx=256.0_β=100.0.pdf}
+		\includegraphics[width=0.5\textwidth]{../Project/HM-HartreeFock/analysis/Phase=AF/scan/Setup=A[128]_t=1.0/PlotOrderParameter/xVar=δ/pVar=U/m_t=1.0_Lx=128.0_β=100.0.pdf}
 		\label{appsubfig:dU-beta=100}
 	}	
 	\caption{Plots of the zero-temperature AF instability order parameter $m$ as a function of both the local repulsion $U/t$ (Fig.~\ref{appsubfig:mU-beta=100}) and the doping $\delta = n-1/2$ (Fig.~\ref{appsubfig:dU-beta=100}).}

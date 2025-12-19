@@ -16,7 +16,7 @@ end
 
 AllSingletSyms = ["s", "S", "d"]
 AllTripletSyms = ["px", "py", "p+", "p-"]
-Syms = ["d"]
+Syms = ["s", "S"]
 if Phase=="SU-Singlet"
 	if !issubset(Syms, AllSingletSyms)
 		@error "Invalid symmetries. $(Syms) is incoherent with $(Phase)." *
@@ -35,7 +35,8 @@ AvailableSetups = [
 	"A[128]",
 	"B[128]",
 	"B[128]-t=0.7",
-	"C[128]"
+	"C[128]",
+	"D[128]",
 ]
 
 RenormalizeHopping::Bool = true
@@ -141,6 +142,28 @@ elseif Setup=="C[128]"
 	LL = [128]
 	δδ = [δ for δ in 0.0:0.01:0.49]
 	ββ = [100.0]
+	p = 100
+	Δv::Dict{String,Float64} = Dict([
+		"m" => 1e-4,
+		"w0" => 1e-4,
+		"wp" => 1e-4,
+		"Δs" => 1e-4,
+		"ΔS" => 1e-4,
+		"Δd" => 1e-4,
+		"Δpx" => 1e-4,
+		"Δpy" => 1e-4,
+		"Δp+" => 1e-4,
+		"Δp-" => 1e-4,
+	])
+	Δn = 1e-2
+	g = 0.5
+elseif Setup=="D[128]"
+	tt = [1.0]
+	UU = [U for U in 0.0:0.2:20.0]
+	VV = [V for V in 0.0:0.1:10.0]
+	LL = [128]
+	δδ = [0.0]
+	ββ = [100.0, 50.0, 10.0, 1.0]
 	p = 100
 	Δv::Dict{String,Float64} = Dict([
 		"m" => 1e-4,

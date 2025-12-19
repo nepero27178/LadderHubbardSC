@@ -294,7 +294,9 @@ The $s$-wave transition is the only one equipped of both the local and the non-l
 \end{table}
 \setlength{\extrarowheight}{0em}
 
-{\color{tabred}
+\section{Superconducting solution in the translationally invariant sector}
+
+As a first approach to anisotropic SC in the Hubbard model, let us discuss the superconducting solutions in the simple scenario where crystal translational invariance is preserved and thus the system can be treated by the means of common BCS. As will be discussed, the non-local attraction acts as a source of SC in all symmetry sectors.
 
 \subsection{Nambu formalism and Bogoliubov transform}\label{subsec:nambu-formalism-mean-field-extended-hubbard}
 
@@ -430,13 +432,19 @@ The last passage has been obtained by computing the matrix element from the expl
 \end{aligned}
 \]
 Eqns.~\eqref{eq:pairing-dagger-expectation-algorithmic}, \eqref{eq:pairing-dagger-expectation-theoretical} give us both the algorithmic formula (first row) and its theoretical counterpart (second row) to compute the order parameters in the HF approach at each point in $k$-space $(k_x,k_y)$. We can finally derive the BCS self-consistency equation
-\begin{equation}\label{eq:self-consistency-equation-theoretical}
-	\Delta_\mathbf{k} \equiv \frac{1}{2} \sum_{\mathbf{k}'}
+\begin{align}
+	\Delta_\mathbf{k} &\equiv \frac{1}{2} \sum_{\mathbf{k}'}
 	\left[
 	V^{(s)} +
 	V_{\mathbf{k}\mathbf{k}'}
-	\right] \frac{\abs{\Delta_\mathbf{k}}}{\sqrt{\xi_\mathbf{k}^2 + \abs{\Delta_\mathbf{k}}^2}} e^{i \Im{\Delta_\mathbf{k}}/\Re{\Delta_\mathbf{k}}} \tanh(\frac{\beta}{2} \sqrt{\xi_\mathbf{k}^2 + \abs{\Delta_\mathbf{k}}^2})
-\end{equation}
+	\right] \frac{\abs{\Delta_{\mathbf{k}'}}}{\sqrt{\xi_{\mathbf{k}'}^2 + \abs{\Delta_{\mathbf{k}'}}^2}} \exp{i \arctan(\frac{\Im{\Delta_{\mathbf{k}'}}}{\Re{\Delta_{\mathbf{k}'}}})} \tanh(\frac{\beta}{2} \sqrt{\xi_{\mathbf{k}'}^2 + \abs{\Delta_{\mathbf{k}'}}^2}) \nonumber \\
+	&= \frac{1}{2} \sum_{\mathbf{k}'}
+	\left[
+	V^{(s)} +
+	V_{\mathbf{k}\mathbf{k}'}
+	\right] \frac{\Delta_{\mathbf{k}'}}{\sqrt{\xi_{\mathbf{k}'}^2 + \abs{\Delta_{\mathbf{k}'}}^2}} \tanh(\frac{\beta}{2} \sqrt{\xi_{\mathbf{k}'}^2 + \abs{\Delta_{\mathbf{k}'}}^2}) 
+	\label{eq:self-consistency-equation-theoretical}
+\end{align}
 The whole point of the HF algorithm is to find an iterative solution for each symmetry channel, using the self-consistency equation projection of Tab.~\ref{tab:x-wave-self-consistency-equation}.
 
 Notice that the $z$ component of the spin operators is related to density: using Eq.~\eqref{appeq:finite-temperature-order-parameter-derivation-intermediate},
@@ -449,7 +457,7 @@ Notice that the $z$ component of the spin operators is related to density: using
 [\hat \Psi_\mathbf{k}^\dagger]_2 [\hat \Psi_\mathbf{k}]_2
 \right\rangle
 \]
-I proceed in as done previously, and from Eq.~\eqref{eq:number-operator-z-spin-relation},
+I proceed as previously, and from Eq.~\eqref{eq:number-operator-z-spin-relation},
 \begin{align}
 	\langle \hat n_{\mathbf{k}\uparrow} \rangle + \langle \hat 	n_{-\mathbf{k}\downarrow} \rangle = 1 &+ \langle \hat\Psi_\mathbf{k}^\dagger \tau^z \hat\Psi_\mathbf{k} \rangle \nonumber \\
 	= 1 &+ \left(
@@ -464,40 +472,38 @@ I proceed in as done previously, and from Eq.~\eqref{eq:number-operator-z-spin-r
 \end{align}
 The expectation value for the density is needed in order to extract the optimal chemical potential $\mu$ for the target density we aim to simulate at the given parametrization. This is numerically obtained by using Eq.~\eqref{eq:density-expectation-algorithmic} directly on the diagonalization matrix of $h_\mathbf{k}$.
 
-\subsection{A short comment on self-consistency}\label{subsec:mft-self-consitency-cooper-decomposition}
-
-The Bogoliubov fermions in spinor representation satisfy obviously $\hat \Psi_\mathbf{k} = W_\mathbf{k}^\dagger \hat \Gamma_\mathbf{k}$. Consider e.g.
-\[
-\langle
-\hat c_{\mathbf{k}\sigma}^\dagger
-\hat c_{-\mathbf{k}\sigma}^\dagger
-\rangle	
-\]
-which is a spin-symmetric anomalous Cooper pair. For simplicity, take $\sigma=\uparrow$. Expand:
-\[
-\begin{aligned}
-	\langle
-	\hat c_{\mathbf{k}\uparrow}^\dagger
-	\hat c_{-\mathbf{k}\uparrow}^\dagger
-	\rangle	&= \left\langle 
-	[\hat \Psi_\mathbf{k}^\dagger]_1 [\hat \Psi_{-\mathbf{k}}^\dagger]_1 
-	\right\rangle \\
-	&= \left\langle 
-	[W_\mathbf{k} \hat \Gamma_\mathbf{k}^\dagger]_1 [W_{-\mathbf{k}} \hat \Gamma_{-\mathbf{k}}^\dagger]_1 
-	\right\rangle
-\end{aligned}
-\]
-This expectation value is taken over the ground-state, the latter being the vacuum of $\Gamma$ fermions. Evidently the above expectation cannot assume non-zero values. Obviously the same holds for $\sigma=\downarrow$, and this argument explains why the Ferromagnetic terms of the hamiltonian decomposition do not contribute to Cooper instability. An identical argument, with the exchange
-\[
-(\sigma,\sigma) \to (\uparrow,\downarrow)
-\qq{and}
-(\mathbf{k},-\mathbf{k}) \to (\mathbf{K}+\mathbf{k},\mathbf{K}-\mathbf{k})
-\qq{with}
-\mathbf{K}\neq\mathbf{0}
-\]
-justifies why in Sec.~\ref{subsec:nambu-formalism-mean-field-extended-hubbard} the only relevant contribution was given by $\mathbf{K}=\mathbf{0}$. In the next sections, the results of the self-consistent HF algorithm are exposed.
-
-}
+%\subsection{A short comment on self-consistency}\label{subsec:mft-self-consitency-cooper-decomposition}
+%
+%The Bogoliubov fermions in spinor representation satisfy obviously $\hat \Psi_\mathbf{k} = W_\mathbf{k}^\dagger \hat \Gamma_\mathbf{k}$. Consider e.g.
+%\[
+%\langle
+%\hat c_{\mathbf{k}\sigma}^\dagger
+%\hat c_{-\mathbf{k}\sigma}^\dagger
+%\rangle	
+%\]
+%which is a spin-symmetric anomalous Cooper pair. For simplicity, take $\sigma=\uparrow$. Expand:
+%\[
+%\begin{aligned}
+%	\langle
+%	\hat c_{\mathbf{k}\uparrow}^\dagger
+%	\hat c_{-\mathbf{k}\uparrow}^\dagger
+%	\rangle	&= \left\langle 
+%	[\hat \Psi_\mathbf{k}^\dagger]_1 [\hat \Psi_{-\mathbf{k}}^\dagger]_1 
+%	\right\rangle \\
+%	&= \left\langle 
+%	[W_\mathbf{k} \hat \Gamma_\mathbf{k}^\dagger]_1 [W_{-\mathbf{k}} \hat \Gamma_{-\mathbf{k}}^\dagger]_1 
+%	\right\rangle
+%\end{aligned}
+%\]
+%This expectation value is taken over the ground-state, the latter being the vacuum of $\Gamma$ fermions. Evidently the above expectation cannot assume non-zero values. Obviously the same holds for $\sigma=\downarrow$, and this argument explains why the Ferromagnetic terms of the hamiltonian decomposition do not contribute to Cooper instability. An identical argument, with the exchange
+%\[
+%(\sigma,\sigma) \to (\uparrow,\downarrow)
+%\qq{and}
+%(\mathbf{k},-\mathbf{k}) \to (\mathbf{K}+\mathbf{k},\mathbf{K}-\mathbf{k})
+%\qq{with}
+%\mathbf{K}\neq\mathbf{0}
+%\]
+%justifies why in Sec.~\ref{subsec:nambu-formalism-mean-field-extended-hubbard} the only relevant contribution was given by $\mathbf{K}=\mathbf{0}$. In the next sections, the results of the self-consistent HF algorithm are exposed.
 
 \section{Results of the HF algorihtm}\label{sec:mft-analysis-hf-results}
 

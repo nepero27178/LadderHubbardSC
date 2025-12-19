@@ -5,7 +5,7 @@ if length(ARGS) != 1
 	println("How to use this program?
 Type the following: \$ julia ./plot.jl --mode
 Where:
-· mode = --scan / --heatmap / --RMPs / --record-g")
+· mode = --scan / --heatmap / --record-g")
 	exit()
 else
 	UserInput = ARGS
@@ -29,7 +29,6 @@ include(PROJECT_ROOT * "/src/setup/graphic-setup.jl")
 include(PROJECT_ROOT * "/src/modules/methods-plotting.jl")
 
 function main()    
-	# DirPathIn = PROJECT_ROOT * "/simulations/Phase=" * Phase * "/" *
 	DirPathIn = PROJECT_ROOT * "/simulations/" *
 		InMode * "/Setup=$(Setup)/"
 	FilePathIn = DirPathIn * Phase * ".txt"
@@ -41,51 +40,31 @@ function main()
 			Phase,
 			FilePathIn,
 			DirPathOut;
-			xVar="V",
+			xVar="U",
 			pVar="δ",
 			cs=:winter,
-			RenormalizeHopping,
-			Extension="png"
+			Extension="pdf"
 		)
 		PlotOrderParameter(
 			Phase,
 			FilePathIn,
 			DirPathOut;
 			xVar="δ",
-			pVar="V",
+			pVar="U",
 			Skip=2,
 			cs=:winter,
-			RenormalizeHopping,
-			Extension="png"
+			Extension="pdf"
 		)
 	elseif Mode=="heatmap"
 		PlotOrderParameter2D(
 			Phase,
 			FilePathIn,
 			DirPathOut;
-#            xVar="U",
-#            yVar="V",
 			xVar="V",
 			yVar="δ",
 			cs=:imola,
 			Extension="pdf"
 		)
-	elseif Mode=="RMPs"
-		if Phase=="FakeAF"
-			@error "It makes no sense to plot RMPs for Phase=$(Phase)!"
-		else
-			PlotRMPs(
-				Phase,
-				FilePathIn,
-				DirPathOut;
-#				xVar="U",
-#				yVar="V",
-				xVar="V",
-				yVar="δ",
-				cs=:imola,
-				Extension="png"
-			)
-		end
 	elseif Mode=="record-g"
 		PlotRecord(
 			Phase,

@@ -225,8 +225,8 @@ Notice: the Nambu hamiltonian is a $2\times2$ matrix over the $\mathrm{MBZ}$ -- 
 
 \begin{figure}
 	\centering
-	\input{\GraphicsFolder/pseudo-magnetic-field}
-	\caption{Pseudo-magnetic field originating from mean-field treatment of the square Hubbard hamiltonian. Here, only the $\sigma=\uparrow$}
+	% \input{\GraphicsFolder/pseudo-magnetic-field}
+	\caption{Pseudo-magnetic field originating from mean-field treatment of the square Hubbard hamiltonian. Here, only the $\sigma=\uparrow$ situation is plotted.}
 	\label{appfig:pseudo-magnetic-field}
 \end{figure}
 
@@ -239,7 +239,7 @@ being $\tau^\alpha$ the Pauli matrices. Then, defining
 	\hat s_{\mathbf{k}\sigma}^\alpha \equiv \hat \Psi_{\mathbf{k}\sigma}^\dagger \tau^\alpha \hat \Psi_{\mathbf{k}\sigma}
 	\qq{and}
 	\mathbf{b}_{\mathbf{k}\sigma} \equiv \begin{bmatrix}
-		-\Delta_\sigma \\ 0 \\ \epsilon_\mathbf{k}^{(0)} 
+		-\Delta_\sigma \\ 0 \\ \epsilon_\mathbf{k} 
 	\end{bmatrix}
 \]
 one gets:
@@ -252,7 +252,7 @@ one gets:
 		\hat s_{\mathbf{k}\sigma}^z
 	\end{bmatrix}
 \end{equation}
-The hamiltonian represents a system of spins subject to local magnetic fields, each tilted by an angle $\tan(2\theta_{\mathbf{k}\sigma}) = \Delta_\sigma/\epsilon_{\mathbf{k}}^{(0)}$, as sketched in Fig.~\ref{appfig:pseudo-magnetic-field}. At any finite temperature, the ground-state of such a system is well-known. Diagonalization of each $h_{\mathbf{k}\sigma}$ is obtained trivially by a simple rotation around the $y$ axis:
+The hamiltonian represents a system of spins subject to local magnetic fields, each tilted by an angle $\tan(2\theta_{\mathbf{k}\sigma}) = \Delta_\sigma/\epsilon_\mathbf{k}$, as sketched in Fig.~\ref{appfig:pseudo-magnetic-field}. At any finite temperature, the ground-state of such a system is well-known. Diagonalization of each $h_{\mathbf{k}\sigma}$ is obtained trivially by a simple rotation around the $y$ axis:
 \[
 	d_{\mathbf{k}\sigma} = W_{\mathbf{k}\sigma} h_{\mathbf{k}\sigma} W_{\mathbf{k}\sigma}^\dagger
 \]
@@ -280,17 +280,19 @@ Note that rotation is taken to be of an angle $2\theta_{\mathbf{k}\sigma} - \pi$
 	\end{bmatrix}
 \end{equation}
 Eigenvalues are:
-\[
+\begin{equation}\label{appeq:af-bands}
 	E_\mathbf{k} \equiv \sqrt{\epsilon_{\mathbf{k}}^2 + \abs{\Delta_\sigma}^2}
-\]
-(superscript ``$(0)$'' has been dropped momentarily).
-
+\end{equation}
 Note that considering the full hamiltonian $\hat H - \mu\hat N$, the diagonalizing matrix remains the same, being
-\[
+\begin{equation}\label{appeq:af-full-h-diagonalization}
 	-\mu\hat N = \sum_{\mathbf{k}\in\mathrm{MBZ}} \begin{bmatrix}
 		-\mu & \\ & -\mu
 	\end{bmatrix}
-\]
+	\quad\implies\quad
+	W_{\mathbf{k}\sigma} \left[ 
+	h_{\mathbf{k}\sigma}-\mu\mathbb{I}_{2\times2}
+	\right] W_{\mathbf{k}\sigma}^\dagger = d_{\mathbf{k}\sigma}-\mu\mathbb{I}_{2\times2}
+\end{equation}
 thus for non-null chemical potential (i.e. finite doping) the eigenvalues are just shifted, $\pm E_\mathbf{k}-\mu$. In other words, the new bands retain the same chemical potential of the bare bands. Notice also that the presence of an absolute value makes the eigenvalues independent of the $\sigma$ index. Eigenvector fermion operators are obtained simply as:
 \begin{equation}\label{appeq:af-diagonalized-nambu-spinor}
 	\hat\Gamma_{\mathbf{k}\sigma} = W_{\mathbf{k}\sigma} \hat \Psi_{\mathbf{k}\sigma}
@@ -299,10 +301,12 @@ The $\hat\Gamma$ spinor operators are effectively free fermionic spinor fields a
 
 \begin{figure}
 	\centering
-	\input{\GraphicsFolder/antiferromagnetic-3d-bands}
-	\caption{Depiction of the AF bands $\pm E_\mathbf{k}$}
-	\label{}
+	% \input{\GraphicsFolder/antiferromagnetic-3d-bands}
+	\caption{Depiction of the AF bands $\pm E_\mathbf{k}$. \todo}
+	\label{appfig:antiferromagnetic-3d-bands}
 \end{figure}
+
+The consequence of Eq.~\eqref{appeq:af-full-h-diagonalization} is interesting by itself: within this HF solution, the gap opens always at $E=0$. In other words, the bands sketched in Fig.~\ref{appfig:antiferromagnetic-3d-bands} retain the same geometric features regardless of the doping, what changes is the bands width and the gap between them. The very key point here is that, being the two bands symmetric (thus containing each half of the electronic states) and defined over the MBZ, any finite doping $\delta>0$ will produce a metallic behaviour, imposing that the chemical potential crosses the upper band. It is widely observed and confirmed by more refined numerical procedures, however, that AF establishes an insulating phase -- here only reproduced at half-filling, where the chemical potential lies within the gap. As will be detailed in \ref{appsubsec:instability-af-commensurate}, the commensurate nature of AF SSB at wavevector $\bm{\pi}$ of this self-consistent solution is highly unstable and atypical at finite doping \cite{singh1990collective}.
 
 \subsection{Chemical potential and system density}
 
@@ -339,6 +343,15 @@ it holds equivalently
 	\right]
 \end{equation}
 as is obvious. The $2$ prefactor was absorbed in doubling the integration region, $\mathrm{MBZ}\to\mathrm{BZ}$. Next sections are devoted to simplify the above theoretical results in order to obtain an algorithmic estimation for the magnetization $m$, which is just the AF instability order parameter. 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{../Project/HM-HartreeFock/src/labs/n\_AF\_U=10.0\_Δ=1.0.pdf}
+	\caption{Electronic density in the AF phase as a function of the chemical potential, measured in relation to the gap $\Delta$, at various temperatures.}
+	\label{appfig:af-density-various-betas}
+\end{figure}
+
+In Fig.~\ref{appfig:af-density-various-betas} the density $n(\mu)$ is plotted as a function of $\mu$. As is evident, at nearly zero temperature ($\beta\to\infty$) the system is half filled for $-\Delta<\mu<\Delta$. In order to obtain a finite doping, it must be $\abs{\mu}>\Delta$; which means, the chemical potential needs to cross the electronic bands. This HF solution leads invariably to a rather unusual metallic AF at any finite doping.
 
 \subsection{Self-consistent magnetization}
 
@@ -510,7 +523,7 @@ Substitute the momentum integral with an integral over energies, in the low temp
 \]
 \todo
 
-\subsection{Instability of the commensurate AF solution and atypical metallic bands}
+\subsection{Instability of the commensurate AF solution and atypical metallic bands}\label{appsubsec:instability-af-commensurate}
 
 A key point to be discussed is the known instability of the AF HF solution of the EHM. As is thoroughly discussed in \cite{singh1990collective}, the solution we presented above is only stable at half-filling, becoming hardly unstable at infinitesimal doping. This is due to the commensurate nature of the established AF phase: we impose SSB to take place at wavevector $\bm{\pi}$, shrinking the BZ to exactly half its size and giving back on the newly defined MBZ two bands $\pm E_\mathbf{k}$. This procedure actually works well for the half-filled case: the magnetization essentially depends on the scattering rate between points on the FS connected by a $\bm{\pi}$ vector. The half filled case, taking advantage of the natural nesting property of the bare bands,
 \[
@@ -522,7 +535,7 @@ A key point to be discussed is the known instability of the AF HF solution of th
 \]
 As is shown in \cite{singh1990collective}, for the commensurate AF SSB at wavevector $\bm{\pi}$ the condition for the presence of a stable gapless mode reduces to a $2\times 2$ matrix equation,
 \[
-	\mathbb{I} - U \left[\chi_{\hat{\mathbf{S}}^- \hat{\mathbf{S}}^+}(\bm{\pi},0)\right] \ge 0
+	\mathbb{I}_{2\times2} - U \left[\chi_{\hat{\mathbf{S}}^- \hat{\mathbf{S}}^+}(\bm{\pi},0)\right] \ge 0
 \]
 with $\left[\chi_{\hat{\mathbf{S}}^- \hat{\mathbf{S}}^+}(\bm{\pi},\omega)\right]$ the response function matrix obtained by considering a matrix response function for a two-sites unit cell. Considering the eigenvalue of largest amplitude of the matrix $\lambda_\delta$ at filling $\delta$, the one most prone to instabilities, it is found that
 \[
@@ -538,11 +551,11 @@ The reason for the distinction above is the intrinsic metallic nature of the sys
 	1 - U\lambda_\delta(\mathbf{k}\to\bm{\pi},0) &< 0 &&\text{(finite doping)} &&\implies &&\text{unstable Goldstone mode}
 \end{aligned}
 \]
-For any finite doping, the commensurate AF phase becomes unstable and is destroyed by transverse spin fluctuations.
+For any finite doping, the commensurate AF phase becomes unstable and is destroyed by transverse spin fluctuations. Nevertheless, for the sake of completeness, we will study the metallic AF also at finite doping.
 
-\subsection{Hartree-Fock algorithm sketch in reciprocal space}\label{appsubsec:hartree-fock-algorithm}
+\subsection{Hartree-Fock algorithm results in reciprocal space}\label{appsubsec:hartree-fock-algorithm}
 
-The above sections offers a self-consistency equation for the magnetization $m$; $W$ is determined by $m$ indeed. Then a self-consistent algorithm to search for a self consistent estimate for $m$ may be sketched, following the general idea of Sec.~\ref{sec:computational-mft}:
+The above sections offer a self-consistency equation for the magnetization $m$; $W$ is determined by $m$ indeed. Then a self-consistent algorithm to search for a self consistent estimate for $m$ may be sketched, following the general idea of Sec.~\ref{sec:computational-mft}:
 \begin{enumerate}
 	\setcounter{enumi}{-1}
 	\item Algorithm setup: initialize a counter $i=1$ and choose:
@@ -594,25 +607,8 @@ The above sections offers a self-consistency equation for the magnetization $m$;
 		\end{itemize}
 	\end{itemize}
 \end{enumerate}
-In next section some results are briefly shown.
 
-\subsection{Results}
-
-\begin{figure}
-	\centering
-%	\subfloat[Local repulsion $U/t$ depencence.]{
-%		\includegraphics[width=0.45\textwidth]{../Project/EHM-HartreeFock/analysis/Phase=AF/scan/Setup=A[128]_t=1.0/PlotOrderParameter/xVar=U/pVar=δ/m_t=1.0_Lx=128.0_β=Inf.pdf}
-%		\label{appsubfig:mU-beta=Inf}
-%	}
-%	\subfloat[Doping $\delta = n-0.5$ dependence.]{
-%		\includegraphics[width=0.45\textwidth]{../Project/EHM-HartreeFock/analysis/Phase=AF/scan/Setup=A[128]_t=1.0/PlotOrderParameter/xVar=δ/pVar=U/m_t=1.0_Lx=128.0_β=Inf.pdf}
-%		\label{appsubfig:dU-beta=Inf}
-%	}	
-	\caption{Plots of the zero-temperature AF instability order parameter $m$ as a function of both the local repulsion $U/t$ (Fig.~\ref{appsubfig:mU-beta=Inf}) and the doping $\delta = n-1/2$ (Fig.~\ref{appsubfig:dU-beta=Inf}).}
-	\label{appfig:mdU-beta=Inf}
-\end{figure}
-
-The algorithm sketched in the above paragraph was ran with the following setup:
+The algorithm sketched hereby was ran with the following setup:
 \begin{lstlisting}[language=julia]
 UU = [U for U in 0.5:0.5:20.0]      # Local repulsions
 LL = [256]             				# Lattice sizes
@@ -623,7 +619,7 @@ dm = 1e-4                           # Tolerance on magnetization
 dn = 1e-2                           # Tolerance on density
 g = 0.5                             # Mixing parameter
 \end{lstlisting}
-In Fig.~\ref{appfig:mdU-beta=Inf} plots at $\beta=\infty$ of the magnetization $m$ is reported. As is evident in Fig.~\ref{appsubfig:mU-beta=Inf}, disrupts AF ordering; the horizontal asymptote lowers as $\delta$ gets bigger, a mere consequence of the fact that the free space at each single-particle state in $k$-space shrinks as density increases; also, for $\delta > 0$, a finite magnetization $m$ exists only for $U \ge U_c[\delta]$ (a critical value parametrically dependent on doping). Fig.~\ref{appsubfig:dU-beta=Inf} shows the dependence of magnetization on doping at various fixed local repulsions $U$: once again, to dope the material disrupt AF ordering. Identical analysis have been performed for finite temperatures, leading to analogous results as long as $\beta \gtrsim 10$ and to $m \simeq 0$ for higher temperatures (predictably). For the sake of completeness, results are plotted in Fig.~\ref{appfig:mdU-beta=100}: the only relevant difference with Fig.~\ref{appfig:mdU-beta=Inf} is that for null doping and null local-interaction $U$, as is intuitive, the self-consistent magnetization is null. This result, with respect to the one of Fig.~\ref{appsubfig:mU-beta=Inf}, is more physical.
+In Fig.~\ref{appfig:mdU-beta=100} plots at $\beta=100$ of the magnetization $m$ is reported. As is evident in Fig.~\ref{appsubfig:mU-beta=100}, doping disrupts AF ordering; the horizontal asymptote lowers as $\delta$ gets bigger, a mere consequence of the fact that the free space at each single-particle state in $k$-space shrinks as density increases; also, for $\delta > 0$, a finite magnetization $m$ exists only for $U \ge U_c[\delta]$ (a critical value parametrically dependent on doping). Fig.~\ref{appsubfig:dU-beta=100} shows the dependence of magnetization on doping at various fixed local repulsions $U$: once again, to dope the material disrupt AF ordering. Identical analysis have been performed for different temperatures, leading to analogous results as long as $\beta \gtrsim 10$ and to $m \simeq 0$ for higher temperatures (predictably).
 
 \begin{figure}
 	\centering

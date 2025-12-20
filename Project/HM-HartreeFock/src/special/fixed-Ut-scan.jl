@@ -117,7 +117,7 @@ function main()
 	Δn = 1e-2
 	g = 0.5
 
-	FilePathOut = PROJECT_ROOT * "/simulations/special/fixed-Ut-scan/vary-U/AF.txt"
+	FilePathOut = PROJECT_ROOT * "/simulations/special/fixed-Ut-scan/vary-t/AF.txt"
 	mkpath(dirname(FilePathOut))
 	RunHFScan_AF_FixedUt(
 		"AF",

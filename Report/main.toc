@@ -1,10 +1,16 @@
 \contentsline {part}{\partnumberline {I}Mean-Field-Theory analysis}{1}{part.1}%
-\contentsline {chapter}{\chapternumberline {1}Superconducting instability}{3}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Cooper fluctuations in the EHM}{3}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Cooper fluctuations in the opposite-spin sector}{3}{section.1.2}%
-\contentsline {paragraph}{Local interaction $U$.}{4}{section*.5}%
-\contentsline {paragraph}{Non-local interaction $V$.}{4}{section*.6}%
-\contentsline {subsection}{\numberline {1.2.1}Full gap function and self-consistency equations}{5}{subsection.1.2.1}%
-\contentsline {section}{\numberline {1.3}Superconducting solution in the translationally invariant sector}{6}{section.1.3}%
-\contentsline {subsection}{\numberline {1.3.1}Nambu formalism and Bogoliubov transform}{6}{subsection.1.3.1}%
-\contentsline {section}{\numberline {1.4}Results of the HF algorihtm}{9}{section.1.4}%
+\contentsline {chapter}{\chapternumberline {1}Mean-Field Theory in Hubbard lattices}{3}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Symmetries of the Hubbard model and magnetic phase transitions}{3}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Ferromagnetic phase}{3}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Antiferromagnetic phase}{4}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}MFT discussion}{4}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Diagonalization and AF ground state}{6}{subsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.3.3}Chemical potential and system density}{7}{subsection.1.3.3}%
+\contentsline {subsection}{\numberline {1.3.4}Self-consistent magnetization}{7}{subsection.1.3.4}%
+\contentsline {paragraph}{Zero temperature solution.}{8}{section*.9}%
+\contentsline {paragraph}{Finite temperature solution.}{8}{section*.10}%
+\contentsline {subsection}{\numberline {1.3.5}The half-filled case}{9}{subsection.1.3.5}%
+\contentsline {subsection}{\numberline {1.3.6}Instability of the commensurate AF solution and atypical metallic bands}{9}{subsection.1.3.6}%
+\contentsline {subsection}{\numberline {1.3.7}Hartree-Fock algorithm results in reciprocal space}{10}{subsection.1.3.7}%
+\contentsline {subsection}{\numberline {1.3.8}An alternative (less efficient) real-space approach}{12}{subsection.1.3.8}%
+\contentsline {chapter}{Bibliography}{15}{section*.14}%

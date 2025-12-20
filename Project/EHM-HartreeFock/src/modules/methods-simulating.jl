@@ -468,19 +468,19 @@ function PerformHFStep(
 Returns: HF estimation for Cooper instability parameter based on input.
 
 `PerformHFStep` takes as input `Phase` (string specifying the mean-field phase, 
-the allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"SU-Triplet\"), `Parameters`
-(dictionary of model parameters containing `t`, `U`, `V`), `K` (k-points in the
-BZ) , `v0` (dictionary of  real HF initializers), `n` (density) and `β` 
-(inverse temperature). It performs a  single step of the iterative Hartree-Fock 
-(HF) analysis starting over a 2D square lattice whose dimensions are given by
-`L`. Among the optional parameters is `Syms`, a strings vector specifying the
-superconducting gap function symmetries to be simulated (allowed are: \"s\", 
-\"S\", \"d\" for the \"SU-Singlet\" phase, and \"px\", \"py\", \"p+\", \"p-\"
-for the \"SU-Triplet\") phase. The function estimates `v` using as input the
-Nambu-Bogoliubov hamiltonian obtained via the function `GetHamiltonian` and 
-the optimal chemical potential for the density `n` for this hamiltonian.
-The boolean option `RenormalizeHopping' allows for choosing to renormalize
-or not the hopping parameter.
+the allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"SU-Triplet\"),
+`Parameters` (dictionary of model parameters containing `t`, `U`, `V`), `K`
+(k-points in the BZ), `v0` (dictionary of real HF initializers), `n` (density)
+and `β` (inverse temperature). It performs a  single step of the iterative
+Hartree-Fock (HF) analysis starting over a 2D square lattice whose dimensions
+are given by `L`. Among the optional parameters is `Syms`, a strings vector
+specifying the superconducting gap function symmetries to be simulated (allowed
+are: \"s\", \"S\", \"d\" for the \"SU-Singlet\" phase, and \"px\", \"py\",
+\"p+\", \"p-\" for the \"SU-Triplet\") phase. The function estimates `v` using
+as input the Nambu-Bogoliubov hamiltonian obtained via the function
+`GetHamiltonian` and the optimal chemical potential for the density `n` for this
+hamiltonian. The boolean option `RenormalizeHopping' allows for choosing to
+renormalize or not the hopping parameter.
 """
 function PerformHFStep(
 	Phase::String,						# Mean field phase

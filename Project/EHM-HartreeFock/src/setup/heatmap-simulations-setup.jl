@@ -8,7 +8,7 @@ AllPhases = [
 	"SU-Singlet",		# Singlet superconductor
 	"SU-Triplet"			# Triplet superconductor
 ]
-Phase = "SU-Singlet" # Choose your phase
+Phase = "AF" # Choose your phase
 if !in(Phase, AllPhases)
 	@error "Invalid phase, please modify at: " * SetupFilePath
 	exit()
@@ -16,7 +16,7 @@ end
 
 AllSingletSyms = ["s", "S", "d"]
 AllTripletSyms = ["px", "py", "p+", "p-"]
-Syms = ["s", "S"]
+Syms = ["s", "S", "d"]
 if Phase=="SU-Singlet"
 	if !issubset(Syms, AllSingletSyms)
 		@error "Invalid symmetries. $(Syms) is incoherent with $(Phase)." *
@@ -29,7 +29,7 @@ elseif Phase=="SU-Triplet"
 	end
 end
 
-Setup = "A[128]" # Choose your setup #TODO Use readline()
+Setup = "D[128]-Zoom" # Choose your setup #TODO Use readline()
 AvailableSetups = [
 	"Test[80]",
 	"A[128]",
@@ -37,6 +37,7 @@ AvailableSetups = [
 	"B[128]-t=0.7",
 	"C[128]",
 	"D[128]",
+	"D[128]-Zoom"
 ]
 
 RenormalizeHopping::Bool = true
@@ -159,11 +160,11 @@ elseif Setup=="C[128]"
 	g = 0.5
 elseif Setup=="D[128]"
 	tt = [1.0]
-	UU = [U for U in 0.0:0.2:20.0]
-	VV = [V for V in 0.0:0.1:10.0]
+	UU = [U for U in 0.0:1.0:20.0]
+	VV = [V for V in 0.0:0.5:10.0]
 	LL = [128]
 	δδ = [0.0]
-	ββ = [100.0, 50.0, 10.0, 1.0]
+	ββ = [100.0, 50.0, 10.0]
 	p = 100
 	Δv::Dict{String,Float64} = Dict([
 		"m" => 1e-4,
@@ -179,4 +180,26 @@ elseif Setup=="D[128]"
 	])
 	Δn = 1e-2
 	g = 0.5
+elseif Setup=="D[128]-Zoom"
+        tt = [1.0]
+        UU = [U for U in 0.0:0.25:15]
+        VV = [V for V in 0.0:0.1:2.5]
+        LL = [128]
+        δδ = [0.0]
+        ββ = [100.0, 10.0]
+        p = 100
+        Δv::Dict{String,Float64} = Dict([
+                "m" => 1e-4,
+                "w0" => 1e-4,
+                "wp" => 1e-4,
+                "Δs" => 1e-4,
+                "ΔS" => 1e-4,
+                "Δd" => 1e-4,
+                "Δpx" => 1e-4,
+                "Δpy" => 1e-4,
+                "Δp+" => 1e-4,
+                "Δp-" => 1e-4,
+        ])
+        Δn = 1e-2
+        g = 0.5
 end

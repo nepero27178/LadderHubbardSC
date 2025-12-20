@@ -41,9 +41,9 @@ function GetLabels(
 			"Lx" => "L_x",
 			"δ" => "\\delta",
 			"β" => "\\beta",
-			"Δs" => "\\Delta_{s}",
-			"ΔS" => "\\Delta_{s*}",
-			"Δd" => "\\Delta_{d}"
+			"Δs" => "\\Delta^{(s)}",
+			"ΔS" => "\\Delta^{(s*)}",
+			"Δd" => "\\Delta^{(d)}"
 		])
 	elseif Phase=="SU-Triplet"
 		VarLabels = Dict([

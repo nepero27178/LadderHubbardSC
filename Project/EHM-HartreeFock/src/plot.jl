@@ -32,11 +32,11 @@ function main()
 
 	# Read files
 	DirPathIn = PROJECT_ROOT * "/simulations/" *
-		InMode * "/Setup=$(Setup)/Phase="
+		InMode * "/Setup=$(Setup)/"
 	if Phase=="SU-Singlet"
-		FilePathIn = DirPathIn * "SU-Singlet/Syms=$(Syms...).txt"
+		FilePathIn = DirPathIn * "Phase=SU-Singlet/Syms=$(Syms...).txt"
 	elseif Phase=="SU-Triplet"
-		FilePathIn = DirPathIn * "SU-Triplet/Syms=$(Syms...).txt"
+		FilePathIn = DirPathIn * "Phase=SU-Triplet/Syms=$(Syms...).txt"
 	else
 		FilePathIn = DirPathIn * Phase * ".txt"
 	end
@@ -53,8 +53,8 @@ function main()
 			FilePathIn,
 			DirPathOut;
 			Syms,
-			xVar="V",
-			pVar="δ",
+			xVar="U",
+			pVar="V",
 			cs=:winter,
 			RenormalizeHopping,
 			Extension="pdf"
@@ -64,8 +64,8 @@ function main()
 			FilePathIn,
 			DirPathOut;
 			Syms,
-			xVar="δ",
-			pVar="V",
+			xVar="V",
+			pVar="U",
 			Skip=4,
 			cs=:winter,
 			RenormalizeHopping,
@@ -76,8 +76,8 @@ function main()
 			Phase,
 			FilePathIn,
 			DirPathOut;
-			# xVar="V",
-			# yVar="δ",
+			xVar="V",
+			yVar="δ",
 			cs=:imola,
 			Extension="pdf"
 		)

@@ -6,9 +6,11 @@ AllPhases = [
 	"AF",				# Renormalized AntiFerromagnet
 	"FakeAF",			# As for AF, but with pure Hopping
 	"SU-Singlet",		# Singlet superconductor
-	"SU-Triplet"			# Triplet superconductor
+	"SU-Triplet",		# Triplet superconductor
+	# "HybridSU-Singlet",	# Singlet superconductor
+	# "HybridSU-Triplet"	# Triplet superconductor
 ]
-Phase = "AF" # Choose your phase
+Phase = "SU-Singlet" # Choose your phase
 if !in(Phase, AllPhases)
 	@error "Invalid phase, please modify at: " * SetupFilePath
 	exit()
@@ -16,7 +18,7 @@ end
 
 AllSingletSyms = ["s", "S", "d"]
 AllTripletSyms = ["px", "py", "p+", "p-"]
-Syms = ["s", "S", "d"]
+Syms = ["s", "S"]
 if Phase=="SU-Singlet"
 	if !issubset(Syms, AllSingletSyms)
 		@error "Invalid symmetries. $(Syms) is incoherent with $(Phase)." *
@@ -29,7 +31,7 @@ elseif Phase=="SU-Triplet"
 	end
 end
 
-Setup = "D[128]-Zoom" # Choose your setup #TODO Use readline()
+Setup = "Test[80]" # Choose your setup #TODO Use readline()
 AvailableSetups = [
 	"Test[80]",
 	"A[128]",
@@ -40,9 +42,9 @@ AvailableSetups = [
 	"D[128]-Zoom"
 ]
 
-RenormalizeHopping::Bool = true
-if Phase=="FakeAF"
-	RenormalizeHopping::Bool = false
+RenormalizeHopping::Bool = false
+if in(Phase,["AF","HybridSU-Singlet","HybridSU-Triplet"])
+	RenormalizeHopping = true
 end
 
 if !in(Setup, AvailableSetups)

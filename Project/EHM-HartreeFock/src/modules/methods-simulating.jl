@@ -573,20 +573,20 @@ function PerformHFStep(
 				if Ek!=0.0 # Otherwise add nothing
 					sk = wk * Δk/Ek * tanh(β*Ek/2)
 				end
-				Δs += sk
+				Δs -= sk
 				ΔS += sk * StructureFactor("S",k)
 				Δd += sk * StructureFactor("d",k)
 			end
 		end
 
-		Δs *= -Parameters["U"] / (2*LxLy)
+		Δs *= Parameters["U"] / (2*LxLy)
 		ΔS *= Parameters["V"] / LxLy
 		Δd *= Parameters["V"] / LxLy
 
 		# Correct for sign fluctuations
-		Δs < 0 ? Δs = 0.0 : 0
-		ΔS < 0 ? ΔS = 0.0 : 0
-		Δd < 0 ? Δd = 0.0 : 0
+		# Δs < 0 ? Δs = 0.0 : 0
+		# ΔS < 0 ? ΔS = 0.0 : 0
+		# Δd < 0 ? Δd = 0.0 : 0
 
 		"Δs" in keys(v0) ? v["Δs"] = Δs : 0
 		"ΔS" in keys(v0) ? v["ΔS"] = ΔS : 0
@@ -748,14 +748,16 @@ function RunHFAlgorithm(
 		end
 	end
 
-	if verbose
-		if all([Qs[key] for key in keys(v0)] .<= 1)
+	if all([Qs[key] for key in keys(v0)] .<= 1)
+		if verbose
 			@info "Algorithm has converged." v Qs
-		elseif any([Qs[key] for key in keys(v0)] .> 1)
+		end
+	elseif any([Qs[key] for key in keys(v0)] .> 1)
+		if verbose
 			@info "Algorithm has not converged - v saved as NaN." v Qs Phase
-			for key in keys(v0)
-				v[key] = NaN
-			end
+		end
+		for key in keys(v0)
+			v[key] = NaN
 		end
 	end
 

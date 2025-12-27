@@ -410,6 +410,75 @@
       \verb https://link.aps.org/doi/10.1103/PhysRevB.41.614
       \endverb
     \endentry
+    \entry{wietek2021stripes}{article}{}{}
+      \name{author}{5}{}{%
+        {{hash=8074fb8b46ef46f89b820935dde47de2}{%
+           family={Wietek},
+           familyi={W\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+        {{hash=4025900ef8933b0e5f60042b107eec27}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={Yuan-Yao},
+           giveni={Y\bibinithyphendelim Y\bibinitperiod}}}%
+        {{hash=f310d2e0232138ba6117db89589f7c32}{%
+           family={White},
+           familyi={W\bibinitperiod},
+           given={Steven\bibnamedelima R.},
+           giveni={S\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=a3fd2f2b22938dc53c1d195381d71109}{%
+           family={Georges},
+           familyi={G\bibinitperiod},
+           given={Antoine},
+           giveni={A\bibinitperiod}}}%
+        {{hash=475b4be3a25b303ea6af7dc73ffd4c88}{%
+           family={Stoudenmire},
+           familyi={S\bibinitperiod},
+           given={E.\bibnamedelimi Miles},
+           giveni={E\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{53c062f4fee39ecd9028e2518e586474}
+      \strng{fullhash}{b5d14aa5540dc7c0e8c16f3f302723d6}
+      \strng{fullhashraw}{b5d14aa5540dc7c0e8c16f3f302723d6}
+      \strng{bibnamehash}{53c062f4fee39ecd9028e2518e586474}
+      \strng{authorbibnamehash}{53c062f4fee39ecd9028e2518e586474}
+      \strng{authornamehash}{53c062f4fee39ecd9028e2518e586474}
+      \strng{authorfullhash}{b5d14aa5540dc7c0e8c16f3f302723d6}
+      \strng{authorfullhashraw}{b5d14aa5540dc7c0e8c16f3f302723d6}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2160-3308}
+      \field{journaltitle}{Physical Review X}
+      \field{month}{7}
+      \field{number}{3}
+      \field{title}{Stripes, {Antiferromagnetism}, and the {Pseudogap} in the {Doped} {Hubbard} {Model} at {Finite} {Temperature}}
+      \field{urlday}{12}
+      \field{urlmonth}{12}
+      \field{urlyear}{2025}
+      \field{volume}{11}
+      \field{year}{2021}
+      \field{urldateera}{ce}
+      \field{pages}{031007}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1103/PhysRevX.11.031007
+      \endverb
+      \verb{file}
+      \verb Full Text:/home/nepero27178/Zotero/storage/JW73BF4B/Wietek et al. - 2021 - Stripes, Antiferromagnetism, and the Pseudogap in the Doped Hubbard Model at Finite Temperature.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://link.aps.org/doi/10.1103/PhysRevX.11.031007
+      \endverb
+      \verb{url}
+      \verb https://link.aps.org/doi/10.1103/PhysRevX.11.031007
+      \endverb
+    \endentry
   \enddatalist
 \endrefsection
 \endinput

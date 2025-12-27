@@ -679,8 +679,8 @@ function PlotRMPs(
 					color=cs,
 					label=L"$%$(VarLabels[RMP])$",
 					camera=(80,25),
-					zlim=(0.65,1),
-					clim=(0.65,1)
+					zlim=(0.75,1),
+					clim=(0.75,1)
 				)
 				title!(L"%$(rawTitle)")
 			end

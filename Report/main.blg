@@ -1,19 +1,19 @@
 [0] Config.pm:308> INFO - This is Biber 2.20
 [0] Config.pm:311> INFO - Logfile is 'main.blg'
-[70] biber:340> INFO - === Sat Dec 20, 2025, 11:17:03
-[110] Biber.pm:420> INFO - Reading 'main.bcf'
-[164] Biber.pm:991> INFO - Using all citekeys in bib section 0
-[180] Biber.pm:4463> INFO - Processing section 0
-[220] Biber.pm:4654> INFO - Looking for bibtex file 'misc/bibliography.bib' for section 0
-[221] bibtex.pm:1713> INFO - LaTeX decoding ...
-[232] bibtex.pm:1519> INFO - Found BibTeX data source 'misc/bibliography.bib'
-[332] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[332] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[332] Biber.pm:4283> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'en-US'
-[332] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
-[343] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[346] bbl.pm:779> INFO - Output to main.bbl
-[346] Biber.pm:131> WARN - legacy month field 'Jan' in entry 'cao2025dominant' is not an integer - this will probably not sort properly.
-[346] Biber.pm:131> WARN - legacy month field 'Jul' in entry 'scholle2023comprehensive' is not an integer - this will probably not sort properly.
-[346] Biber.pm:131> WARN - legacy month field 'Apr' in entry 'hirsch1985twodimensional' is not an integer - this will probably not sort properly.
-[346] Biber.pm:133> INFO - WARNINGS: 3
+[68] biber:340> INFO - === Sat Dec 27, 2025, 12:10:26
+[81] Biber.pm:420> INFO - Reading 'main.bcf'
+[135] Biber.pm:991> INFO - Using all citekeys in bib section 0
+[150] Biber.pm:4463> INFO - Processing section 0
+[158] Biber.pm:4654> INFO - Looking for bibtex file 'misc/bibliography.bib' for section 0
+[159] bibtex.pm:1713> INFO - LaTeX decoding ...
+[171] bibtex.pm:1519> INFO - Found BibTeX data source 'misc/bibliography.bib'
+[255] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[255] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[255] Biber.pm:4283> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[255] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
+[266] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[270] bbl.pm:779> INFO - Output to main.bbl
+[270] Biber.pm:131> WARN - legacy month field 'Apr' in entry 'hirsch1985twodimensional' is not an integer - this will probably not sort properly.
+[270] Biber.pm:131> WARN - legacy month field 'Jan' in entry 'cao2025dominant' is not an integer - this will probably not sort properly.
+[270] Biber.pm:131> WARN - legacy month field 'Jul' in entry 'scholle2023comprehensive' is not an integer - this will probably not sort properly.
+[270] Biber.pm:133> INFO - WARNINGS: 3

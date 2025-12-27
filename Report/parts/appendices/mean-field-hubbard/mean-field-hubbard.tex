@@ -101,7 +101,7 @@ Consider the half-filling situation. An unpolarized system will have $n=1/4$, $m
 	\label{appfig:ferromagnetic-3d-band}
 \end{figure}
 
-\section{Antiferromagnetic phase}
+\section{Antiferromagnetic phase}\label{appsec:antiferromagnetic-phase}
 
 Consider now an AF mean-field solution. Let us change notation, indicating each site as
 \[
@@ -529,15 +529,18 @@ A key point to be discussed is the known instability of the AF HF solution of th
 \[
  	\forall \mathbf{k}\in\partial\mathrm{MBZ}\,\colon\, \epsilon_{\mathbf{k}} = \epsilon_{\mathbf{k}+\bm{\pi}}
 \]
-(being $\partial\mathrm{MBZ}$ the boundary of the MBZ) exhibits a magnetization at infinitesimal interaction. For a many body state resulting from continuous SSB, to establish a given phase means to show the presence of a stable gapless Goldstone mode associated to the broken symmetry. Such a Goldstone mode is essentially a sharp peak at zero frequency for some dressed response function. For the AF phase, it follows from the reduced $\mathrm{U}^z(1)$ rotational symmetry and is related to the transverse pseudospin-pseudospin response function,
-\[
+(being $\partial\mathrm{MBZ}$ the boundary of the MBZ) exhibits a magnetization at infinitesimal interaction. For a many body state resulting from continuous SSB, to establish a given phase means to show the presence of a stable gapless Goldstone mode associated to the broken symmetry. Such a Goldstone mode is essentially a sharp peak at zero frequency for some dressed response function. For the AF phase, it follows from the reduced $\mathrm{U}^z(1)$ rotational symmetry and is related to the proper transverse pseudospin-pseudospin response function,
+$2\times 2$ matrix equation,
+\begin{equation}\label{appeq:af-commensurate-proper-response}
 	\tilde{\chi}_{\hat{\mathbf{S}}^- \hat{\mathbf{S}}^+}(\mathbf{k},\omega) = \frac{\chi_{\hat{\mathbf{S}}^- \hat{\mathbf{S}}^+}(\mathbf{k},\omega)}{1 - U \chi_{\hat{\mathbf{S}}^- \hat{\mathbf{S}}^+}(\mathbf{k},\omega)}
-\]
-As is shown in \cite{singh1990collective}, for the commensurate AF SSB at wavevector $\bm{\pi}$ the condition for the presence of a stable gapless mode reduces to a $2\times 2$ matrix equation,
-\[
+\end{equation}
+being $\chi$ the free transverse response. The pseudospin hereby considered is the one of Eq.~\eqref{appeq:hubbard-bogoliubov-hamiltonian-pseudofields}. As is shown in \cite{singh1990collective}, for the commensurate AF SSB at wavevector $\bm{\pi}$ the condition for the presence of a stable gapless mode reduces to a $2\times 2$ matrix equation,
+\begin{equation}\label{appeq:af-commensurate-stability-condition}
+	\text{Stability condition:}
+	\qquad
 	\mathbb{I}_{2\times2} - U \left[\chi_{\hat{\mathbf{S}}^- \hat{\mathbf{S}}^+}(\bm{\pi},0)\right] \ge 0
-\]
-with $\left[\chi_{\hat{\mathbf{S}}^- \hat{\mathbf{S}}^+}(\bm{\pi},\omega)\right]$ the response function matrix obtained by considering a matrix response function for a two-sites unit cell. Considering the eigenvalue of largest amplitude of the matrix $\lambda_\delta$ at filling $\delta$, the one most prone to instabilities, it is found that
+\end{equation}
+with $\left[\chi_{\hat{\mathbf{S}}^- \hat{\mathbf{S}}^+}(\bm{\pi},\omega)\right]$ the response function matrix obtained by considering a matrix response function for a two-sites unit cell. The above equation is to be interpreted as a matricial equation {\color{tabred}[Explain better..]}. Considering the eigenvalue of largest amplitude of the matrix $\lambda_\delta$ at filling $\delta$, the one most prone to instabilities, it is found that
 \[
 \begin{aligned}
 	\lambda_0(\mathbf{k}\to\bm{\pi},0) &= \frac 1 U &&\text{(half filling)} \\
@@ -551,7 +554,7 @@ The reason for the distinction above is the intrinsic metallic nature of the sys
 	1 - U\lambda_\delta(\mathbf{k}\to\bm{\pi},0) &< 0 &&\text{(finite doping)} &&\implies &&\text{unstable Goldstone mode}
 \end{aligned}
 \]
-For any finite doping, the commensurate AF phase becomes unstable and is destroyed by transverse spin fluctuations. Nevertheless, for the sake of completeness, we will study the metallic AF also at finite doping.
+For any finite doping, the commensurate AF phase becomes unstable and is destroyed by transverse spin fluctuations. Nevertheless, for the sake of completeness and because we noticed too late, we will study the metallic AF also at finite doping.
 
 \subsection{Hartree-Fock algorithm results in reciprocal space}\label{appsubsec:hartree-fock-algorithm}
 
@@ -750,3 +753,6 @@ since $\mathbf{r}\uparrow$ is associated to an odd index entry, while $\mathbf{r
 	\item[4.] Diagonalize the matrix associated to the operator $\hat H_{\alpha\beta}-\mu \hat N$ collecting the $\mathbf{v}^\ell$ eigenvectors;
 	\item[5.] Compute $m$ using Eq.~\eqref{appeq:average-magnetization-hf-expression} and update the counter, $i \to i+1$;
 \end{enumerate}
+
+\section{(Impossibility of) BCS-like superconducting phase}
+\todo

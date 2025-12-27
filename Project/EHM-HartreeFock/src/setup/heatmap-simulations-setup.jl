@@ -10,7 +10,7 @@ AllPhases = [
 	# "HybridSU-Singlet",	# Singlet superconductor
 	# "HybridSU-Triplet"	# Triplet superconductor
 ]
-Phase = "SU-Singlet" # Choose your phase
+Phase = "AF" # Choose your phase
 if !in(Phase, AllPhases)
 	@error "Invalid phase, please modify at: " * SetupFilePath
 	exit()
@@ -31,7 +31,7 @@ elseif Phase=="SU-Triplet"
 	end
 end
 
-Setup = "Test[80]" # Choose your setup #TODO Use readline()
+Setup = "B[128]" # Choose your setup #TODO Use readline()
 AvailableSetups = [
 	"Test[80]",
 	"A[128]",

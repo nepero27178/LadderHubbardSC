@@ -681,13 +681,13 @@ function RunHFAlgorithm(
 		for HFP in HFPs
 			v0[HFP] = rand()
 		end
-	elseif issubset(keys(v0i), HFPs) #all([ in(key,HFPs) for key in keys(v0i) ])
+	elseif issubset(keys(v0i), HFPs)
 		for HFP in HFPs
 			v0[HFP] = copy(v0i[HFP])
 		end
 	end
-	v = copy(v0)    # Shallow copy of values
-	Qs = copy(v0)   # Copy NaN keys
+	v = copy(v0) # Shallow copy of values
+	Qs = copy(v0) # Copy NaN keys
 
 	# Initialize record matrix
 	Record::Dict{String,Vector{Float64}} = Dict([

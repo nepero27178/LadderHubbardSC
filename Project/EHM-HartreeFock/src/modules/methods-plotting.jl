@@ -444,7 +444,7 @@ function PlotOrderParameter2D(
 
 			# Plot parametrically
 			heatmap!(
-				xx, yy, hh,
+				xx, yy, abs.(hh),
 				color=cs
 			)
 			title!(L"%$(rawTitle)")

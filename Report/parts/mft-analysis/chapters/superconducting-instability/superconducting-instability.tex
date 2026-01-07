@@ -379,7 +379,7 @@ Let $\tau^\alpha$ for $\alpha = x,y,z$ be the Pauli matrices. Define the pseudos
 \]
 As can be shown easily, these operators realize spin-$1/2$ algebra. $\hat H$ represents an ensemble of $L_x L_y$ independent spins subject to pseudo-magnetic fields. Note that, differently form App.~\ref{app:mean-field-hubbard} where the chemical potential is inserted later (because in Nambu formalism it accounts for a diagonal term) here the chemical potential is part of the $z$ component of the pseudo-magnetic field, since
 \begin{align}
-	\hat n_{\mathbf{k}\uparrow} + \hat n_{-\mathbf{k}\downarrow} &= \hat c_{\mathbf{k}\uparrow}^\dagger \hat c_{\mathbf{k}\uparrow} + \hat c_{-\mathbf{k}\downarrow}^\dagger \hat c_{-\mathbf{k}\downarrow} \\
+	\hat n_{\mathbf{k}\uparrow} + \hat n_{-\mathbf{k}\downarrow} &= \hat c_{\mathbf{k}\uparrow}^\dagger \hat c_{\mathbf{k}\uparrow} + \hat c_{-\mathbf{k}\downarrow}^\dagger \hat c_{-\mathbf{k}\downarrow} \nonumber \\
 	&= \hat c_{\mathbf{k}\uparrow}^\dagger \hat c_{\mathbf{k}\uparrow} - \hat c_{-\mathbf{k}\downarrow} \hat c_{-\mathbf{k}\downarrow}^\dagger + \Id \nonumber \\
 	&=  \hat \Psi_\mathbf{k}^\dagger \tau^z \hat \Psi_\mathbf{k} + \Id \label{eq:number-operator-z-spin-relation}
 \end{align}
@@ -536,9 +536,9 @@ coherently with Eqns.~\eqref{eq:number-dagger-expectation-theoretical-11} and \e
 
 \paragraph{Ground state at zero temperature.} 
 Let $\beta \to +\infty$. The basic BCS grond state is well known and identical in the present discussion. It is easily obtained by considering the zero-temperature ground state of the pseudospin hamiltonian of Eq.~\eqref{eq:extended-hubbard-hamiltonian-nambu-bogoliubov},
-\[
+\begin{equation}\label{eq:bcs-state-2theta}
 	\ket{\mathrm{BCS}} = \bigotimes_\mathbf{k} \ket{2\theta_\mathbf{k}}
-\]
+\end{equation}
 where $\ket{2\theta_\mathbf{k}}$ is the up-state for the $\mathbf{k}$-th rotated pseudospin operator $\hat \Gamma_\mathbf{k}^\dagger \tau^z \hat \Gamma_\mathbf{k}$ (consider a diagram analogous to Fig.~\ref{fig:pseudo-magnetic-field}). Said state can be expressed, making use of the non-rotated pseudospin operator $\hat \Psi_\mathbf{k}^\dagger \tau^z \hat \Psi_\mathbf{k}$ up and down states
 \[
 	\text{up: } \ket{\Uparrow_\mathbf{k}}
@@ -546,15 +546,34 @@ where $\ket{2\theta_\mathbf{k}}$ is the up-state for the $\mathbf{k}$-th rotated
 	\text{down: } \ket{\Downarrow_\mathbf{k}}
 \]
 by the means of a simple Bloch's representation {\color{tabred}[Redo this computation...]},
-\[
+\begin{equation}\label{eq:2theta-down-up}
 	\ket{2\theta_\mathbf{k}} = \cos \theta_\mathbf{k} \ket{\Downarrow_\mathbf{k}} - \sin \theta_\mathbf{k} \ket{\Uparrow_\mathbf{k}}
-\]
-\todo
-
-Evidently it holds, in the rotated frame,
+\end{equation}
+Due to Eq.~\eqref{eq:number-operator-z-spin-relation} it holds
 \[
-	\left[ \hat \Psi_\mathbf{k}^\dagger \tau^z \hat \Psi_\mathbf{k}  + \Id \right] \ket{\Uparrow_\mathbf{k}} = 2\ket{\Uparrow_\mathbf{k}}
+\begin{aligned}
+	\left[ \hat \Psi_\mathbf{k}^\dagger \tau^z \hat \Psi_\mathbf{k}  + \Id \right] \ket{\Uparrow_\mathbf{k}} &= 2\ket{\Uparrow_\mathbf{k}}
+	&&\implies
+	&&\ket{\Uparrow_\mathbf{k}}=-\hat\phi_\mathbf{k}^\dagger\ket{\Omega_\mathbf{k}} \\
+	\left[ \hat \Psi_\mathbf{k}^\dagger \tau^z \hat \Psi_\mathbf{k}  + \Id \right] \ket{\Downarrow_\mathbf{k}} &= 0
+	&&\implies
+	&&\ket{\Downarrow_\mathbf{k}}=\ket{\Omega_\mathbf{k}} 
+\end{aligned}	
 \]
+being $\ket{\Omega_\mathbf{k}}$ the local electron vacuum,
+\[
+	\ket{\Omega} = \bigotimes_\mathbf{k} \ket{\Omega_\mathbf{k}}
+\]
+Taking Eq.~\eqref{eq:bcs-state-2theta}, combined with Eq.~\eqref{eq:2theta-down-up}, we get
+\begin{align}
+	\ket{\mathrm{BCS}} &= \bigotimes_\mathbf{k} \left[
+		\cos \theta_\mathbf{k} \ket{\Downarrow_\mathbf{k}} - \sin \theta_\mathbf{k} \ket{\Uparrow_\mathbf{k}}
+	\right] \nonumber \\
+	&= \bigotimes_\mathbf{k} \left[
+		\cos \theta_\mathbf{k} + \sin \theta_\mathbf{k} \hat\phi_\mathbf{k}^\dagger
+	\right] \ket{\Omega_\mathbf{k}} \label{eq:bcs-state}
+\end{align}
+which is the well-known coherent BCS state.
 
 \subsection{Renormalization of the bare bands}\label{subsec:su-bands-renormalization-2} 
 
@@ -595,19 +614,29 @@ By simple algebraic manipulation is easy to see:
 \]
 Since
 \[
+	1 - \tanh(\frac x 2) - \frac{1}{e^x+1} = \frac{1}{e^x+1}
+\]
+Use now:
+\[
 \begin{aligned}
 	\sin^2 \theta_\mathbf{q} &= \frac{1 - \cos(2\theta_\mathbf{q})}{2} \\
 	&= \frac 1 2 - \frac{\xi_\mathbf{q}}{2\sqrt{\xi_\mathbf{q}^2 + \abs{\Delta_\mathbf{q}}^2}}
 \end{aligned}
 \]
-
-Let now:
-\begin{equation}\label{eq:su-bands-renormalization-gq-definition}
+and let:
+\[
 	g_\mathbf{q} \equiv \left[ 
 		\frac 1 2 - \frac{\xi_\mathbf{q}}{2\sqrt{\xi_\mathbf{q}^2 + \abs{\Delta_\mathbf{q}}^2}}
 	\right] \tanh(\frac{\beta}{2} \sqrt{\xi_\mathbf{q}^2 + \abs{\Delta_\mathbf{q}}^2}) + f\left(\sqrt{\xi_\mathbf{q}^2 + \abs{\Delta_\mathbf{q}}^2}; \beta,0 \right)
+\]
+which further simplifies to
+\begin{equation}\label{eq:su-bands-renormalization-gq-definition}
+	g_\mathbf{q} \equiv
+	\frac 1 2 - \frac{\xi_\mathbf{q}}{2\sqrt{\xi_\mathbf{q}^2 + \abs{\Delta_\mathbf{q}}^2}}
+	\tanh(\frac{\beta}{2} \sqrt{\xi_\mathbf{q}^2 + \abs{\Delta_\mathbf{q}}^2})
 \end{equation}
-Thus,
+
+Thus, the original o.s. Fock term retrieved from Wick's theorem on the EHM reduces to
 \[
 	V \sum_{\ev{ij}} \sum_\sigma \left[
 	\langle
@@ -654,7 +683,7 @@ and from Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-dd-intermedia
 This equation reduces fully the initial o.s. Fock component of $\hat H_V$ to a simpler, decoupled form. Here, similarly to what we observed for AF phase in Sec.~\ref{subsec:fock-renormalization-hopping-amplitude}, the bare bands are renormalized,
 \begin{equation}\label{eq:su-bands-renormalization-general}
 	\tilde{\epsilon}_\mathbf{k} \equiv \epsilon_\mathbf{k} + V\left[
-		g^{(s^*)} (\cos q_x + \cos q_y) + g^{(d)} (\cos q_x - \cos q_y)
+		g^{(s^*)} (\cos k_x + \cos k_y) + g^{(d)} (\cos k_x - \cos k_y)
 	\right]
 \end{equation}
 As is done in next paragraph, the $s^*$ is actually a rigid $t$ renormalization, which however requires a little care.
@@ -676,7 +705,7 @@ The result above is valid only if $\Delta_\mathbf{q}$ is described only by a sin
 \]
 The only remainder of Eq.~\eqref{eq:su-bands-renormalization-general} is its $s^*$ part
 \begin{equation}\label{eq:su-bands-renormalization-xwave}
-	\tilde{\epsilon}_\mathbf{k} \equiv \epsilon_\mathbf{k} + V	g^{(s^*)} (\cos q_x + \cos q_y)
+	\tilde{\epsilon}_\mathbf{k} \equiv \epsilon_\mathbf{k} + V	g^{(s^*)} (\cos k_x + \cos k_y)
 \end{equation}
 and since $\epsilon_\mathbf{k} = -2t(\cos k_x + \cos k_y)$ we obtain an equation essentially identical to the one expressing the hopping renormalization in the AF phase, Eq.~\eqref{eq:af-fock-hop-ss-renormalization}. Indeed, let $w \equiv g^{(s^*)}/2$ be the new HF parameter, we get
 \begin{equation}\label{eq:su-fock-hop-ss-renormalization}

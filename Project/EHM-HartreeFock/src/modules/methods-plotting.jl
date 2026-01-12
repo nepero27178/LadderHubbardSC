@@ -33,7 +33,7 @@ function GetLabels(
 		VarLabels = Dict([
 			"g" => "g"
 		])
-	elseif Phase=="SU-Singlet"
+	elseif in(Phase, ["SU-Singlet", "FakeSU-Singlet"])
 		VarLabels = Dict([
 			"t" => "t",
 			"U" => "U",
@@ -45,7 +45,7 @@ function GetLabels(
 			"ΔS" => "|\\Delta^{(s*)}|",
 			"Δd" => "|\\Delta^{(d)}|"
 		])
-	elseif Phase=="SU-Triplet"
+	elseif in(Phase, ["SU-Triplet", "FakeSU-Triplet"])
 		VarLabels = Dict([
 			"t" => "t",
 			"U" => "U",
@@ -127,9 +127,9 @@ function PlotOrderParameter(
 
 	# Initialize directory structure
 	DirPathOut *= "PlotOrderParameter"
-	if Phase=="SU-Singlet"
+	if in(Phase, ["SU-Singlet", "FakeSU-Singlet"])
 		DirPathOut *= "_Syms=$(Syms...)"
-	elseif Phase=="SU-Triplet"
+	elseif in(Phase, ["SU-Triplet", "FakeSU-Triplet"])
 		DirPathOut *= "_Syms=$(Syms...)"
 	end
 	DirPathOut *= "/xVar=" * xVar * "/pVar=" * pVar * "/"

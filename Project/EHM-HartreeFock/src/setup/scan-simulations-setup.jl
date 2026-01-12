@@ -1,49 +1,81 @@
 #!/usr/bin/julia
 SetupFilePath = @__FILE__
 
-# All possible simulations
+#-------------------------------------------------------------------------------
+#------------------------------------ PHASE ------------------------------------
+#-------------------------------------------------------------------------------
+
 AllPhases = [
-	"AF",				# Renormalized AntiFerromagnet
-	"FakeAF",			# As for AF, but with pure Hopping
+	"AF",				# Renormalized antiFerromagnet
+	"FakeAF",			# Renormalized antiFerromagnet, but with pure hopping
 	"SU-Singlet",		# Singlet superconductor
+	"FakeSU-Singlet",	# Singlet superconductor, but with pure hopping
 	"SU-Triplet",		# Triplet superconductor
-	# "HybridSU-Singlet",	# Singlet superconductor
-	# "HybridSU-Triplet"	# Triplet superconductor
+	"FakeSU-Triplet",	# Triplet superconductor, but with pure hopping
+	# "HybridSU"			# Hybrid (singlet+triplet) superconductor
 ]
+
 Phase = "SU-Singlet" # Choose your phase
 if !in(Phase, AllPhases)
 	@error "Invalid phase, please modify at: " * SetupFilePath
 	exit()
 end
 
+RenormalizeHopping::Bool = false
+if in(Phase,["AF","HybridSU-Singlet","HybridSU-Triplet"])
+	RenormalizeHopping = true
+end
+
+
+#-------------------------------------------------------------------------------
+#------------------------------------ SYMS -------------------------------------
+#-------------------------------------------------------------------------------
+
 AllSingletSyms = ["s", "S", "d"]
 AllTripletSyms = ["px", "py", "p+", "p-"]
-Syms = ["s", "S", "d"]
-if Phase=="SU-Singlet"
+Syms = ["s", "S"]
+if in(Phase, ["SU-Singlet", "FakeSU-Singlet"])
 	if !issubset(Syms, AllSingletSyms)
 		@error "Invalid symmetries. $(Syms) is incoherent with $(Phase)." *
 			"Please modify at: " * SetupFilePath
 	end
-elseif Phase=="SU-Triplet"
+elseif in(Phase, ["SU-Triplet", "FakeSU-Triplet"])
 	if !issubset(Syms, AllTripletSyms)
 		@error "Invalid symmetries. $(Syms) is incoherent with $(Phase)." *
 			"Please modify at: " * SetupFilePath
 	end
 end
 
+#-------------------------------------------------------------------------------
+#------------------------------------ SETUP ------------------------------------
+#-------------------------------------------------------------------------------
+
 Setup = "C[128]" # Choose your setup #TODO Use readline()
 AvailableSetups = [
-	"Test[80]",
-	"A[128]",
-	"B[256]",
-	"B[256]-t=0.7",
-	"C[128]"
+	"Test[80]",			# Test setup
+	"A[128]",			# Pure Hubbard V=0
+	"B[256]",			# Main run varying U, V, δ
+	"-B[256]",			# Main run varying U, V, δ, but with -U
+	"B[256]-t=0.7",		# Main run varying U, V, δ, but with rigid hopping renormalization
+	"C[128]"				# Half filled model
 ]
 
-RenormalizeHopping::Bool = false
-if in(Phase,["AF","HybridSU-Singlet","HybridSU-Triplet"])
-	RenormalizeHopping = true
-end
+TestΔv::Dict{String,Float64} = Dict([
+	key => 1e-3 for key in [
+		"m","w0","wp",
+		"Δs","ΔS","Δd",
+		"gS","gd",
+		"Δpx","Δpy","Δp+","Δp-"
+	]
+])
+MainΔv::Dict{String,Float64} = Dict([
+	key => 1e-4 for key in [
+		"m","w0","wp",
+		"Δs","ΔS","Δd",
+		"gS","gd",
+		"Δpx","Δpy","Δp+","Δp-"
+	]
+])
 
 if !in(Setup, AvailableSetups)
 	@error "Invalid setup, please modify at: " * SetupFilePath
@@ -56,18 +88,7 @@ elseif Setup=="Test[80]"
 	δδ = [0.1, 0.2, 0.3]
 	ββ = [100.0]
 	p = 20
-	Δv::Dict{String,Float64} = Dict([
-		"m" => 1e-3,
-		"w0" => 1e-3,
-		"wp" => 1e-3,
-		"Δs" => 1e-3,
-		"ΔS" => 1e-3,
-		"Δd" => 1e-3,
-		"Δpx" => 1e-3,
-		"Δpy" => 1e-3,
-		"Δp+" => 1e-3,
-		"Δp-" => 1e-3,
-	])
+	Δv = TestΔv
 	Δn = 1e-2
 	g = 0.5
 elseif Setup=="A[128]"
@@ -78,18 +99,7 @@ elseif Setup=="A[128]"
 	δδ = [δ for δ in 0.0:0.05:0.45]
 	ββ = [100.0]
 	p = 100
-	Δv::Dict{String,Float64} = Dict([
-		"m" => 1e-4,
-		"w0" => 1e-4,
-		"wp" => 1e-4,
-		"Δs" => 1e-4,
-		"ΔS" => 1e-4,
-		"Δd" => 1e-4,
-		"Δpx" => 1e-4,
-		"Δpy" => 1e-4,
-		"Δp+" => 1e-4,
-		"Δp-" => 1e-4,
-	])
+	Δv = MainΔv
 	Δn = 1e-2
 	g = 0.5
 elseif Setup=="B[256]"
@@ -100,18 +110,18 @@ elseif Setup=="B[256]"
 	δδ = [δ for δ in 0.0:0.05:0.45]
 	ββ = [100.0]
 	p = 100
-	Δv::Dict{String,Float64} = Dict([
-		"m" => 1e-4,
-		"w0" => 1e-4,
-		"wp" => 1e-4,
-		"Δs" => 1e-4,
-		"ΔS" => 1e-4,
-		"Δd" => 1e-4,
-		"Δpx" => 1e-4,
-		"Δpy" => 1e-4,
-		"Δp+" => 1e-4,
-		"Δp-" => 1e-4,
-	])
+	Δv = MainΔv
+	Δn = 1e-2
+	g = 0.5
+elseif Setup=="B[256]"
+	tt = [1.0]
+	UU = [-4.0,-12.0,-20.0]
+	VV = [V for V in 0.0:0.05:3.0]
+	LL = [256]
+	δδ = [δ for δ in 0.0:0.05:0.45]
+	ββ = [100.0]
+	p = 100
+	Δv = MainΔv
 	Δn = 1e-2
 	g = 0.5
 elseif Setup=="B[256]-t=0.7"
@@ -122,18 +132,7 @@ elseif Setup=="B[256]-t=0.7"
 	δδ = [δ for δ in 0.0:0.05:0.45]
 	ββ = [100.0]
 	p = 100
-	Δv::Dict{String,Float64} = Dict([
-		"m" => 1e-4,
-		"w0" => 1e-4,
-		"wp" => 1e-4,
-		"Δs" => 1e-4,
-		"ΔS" => 1e-4,
-		"Δd" => 1e-4,
-		"Δpx" => 1e-4,
-		"Δpy" => 1e-4,
-		"Δp+" => 1e-4,
-		"Δp-" => 1e-4,
-	])
+	Δv = MainΔv
 	Δn = 1e-2
 	g = 0.5
 elseif Setup=="C[128]"
@@ -144,18 +143,7 @@ elseif Setup=="C[128]"
 	δδ = [0.0]
 	ββ = vcat([0.1, 1, 10], [β for β in 20:20:100])
 	p = 100
-	Δv::Dict{String,Float64} = Dict([
-		"m" => 1e-4,
-		"w0" => 1e-4,
-		"wp" => 1e-4,
-		"Δs" => 1e-4,
-		"ΔS" => 1e-4,
-		"Δd" => 1e-4,
-		"Δpx" => 1e-4,
-		"Δpy" => 1e-4,
-		"Δp+" => 1e-4,
-		"Δp-" => 1e-4,
-	])
+	Δv = MainΔv
 	Δn = 1e-2
 	g = 0.5
 end

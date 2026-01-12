@@ -4,8 +4,6 @@ using Plots
 
 # Includer
 PROJECT_ROOT = @__DIR__
-PROJECT_ROOT *= "/.."   # Up to the effective root
-# include(PROJECT_ROOT * "/setup/graphic-setup.jl")
 
 t = 1.0
 U = 10.0
@@ -30,7 +28,7 @@ zzs = zeros(length(yDomain),length(xDomain))
 zzS = zeros(length(yDomain),length(xDomain))
 Itns = length(xDomain) * length(yDomain)
 
-FilePathOut = PROJECT_ROOT * "/labs/s-S-check/U=$(U)_V=$(V)_μ=$(μ).txt"
+FilePathOut = PROJECT_ROOT * "./U=$(U)_V=$(V)_μ=$(μ).txt"
 mkpath(dirname(FilePathOut))
 Header = "" #"x;y;zs;zS\n"
 write(FilePathOut, Header)

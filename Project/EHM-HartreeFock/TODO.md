@@ -6,7 +6,9 @@
 - [x] Re-use previous value in step for fast convergence
 - [x] Restrict to MBZ calculation AND CHECK MULTIPLIERS!
 - [x] Insert graphs in report
-- [ ] Investigate superconducting phase
+- [x] Investigate superconducting phase
 - [ ] Finite size scaling on the boundary
-- [ ] Extract and plot Fermi surface
-- [ ] Fake rigid shift of hopping
+- [x] Extract and plot Fermi surface
+- [x] Fake rigid shift of hopping
+- [ ] Implement bands renormalization in superconducting phase
+- [ ] Move RenormalizeHopping => RenormalizeBands (d-wave part of g)

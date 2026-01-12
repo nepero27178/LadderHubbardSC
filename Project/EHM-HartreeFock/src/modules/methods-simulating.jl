@@ -23,16 +23,16 @@ function GetHFPs(
 	SymErr = "Invalid symmetries. $(Syms) is incoherent with $(Phase)."
 	if in(Phase, ["AF", "FakeAF"])
 		AF = true
-	elseif Phase=="SU-Singlet"
+	elseif in(Phase, ["SU-Singlet", "FakeSU-Singlet"])
 		issubset(Syms, ["s", "S", "d"]) ? Singlet = true : throw(SymErr)
-	elseif Phase=="SU-Triplet"
+	elseif in(Phase, ["SU-Triplet", "FakeSU-Triplet"])
 		issubset(Syms, ["px", "py", "p+", "p-"]) ? Triplet = true : throw(SymErr)
 	end
 
 	KeysList::Vector{String} = ["Empty"]
 	AF ? KeysList = ["m", "w0", "wp"] : 0
-	Singlet ? KeysList = ["Δ$(Sym)" for Sym in Syms] : 0
-	Triplet ? KeysList = ["Δ$(Sym)" for Sym in Syms] : 0
+	Singlet ? KeysList = vcat(["Δ$(Sym)" for Sym in Syms], "gS", "gd") : 0
+	Triplet ? KeysList = vcat(["Δ$(Sym)" for Sym in Syms], "gS", "gd") : 0
 	return KeysList
 
 end
@@ -87,7 +87,7 @@ function GetWeight(
 	wk::Int64 = 0
 	kx, ky = k
 
-	if Sym=="S"
+	if Sym=="S-MBZ"
 		if abs(kx)+abs(ky) <= 1
 			if kx>=0 && ky>0 && kx+ky<1
 				# Bulk (four times)
@@ -100,8 +100,7 @@ function GetWeight(
 				wk = 1
 			end
 		end
-	elseif Sym=="d"
-		@warn "d-wave symmetry structure to be implemented."
+	elseif Sym=="S"
 		wk = 1
 	end
 	return wk
@@ -175,11 +174,12 @@ function GetHamiltonian(
 Returns: the Nambu-Bogoliubov hamiltonian at wavevector (`k[1]`, `k[2]`).
 
 `GetHamiltonian` takes as input `Phase` (string specifying the mean-field phase,
-the allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"SU-Triplet\"), `Parameters`
-(dictionary of model parameters containing `t`, `U`, `V`), `k` (coordinate in 
-k-space) and `v` (dictionary of real HF parameters). It computes the 
-contribution at wavevector (`k[1]`, `k[2]`) to the many-body second-quantized 
-hamiltonian. The hamiltonian dimension depends on the phase.
+the allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"FakeSU-Singlet\",
+\"SU-Triplet\", \"FakeSU-Triplet\"), `Parameters` (dictionary of model
+parameters containing `t`, `U`, `V`), `k` (coordinate in k-space) and `v`
+(dictionary of real HF parameters). It computes the contribution at wavevector
+(`k[1]`, `k[2]`) to the many-body second-quantized hamiltonian.
+The hamiltonian dimension depends on the phase.
 
 --- FINISH COMMENT HERE: HOW DIMENSION DEPENDS ON THE PHASE? ---
 """
@@ -290,12 +290,13 @@ function GetKPopulation(
 Returns: matrix of single-particle k-states populations.
 
 `GetKPopulation` takes as input `Phase` (string specifying the mean-field phase,
-the allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"SU-Triplet\"),
-`Parameters`  (dictionary of model parameters containing `t`, `U`, `V`), `K`
-(k-points in the BZ), `v` (dictionary of real HF parameters), `μ` (chemical 
-potential) and `β` (inverse temperature). It computes a matrix of occupation 
-numbers per each couple of momenta. The boolean option `RenormalizeHopping' 
-allows for choosing to renormalize or not the hopping parameter.
+the allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"FakeSU-Singlet\",
+\"SU-Triplet\", \"FakeSU-Triplet\"), `Parameters`  (dictionary of model
+parameters containing `t`, `U`, `V`), `K` (k-points in the BZ), `v` (dictionary
+of real HF parameters), `μ` (chemical potential) and `β` (inverse temperature).
+It computes a matrix of occupation numbers per each couple of momenta. The
+boolean option `RenormalizeHopping' allows for choosing to renormalize or not
+the hopping parameter.
 """
 function GetKPopulation(
 	Phase::String,						# Mean field phase
@@ -308,19 +309,26 @@ function GetKPopulation(
 	RenormalizeHopping::Bool=true       # Conditional renormalization of t
 )::Matrix{Float64}
 
-	Nk = zeros(size(K))
-	t = Parameters["t"]
-	if Phase=="FakeAF" && RenormalizeHopping
-		# Conditional renormalization of bands
-		t -= v["w0"] * Parameters["V"]
+	Sym = "S"
+	if in(Phase, ["AF", "FakeAF"])
+		Sym *= "-MBZ"
 	end
 
+	Nk = zeros(size(K))
 	wk::Int64 = 0
 	Ek::Float64 = 0.0
 	for (i,q) in enumerate(K)
-		wk = 1 # GetWeight(q) # Avoid computational redundance
+
+		wk = GetWeight(q; Sym) # Avoid computational redundance
 		k = q .* pi # Important: multiply k by pi
-		if in(Phase, ["AF", "FakeAF"]) && in(wk,[1,2,4])
+
+		if in(Phase, ["AF", "FakeAF"]) && wk >= 1
+
+			t = Parameters["t"]
+			if RenormalizeHopping #TODO => RenormalizeBands::Bool
+				# Conditional renormalization of bands
+				t -= v["w0"] * Parameters["V"]
+			end
 
 			# Renormalized bands
 			εk::Float64 = GetHoppingEnergy(t,k)
@@ -335,22 +343,31 @@ function GetKPopulation(
 			# Local population
 			Nk[i] = wk * (FermiDirac(-Ek,μ,β) + FermiDirac(Ek,μ,β))
 
-		elseif Phase=="SU-Singlet"
+		elseif in(Phase, ["SU-Singlet", "FakeSU-Singlet"]) && in(wk,[1,2,4])
 
-			AllSyms = ["Δs", "ΔS", "Δd"]
-			if !issubset(keys(v), AllSyms)
-				@error "Invalid set of symmetries. Please choose from $(AllSyms)."
+			t = Parameters["t"]
+			if RenormalizeHopping #TODO => RenormalizeBands::Bool
+				# Conditional renormalization of bands
+				t -= v["gS"]/2 * Parameters["V"]
 			end
+
+			# AllSyms = ["Δs", "ΔS", "Δd"]
+			# if !issubset(keys(v), AllSyms)
+			# 	@error "Invalid set of symmetries. Please choose from $(AllSyms)."
+			# end
 
 			# Free bands
 			ξk::Float64 = GetHoppingEnergy(t,k) - μ
+			#TODO Inser d-wave renormalization from g
 
 			# Gap
 			Δk::Complex{Float64} = 0.0 + 1im * 0.0
 			for (key, value) in v
-				key = String(key)
-				key = String(chop(key, head=1, tail=0))
-				Δk += value * StructureFactor(key,k)
+				if !in(key, ["gS", "gd"])
+					key = String(key)
+					key = String(chop(key, head=1, tail=0))
+					Δk += value * StructureFactor(key,k)
+				end
 			end
 
 			# Renormalized gapped bands
@@ -388,14 +405,15 @@ function FindRootμ(
 Returns: a variational estimation for the chemical potential at density `nt`.
 
 `FindRootμ` takes as input `Phase` (string specifying the mean-field phase, the
-allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"SU-Triplet\"), `Parameters`
-(dictionary of model parameters containing `t`, `U`, `V`), `K` (k-points in the 
-BZ), `v` (dictionary of real HF parameters), `nt` (target density) and `β` 
-(inverse temperature). It computes the root value for the chemical potential 
-assuming the matrix in reciprocal space to be the Nambu-Bogoliubov hamiltonian 
-obtained via the HF parameters `v`. The optimization is performed using the 
-`Roots.jl` library. The boolean option `RenormalizeHopping' allows for choosing
-to renormalize or not the hopping parameter.
+allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"FakeSU-Singlet\",
+\"SU-Triplet\", \"FakeSU-Triplet\"), `Parameters` (dictionary of model
+parameters containing `t`, `U`, `V`), `K` (k-points in the BZ), `v`
+(dictionary of real HF parameters), `nt` (target density) and `β` (inverse
+temperature). It computes the root value for the chemical potential assuming
+the matrix in reciprocal space to be the Nambu-Bogoliubov hamiltonian obtained
+via the HF parameters `v`. The optimization is performed using the `Roots.jl`
+library. The boolean option `RenormalizeHopping' allows for choosing to
+renormalize or not the hopping parameter.
 """
 function FindRootμ(
 	Phase::String,						# Mean field phase
@@ -468,19 +486,20 @@ function PerformHFStep(
 Returns: HF estimation for Cooper instability parameter based on input.
 
 `PerformHFStep` takes as input `Phase` (string specifying the mean-field phase, 
-the allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"SU-Triplet\"),
-`Parameters` (dictionary of model parameters containing `t`, `U`, `V`), `K`
-(k-points in the BZ), `v0` (dictionary of real HF initializers), `n` (density)
-and `β` (inverse temperature). It performs a  single step of the iterative
-Hartree-Fock (HF) analysis starting over a 2D square lattice whose dimensions
-are given by `L`. Among the optional parameters is `Syms`, a strings vector
-specifying the superconducting gap function symmetries to be simulated (allowed
-are: \"s\", \"S\", \"d\" for the \"SU-Singlet\" phase, and \"px\", \"py\",
-\"p+\", \"p-\" for the \"SU-Triplet\") phase. The function estimates `v` using
-as input the Nambu-Bogoliubov hamiltonian obtained via the function
-`GetHamiltonian` and the optimal chemical potential for the density `n` for this
-hamiltonian. The boolean option `RenormalizeHopping' allows for choosing to
-renormalize or not the hopping parameter.
+the allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"FakeSU-Singlet\",
+\"SU-Triplet\", \"FakeSU-Triplet\"), `Parameters` (dictionary of model
+parameters containing `t`, `U`, `V`), `K` (k-points in the BZ), `v0` (dictionary
+of real HF initializers), `n` (density) and `β` (inverse temperature). It
+performs a  single step of the iterative Hartree-Fock (HF) analysis starting
+over a 2D square lattice whose dimensions are given by `L`. Among the optional
+parameters is `Syms`, a strings vector specifying the superconducting gap
+function symmetries to be simulated (allowed are: \"s\", \"S\", \"d\" for
+the \"SU-Singlet\" phase, and \"px\", \"py\", \"p+\", \"p-\" for the
+\"SU-Triplet\") phase. The function estimates `v` using as input the
+Nambu-Bogoliubov hamiltonian obtained via the function `GetHamiltonian` and the
+optimal chemical potential for the density `n` for this hamiltonian. The boolean
+option `RenormalizeHopping' allows for choosing to renormalize or not the
+hopping parameter.
 """
 function PerformHFStep(
 	Phase::String,						# Mean field phase
@@ -496,7 +515,7 @@ function PerformHFStep(
 
 	v = copy(v0)	
 	LxLy = prod(size(K))	
-	μ = FindRootμ(Phase,Parameters,K,v0,n,β;debug)
+	μ = FindRootμ(Phase,Parameters,K,v0,n,β;debug,RenormalizeHopping)
 	wk::Int64=0
 
 	# Antiferromagnet
@@ -512,7 +531,7 @@ function PerformHFStep(
 		end
 		
 		for (i,q) in enumerate(K)
-			wk = GetWeight(q) # Avoid computational redundance
+			wk = GetWeight(q; Sym="S-MBZ") # Avoid computational redundance
 			k = q .* pi # Important: multiply k by pi
 			if in(wk,[1,2,4]) # Allowed weights
 				# Renormalized bands
@@ -541,28 +560,36 @@ function PerformHFStep(
 		v["w0"] = w0/(4*LxLy)
 		v["wp"] = wpi/(4*LxLy)
 
-	elseif Phase=="SU-Singlet"
-		#TODO Check: probably s*-wave wks can be used.
+	elseif in(Phase, ["SU-Singlet", "FakeSU-Singlet"])
 
 		Δs::Float64 = 0.0 # s-wave
 		ΔS::Float64 = 0.0 # s*-wave
 		Δd::Float64 = 0.0 # d-wave
+		gS::Float64 = 0.0 # s-wave part of g
+		gd::Float64 = 0.0 # d-wave part of g
 
 		t = Parameters["t"]
+		if RenormalizeHopping #TODO => RenormalizeBands::Bool
+			# Conditional renormalization of bands
+			t -= v["gS"]/2 * Parameters["V"]
+		end
 
 		for (i,q) in enumerate(K)
-			wk = 1 #TODO GetWeight(q) # Avoid computational redundance
+			wk = GetWeight(q) # Avoid computational redundance
 			k = q .* pi # Important: multiply k by pi
 			if in(wk,[1,2,4]) # Allowed weights
 				# Free bands
 				ξk = GetHoppingEnergy(t,k) - μ
+				#TODO Inser d-wave renormalization from g
 
 				# Gap
 				Δk::Float64 = 0.0
 				for (key, value) in v
-					key = String(key)
-					key = String(chop(key, head=1, tail=0))
-					Δk += value * StructureFactor(key,k)
+					if !in(key, ["gS", "gd"])
+						key = String(key)
+						key = String(chop(key, head=1, tail=0))
+						Δk += value * StructureFactor(key,k)
+					end
 				end
 
 				# Renormalized gapped bands
@@ -570,27 +597,31 @@ function PerformHFStep(
 
 				# Gap factor
 				sk::Float64 = 0.0
+				ck::Float64 = 0.0
 				if Ek!=0.0 # Otherwise add nothing
 					sk = wk * Δk/Ek * tanh(β*Ek/2)
+					ck = wk * ξk/Ek * tanh(β*Ek/2)
 				end
 				Δs -= sk
 				ΔS += sk * StructureFactor("S",k)
 				Δd += sk * StructureFactor("d",k)
+				gS += (1-ck)/2 * StructureFactor("S",k)
+				gd += (1-ck)/2 * StructureFactor("d",k)
 			end
 		end
 
 		Δs *= Parameters["U"] / (2*LxLy)
 		ΔS *= Parameters["V"] / LxLy
 		Δd *= Parameters["V"] / LxLy
-
-		# Correct for sign fluctuations
-		# Δs < 0 ? Δs = 0.0 : 0
-		# ΔS < 0 ? ΔS = 0.0 : 0
-		# Δd < 0 ? Δd = 0.0 : 0
+		gS /= LxLy
+		gd /= LxLy
 
 		"Δs" in keys(v0) ? v["Δs"] = Δs : 0
 		"ΔS" in keys(v0) ? v["ΔS"] = ΔS : 0
 		"Δd" in keys(v0) ? v["Δd"] = Δd : 0
+		"gS" in keys(v0) ? v["gS"] = gS : 0
+		"gd" in keys(v0) ? v["gd"] = gd : 0
+
 
 	elseif Phase=="SU-Triplet"
 		@error "Under construction"
@@ -625,12 +656,13 @@ parameters `Q` and computational time `ΔT`. If `record` is set to true, the
 last output contains the entire evolution of the parameters.
 
 `RunHFAlgorithm` takes as input `Phase` (string specifying the mean-field phase, 
-the allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"SU-Triplet\"), `Parameters`
-(dictionary of model parameters containing `t`, `U`, `V`), `L` (square lattice 
-dimensions), `n` (density), `β` (inverse temperature), `p` (maximum number of HF
-iterations), `Δm` (tolerance on each order parameter) and `Δn` (tolerance on
-density in chemical  potential estimation), `g` (mixing parameter). It performs
-an iterative HF analysis over a 2D square lattice whose dimensions are given by
+the allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"FakeSU-Singlet\",
+\"SU-Triplet\", \"FakeSU-Triplet\"), `Parameters` (dictionary of model
+parameters containing `t`, `U`, `V`), `L` (square lattice dimensions), `n`
+(density), `β` (inverse temperature), `p` (maximum number of HF iterations),
+`Δm` (tolerance on each order parameter) and `Δn` (tolerance on density in
+chemical  potential estimation), `g` (mixing parameter). It performs an
+iterative HF analysis over a 2D square lattice whose dimensions are given by
 `L`. All of the function's positional arguments must be positive defined. The
 algorithm is iterative and runs at most `p` times using at each reiteration the
 result of the previous computation. The positional argument `v0` allows for
@@ -733,7 +765,7 @@ function RunHFAlgorithm(
 					current = v[key]
 					previous = v0[key]
 					if record
-						Record[key] = vcat(Record[key],current)
+						Record[key] = vcat(Record[key],g*current + (1-g)*previous)
 					end
 					v[key] = g*current + (1-g)*previous
 				end

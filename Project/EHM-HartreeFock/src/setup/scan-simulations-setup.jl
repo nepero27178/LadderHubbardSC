@@ -113,7 +113,7 @@ elseif Setup=="B[256]"
 	Δv = MainΔv
 	Δn = 1e-2
 	g = 0.5
-elseif Setup=="B[256]"
+elseif Setup=="-B[256]"
 	tt = [1.0]
 	UU = [-4.0,-12.0,-20.0]
 	VV = [V for V in 0.0:0.05:3.0]

@@ -713,6 +713,60 @@ and since $\epsilon_\mathbf{k} = -2t(\cos k_x + \cos k_y)$ we obtain an equation
 \end{equation}
 Once again the hopping parameter shift is rigid and controlled directly by $V$.
 
+\subsection{Ground state energy and BCS condensation}
+
+BCS essentially relies on the insurgence of an effective free fermionic field, described by the Bogoliubov bands, and the condensation of Cooper pairs. Superconducting state is favored by the lowering of free energy granted by the shifting of much of the spectral weight to a lower-energy maximum \cite{zhou1992density}. ``Condensation energy'' is simply the energy difference between the superconducting state and the normal state, and its negativity indicates instability towards superconducting order. It's pretty straightforward to derive the ground state energy for the standard BCS state. When performing Wick's contractions,
+\[
+\begin{aligned}
+	\langle \hat c_\alpha^\dagger \hat c_\beta^\dagger \hat c_\gamma \hat c_\delta \rangle 
+	&\sim 
+	\langle \hat c_\alpha^\dagger \hat c_\beta^\dagger \rangle  \hat c_\gamma \hat c_\delta
+	+
+	\hat c_\alpha^\dagger \hat c_\beta^\dagger \langle \hat c_\gamma \hat c_\delta \rangle 
+	-
+	\langle \hat c_\alpha^\dagger \hat c_\beta^\dagger \rangle 
+	\langle \hat c_\gamma \hat c_\delta \rangle
+	&&\text{Cooper terms}
+	\\
+	&-
+	\langle \hat c_\alpha^\dagger \hat c_\gamma \rangle \hat c_\beta^\dagger \hat c_\delta
+	-
+	\hat c_\alpha^\dagger \hat c_\gamma \langle \hat c_\beta^\dagger \hat c_\delta \rangle 
+	+
+	\langle \hat c_\alpha^\dagger \hat c_\gamma \rangle 
+	\langle \hat c_\beta^\dagger \hat c_\delta \rangle
+	&&\text{Fock terms} \\
+	&+
+	\langle \hat c_\alpha^\dagger \hat c_\delta \rangle \hat c_\beta^\dagger \hat c_\gamma
+	+
+	\hat c_\alpha^\dagger \hat c_\delta \langle \hat c_\beta^\dagger \hat c_\gamma \rangle 
+	-
+	\langle \hat c_\alpha^\dagger \hat c_\delta \rangle 
+	\langle \hat c_\beta^\dagger \hat c_\gamma \rangle
+	&&\text{Hartree terms}
+\end{aligned}
+\]
+Form each of the three rows above, the last term is the "leftover" part which shifts energy. Thus it can be ignored in derivation, but becomes important when considering the energy in the end. The EHM hamiltonian can be written as:
+\begin{multline*}
+	\hat H = \sum_{\mathbf{k}} \xi_\mathbf{k} \left[
+		\hat c_{\mathbf{k}\uparrow}^\dagger \hat c_{\mathbf{k}\uparrow} + \Id - 
+		\hat c_{-\mathbf{k}\downarrow} \hat c_{-\mathbf{k}\downarrow}^\dagger 
+	\right] - \sum_{\mathbf{k},\mathbf{k}'} \left[ 
+		V^{(s)} + V_{\mathbf{k}\mathbf{k}'}
+	\right] \hat \phi_\mathbf{k}^\dagger \hat \phi_{\mathbf{k}'} \\
+	- \frac{2V}{L_x L_y} \sum_{\mathbf{k}, \mathbf{k}'} \sum_\sigma \left[
+	\cos \left( \delta k_x \right) + \cos \left( \delta k_y \right)	
+	\right] \hat n_{\mathbf{k}\sigma} \hat n_{\mathbf{k}'\sigma}
+\end{multline*}
+as in Eq.~\eqref{eq:self-consistency-equation}. Following the scheme above, the ``leftovers'' of the MFT hamiltonian are just
+\[
+	\sum_{\mathbf{k},\mathbf{k}'} \Delta_\mathbf{k} \langle \hat \phi_{\mathbf{k}'} \rangle - \frac{2V}{L_x L_y} \sum_{\mathbf{k}, \mathbf{k}'} \sum_\sigma \left[
+	\cos \left( \delta k_x \right) + \cos \left( \delta k_y \right)	
+	\right] g_\mathbf{k} g_{\mathbf{k}'}
+\]
+Further developing this result and applying Eqns.~\eqref{eq:pairing-dagger-expectation-theoretical}, \eqref{eq:coscos-symmetries-decomposition}, we get
+\todo
+
 \section{Results of the HF algorihtm}\label{sec:mft-analysis-hf-results}
 
 \todo

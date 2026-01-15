@@ -245,10 +245,8 @@ function main()
 	DirPathOut = PROJECT_ROOT * "/simulations/" *
 		Mode * "/Setup=$(Setup)/Phase="
 	if in(Mode, ["scan", "heatmap"])
-		if Phase=="SU-Singlet"
-			FilePathOut = DirPathOut * "SU-Singlet/Syms=$(Syms...).txt"
-		elseif Phase=="SU-Triplet"
-			FilePathOut = DirPathOut * "SU-Triplet/Syms=$(Syms...).txt"
+		if in(Phase, ["SU-Singlet", "FakeSU-Singlet", "SU-Triplet", "FakeSU-Triplet"]
+			FilePathOut = DirPathOut * Phase * "/Syms=$(Syms...).txt"
 		else
 			FilePathOut = DirPathOut * Phase * ".txt"
 		end

@@ -32,7 +32,7 @@ end
 
 AllSingletSyms = ["s", "S", "d"]
 AllTripletSyms = ["px", "py", "p+", "p-"]
-Syms = ["d"]
+Syms = ["s", "S"]
 if in(Phase, ["SU-Singlet", "FakeSU-Singlet"])
 	if !issubset(Syms, AllSingletSyms)
 		@error "Invalid symmetries. $(Syms) is incoherent with $(Phase)." *
@@ -49,7 +49,7 @@ end
 #------------------------------------ SETUP ------------------------------------
 #-------------------------------------------------------------------------------
 
-Setup = "C[128]" # Choose your setup #TODO Use readline()
+Setup = "-C[128]" # Choose your setup #TODO Use readline()
 AvailableSetups = [
 	"Test[80]",			# Test setup
 	"A[128]",			# UV plane

@@ -43,7 +43,9 @@ function GetLabels(
 			"β" => "\\beta",
 			"Δs" => "|\\Delta^{(s)}|",
 			"ΔS" => "|\\Delta^{(s*)}|",
-			"Δd" => "|\\Delta^{(d)}|"
+			"Δd" => "|\\Delta^{(d)}|",
+			"gS" => "g^{(s^*)}",
+			"gd" => "g^{(d)}"
 		])
 	elseif in(Phase, ["SU-Triplet", "FakeSU-Triplet"])
 		VarLabels = Dict([
@@ -57,6 +59,8 @@ function GetLabels(
 			"Δpy" => "\\Delta_{p_y}",
 			"Δp+" => "\\Delta_{p_+}",
 			"Δp-" => "\\Delta_{p_-}",
+			"gS" => "g^{(s^*)}",
+			"gd" => "g^{(d)}"
 		])
 	end
 

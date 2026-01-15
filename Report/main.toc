@@ -16,5 +16,4 @@
 \contentsline {paragraph}{General result.}{11}{section*.11}%
 \contentsline {paragraph}{Pure $x$-wave superconductivity.}{12}{section*.12}%
 \contentsline {subsection}{\numberline {1.3.4}Ground state energy and BCS condensation}{12}{subsection.1.3.4}%
-\contentsline {section}{\numberline {1.4}Results of the HF algorihtm}{12}{section.1.4}%
-\contentsline {chapter}{Bibliography}{13}{section*.14}%
+\contentsline {section}{\numberline {1.4}Results of the HF algorihtm}{13}{section.1.4}%

@@ -711,7 +711,12 @@ and since $\epsilon_\mathbf{k} = -2t(\cos k_x + \cos k_y)$ we obtain an equation
 \begin{equation}\label{eq:su-fock-hop-ss-renormalization}
 	\tilde{t} \equiv t - wV
 \end{equation}
-Once again the hopping parameter shift is rigid and controlled directly by $V$.
+Once again the hopping parameter shift is rigid and controlled directly by $V$. As done for the AF phase, we will denote the new bands as:
+\[
+	\xi_\mathbf{k} \to \tilde{\xi}_\mathbf{k}
+	\qquad 
+	E_\mathbf{k} \to \tilde{E}_\mathbf{k}
+\]
 
 \subsection{Ground state energy and BCS condensation}
 
@@ -747,7 +752,7 @@ BCS essentially relies on the insurgence of an effective free fermionic field, d
 \end{aligned}
 \]
 Form each of the three rows above, the last term is the "leftover" part which shifts energy. Thus it can be ignored in derivation, but becomes important when considering the energy in the end. The EHM hamiltonian can be written as:
-\begin{multline*}
+\begin{multline}
 	\hat H = \sum_{\mathbf{k}} \xi_\mathbf{k} \left[
 		\hat c_{\mathbf{k}\uparrow}^\dagger \hat c_{\mathbf{k}\uparrow} + \Id - 
 		\hat c_{-\mathbf{k}\downarrow} \hat c_{-\mathbf{k}\downarrow}^\dagger 
@@ -756,16 +761,84 @@ Form each of the three rows above, the last term is the "leftover" part which sh
 	\right] \hat \phi_\mathbf{k}^\dagger \hat \phi_{\mathbf{k}'} \\
 	- \frac{2V}{L_x L_y} \sum_{\mathbf{k}, \mathbf{k}'} \sum_\sigma \left[
 	\cos \left( \delta k_x \right) + \cos \left( \delta k_y \right)	
-	\right] \hat n_{\mathbf{k}\sigma} \hat n_{\mathbf{k}'\sigma}
-\end{multline*}
+	\right] \hat n_{\mathbf{k}\sigma} \hat n_{\mathbf{k}'\sigma} \label{eq:pre-mft-ehm-cooper-filtered}
+\end{multline}
 as in Eq.~\eqref{eq:self-consistency-equation}. Following the scheme above, the ``leftovers'' of the MFT hamiltonian are just
 \[
 	\sum_{\mathbf{k},\mathbf{k}'} \Delta_\mathbf{k} \langle \hat \phi_{\mathbf{k}'} \rangle - \frac{2V}{L_x L_y} \sum_{\mathbf{k}, \mathbf{k}'} \sum_\sigma \left[
 	\cos \left( \delta k_x \right) + \cos \left( \delta k_y \right)	
 	\right] g_\mathbf{k} g_{\mathbf{k}'}
 \]
-Further developing this result and applying Eqns.~\eqref{eq:pairing-dagger-expectation-theoretical}, \eqref{eq:coscos-symmetries-decomposition}, we get
-\todo
+Further developing this result and applying Eqns.~\eqref{eq:pairing-dagger-expectation-theoretical}, \eqref{eq:coscos-symmetries-decomposition}, these last terms can be written as:
+\begin{equation}\label{eq:su-free-energy-leftovers}
+	\sum_\mathbf{k} \frac{\abs{\Delta_\mathbf{k}}^2}{2\tilde{E}_\mathbf{k}} \tanh(\frac{\beta \tilde{E}_\mathbf{k}}{2}) - 2V L_x L_y \sum_\gamma \big| g^{(\gamma)} \big|^2
+	\qquad
+	\gamma\in\lbrace s^*, d_{x^2-y^2} \rbrace
+\end{equation}
+as for Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-dd-intermediate-su-4}. Notice the presence of a volume factor in the $\mathcal{O}\left(g^2\right)$ correction.
+
+Now, we retrieve the expression for the MFT free energy density \cite{hutchinson2021mixed} simply by adding four contributions:
+\begin{enumerate}
+	\item Bogoliubov free quasiparticles thermal ground state energy density,
+	\[
+	\begin{aligned}
+		\frac{1}{L_x L_y} \sum_\mathbf{k} \tilde{E}_\mathbf{k} \left[
+			 f( \tilde{E}_\mathbf{k}; \beta,0 ) - f( - \tilde{E}_\mathbf{k}; \beta,0 )
+		\right] &= \frac{1}{L_x L_y} \sum_\mathbf{k} \tilde{E}_\mathbf{k} \left[
+			f( \tilde{E}_\mathbf{k}; \beta,0 ) - \left( 
+				1-  f( \tilde{E}_\mathbf{k}; \beta,0 )
+			\right)
+		\right] \\
+		&= \frac{2}{L_x L_y} \sum_\mathbf{k} \tilde{E}_\mathbf{k}
+		f( \tilde{E}_\mathbf{k}; \beta,0 ) - \frac{1}{L_x L_y} \sum_\mathbf{k} \tilde{E}_\mathbf{k}
+	\end{aligned}
+	\]
+	having used the simple property of the Fermi-Dirac distribution $f(-x;\beta,0) = 1-f(-x;\beta,0)$.
+	\item The term originated by the identity produced by fermionic anticommutation rules in Eq.~\eqref{eq:pre-mft-ehm-cooper-filtered},
+	\[
+		\frac{1}{L_x L_y} \sum_\mathbf{k} \tilde{\xi}_\mathbf{k}
+	\]
+	averaged on the lattice.
+	\item The ``leftovers'' of Eq.~\eqref{eq:su-free-energy-leftovers}, divided by $L_x L_y$.
+	\item The entropic free energy
+	\[
+		-Ts
+	\]
+	with $T = 1/k_B \beta$ and $s$ the free Fermi gas entropy density for the Bogoliubov quasiparticles,
+	\[
+		s = -\frac{2 k_B}{L_x L_y} \sum_\mathbf{k} \left[
+			\left(
+				1- f( \tilde{E}_\mathbf{k}; \beta,0)
+			\right) \ln \left(
+			1- f( \tilde{E}_\mathbf{k}; \beta,0)
+			\right) + f( \tilde{E}_\mathbf{k}; \beta,0)
+			\ln f( \tilde{E}_\mathbf{k}; \beta,0)
+		\right]
+	\]
+	We use the identity:
+	\[
+		\ln \left(1-\frac{1}{e^x+1}\right) = x+\ln \left(\frac{1}{e^x+1}\right)
+	\]
+	and reduce the above expression to:
+	\begin{multline*}
+		s = -\frac{2 k_B}{L_x L_y} \sum_\mathbf{k} \Big[ \ln \left(
+			1- f( \tilde{E}_\mathbf{k}; \beta,0) \right) + f( \tilde{E}_\mathbf{k}; \beta,0) \ln f( \tilde{E}_\mathbf{k}; \beta,0) \\
+			- \beta \tilde{E}_\mathbf{k} f( \tilde{E}_\mathbf{k}; \beta,0) - f( \tilde{E}_\mathbf{k}; \beta,0) \ln f( \tilde{E}_\mathbf{k}; \beta,0)
+		\Big]
+	\end{multline*}
+	Second and fourth terms cancel out, while the third compensates the first one of contribution 1.
+\end{enumerate}
+All together, the MFT averaged free energy looks like this:
+\begin{multline}\label{eq:su-free-energy}
+	f_\mathrm{MFT} [\Delta_\mathbf{k}, g_\mathbf{k}] = \frac{1}{L_x L_y} \sum_\mathbf{k} \left[
+		\tilde{\xi}_\mathbf{k} - \tilde{E}_\mathbf{k} + \frac{\abs{\Delta_\mathbf{k}}^2}{2\tilde{E}_\mathbf{k}} \tanh(\frac{\beta \tilde{E}_\mathbf{k}}{2})
+	\right] \\
+	- 2V \sum_{\gamma\in\lbrace s^*,d \rbrace} \big| g^{(\gamma)} \big|^2 + \frac{2}{\beta L_x L_y} \sum_\mathbf{k} \ln \left(
+	1- f( \tilde{E}_\mathbf{k}; \beta,0) \right)
+\end{multline}
+The two main differences with the commonly known expressions for $f_\mathrm{MFT}$ \cite{hutchinson2021mixed, senarath2025mixed} are the presence of bands renormalization 
+	{\color{tabred}, the absence of $-\mu n$ [Why?],} 
+and the $\mathcal{O}\left(g^2\right)$ correction. The latter, not only is negative for attractive $V$, a feature that can lead to superconducting phase energy lowering and stabilisation, but also it depends explicitly on the spectral amplitude of the $s^*$ and $d$-wave components of $g_\mathbf{k}$. Since as seen the $d$-wave part of $g_\mathbf{k}$ arises for mixed symmetries, this details seems to indicate an energetic preference for multi-symmetry phases.
 
 \section{Results of the HF algorihtm}\label{sec:mft-analysis-hf-results}
 

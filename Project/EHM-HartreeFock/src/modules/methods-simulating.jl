@@ -322,7 +322,13 @@ function GetKPopulation(
 		wk = GetWeight(q; Sym) # Avoid computational redundance
 		k = q .* pi # Important: multiply k by pi
 
-		if in(Phase, ["AF", "FakeAF"]) && wk >= 1
+		if Phase=="Free"
+
+			t = Parameters["t"]
+			εk = GetHoppingEnergy(t,k)
+			Nk[i] = 2*FermiDirac(εk,μ,β)
+
+		elseif in(Phase, ["AF", "FakeAF"]) && wk >= 1
 
 			t = Parameters["t"]
 			if RenormalizeHopping #TODO => RenormalizeBands::Bool
@@ -331,7 +337,7 @@ function GetKPopulation(
 			end
 
 			# Renormalized bands
-			εk::Float64 = GetHoppingEnergy(t,k)
+			εk = GetHoppingEnergy(t,k)
 
 			# Renormalized gap
 			reΔk::Float64 = v["m"] * (Parameters["U"] + 8*Parameters["V"])
@@ -688,7 +694,7 @@ function RunHFAlgorithm(
 	debug::Bool=false,
 	record::Bool=false,
 	RenormalizeHopping::Bool=true		# Conditional renormalization of t
-)::Tuple{Dict{String,Float64}, Dict{String,Float64}, Float64, Float64, Dict{String,Vector{Float64}}}
+)::Tuple{Dict{String,Any}, Dict{String,Any}}
 
 	if verbose
 		@info "Running HF convergence algorithm" Phase Syms Parameters L n β
@@ -727,7 +733,8 @@ function RunHFAlgorithm(
 	])
 
 	# Recursive run
-	i = 1
+	i::Int64 = 1
+	I::Int64 = p
 	ΔT = @elapsed begin
 		while i<=p
 
@@ -735,7 +742,7 @@ function RunHFAlgorithm(
 				printstyled("\n---Step $i---\n", color=:yellow)
 			end
 
-			Results = PerformHFStep(
+			CurrentResults = PerformHFStep(
 				Phase,
 				Parameters,
 				K,v0,n,β;
@@ -743,8 +750,8 @@ function RunHFAlgorithm(
 				debug,
 				RenormalizeHopping
 			)
-			v = copy(Results[1])
-			μ = Results[2]
+			v = copy(CurrentResults[1])
+			μ = CurrentResults[2]
 			for key in keys(v0)
 				current = v[key]
 				previous = v0[key]
@@ -757,6 +764,7 @@ function RunHFAlgorithm(
 				if verbose
 					printstyled("\n---Converged at step $i---\n", color=:green)
 				end
+				I = i
 				i = p+1
 
 			elseif any([Qs[key] for key in keys(v0)] .>= 1)
@@ -793,5 +801,17 @@ function RunHFAlgorithm(
 		end
 	end
 
-	return v,Qs,ΔT,μ,Record
+	Results::Dict{String,Any} = Dict([
+		"HFPs" => v,
+		"Record" => Record,
+		"ChemicalPotential" => μ
+	])
+
+	Performance::Dict{String,Any} = Dict([
+		"Quality" => Qs,
+		"Runtime" => ΔT,
+		"Steps" => I
+	])
+
+	return Results, Performance
 end

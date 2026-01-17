@@ -24,6 +24,7 @@ else
 	@error "Invalid argument. Use: --mode = --scan / --heatmap / --record-g"
 end
 include(PROJECT_ROOT * "/src/modules/methods-simulating.jl")
+include(PROJECT_ROOT * "/src/modules/methods-processing.jl")
 
 # Routines
 @doc raw"""
@@ -56,20 +57,21 @@ for choosing to renormalize or not the hopping parameter.
 """
 function RunHFScan(
 	Phase::String,						# Mean field phase
-	tt::Vector{Float64},					# Hopping amplitude
-	UU::Vector{Float64},					# Local repulsion
-	VV::Vector{Float64},					# Non-local attraction
+	tt::Vector{Float64},				# Hopping amplitude
+	UU::Vector{Float64},				# Local repulsion
+	VV::Vector{Float64},				# Non-local attraction
 	LL::Vector{Int64},					# Lattice size
-	δδ::Vector{Float64},					# Doping
-	ββ::Vector{Float64},					# Inverse temperature
+	δδ::Vector{Float64},				# Doping
+	ββ::Vector{Float64},				# Inverse temperature
 	p::Int64,							# Number of iterations
 	Δv::Dict{String,Float64},			# Tolerance on magnetization
-	Δn::Float64,							# Tolerance on density
-	g::Float64;							# Mixing parameter
+	Δn::Float64,						# Tolerance on density
+	g0::Float64;						# Mixing parameter
 	Syms::Vector{String}=["s"],			# Gap function symmetries
 	FilePathOut::String="",				# Output file
 	InitializeFile::Bool=true,			# Initialize file at FilePathOut
-	RenormalizeHopping::Bool=true		# Conditional renormalization of t
+	RenormalizeHopping::Bool=true,		# Conditional renormalization of t
+	Optimizeg::Bool=true				# Conditional optimization of g
 )
 
 	# Warn user of memory-heavy simulations detection
@@ -86,7 +88,7 @@ function RunHFScan(
 
 	# File coditional initialization (otherwise, just append)
 	if FilePathOut != "" && InitializeFile
-		Header = "t;U;V;Lx;β;δ;v;Q;ΔT;μ\n"
+		Header = "t;U;V;Lx;β;δ;v;Q;ΔT;I;μ;Uc;gc\n"
 		write(FilePathOut, Header)
 	end
 
@@ -98,54 +100,68 @@ function RunHFScan(
 	# HF iterations
 	i = 1
 	for t in tt,
-		U in UU,
-		V in VV,
 		Lx in LL,
-		β in ββ,
-		δ in δδ
+		δ in δδ,
+		β in ββ
 
-		Parameters::Dict{String,Float64} = Dict([
-			"t" => t,
-			"U" => U,
-			"V" => V
-		])
-
-		L = [Lx, Lx]
-		printstyled(
-			"\e[2K\e[1GRun ($i/$Iterations): " *
-			"$Phase HF at t=$t, U=$U, V=$V, L=$Lx, β=$β, δ=$δ", 
-			color=:yellow
-		)
-		ResultsVector::Matrix{Any} = [0 0]  # Dummy placeholder
-		ResultsVector = hcat(ResultsVector, [t U V Lx β δ])
-
-		# Run routine, all positional arguments here must be false
-		HFResults = RunHFAlgorithm(
-			Phase,Parameters,L,0.5+δ,β,
-			p,Δv,Δn,g;
-			# v0i=v0,
-			Syms,
-			RenormalizeHopping
-		)
-
-		v::Dict{String,Float64} = Dict([
-			key => HFResults[1][key] for key in HFPs
-		])
-		Qs::Dict{String,Float64} = Dict([
-			key => HFResults[2][key] for key in HFPs
-		])
-		ResultsVector = hcat(ResultsVector[:,3:end], [v Qs HFResults[3] HFResults[4]])
-
-		i += 1
-
-		# Append to initialized or existing file
-		if FilePathOut != ""
-			open(FilePathOut, "a") do io
-				writedlm(io, ResultsVector, ';')
-			end
+		if Optimizeg
+			Uc = GetUc(t,[Lx,Lx],δ,β)
 		end
 
-		v0 = copy(v)
+		g = g0
+		for U in UU
+
+			if U>3*Uc && Optimizeg
+				gc = GetOptimalg(U,Uc)
+				gc<g0 ? g=gc : 0
+			end
+
+			for V in VV
+
+				Parameters::Dict{String,Float64} = Dict([
+					"t" => t,
+					"U" => U,
+					"V" => V
+				])
+
+				L = [Lx, Lx]
+				printstyled(
+					"\e[2K\e[1GRun ($i/$Iterations): " *
+					"$Phase HF at t=$t, U=$U, V=$V, L=$Lx, β=$β, δ=$δ",
+					color=:yellow
+				)
+				ResultsVector::Matrix{Any} = [0 0]  # Dummy placeholder
+				ResultsVector = hcat(ResultsVector, [t U V Lx β δ])
+
+				# Run routine, all positional arguments here must be false
+				Run, Performance = RunHFAlgorithm(
+					Phase,Parameters,L,0.5+δ,β,
+					p,Δv,Δn,g;
+					# v0i=v0,
+					Syms,
+					RenormalizeHopping
+				)
+
+				v::Dict{String,Float64} = Dict([
+					key => Run["HFPs"][key] for key in HFPs
+				])
+				Qs::Dict{String,Float64} = Dict([
+					key => Performance["Quality"][key] for key in HFPs
+				])
+				ResultsVector = hcat(ResultsVector[:,3:end], [v Qs Performance["Runtime"] Performance["Steps"] Run["ChemicalPotential"] Uc gc])
+
+				i += 1
+
+				# Append to initialized or existing file
+				if FilePathOut != ""
+					open(FilePathOut, "a") do io
+						writedlm(io, ResultsVector, ';')
+					end
+				end
+
+				v0 = copy(v)
+			end
+		end
 	end
 
 	printstyled(
@@ -245,7 +261,7 @@ function main()
 	DirPathOut = PROJECT_ROOT * "/simulations/" *
 		Mode * "/Setup=$(Setup)/Phase="
 	if in(Mode, ["scan", "heatmap"])
-		if in(Phase, ["SU-Singlet", "FakeSU-Singlet", "SU-Triplet", "FakeSU-Triplet"]
+		if in(Phase, ["SU-Singlet", "FakeSU-Singlet", "SU-Triplet", "FakeSU-Triplet"])
 			FilePathOut = DirPathOut * Phase * "/Syms=$(Syms...).txt"
 		else
 			FilePathOut = DirPathOut * Phase * ".txt"

@@ -49,7 +49,7 @@ end
 #------------------------------------ SETUP ------------------------------------
 #-------------------------------------------------------------------------------
 
-Setup = "-C[128]" # Choose your setup #TODO Use readline()
+Setup = "Test[80]" # Choose your setup #TODO Use readline()
 AvailableSetups = [
 	"Test[80]",			# Test setup
 	"A[128]",			# UV plane

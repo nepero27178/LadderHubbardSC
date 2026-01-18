@@ -88,13 +88,13 @@ function RunHFScan(
 
 	# File coditional initialization (otherwise, just append)
 	if FilePathOut != "" && InitializeFile
-		Header = "t;U;V;Lx;β;δ;v;Q;ΔT;I;μ;Uc;gc\n"
+		Header = "t;U;V;Lx;β;δ;v;Q;ΔT;I;μ;g0;g;fMFT\n"
 		write(FilePathOut, Header)
 	end
 
 	# Initializers
 	v0::Dict{String,Float64} = Dict([
-		key => 0.5 for key in HFPs
+		key => 0.1 for key in HFPs
 	])
 
 	# HF iterations
@@ -104,16 +104,16 @@ function RunHFScan(
 		δ in δδ,
 		β in ββ
 
-		if Optimizeg
+		if Optimizeg && occursin("SU", Phase)
 			Uc = GetUc(t,[Lx,Lx],δ,β)
 		end
 
 		g = g0
 		for U in UU
 
-			if U>3*Uc && Optimizeg
-				gc = GetOptimalg(U,Uc)
-				gc<g0 ? g=gc : 0
+			if U>3*Uc && Optimizeg && occursin("SU", Phase)
+				Og = GetOptimalg(U,Uc)
+				Og<g0 ? g=Og : 0
 			end
 
 			for V in VV
@@ -137,7 +137,7 @@ function RunHFScan(
 				Run, Performance = RunHFAlgorithm(
 					Phase,Parameters,L,0.5+δ,β,
 					p,Δv,Δn,g;
-					# v0i=v0,
+					v0i=v0, #TODO Processing: find and replace suspect points
 					Syms,
 					RenormalizeBands
 				)
@@ -145,10 +145,12 @@ function RunHFScan(
 				v::Dict{String,Float64} = Dict([
 					key => Run["HFPs"][key] for key in HFPs
 				])
+
+				fMFT = Run["FreeEnergy"]
 				Qs::Dict{String,Float64} = Dict([
 					key => Performance["Quality"][key] for key in HFPs
 				])
-				ResultsVector = hcat(ResultsVector[:,3:end], [v Qs Performance["Runtime"] Performance["Steps"] Run["ChemicalPotential"] Uc gc])
+				ResultsVector = hcat(ResultsVector[:,3:end], [v Qs Performance["Runtime"] Performance["Steps"] Run["ChemicalPotential"] g0 g fMFT])
 
 				i += 1
 

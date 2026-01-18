@@ -1,8 +1,8 @@
 using Plots
 using DataFrames
 
-DIR = @__DIR__
-include(DIR * "/../../modules/methods-optimizations.jl")
+PROJECT_LABS_DIR = @__DIR__
+include(PROJECT_LABS_DIR * "/../../modules/methods-optimizations.jl")
 
 L = [50, 50]
 Kx::Vector{Float64} = [kx for kx in -1:2/L[1]:1]

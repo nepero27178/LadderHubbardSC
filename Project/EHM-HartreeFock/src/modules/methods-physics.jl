@@ -173,7 +173,7 @@ function GetKPopulation(
 	Parameters::Dict{String,Float64},
 	K::Matrix{Vector{Float64}},
 	v::Dict{String,Float64},
-	μ0::Float64,
+	μ::Float64,
 	β::Float64;
 	debug::Bool=false,
 	RenormalizeBands::Bool=true
@@ -326,3 +326,121 @@ function GetRMPs(
 
 end
 
+@doc raw"""
+function GetFreeEnergy(
+	Phase::String,
+	Parameters::Dict{String,Float64},
+	K::Matrix{Vector{Float64}},
+	v::Dict{String,Float64},
+	μ::Float64,
+	β::Float64;
+	debug::Bool=false,
+	RenormalizeBands::Bool=true
+)Float64
+
+Returns: Free energy density for the given Phase.
+
+`GetFreeEnergy` takes as input `Phase` (string specifying the mean-field phase,
+the allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"FakeSU-Singlet\",
+\"SU-Triplet\", \"FakeSU-Triplet\"), `Parameters`  (dictionary of model
+parameters containing `t`, `U`, `V`), `K` (k-points in the BZ), `v` (dictionary
+of real HF parameters), `μ` (chemical potential) and `β` (inverse temperature).
+It sums the free energy contribution per each couple of momenta. The boolean
+option `RenormalizeBands' allows for choosing to renormalize or not the hopping
+parameter.
+"""
+function GetFreeEnergy(
+	Phase::String,						# Mean field phase
+	Parameters::Dict{String,Float64},	# Model parameters t,U,V
+	K::Matrix{Vector{Float64}},			# BZ grid
+	v::Dict{String,Float64},			# HF parameters
+	μ::Float64,							# Chemical potential
+	β::Float64;							# Inverse temperature
+	RenormalizeBands::Bool=true			# Conditional renormalization of t
+)::Float64
+
+	Sym = "S"
+	if in(Phase, ["AF", "FakeAF"])
+		Sym *= "-MBZ"
+	end
+
+	fMFT::Float64 = 0.0
+	LxLy::Int64 = prod(size(K))
+
+	for (i,q) in enumerate(K)
+
+		wk = GetWeight(q; Sym) # Avoid computational redundance
+		k = q .* pi # Important: multiply k by pi
+
+		if Phase=="Free"
+			@error "Under construction"
+			t = Parameters["t"]
+			ξk = GetHoppingEnergy(t,k)-µ
+			Nk[i] = 2*FermiDirac(εk,μ,β)
+
+		elseif in(Phase, ["AF", "FakeAF"]) && wk >= 1
+			@error "Under construction"
+
+		elseif in(Phase, ["SU-Singlet", "FakeSU-Singlet"]) && in(wk,[1,2,4])
+
+			t = Parameters["t"]
+			if RenormalizeBands && "gS" in keys(v)
+				# Conditional renormalization of bands
+				t -= v["gS"]/2 * Parameters["V"]
+			end
+
+			AllSyms = ["Δs", "ΔS", "Δd"]
+			Fakev = copy(v)
+			delete!(Fakev, "gS")
+			delete!(Fakev, "gd")
+			if !issubset(collect(keys(Fakev)), AllSyms)
+				@error "Invalid set of symmetries. Please choose from $(AllSyms)."
+			end
+
+			# Free bands
+			ξk::Float64 = GetHoppingEnergy(t,k) - μ
+			if RenormalizeBands && "gd" in keys(v)
+				ξk += Parameters["V"] * v["gd"] * StructureFactor("d",k)
+			end
+
+			# Gap
+			Δk::Complex{Float64} = 0.0 + 1im * 0.0
+			for (key, value) in v
+				if !in(key, ["gS", "gd"])
+					key = String(key)
+					key = String(chop(key, head=1, tail=0))
+					Δk += value * StructureFactor(key,k)
+				end
+			end
+
+			# Renormalized gapped bands
+			Ek = sqrt( ξk^2 + abs(Δk)^2 )
+
+			# Local population
+			tk::Float64 = 0.0
+			if Ek!=0.0
+				tk = abs(Δk)^2/Ek * tanh(β*Ek/2)
+			end
+			fMFT += wk * (ξk - Ek + tk + 2/β * log( 1-FermiDirac(Ek,0,β) ))
+
+
+		elseif Phase=="Su/Triplet"
+			@error "Under construction"
+		end
+	end
+
+	fMFT /= LxLy
+	if Phase=="SU-Singlet"
+		TotalWeight::Float64
+		for gSym in ["gS", "gd"]
+			try
+				TotalWeight += abs(v[gSym])^2
+			catch
+			end
+		end
+
+		fMFT -= 2 * Parameters["V"] * TotalWeight
+	end
+
+	return fMFT
+end

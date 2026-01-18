@@ -1,4 +1,5 @@
-# --- Fermi Surface finder ---
+PROJECT_METHODS_DIR = @__DIR__
+include(PROJECT_METHODS_DIR * "/methods-simulating.jl")
 
 @doc raw"""
 function FindFS(
@@ -168,8 +169,6 @@ function GetPointFS(
 	return Point
 
 end
-
-# --- Post-computation of μ ---
 
 @doc raw"""
 function Addμ(

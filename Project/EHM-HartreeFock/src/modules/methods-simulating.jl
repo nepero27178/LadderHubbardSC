@@ -445,23 +445,33 @@ function RunHFAlgorithm(
 		end
 	end
 
+	fMFT::Float64 = 0.0
 	if all([Qs[key] for key in keys(v0)] .<= 1)
+
 		if verbose
 			@info "Algorithm has converged." v Qs
 		end
+		fMFT = FindRootμ(Phase,Parameters,K,v0,n,β;debug,RenormalizeBands)
+
 	elseif any([Qs[key] for key in keys(v0)] .> 1)
+
 		if verbose
 			@info "Algorithm has not converged - v saved as NaN." v Qs Phase
 		end
+
+		# Substitute with NaN in order to plot blank points
+		fMFT = NaN
 		for key in keys(v0)
 			v[key] = NaN
 		end
+
 	end
 
 	Results::Dict{String,Any} = Dict([
 		"HFPs" => v,
 		"Record" => Record,
-		"ChemicalPotential" => μ
+		"ChemicalPotential" => μ,
+		"FreeEnergy" => fMFT
 	])
 
 	Performance::Dict{String,Any} = Dict([

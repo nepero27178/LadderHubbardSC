@@ -1,11 +1,8 @@
 using DataFrames
 using DelimitedFiles
 
-# Includer
-PROJECT_ROOT = @__DIR__
-PROJECT_ROOT *= "/.."   # Up to the effective root
-include(PROJECT_ROOT * "/setup/graphic-setup.jl")
-include(PROJECT_ROOT * "/modules/methods-simulating.jl")
+PROJECT_LABS_DIR = @__DIR__
+include(PROJECT_LABS_DIR * "/../../modules/methods-simulating.jl")
 
 @doc raw"""
 function FindFS(

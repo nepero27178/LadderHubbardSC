@@ -2,6 +2,9 @@
 using DelimitedFiles
 using DataFrames
 
+PROJECT_METHODS_DIR = @__DIR__
+include(PROJECT_METHODS_DIR * "/methods-IO.jl")
+
 @doc raw"""
 function GetLabels(
 	Phase::String
@@ -139,12 +142,8 @@ function PlotOrderParameter(
 	DirPathOut *= "/xVar=" * xVar * "/pVar=" * pVar * "/"
 	mkpath(DirPathOut)
 
-	# Read data and create DataFrame
-	DataIn = open(FilePathIn) do io
-		readdlm(FilePathIn, ';', comments=false, '\n')
-	end
-	DF = DataFrame(DataIn[2:end,:], DataIn[1,:])
-	DF.Lx = Int64.(DF.Lx)
+	# Import data
+	DF = ImportData(FilePathIn)
 
 	# Unique variables dictionary
 	uDict::Dict{String,Vector{Any}} = Dict([
@@ -342,12 +341,8 @@ function PlotOrderParameter2D(
 	DirPathOut *= "/xVar=" * xVar * "_yVar=" * yVar * "/"
 	mkpath(DirPathOut)
 
-	# Read data and create DataFrame
-	DataIn = open(FilePathIn) do io
-		readdlm(FilePathIn, ';', comments=false, '\n')
-	end
-	DF = DataFrame(DataIn[2:end,:], DataIn[1,:])
-	DF.Lx = Int64.(DF.Lx)
+	# Import data
+	DF = ImportData(FilePathIn)
 
 	# Unique variables dictionary
 	uDict::Dict{String,Vector{Any}} = Dict([
@@ -527,12 +522,8 @@ function PlotRMPs(
 	DirPathOut *= "/xVar=" * xVar * "_yVar=" * yVar * "/"
 	mkpath(DirPathOut)
 
-	# Read data and create DataFrame
-	DataIn = open(FilePathIn) do io
-		readdlm(FilePathIn, ';', comments=false, '\n')
-	end
-	DF = DataFrame(DataIn[2:end,:], DataIn[1,:])
-	DF.Lx = Int64.(DF.Lx)
+	# Import data
+	DF = ImportData(FilePathIn)
 
 	# Unique variables dictionary
 	uDict::Dict{String,Vector{Any}} = Dict([

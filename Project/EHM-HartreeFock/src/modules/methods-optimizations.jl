@@ -15,7 +15,8 @@ function GetWeight(
 	wk::Int64 = 0
 	kx, ky = k
 
-	if Sym=="S-MBZ"
+	if Sym=="S-MBZ" # Half-sized Brillouin Zone
+
 		if abs(kx)+abs(ky) <= 1
 			if kx>=0 && ky>0 && kx+ky<1
 				# Bulk (four times)
@@ -28,7 +29,9 @@ function GetWeight(
 				wk = 1
 			end
 		end
+
 	elseif Sym=="S"
+
         if (kx==0 && ky==0) || (kx==1 && ky==1)
             wk = 1
         elseif kx >= 0 && ky > 0
@@ -42,9 +45,18 @@ function GetWeight(
         end
 	end
 	return wk
+
 end
 
 @doc raw"""
+function GetUc(
+    t::Float64,
+    L::Vector{Int64},
+    δ::Float64,
+    β::Float64;
+    Method::String="DisSum"
+)::Float64
+
 [...]
 """
 function GetUc(
@@ -104,19 +116,28 @@ function GetUc(
 end
 
 @doc raw"""
+function GetOptimalg(
+    U::Float64,
+    Uc::Float64;
+    Δ::Float64=0.1
+)::Float64
+
 [...]
 """
 function GetOptimalg(
     U::Float64,                         # Local repulsion
     Uc::Float64;                        # Critical U
-    Δ::Float64=0.1						# Tolerance
-)
+    ΔU::Float64=1.0 					# U tolerance
+)::Float64
+
     u::Float64 = U/Uc
     gc::Float64 = 2/(u+1)
-    if gc > Δ
-        return gc-Δ
-    elseif gc <= Δ
-        @warn "Δ=$(Δ) too large, tolerance ignored. Consider reducing Δ or U."
-        return gc/2
-    end
+#     if gc > Δ
+#         return gc-Δ
+#     elseif gc <= Δ
+#         @warn "Δ=$(Δ) too large, tolerance ignored. Consider reducing Δ or U."
+#         return gc/2
+#     end
+    return gc * (1-gc/2 * ΔU/Uc)
+
 end

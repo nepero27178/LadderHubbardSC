@@ -14,7 +14,7 @@ function FindFS(
 	K::Matrix{Vector{Float64}},
 	v::Dict{String,Float64},
 	μ::Float64;
-	RenormalizeHopping::Bool=true
+	RenormalizeBands::Bool=true
 )::Tuple{Vector{Float64}, Vector{Float64}}
 
 Returns: list of `x`, `y` coordinates of the Fermi Surface.
@@ -27,7 +27,7 @@ function FindFS(
 	K::Matrix{Vector{Float64}},			# BZ grid
 	v::Dict{String,Float64},				# HF parameters
 	μ::Float64;							# Chemical potential
-	RenormalizeHopping::Bool=true		# Conditional renormalization of t
+	RenormalizeBands::Bool=true		# Conditional renormalization of t
 )::Tuple{Vector{Float64}, Vector{Float64}}
 
 	# Initialize collectors
@@ -35,7 +35,7 @@ function FindFS(
 	yy = Float64[]
 
 	t = Parameters["t"]
-	if RenormalizeHopping
+	if RenormalizeBands
 		# Conditional renormalization of bands
 		t -= v["w0"] * Parameters["V"]
 	end
@@ -163,11 +163,11 @@ function GetPointFS(
 	v = eval.(Meta.parse.(Point.v))[1]
 	μ = Point.μ[1]
 
-	RenormalizeHopping::Bool = true
+	RenormalizeBands::Bool = true
 	if Phase=="FakeAF"
-		RenormalizeHopping = false
+		RenormalizeBands = false
 	end
-	xx, yy = FindFS(Phase,Parameters,K,v,μ;RenormalizeHopping)
+	xx, yy = FindFS(Phase,Parameters,K,v,μ;RenormalizeBands)
 	Point[!, :Phase] .= [Phase]
 	Point[!, :Curve] .= [Dict(["kx" => xx, "ky" => yy])]
 

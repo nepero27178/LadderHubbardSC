@@ -70,7 +70,7 @@ function RunHFScan_AF_ForceHoppingShift(
 			Phase,Parameters,L,0.5+δ,β,
 			p,Δv,Δn,g;
 			v0i=v0,
-			RenormalizeHopping=false
+			RenormalizeBands=false
 		)
 
 		v::Dict{String,Float64} = Dict([
@@ -127,7 +127,7 @@ function PlotForcedScan(
 	DirPathOut = PROJECT_ROOT * "/analysis/Phase=AF/special/forced-scan/Setup=$(Setup)/"
 
 	Phase = "AF"
-	RenormalizeHopping = true
+	RenormalizeBands = true
 	FilePathOut = ""
 	AllVars = ["t", "U", "V", "Lx", "δ", "β"]
 

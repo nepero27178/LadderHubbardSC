@@ -54,7 +54,7 @@ function main()
 			xVar="U",
 			pVar="V",
 			cs=:winter,
-			RenormalizeHopping,
+			RenormalizeBands,
 			Extension="pdf"
 		)
 		PlotOrderParameter(
@@ -66,7 +66,7 @@ function main()
 			pVar="U",
 			Skip=4,
 			cs=:winter,
-			RenormalizeHopping,
+			RenormalizeBands,
 			Extension="pdf"
 		)
 	elseif Mode=="heatmap"

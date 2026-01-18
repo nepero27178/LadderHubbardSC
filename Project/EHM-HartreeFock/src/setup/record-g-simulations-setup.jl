@@ -26,9 +26,9 @@ AvailableSetups = [
 	"B256"
 ]
 
-RenormalizeHopping::Bool = true
+RenormalizeBands::Bool = true
 if Phase=="FakeAF"
-	RenormalizeHopping::Bool = false
+	RenormalizeBands::Bool = false
 end
 
 if !in(Setup, AvailableSetups)

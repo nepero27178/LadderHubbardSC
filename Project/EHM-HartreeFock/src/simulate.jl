@@ -39,7 +39,7 @@ function RunHFScan(
 	Δn::Float64,
 	g::Float64;
 	FilePathOut::String="",
-	RenormalizeHopping::Bool=true
+	RenormalizeBands::Bool=true
 )
 
 Returns: none if `FilePathOut` is specified.
@@ -52,7 +52,7 @@ each order parameter) and `Δn` (tolerance on density in chemical potential
 estimation), `g` (mixing parameter). It performs an iterative HF analysis over a
 sequence of 2D square lattices for all the possible combinations of the 
 specified parameters. Check the source files in the `/modules` folder for more
-informations on the algorithm. The boolean option `RenormalizeHopping' allows 
+informations on the algorithm. The boolean option `RenormalizeBands' allows
 for choosing to renormalize or not the hopping parameter.
 """
 function RunHFScan(
@@ -70,7 +70,7 @@ function RunHFScan(
 	Syms::Vector{String}=["s"],			# Gap function symmetries
 	FilePathOut::String="",				# Output file
 	InitializeFile::Bool=true,			# Initialize file at FilePathOut
-	RenormalizeHopping::Bool=true,		# Conditional renormalization of t
+	RenormalizeBands::Bool=true,		# Conditional renormalization of t
 	Optimizeg::Bool=true				# Conditional optimization of g
 )
 
@@ -139,7 +139,7 @@ function RunHFScan(
 					p,Δv,Δn,g;
 					# v0i=v0,
 					Syms,
-					RenormalizeHopping
+					RenormalizeBands
 				)
 
 				v::Dict{String,Float64} = Dict([
@@ -183,11 +183,11 @@ function RunHFRecord(
 	β::Float64,							# Inverse temperature
 	p::Int64,							# Number of iterations
 	Δv::Dict{String,Float64},			# Tolerance on magnetization
-	Δn::Float64,							# Tolerance on density
-	gg::Vector{Float64};					# Mixing parameter
+	Δn::Float64,						# Tolerance on density
+	gg::Vector{Float64};				# Mixing parameter
 	Syms::Vector{String}=["d"],			# Gap function symmetries
 	DirPathOut::String="",				# Output file
-	RenormalizeHopping::Bool=true		# Conditional renormalization of t
+	RenormalizeBands::Bool=true		# Conditional renormalization of t
 )::Dict{Float64,Dict{String,Vector{Float64}}}
 
 	L = [Lx,Lx]
@@ -216,7 +216,7 @@ function RunHFRecord(
 			p,Δv,Δn,g;
 			verbose=true,
 			record=true,
-			RenormalizeHopping
+			RenormalizeBands
 		)
 		ΔT::Float64 = HFResults[3]
 		gRecord::Dict{String,Vector{Float64}} = Dict([
@@ -274,7 +274,7 @@ function main()
 			p,Δv,Δn,g;
 			Syms,
 			FilePathOut,
-			RenormalizeHopping
+			RenormalizeBands
 		)
 	elseif Mode=="record-g"
 		RunHFRecord(
@@ -284,7 +284,7 @@ function main()
 			p,Δv,Δn,gg;
 			Syms,
 			DirPathOut,
-			RenormalizeHopping
+			RenormalizeBands
 		)
 	end
 end

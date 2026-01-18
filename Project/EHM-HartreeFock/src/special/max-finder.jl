@@ -22,7 +22,7 @@ function RunHFScan_AF_MaxFinder(
 	g::Float64;							# Mixing parameter
 	Phase::String="AF",					# Model phase
 	FilePathOut::String="",				# Output file
-	RenormalizeHopping::Bool=true		# Conditional renormalization of t
+	RenormalizeBands::Bool=true		# Conditional renormalization of t
 )
 	@warn "This function is going to be deprecated."
 
@@ -70,7 +70,7 @@ function RunHFScan_AF_MaxFinder(
 			HFResults = RunHFAlgorithm(
 				Phase,Parameters,L,0.5+δ,β,
 				p,Δv,Δn,g;
-				RenormalizeHopping
+				RenormalizeBands
 			)
 
 			v::Dict{String,Float64} = Dict([

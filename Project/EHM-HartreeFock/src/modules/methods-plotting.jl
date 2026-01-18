@@ -77,7 +77,7 @@ function PlotOrderParameter(
 	pVar::String=\"V\",
 	Skip::Int64=1,
 	cs::Symbol=:imola50,
-	RenormalizeHopping::Bool=true,
+	RenormalizeBands::Bool=true,
 	Extension::String="pdf"::String="pdf"
 )
 
@@ -90,7 +90,7 @@ directory). The optional parameters are `xVar` and `pVar` (strings specifying
 respectively the x variable and the parametric variable of the plot, the 
 allowed are \"t\", \"U\", \"V\", \"Lx\", \"δ\", \"β\"), `Skip` (integer 
 indicating how many steps in the parametric variable to be skipped between two 
-plots), `cs` (colorscheme symbol). The boolean option `RenormalizeHopping' 
+plots), `cs` (colorscheme symbol). The boolean option `RenormalizeBands'
 allows for choosing to renormalize or not the hopping parameter. `Extension`
 selects the file extension (the allowed are \"pdf\", \"png\", \"svg\").
 """
@@ -103,7 +103,7 @@ function PlotOrderParameter(
 	pVar::String="V",					# Specify parametric variable
 	Skip::Int64=1,						# xVar skip parameter
 	cs::Symbol=:imola50,					# Custom colorscheme
-	RenormalizeHopping::Bool=true,		# Conditional renormalization of t
+	RenormalizeBands::Bool=true,		# Conditional renormalization of t
 	Extension::String="pdf"				# File extension
 )
 
@@ -226,7 +226,7 @@ function PlotOrderParameter(
 					TerminalMsg *= Var * "=$(lVar), "
 					FilePathOut *= "_" * Var * "=$(lVar)"
 					RS::String=""
-					if !RenormalizeHopping && Var=="t"
+					if !RenormalizeBands && Var=="t"
 						RS *= "\\tilde{t}="
 					end
 					rawTitle *= "\$$(VarLabels[Var])=" * RS * "$(lVar)\$, "
@@ -420,7 +420,7 @@ function PlotOrderParameter2D(
 					TerminalMsg *= Var * "=$(lVar), "
 					FilePathOut *= "_" * Var * "=$(lVar)"
 					RS::String=""
-					if !RenormalizeHopping && Var=="t"
+					if !RenormalizeBands && Var=="t"
 						RS *= "\\tilde{t}="
 					end
 					rawTitle *= "\$$(VarLabels[Var])=" * RS * "$(lVar)\$, "
@@ -600,7 +600,7 @@ function PlotRMPs(
 					TerminalMsg *= Var * "=$(lVar), "
 					FilePathOut *= "_" * Var * "=$(lVar)"
 					RS::String=""
-					if !RenormalizeHopping && Var=="t"
+					if !RenormalizeBands && Var=="t"
 						RS *= "\\tilde{t}="
 					end
 					rawTitle *= "\$$(VarLabels[Var])=" * RS * "$(lVar)\$, "

@@ -1,6 +1,3 @@
-using Integrals
-using Elliptic
-
 # --- Fermi Surface finder ---
 
 @doc raw"""
@@ -10,7 +7,7 @@ function FindFS(
 	K::Matrix{Vector{Float64}},
 	v::Dict{String,Float64},
 	μ::Float64;
-	RenormalizeHopping::Bool=true
+	RenormalizeBands::Bool=true
 )::Tuple{Vector{Float64}, Vector{Float64}}
 
 Returns: list of `x`, `y` coordinates of the Fermi Surface.
@@ -23,7 +20,7 @@ function FindFS(
 	K::Matrix{Vector{Float64}},			# BZ grid
 	v::Dict{String,Float64},				# HF parameters
 	μ::Float64;							# Chemical potential
-	RenormalizeHopping::Bool=true		# Conditional renormalization of t
+	RenormalizeBands::Bool=true		# Conditional renormalization of t
 )::Tuple{Vector{Float64}, Vector{Float64}}
 
 	# Initialize collectors
@@ -31,7 +28,7 @@ function FindFS(
 	yy = Float64[]
 
 	t = Parameters["t"]
-	if RenormalizeHopping
+	if RenormalizeBands
 		# Conditional renormalization of bands
 		t -= v["w0"] * Parameters["V"]
 	end
@@ -159,11 +156,11 @@ function GetPointFS(
 	v = eval.(Meta.parse.(Point.v))[1]
 	μ = Point.μ[1]
 
-	RenormalizeHopping::Bool = true
+	RenormalizeBands::Bool = true
 	if Phase=="FakeAF"
-		RenormalizeHopping = false
+		RenormalizeBands = false
 	end
-	xx, yy = FindFS(Phase,Parameters,K,v,μ;RenormalizeHopping)
+	xx, yy = FindFS(Phase,Parameters,K,v,μ;RenormalizeBands)
 	Point[!, :Phase] .= [Phase]
 	Point[!, :Curve] .= [Dict(["kx" => xx, "ky" => yy])]
 
@@ -201,9 +198,9 @@ function Addμ(
 	DF.Lx = Int64.(DF.Lx)
 
 	μμ::Vector{Float64} = zeros(length(DF.t))
-	RenormalizeHopping::Bool = true
+	RenormalizeBands::Bool = true
 	if Phase=="FakeAF"
-		RenormalizeHopping = false
+		RenormalizeBands = false
 	end
 
 	for i in 1:length(μμ)
@@ -227,7 +224,7 @@ function Addμ(
 		v = eval(Meta.parse(DF.v[i]))
 		n = 0.5 + DF.δ[i]
 
-		μμ[i] = FindRootμ(Phase,Parameters,K,v,n,β;Δn=1e-2,RenormalizeHopping)
+		μμ[i] = FindRootμ(Phase,Parameters,K,v,n,β;Δn=1e-2,RenormalizeBands)
 	end
 
 	DF[!,:μ] = μμ
@@ -235,81 +232,3 @@ function Addμ(
 
 	return DF
 end
-
-@doc raw"""
-[...]
-"""
-function GetUc(
-    t::Float64,							# Hopping amplitude
-    L::Vector{Int64},					# [Lx, Ly]
-    δ::Float64,							# Doping
-    β::Float64;							# Inverse temperature
-    Method::String="DisSum"				# Computational method
-)::Float64
-
-    # Reciprocal space discretization (normalized to 1)
-    Kx::Vector{Float64} = [kx for kx in -pi:2*pi/L[1]:pi]
-    popfirst!(Kx)
-    Ky::Vector{Float64} = [ky for ky in -pi:2*pi/L[2]:pi]
-    popfirst!(Ky)
-    K::Matrix{Vector{Float64}} = [ [kx,ky] for kx in Kx, ky in Ky ]
-
-	Parameters::Dict{String,Float64} = Dict("t" => t)
-	Fakev::Dict{String,Float64} = Dict("F" => 4.)
-	μ = FindRootμ("Free",Parameters,K,Fakev,0.5+δ,β)
-
-    if !in(Method, ["NumInt", "DisSum"])
-        @error "Wrong method. Acceptable: \"NumInt\", \"DisSum\"."
-
-    # Numerical integration
-    elseif Method=="NumInt"
-
-        F(x,m) = Elliptic.K( sqrt(1-x^2) ) * tanh( β/2 * (4*t*x - m) ) / (x -m/(4*t))
-        DomainDown = (-1,0)
-        ProblemDown = IntegralProblem(F, DomainDown, μ)
-        SolutionDown = solve(ProblemDown, HCubatureJL())
-
-        DomainUp = (0,1)
-        ProblemUp = IntegralProblem(F, DomainUp, μ)
-        SolutionUp = solve(ProblemUp, HCubatureJL())
-
-        Uc = (2*pi)^2 / (SolutionUp.u + SolutionDown.u)
-
-    # Discrete sum
-    elseif Method=="DisSum"
-
-        u::Float64 = 0.0
-        for k in K
-            ξk = GetHoppingEnergy(t,k) - μ
-            if ξk != 0.0
-                u += tanh(β/2 * ξk) / ξk
-            elseif ξk == 0.0 # Handle correctly the zero limit
-                u += β/2
-            end
-        end
-        Uc = 2*prod(size(K)) / u
-
-    end
-
-    return Uc
-
-end
-
-@doc raw"""
-[...]
-"""
-function GetOptimalg(
-    U::Float64,                         # Local repulsion
-    Uc::Float64;                        # Critical U
-    Δ::Float64=0.1						# Tolerance
-)
-    u::Float64 = U/Uc
-    gc::Float64 = 2/(u+1)
-    if gc > Δ
-        return gc-Δ
-    elseif gc <= Δ
-        @warn "Δ=$(Δ) too large, tolerance ignored. Consider reducing Δ or U."
-        return gc/2
-    end
-end
-

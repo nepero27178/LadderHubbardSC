@@ -1,8 +1,16 @@
 #!/usr/bin/julia
+# NOTE: This script is standalone importable and imports all simulations methods.
+
 using LinearAlgebra
 using Roots
 using Random
 LinearAlgebra.BLAS.set_num_threads(Threads.nthreads()) # Parallel optimization
+using Integrals
+using Elliptic
+
+PROJECT_METHODS_DIR = @__DIR__
+include(PROJECT_METHODS_DIR * "/methods-physics.jl")
+include(PROJECT_METHODS_DIR * "/methods-optimizations.jl")
 
 @doc raw"""
 function GetHFPs(
@@ -33,366 +41,13 @@ function GetHFPs(
 	AF ? KeysList = ["m", "w0", "wp"] : 0
 	Singlet ? KeysList = vcat(["Δ$(Sym)" for Sym in Syms], "gS", "gd") : 0
 	Triplet ? KeysList = vcat(["Δ$(Sym)" for Sym in Syms], "gS", "gd") : 0
+
+	# Pure symmetry drop TODO Extension to Triplet
+	if Singlet && (sort(Syms) == ["S", "s"] || Syms == ["d"])
+		pop!(KeysList)
+	end
+
 	return KeysList
-
-end
-
-@doc raw"""
-function GetRMPs(
-	Phase::String,
-	Syms::Vector{String}=["s"]
-)::Vector{String}
-
-Returns: Renormalized Model Parameters labels for the given Phase.
-"""
-function GetRMPs(
-	Phase::String;						# Mean field phase
-	Syms::Vector{String}=["s"]			# Gap function symmetries
-)::Vector{String}
-
-	AF = false
-	Singlet = false
-	Triplet = false
-	SymErr = "Invalid symmetries. $(Syms) is incoherent with $(Phase)."
-	if in(Phase, ["AF", "FakeAF"])
-		AF = true
-	elseif Phase=="SU-Singlet"
-		issubset(Syms, ["s", "S", "d"]) ? Singlet = true : throw(SymErr)
-	elseif Phase=="SU-Triplet"
-		issubset(Syms, ["px", "py", "p+", "p-"]) ? Triplet = true : throw(SymErr)
-	end
-
-	KeysList::Vector{String} = ["Empty"]
-	AF ? KeysList = ["reΔ_tilde", "imΔ_tilde", "t_tilde"] : 0
-	Singlet ? KeysList = ["Δ$(Sym)" for Sym in Syms] : 0
-	Triplet ? KeysList = ["Δ$(Sym)" for Sym in Syms] : 0
-	return KeysList
-
-end
-
-@doc raw"""
-function GetWeight(
-	k::Vector{Float64};
-	Sym::String="S"
-)::Int64
-
-Returns: symmetry-structured weight for vector k (expressed in pi units!) in BZ.
-"""
-function GetWeight(
-	k::Vector{Float64};					# [kx, ky] in pi units
-	Sym::String="S"						# Symmetry structure
-)::Int64
-
-	# Weights
-	wk::Int64 = 0
-	kx, ky = k
-
-	if Sym=="S-MBZ"
-		if abs(kx)+abs(ky) <= 1
-			if kx>=0 && ky>0 && kx+ky<1
-				# Bulk (four times)
-				wk = 4
-			elseif kx+ky==1 && (kx!=1 && ky!=1)
-				# Edge (two times due to nesting)
-				wk = 2
-			elseif kx==0 && (ky==0 || ky==1)
-				# Special points
-				wk = 1
-			end
-		end
-	elseif Sym=="S"
-		wk = 1
-	end
-	return wk
-end
-
-@doc raw"""
-function StructureFactor(
-	Sym::String,
-	k::Vector{Float64}
-)::Complex{Float64}
-
-Returns: structure factor for symmetry `Sym` at wavevector (`k[1]`, `k[2]`).
-
-`StructureFactor ' takes as input `Sym` (string specifying symmetry), whose
-acceptable values are s, S, px, py, d, and `k` (coordinate in k-space). It
-computes the relative symmetry structure facotor at the specified symmetry and
-point in reciprocal space.
-"""
-function StructureFactor(
-	Sym::String,                        # Symmetry
-	k::Vector{Float64}                  # [kx, ky]
-)::Complex{Float64}
-
-	AllSyms = ["s", "S", "px", "py", "d"]
-	if !in(Sym, AllSyms)
-		@error "Invalid symmetries. Plase use s, S, px, py, d."
-		return
-	end
-
-	if Sym=="s"
-		return 1
-	elseif Sym=="S"
-		return sum( cos.(k) )           # s*-wave
-	elseif Sym=="px"
-		return 1im * sqrt(2) * sin(k[1])# py-wave
-	elseif Sym=="py"
-		return 1im * sqrt(2) * sin(k[2])# px-wave
-	elseif Sym=="d"
-		return sum( cos.(k) .* [1,-1] )	# d-wave
-	end
-end
-
-@doc raw"""
-function GetHoppingEnergy(
-	t::Float64,
-	k::Vector{Float64}
-)::Float64
-
-Returns: the hopping energy and wavevector (`k[1]`, `k[2]`).
-
-`GetHoppingEnergy` takes as input `t` (hopping amplitude),  `k` (coordinate in 
-k-space). It computes the  hopping energy for the 2D monatomic regular square 
-lattice.
-"""
-function GetHoppingEnergy(
-	t::Float64,							# Hopping amplitude
-	k::Vector{Float64},					# [kx, ky]
-)::Float64
-	return -2 * t * StructureFactor("S",k)
-end
-
-@doc raw"""
-function GetHamiltonian(
-	Phase::String,
-	Parameters::Dict{String,Float64},
-	k::Vector{Float64},
-	v::Dict{String,Float64};
-	RenormalizeHopping::Bool=true
-)::Matrix{Complex{Float64}}
-
-Returns: the Nambu-Bogoliubov hamiltonian at wavevector (`k[1]`, `k[2]`).
-
-`GetHamiltonian` takes as input `Phase` (string specifying the mean-field phase,
-the allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"FakeSU-Singlet\",
-\"SU-Triplet\", \"FakeSU-Triplet\"), `Parameters` (dictionary of model
-parameters containing `t`, `U`, `V`), `k` (coordinate in k-space) and `v`
-(dictionary of real HF parameters). It computes the contribution at wavevector
-(`k[1]`, `k[2]`) to the many-body second-quantized hamiltonian.
-The hamiltonian dimension depends on the phase.
-
---- FINISH COMMENT HERE: HOW DIMENSION DEPENDS ON THE PHASE? ---
-"""
-function GetHamiltonian(
-	Phase::String,						# Mean field phase
-	Parameters::Dict{String,Float64},	# Model parameters t,U,V
-	k::Vector{Float64},					# [kx, ky]
-	v::Dict{String,Float64},				# HF parameters
-	μ::Float64;							# Chemical potential
-	RenormalizeHopping::Bool=true,		# Conditional renormalization of t
-	# Syms::Vector{String}=["s"]			# Symmetry sector
-)::Matrix{Complex{Float64}}
-
-	if in(Phase, ["AF", "FakeAF"]) # Symmetry sector is physically s+s*
-		
-		# Empty hamiltonian
-		hk = zeros(Complex{Float64},2,2)
-
-		# Renormalized bands
-		t = Parameters["t"]
-		if RenormalizeHopping
-			# Conditional renormalization of bands
-			t -= v["w0"] * Parameters["V"]
-		end
-		εk = GetHoppingEnergy(t,k)
-	
-		# Renormalized gap		
-		Δk = v["m"] * (Parameters["U"] + 8*Parameters["V"])
-			+ 2 * 1im * v["wp"] * Parameters["V"] * StructureFactor("S",k)
-
-		# Return matrix
-		hk = [(εk-μ) -conj(Δk); -Δk (-εk-μ)]
-		return hk
-
-	elseif Phase=="SU-Singlet"
-
-		# Empty hamiltonian
-		hk = zeros(Complex{Float64},2,2)
-
-		AllSyms = ["s", "S", "d"]
-		if !issubset(keys(v), AllSyms)
-			@error "Invalid set of symmetries. Please choose from $(AllSyms)."
-		end
-
-		# Free bands
-		ξk = GetHoppingEnergy(t,k) - μ
-
-		# Gap
-		Δk = 0.0 + 1im * 0.0
-		for key in keys(v)
-			Δk += v[key] * StructureFactor(key,k)
-		end
-
-		# Return matrix
-		hk = [ξk -conj(Δk); -Δk -ξk]
-		return hk
-
-	elseif Phase=="Su/Triplet"
-		@error "Under construction"
-		return
-	end
-end
-
-@doc raw"""
-function FermiDirac(
-	ε::Float64,
-	μ::Float64,
-	β::Float64
-)::Float64
-
-Returns: the Fermi Dirac distribution.
-
-`FermiDirac` takes as input `ε` (single particle energy), `μ` (chemical 
-potential) and `β` (inverse temperature). It computes, at the specified point,
-the Fermi-Dirac distribution 1/(exp(β(ε-μ))+1). For zero-temperature
-simulations, set `β`=Inf to convert the distribution to a localized step
-function.
-"""
-function FermiDirac(
-	ε::Float64,						# Single-particle energy
-	μ::Float64,						# Chemical potential
-	β::Float64,						# Inverse temperature
-)::Float64
-
-	if β==Inf # Zero temperature distribution
-		if ε<=μ
-			return 1
-		elseif ε>μ
-			return 0
-		end
-	elseif β<Inf	 # Finite temperature distribution
-		return 1 / ( exp(β * (ε-μ)) + 1 )
-	end
-end
-
-@doc raw"""
-function GetKPopulation(
-	Phase::String,
-	Parameters::Dict{String,Float64},
-	K::Matrix{Vector{Float64}},
-	v::Dict{String,Float64},
-	μ0::Float64,
-	β::Float64;
-	debug::Bool=false,
-	RenormalizeHopping::Bool=true
-)::Matrix{Float64}
-
-Returns: matrix of single-particle k-states populations.
-
-`GetKPopulation` takes as input `Phase` (string specifying the mean-field phase,
-the allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"FakeSU-Singlet\",
-\"SU-Triplet\", \"FakeSU-Triplet\"), `Parameters`  (dictionary of model
-parameters containing `t`, `U`, `V`), `K` (k-points in the BZ), `v` (dictionary
-of real HF parameters), `μ` (chemical potential) and `β` (inverse temperature).
-It computes a matrix of occupation numbers per each couple of momenta. The
-boolean option `RenormalizeHopping' allows for choosing to renormalize or not
-the hopping parameter.
-"""
-function GetKPopulation(
-	Phase::String,						# Mean field phase
-	Parameters::Dict{String,Float64},	# Model parameters t,U,V
-	K::Matrix{Vector{Float64}},			# BZ grid
-	v::Dict{String,Float64},				# HF parameters
-	μ::Float64,							# Chemical potential
-	β::Float64;							# Inverse temperature
-	debug::Bool=false,
-	RenormalizeHopping::Bool=true       # Conditional renormalization of t
-)::Matrix{Float64}
-
-	Sym = "S"
-	if in(Phase, ["AF", "FakeAF"])
-		Sym *= "-MBZ"
-	end
-
-	Nk = zeros(size(K))
-	wk::Int64 = 0
-	Ek::Float64 = 0.0
-	for (i,q) in enumerate(K)
-
-		wk = GetWeight(q; Sym) # Avoid computational redundance
-		k = q .* pi # Important: multiply k by pi
-
-		if Phase=="Free"
-
-			t = Parameters["t"]
-			εk = GetHoppingEnergy(t,k)
-			Nk[i] = 2*FermiDirac(εk,μ,β)
-
-		elseif in(Phase, ["AF", "FakeAF"]) && wk >= 1
-
-			t = Parameters["t"]
-			if RenormalizeHopping #TODO => RenormalizeBands::Bool
-				# Conditional renormalization of bands
-				t -= v["w0"] * Parameters["V"]
-			end
-
-			# Renormalized bands
-			εk = GetHoppingEnergy(t,k)
-
-			# Renormalized gap
-			reΔk::Float64 = v["m"] * (Parameters["U"] + 8*Parameters["V"])
-			imΔk::Float64 = 2*v["wp"]*Parameters["V"] * StructureFactor("S",k)
-			
-			# Renormalized gapped bands
-			Ek = sqrt( εk^2 + reΔk^2 + imΔk^2 )
-			
-			# Local population
-			Nk[i] = wk * (FermiDirac(-Ek,μ,β) + FermiDirac(Ek,μ,β))
-
-		elseif in(Phase, ["SU-Singlet", "FakeSU-Singlet"]) && in(wk,[1,2,4])
-
-			t = Parameters["t"]
-			if RenormalizeHopping #TODO => RenormalizeBands::Bool
-				# Conditional renormalization of bands
-				t -= v["gS"]/2 * Parameters["V"]
-			end
-
-			# AllSyms = ["Δs", "ΔS", "Δd"]
-			# if !issubset(keys(v), AllSyms)
-			# 	@error "Invalid set of symmetries. Please choose from $(AllSyms)."
-			# end
-
-			# Free bands
-			ξk::Float64 = GetHoppingEnergy(t,k) - μ
-			#TODO Inser d-wave renormalization from g
-
-			# Gap
-			Δk::Complex{Float64} = 0.0 + 1im * 0.0
-			for (key, value) in v
-				if !in(key, ["gS", "gd"])
-					key = String(key)
-					key = String(chop(key, head=1, tail=0))
-					Δk += value * StructureFactor(key,k)
-				end
-			end
-
-			# Renormalized gapped bands
-			Ek = sqrt( ξk^2 + abs(Δk)^2 )
-
-			# Local population
-			ck::Float64 = 0.0
-			if Ek!=0.0
-				ck = ξk/Ek
-			end
-			Nk[i] = wk * (1 - ck * tanh(β*Ek/2))
-
-		elseif Phase=="Su/Triplet"
-			@error "Under construction"
-			return
-		end
-	end
-
-	return Nk
 
 end
 
@@ -405,7 +60,7 @@ function FindRootμ(
 	nt::Float64,
 	β::Float64;
 	Δn::Float64=0.0,
-	RenormalizeHopping::Bool=true
+	RenormalizeBands::Bool=true
 )::Float64
 
 Returns: a variational estimation for the chemical potential at density `nt`.
@@ -418,19 +73,19 @@ parameters containing `t`, `U`, `V`), `K` (k-points in the BZ), `v`
 temperature). It computes the root value for the chemical potential assuming
 the matrix in reciprocal space to be the Nambu-Bogoliubov hamiltonian obtained
 via the HF parameters `v`. The optimization is performed using the `Roots.jl`
-library. The boolean option `RenormalizeHopping' allows for choosing to
-renormalize or not the hopping parameter.
+library. The boolean option `RenormalizeBands' allows for choosing to
+renormalize or not the free bands.
 """
 function FindRootμ(
 	Phase::String,						# Mean field phase
 	Parameters::Dict{String,Float64},	# Model parameters t,U,V
 	K::Matrix{Vector{Float64}},			# BZ grid
-	v::Dict{String,Float64},				# HF parameters
-	nt::Float64,							# Target density
+	v::Dict{String,Float64},			# HF parameters
+	nt::Float64,						# Target density
 	β::Float64;							# Inverse temperature
-	Δn::Float64=0.0,						# Density tolerance
+	Δn::Float64=0.0,					# Density tolerance
 	debug::Bool=false,
-	RenormalizeHopping::Bool=true		# Conditional renormalization of t
+	RenormalizeBands::Bool=true			# Conditional renormalization of t
 )::Float64
 
 	if nt < 0 || nt > 1
@@ -441,7 +96,7 @@ function FindRootμ(
 	D::Int64 = 2 * prod(size(K))
 	# Define function to be minimized
 	δn(μ::Float64) = sum(
-			GetKPopulation(Phase,Parameters,K,v,μ,β;RenormalizeHopping)
+			GetKPopulation(Phase,Parameters,K,v,μ,β;RenormalizeBands)
 		)/D - nt
 
 	μ::Float64 = 0.0
@@ -486,7 +141,7 @@ function PerformHFStep(
 	β::Float64;
 	Syms::Vector{String}=[\"d\"],
 	debug::Bool=false,
-	RenormalizeHopping::Bool=true
+	RenormalizeBands::Bool=true
 )::Tuple{Dict{String,Float64},Float64}
 
 Returns: HF estimation for Cooper instability parameter based on input.
@@ -504,7 +159,7 @@ the \"SU-Singlet\" phase, and \"px\", \"py\", \"p+\", \"p-\" for the
 \"SU-Triplet\") phase. The function estimates `v` using as input the
 Nambu-Bogoliubov hamiltonian obtained via the function `GetHamiltonian` and the
 optimal chemical potential for the density `n` for this hamiltonian. The boolean
-option `RenormalizeHopping' allows for choosing to renormalize or not the
+option `RenormalizeBands' allows for choosing to renormalize or not the
 hopping parameter.
 """
 function PerformHFStep(
@@ -516,12 +171,12 @@ function PerformHFStep(
 	β::Float64;							# Inverse temperature
 	Syms::Vector{String}=["s"],			# Gap function symmetries
 	debug::Bool=false,					# Debug mode
-	RenormalizeHopping::Bool=true		# Conditional renormalization of t
+	RenormalizeBands::Bool=true			# Conditional renormalization of t
 )::Tuple{Dict{String,Float64},Float64}
 
 	v = copy(v0)	
 	LxLy = prod(size(K))	
-	μ = FindRootμ(Phase,Parameters,K,v0,n,β;debug,RenormalizeHopping)
+	μ = FindRootμ(Phase,Parameters,K,v0,n,β;debug,RenormalizeBands)
 	wk::Int64=0
 
 	# Antiferromagnet
@@ -531,7 +186,7 @@ function PerformHFStep(
 		wpi::Float64 = 0.0
 		
 		t = Parameters["t"]
-		if RenormalizeHopping
+		if RenormalizeBands
 			# Conditional renormalization of bands
 			t -= v["w0"] * Parameters["V"]
 		end
@@ -575,7 +230,7 @@ function PerformHFStep(
 		gd::Float64 = 0.0 # d-wave part of g
 
 		t = Parameters["t"]
-		if RenormalizeHopping #TODO => RenormalizeBands::Bool
+		if RenormalizeBands && "gS" in keys(v)
 			# Conditional renormalization of bands
 			t -= v["gS"]/2 * Parameters["V"]
 		end
@@ -586,7 +241,9 @@ function PerformHFStep(
 			if in(wk,[1,2,4]) # Allowed weights
 				# Free bands
 				ξk = GetHoppingEnergy(t,k) - μ
-				#TODO Inser d-wave renormalization from g
+				if RenormalizeBands && "gd" in keys(v)
+					ξk += Parameters["V"] * v["gd"] * StructureFactor("d",k)
+				end
 
 				# Gap
 				Δk::Float64 = 0.0
@@ -653,7 +310,7 @@ function RunHFAlgorithm(
 	verbose::Bool=false,
 	debug::Bool=false,
 	record::Bool=false,
-	RenormalizeHopping::Bool=true
+	RenormalizeBands::Bool=true
 )::Tuple{Dict{String,Float64}, Dict{String,Float64}, Float64, 
 Dict{String,Vector{Float64}}}
 
@@ -675,8 +332,8 @@ result of the previous computation. The positional argument `v0` allows for
 custom initialization of HF parameters. When left unspecified, `v0` elements
 are randomly initialized. The `record` boolean positional parameter, when
 activated, registers the entire evolution in the Vector{Float64} values of the
-last output object. The boolean option `RenormalizeHopping' allows for choosing
-to renormalize or not the hopping parameter.
+last output object. The boolean option `RenormalizeBands' allows for choosing
+to renormalize or not the free bands.
 """
 function RunHFAlgorithm(
 	Phase::String,						# Mean field phase
@@ -693,7 +350,7 @@ function RunHFAlgorithm(
 	verbose::Bool=false,
 	debug::Bool=false,
 	record::Bool=false,
-	RenormalizeHopping::Bool=true		# Conditional renormalization of t
+	RenormalizeBands::Bool=true		# Conditional renormalization of t
 )::Tuple{Dict{String,Any}, Dict{String,Any}}
 
 	if verbose
@@ -748,7 +405,7 @@ function RunHFAlgorithm(
 				K,v0,n,β;
 				Syms,
 				debug,
-				RenormalizeHopping
+				RenormalizeBands
 			)
 			v = copy(CurrentResults[1])
 			μ = CurrentResults[2]

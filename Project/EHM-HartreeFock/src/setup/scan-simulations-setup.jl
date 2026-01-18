@@ -21,9 +21,9 @@ if !in(Phase, AllPhases)
 	exit()
 end
 
-RenormalizeHopping::Bool = false
+RenormalizeBands::Bool = false
 if in(Phase,["AF","HybridSU-Singlet","HybridSU-Triplet"])
-	RenormalizeHopping = true
+	RenormalizeBands = true
 end
 
 

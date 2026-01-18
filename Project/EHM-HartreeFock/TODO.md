@@ -11,4 +11,4 @@
 - [x] Extract and plot Fermi surface
 - [x] Fake rigid shift of hopping
 - [ ] Implement bands renormalization in superconducting phase
-- [ ] Move RenormalizeHopping => RenormalizeBands (d-wave part of g)
+- [ ] Move RenormalizeBands => RenormalizeBands (d-wave part of g)

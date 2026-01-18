@@ -15,7 +15,7 @@ AllPhases = [
 	# "HybridSU"			# Hybrid (singlet+triplet) superconductor
 ]
 
-Phase = "FakeSU-Singlet" # Choose your phase
+Phase = "SU-Singlet" # Choose your phase
 if !in(Phase, AllPhases)
 	@error "Invalid phase, please modify at: " * SetupFilePath
 	exit()
@@ -49,7 +49,7 @@ end
 #------------------------------------ SETUP ------------------------------------
 #-------------------------------------------------------------------------------
 
-Setup = "Test[80]" # Choose your setup #TODO Use readline()
+Setup = "A[128]" # Choose your setup #TODO Use readline()
 AvailableSetups = [
 	"Test[80]",			# Test setup
 	"A[128]",			# UV plane
@@ -101,7 +101,7 @@ elseif Setup=="A[128]"
 	LL = [128]
 	δδ = [0.2]
 	ββ = [100.0]
-	p = 100
+	p = 200
 	Δv = MainΔv
 	Δn = 1e-2
 	g = 0.5
@@ -112,7 +112,7 @@ elseif Setup=="-A[128]"
 	LL = [128]
 	δδ = [0.2]
 	ββ = [100.0]
-	p = 100
+	p = 200
 	Δv = MainΔv
 	Δn = 1e-2
 	g = 0.5
@@ -123,7 +123,7 @@ elseif Setup=="B[128]"
 	LL = [128]
 	δδ = [δ for δ in 0.0:0.01:0.49]
 	ββ = [100.0]
-	p = 100
+	p = 200
 	Δv = MainΔv
 	Δn = 1e-2
 	g = 0.5
@@ -134,7 +134,7 @@ elseif Setup=="-B[128]"
 	LL = [128]
 	δδ = [δ for δ in 0.0:0.01:0.49]
 	ββ = [100.0]
-	p = 100
+	p = 200
 	Δv = MainΔv
 	Δn = 1e-2
 	g = 0.5
@@ -145,7 +145,7 @@ elseif Setup=="B[128]-t=0.7"
 	LL = [128]
 	δδ = [δ for δ in 0.0:0.01:0.49]
 	ββ = [100.0]
-	p = 100
+	p = 200
 	Δv = MainΔv
 	Δn = 1e-2
 	g = 0.5
@@ -156,7 +156,7 @@ elseif Setup=="C[128]"
 	LL = [128]
 	δδ = [δ for δ in 0.0:0.01:0.49]
 	ββ = [100.0]
-	p = 100
+	p = 200
 	Δv = MainΔv
 	Δn = 1e-2
 	g = 0.5
@@ -167,7 +167,7 @@ elseif Setup=="-C[128]"
 	LL = [128]
 	δδ = [δ for δ in 0.0:0.01:0.49]
 	ββ = [100.0]
-	p = 100
+	p = 200
 	Δv = MainΔv
 	Δn = 1e-2
 	g = 0.5
@@ -178,7 +178,7 @@ elseif Setup=="D[128]"
 	LL = [128]
 	δδ = [0.0]
 	ββ = [100.0, 50.0, 10.0]
-	p = 100
+	p = 200
 	Δv = MainΔv
 	Δn = 1e-2
 	g = 0.5
@@ -189,7 +189,7 @@ elseif Setup=="D[128]-Zoom"
 	LL = [128]
 	δδ = [0.0]
 	ββ = [100.0, 10.0]
-	p = 100
+	p = 200
 	Δv = MainΔv
 	Δn = 1e-2
 	g = 0.5

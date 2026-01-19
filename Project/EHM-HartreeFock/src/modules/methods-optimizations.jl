@@ -92,7 +92,6 @@ function GetUc(
         DomainUp = (0,1)
         ProblemUp = IntegralProblem(F, DomainUp, μ)
         SolutionUp = solve(ProblemUp, HCubatureJL())
-
         Uc = (2*pi)^2 / (SolutionUp.u + SolutionDown.u)
 
     # Discrete sum

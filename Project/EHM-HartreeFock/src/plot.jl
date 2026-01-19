@@ -74,8 +74,8 @@ function main()
 			Phase,
 			FilePathIn,
 			DirPathOut;
-			xVar="V",
-			yVar="δ",
+			# xVar="V",
+			# yVar="δ",
 			cs=:imola,
 			Extension="png"
 		)

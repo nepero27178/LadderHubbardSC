@@ -111,7 +111,7 @@ function RunHFScan(
 		g = g0
 		for U in UU
 
-			if U>3*Uc && Optimizeg && occursin("SU", Phase)
+			if U>(2/g0-1)*Uc && Optimizeg && occursin("SU", Phase)
 				Og = GetOptimalg(U,Uc)
 				Og<g0 ? g=Og : 0
 			end
@@ -137,7 +137,7 @@ function RunHFScan(
 				Run, Performance = RunHFAlgorithm(
 					Phase,Parameters,L,0.5+δ,β,
 					p,Δv,Δn,g;
-					v0i=v0, #TODO Processing: find and replace suspect points
+					# v0i=v0, # TODO Processing: find and replace suspect points
 					Syms,
 					RenormalizeBands
 				)

@@ -333,9 +333,7 @@ function PlotOrderParameter2D(
 
 	# Initialize directory structure
 	DirPathOut *= "Heatmaps"
-	if Phase=="SU-Singlet"
-		DirPathOut *= "_Syms=$(Syms...)"
-	elseif Phase=="SU-Triplet"
+	if in(Phase, ["SU-Singlet","FakeSU-Singlet","SU-Triplet","FakeSU-Triplet"])
 		DirPathOut *= "_Syms=$(Syms...)"
 	end
 	DirPathOut *= "/xVar=" * xVar * "_yVar=" * yVar * "/"

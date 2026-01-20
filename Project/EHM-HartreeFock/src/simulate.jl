@@ -117,6 +117,7 @@ function RunHFScan(
 			end
 
 			for V in VV
+			#NOTE Due to order inversion here (Vδ) => (δV), heatmap now gets: xVar=δ, yVar=V
 
 				Parameters::Dict{String,Float64} = Dict([
 					"t" => t,

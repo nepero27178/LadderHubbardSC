@@ -7,6 +7,8 @@ using Random
 LinearAlgebra.BLAS.set_num_threads(Threads.nthreads()) # Parallel optimization
 using Integrals
 using Elliptic
+using DataFrames
+using DelimitedFiles
 
 PROJECT_METHODS_DIR = @__DIR__
 include(PROJECT_METHODS_DIR * "/methods-physics.jl")

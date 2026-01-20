@@ -21,7 +21,7 @@ if !in(Phase, AllPhases)
 	exit()
 end
 
-RenormalizeBands::Bool = false #TODO => RenormalizeBands::Bool
+RenormalizeBands::Bool = false 
 if in(Phase,["AF","SU-Singlet","SU-Triplet"])
 	RenormalizeBands = true
 end
@@ -32,7 +32,7 @@ end
 
 AllSingletSyms = ["s", "S", "d"]
 AllTripletSyms = ["px", "py", "p+", "p-"]
-Syms = ["s", "S"]
+Syms = ["s", "S", "d"]
 if in(Phase, ["SU-Singlet", "FakeSU-Singlet"])
 	if !issubset(Syms, AllSingletSyms)
 		@error "Invalid symmetries. $(Syms) is incoherent with $(Phase)." *
@@ -49,7 +49,7 @@ end
 #------------------------------------ SETUP ------------------------------------
 #-------------------------------------------------------------------------------
 
-Setup = "A[128]" # Choose your setup #TODO Use readline()
+Setup = "C[128]" # Choose your setup #TODO Use readline()
 AvailableSetups = [
 	"Test[80]",			# Test setup
 	"A[128]",			# UV plane

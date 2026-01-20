@@ -10,5 +10,5 @@
 - [ ] Finite size scaling on the boundary
 - [x] Extract and plot Fermi surface
 - [x] Fake rigid shift of hopping
-- [ ] Implement bands renormalization in superconducting phase
-- [ ] Move RenormalizeBands => RenormalizeBands (d-wave part of g)
+- [x] Implement bands renormalization in superconducting phase
+- [x] Move RenormalizeBands => RenormalizeBands (d-wave part of g)

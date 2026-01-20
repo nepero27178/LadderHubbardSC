@@ -50,14 +50,15 @@ end
 #------------------------------------ SETUP ------------------------------------
 #-------------------------------------------------------------------------------
 
-Setup = "C[128]" # Choose your setup #TODO Use readline()
+Setup = "B[256]" # Choose your setup #TODO Use readline()
 AvailableSetups = [
 	"Test[80]",			# Test setup
 	"A[128]",			# Pure Hubbard V=0
 	"B[256]",			# Main run varying U, V, δ
 	"-B[256]",			# Main run varying U, V, δ, but with -U
 	"B[256]-t=0.7",		# Main run varying U, V, δ, but with rigid hopping renormalization
-	"C[128]"				# Half filled model
+	"C[128]"			# Half filled model
+	"D[256]",			# Sub-main run varying U, V, δ
 ]
 
 TestΔv::Dict{String,Float64} = Dict([
@@ -90,7 +91,7 @@ elseif Setup=="Test[80]"
 	p = 20
 	Δv = TestΔv
 	Δn = 1e-2
-	g = 0.5
+	g = 0.1
 elseif Setup=="A[128]"
 	tt = [2.0]
 	UU = [U for U in 2.0:2.0:40.0]
@@ -101,7 +102,7 @@ elseif Setup=="A[128]"
 	p = 100
 	Δv = MainΔv
 	Δn = 1e-2
-	g = 0.5
+	g = 0.1
 elseif Setup=="B[256]"
 	tt = [1.0]
 	UU = [4.0,12.0,20.0]
@@ -112,7 +113,7 @@ elseif Setup=="B[256]"
 	p = 100
 	Δv = MainΔv
 	Δn = 1e-2
-	g = 0.5
+	g = 0.1
 elseif Setup=="-B[256]"
 	tt = [1.0]
 	UU = [-4.0,-12.0,-20.0]
@@ -123,7 +124,7 @@ elseif Setup=="-B[256]"
 	p = 100
 	Δv = MainΔv
 	Δn = 1e-2
-	g = 0.5
+	g = 0.1
 elseif Setup=="B[256]-t=0.7"
 	tt = [0.7]
 	UU = [4.0,12.0,20.0]
@@ -134,7 +135,7 @@ elseif Setup=="B[256]-t=0.7"
 	p = 100
 	Δv = MainΔv
 	Δn = 1e-2
-	g = 0.5
+	g = 0.1
 elseif Setup=="C[128]"
 	tt = [1.0]
 	UU = [U for U in 0.0:1.0:20.0]
@@ -145,5 +146,16 @@ elseif Setup=="C[128]"
 	p = 100
 	Δv = MainΔv
 	Δn = 1e-2
-	g = 0.5
+	g = 0.1
+elseif Setup=="D[256]"
+	tt = [1.0]
+	UU = [U for U in 0.0:0.5:15.0]
+	VV = [V for V in 0.0:0.05:4.0]
+	LL = [256]
+	δδ = [0.0, 0.25, 0.45]
+	ββ = [100.0]
+	p = 1000
+	Δv = MainΔv
+	Δn = 1e-2
+	g = 0.1
 end

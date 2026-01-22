@@ -1,21 +1,25 @@
 @doc raw"""
 function GetWeight(
 	k::Vector{Float64};
-	Sym::String="S"
+	Sym::String="S",
+	OptimizeBZ::Bool=true
 )::Int64
 
 Returns: symmetry-structured weight for vector k (expressed in pi units!) in BZ.
 """
 function GetWeight(
 	k::Vector{Float64};					# [kx, ky] in pi units
-	Sym::String="S"						# Symmetry structure
+	Sym::String="S",					# Symmetry structure
+	OptimizeBZ::Bool=true               # Option to disable optimization
 )::Int64
 
 	# Weights
 	wk::Int64 = 0
 	kx, ky = k
 
-	if Sym=="S-MBZ" # Half-sized Brillouin Zone
+	if !OptimizeB
+        wk = 1
+	elseif Sym=="S-MBZ" # Half-sized Brillouin Zone
 
 		if abs(kx)+abs(ky) <= 1
 			if kx>=0 && ky>0 && kx+ky<1

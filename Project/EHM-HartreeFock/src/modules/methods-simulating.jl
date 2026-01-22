@@ -46,7 +46,7 @@ function GetHFPs(
 
 	# Pure symmetry drop TODO Extension to Triplet
 	if Singlet && (sort(Syms) == ["S", "s"] || Syms == ["d"])
-		pop!(KeysList)
+		pop!(KeysList) # Pop last: gd
 	end
 
 	return KeysList
@@ -173,7 +173,8 @@ function PerformHFStep(
 	β::Float64;							# Inverse temperature
 	Syms::Vector{String}=["s"],			# Gap function symmetries
 	debug::Bool=false,					# Debug mode
-	RenormalizeBands::Bool=true			# Conditional renormalization of t
+	RenormalizeBands::Bool=true,		# Conditional renormalization of t
+	OptimizeBZ::Bool=true				# Conditional optimization of BZ
 )::Tuple{Dict{String,Float64},Float64}
 
 	v = copy(v0)	
@@ -194,7 +195,7 @@ function PerformHFStep(
 		end
 		
 		for (i,q) in enumerate(K)
-			wk = GetWeight(q; Sym="S-MBZ") # Avoid computational redundance
+			wk = GetWeight(q; Sym="S-MBZ",OptimizeBZ) # Avoid computational redundance
 			k = q .* pi # Important: multiply k by pi
 			if in(wk,[1,2,4]) # Allowed weights
 				# Renormalized bands
@@ -238,7 +239,7 @@ function PerformHFStep(
 		end
 
 		for (i,q) in enumerate(K)
-			wk = GetWeight(q) # Avoid computational redundance
+			wk = GetWeight(q;OptimizeBZ) # Avoid computational redundance
 			k = q .* pi # Important: multiply k by pi
 			if in(wk,[1,2,4]) # Allowed weights
 				# Free bands
@@ -345,14 +346,15 @@ function RunHFAlgorithm(
 	β::Float64,							# Inverse temperature
 	p::Int64,							# Number of iterations
 	Δv::Dict{String,Float64},			# Tolerance on each order parameter
-	Δn::Float64,							# Tolerance on density difference
+	Δn::Float64,						# Tolerance on density difference
 	g::Float64;							# Mixing parameter
 	v0i::Dict=Dict([]),					# Initializers
 	Syms::Vector{String}=["s"],			# Gap function symmetries
 	verbose::Bool=false,
 	debug::Bool=false,
 	record::Bool=false,
-	RenormalizeBands::Bool=true		# Conditional renormalization of t
+	RenormalizeBands::Bool=true,		# Conditional renormalization of t
+	OptimizeBZ::Bool=true				# Conditional optimizatio of BZ
 )::Tuple{Dict{String,Any}, Dict{String,Any}}
 
 	if verbose
@@ -407,7 +409,8 @@ function RunHFAlgorithm(
 				K,v0,n,β;
 				Syms,
 				debug,
-				RenormalizeBands
+				RenormalizeBands,
+				OptimizeBZ
 			)
 			v = copy(CurrentResults[1])
 			μ = CurrentResults[2]

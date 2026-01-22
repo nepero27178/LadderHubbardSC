@@ -55,87 +55,6 @@ function GetHoppingEnergy(
 end
 
 @doc raw"""
-function GetHamiltonian(
-	Phase::String,
-	Parameters::Dict{String,Float64},
-	k::Vector{Float64},
-	v::Dict{String,Float64};
-	RenormalizeBands::Bool=true
-)::Matrix{Complex{Float64}}
-
-Returns: the Nambu-Bogoliubov hamiltonian at wavevector (`k[1]`, `k[2]`).
-
-`GetHamiltonian` takes as input `Phase` (string specifying the mean-field phase,
-the allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"FakeSU-Singlet\",
-\"SU-Triplet\", \"FakeSU-Triplet\"), `Parameters` (dictionary of model
-parameters containing `t`, `U`, `V`), `k` (coordinate in k-space) and `v`
-(dictionary of real HF parameters). It computes the contribution at wavevector
-(`k[1]`, `k[2]`) to the many-body second-quantized hamiltonian.
-The hamiltonian dimension depends on the phase.
-
---- FINISH COMMENT HERE: HOW DIMENSION DEPENDS ON THE PHASE? ---
-"""
-function GetHamiltonian(
-	Phase::String,						# Mean field phase
-	Parameters::Dict{String,Float64},	# Model parameters t,U,V
-	k::Vector{Float64},					# [kx, ky]
-	v::Dict{String,Float64},			# HF parameters
-	μ::Float64;							# Chemical potential
-	RenormalizeBands::Bool=true,		# Conditional renormalization of t
-	# Syms::Vector{String}=["s"]		# Symmetry sector
-)::Matrix{Complex{Float64}}
-
-	if in(Phase, ["AF", "FakeAF"]) # Symmetry sector is physically s+s*
-
-		# Empty hamiltonian
-		hk = zeros(Complex{Float64},2,2)
-
-		# Renormalized bands
-		t = Parameters["t"]
-		if RenormalizeBands
-			# Conditional renormalization of bands
-			t -= v["w0"] * Parameters["V"]
-		end
-		εk = GetHoppingEnergy(t,k)
-
-		# Renormalized gap
-		Δk = v["m"] * (Parameters["U"] + 8*Parameters["V"])
-			+ 2 * 1im * v["wp"] * Parameters["V"] * StructureFactor("S",k)
-
-		# Return matrix
-		hk = [(εk-μ) -conj(Δk); -Δk (-εk-μ)]
-		return hk
-
-	elseif Phase=="SU-Singlet"
-
-		# Empty hamiltonian
-		hk = zeros(Complex{Float64},2,2)
-
-		AllSyms = ["s", "S", "d"]
-		if !issubset(keys(v), AllSyms)
-			@error "Invalid set of symmetries. Please choose from $(AllSyms)."
-		end
-
-		# Free bands
-		ξk = GetHoppingEnergy(t,k) - μ
-
-		# Gap
-		Δk = 0.0 + 1im * 0.0
-		for key in keys(v)
-			Δk += v[key] * StructureFactor(key,k)
-		end
-
-		# Return matrix
-		hk = [ξk -conj(Δk); -Δk -ξk]
-		return hk
-
-	elseif Phase=="Su/Triplet"
-		@error "Under construction"
-		return
-	end
-end
-
-@doc raw"""
 function FermiDirac(
 	ε::Float64,
 	μ::Float64,
@@ -198,7 +117,8 @@ function GetKPopulation(
 	μ::Float64,							# Chemical potential
 	β::Float64;							# Inverse temperature
 	debug::Bool=false,
-	RenormalizeBands::Bool=true			# Conditional renormalization of t
+	RenormalizeBands::Bool=true,		# Conditional renormalization of t
+	OptimizeBZ::Bool=true				# Conditional BZ optimization
 )::Matrix{Float64}
 
 	Sym = "S"
@@ -211,7 +131,7 @@ function GetKPopulation(
 	Ek::Float64 = 0.0
 	for (i,q) in enumerate(K)
 
-		wk = GetWeight(q; Sym) # Avoid computational redundance
+		wk = GetWeight(q; Sym, OptimizeBZ) # Avoid computational redundance
 		k = q .* pi # Important: multiply k by pi
 
 		if Phase=="Free"
@@ -356,7 +276,8 @@ function GetFreeEnergy(
 	v::Dict{String,Float64},			# HF parameters
 	μ::Float64,							# Chemical potential
 	β::Float64;							# Inverse temperature
-	RenormalizeBands::Bool=true			# Conditional renormalization of t
+	RenormalizeBands::Bool=true,		# Conditional renormalization of t
+	OptimizeBZ::Bool=true				# Conditional optimization of BZ
 )::Float64
 
 	Sym = "S"
@@ -369,7 +290,7 @@ function GetFreeEnergy(
 
 	for (i,q) in enumerate(K)
 
-		wk = GetWeight(q; Sym) # Avoid computational redundance
+		wk = GetWeight(q; Sym, OptimizeBZ) # Avoid computational redundance
 		k = q .* pi # Important: multiply k by pi
 
 		if Phase=="Free"

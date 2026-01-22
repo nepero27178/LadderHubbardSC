@@ -1,6 +1,7 @@
 #!/usr/bin/julia
 using DelimitedFiles
 using DataFrames
+using REPL
 
 PROJECT_METHODS_DIR = @__DIR__
 include(PROJECT_METHODS_DIR * "/methods-IO.jl")
@@ -45,7 +46,7 @@ function GetLabels(
 			"δ" => "\\delta",
 			"β" => "\\beta",
 			"Δs" => "|\\Delta^{(s)}|",
-			"ΔS" => "|\\Delta^{(s*)}|",
+			"ΔS" => "|\\Delta^{(s^*)}|",
 			"Δd" => "|\\Delta^{(d)}|",
 			"gS" => "g^{(s^*)}",
 			"gd" => "g^{(d)}"
@@ -319,7 +320,7 @@ function PlotOrderParameter2D(
 	end
 
 	if !in(yVar, AllVars)
-		@error "Invalid parametric variable, choose one of $(AllVars)"
+		@error "Invalid y variable, choose one of $(AllVars)"
 		exit()
 	end
 
@@ -456,6 +457,110 @@ function PlotOrderParameter2D(
 	printstyled("\e[2K\e[1GDone! Plots saved at $(DirPathOut)\n", color=:green)
 end
 
+function PlotHeatmap(
+	FilePathIn::String;					# Data filepath
+	DirPathOut::String="",				# Output directory
+	xVar::String="U",                   # Specify x variable
+	yVar::String="V",                   # Specify y variable
+	zVar::String="fMFT",
+	cs::Symbol=:imola50,                # Custom colorscheme
+	Extension::String="pdf"             # File extension
+)
+
+	Print::Bool=false
+	DirPathOut !== "" ? Print=true : 0
+	xyVars = ["t", "U", "V", "Lx", "δ", "β"]
+	Pars = filter(!=(yVar), filter(!=(xVar), xyVars))
+
+	# Input safecheck
+	!in(xVar, xyVars) ? error("Invalid x variable, choose one of $(xyVars)") : 0
+	!in(yVar, xyVars) ? error("Invalid y variable, choose one of $(xyVars)") : 0
+	xVar==yVar ? error("You have chosen xVar=yVar!") : 0
+
+	# Unpack filepath and load data
+	Setup, Phase, Syms = UnpackFilePath(FilePathIn)
+	DF = ImportData(FilePathIn)
+	EnlargeDF!(DF)
+	zVars = filter(!in(xyVars), names(DF))
+	!in(zVar,zVars) ? error("Invalid z variable, choose one of $(zVars)")
+	
+	if Print
+		# Get LaTeX formatted labels
+		VarLabels = GetLabels(Phase)
+		
+		# Initialize directory structure
+		DirPathOut *= "/Syms=$(Syms...)/xVar=" * xVar * "_yVar=" * yVar * "/"
+		mkpath(DirPathOut)
+	end
+
+	# Import data
+	DF = ImportData(FilePathIn)
+	GroupedDF = groupby(DF,Pars)
+	J = length(GroupedDF)
+
+	# Cycle over simulated points
+	for (j,df) in enumerate(GroupedDF)
+	
+		PltPars = DataFrame(select(df, Symbol.(Pars))[1,:])
+		@info "Heatmap plot $(j)/$(J)" xVar yVar zVar PltPars
+	
+		# Reshape local data
+		xx, yy, zz = ReshapeData(df)
+	
+		HFLabel::String = "\$" * VarLabels[zVar] * "\$"
+		if HF=="m"
+			HFLabel = "Magnetization"
+		end
+
+		# Initialize plot
+		H = plot(size = (600,400))
+		if Print
+			xlabel!(L"$%$(VarLabels[xVar])$")
+			ylabel!(L"$%$(VarLabels[yVar])$")
+		elseif !Print
+			xlabel!(xVar)
+			ylabel!(yVar)
+		end
+		
+		# Create filename
+		FileName = join( ["$(Pars[i])=$(df[!,Pars[i]][1])" for i in 1:length(Pars)], '_' )
+		FileName = zVar * "_" * FileName * "." * Extension
+		FilePathOut = DirPathOut * "/" * FileName
+
+		# Create raw title string
+		rawTitle::String = HFLabel * " ("
+		for Par in Pars
+			RS::String=""
+			if !RenormalizeBands && Par=="t"
+				RS *= "=\\tilde{t}"
+			end
+			ParVal = PltPars[!,Par][1]
+			if Par=="β" && β==Inf
+				ParVal = "\\infty"
+ 			end
+			rawTitle *= "\$" * Par * RS * "=$(ParVal)\$, "
+		end
+		
+		# Plot parametrically
+		in(zVar, GetHFPs(Phase;Syms)) ? zz = abs.(zz) : 0
+		heatmap!(
+			xx, yy, zz,
+			color=cs
+		)
+
+		if Print
+			title!(L"%$(rawTitle)")
+			Plots.PGFPlotsX.push_preamble!(
+				backend_object(H).the_plot, "\\usepackage{bm}"
+			)
+			savefig(H, FilePathOut)
+		elseif !Print
+			gr()
+		end
+	end
+	@info "Plots saved at:" DirPathOut # GO ON FROM HERE
+end
+			
 @doc raw"""
 function PlotRMPs(
 	Phase::String,

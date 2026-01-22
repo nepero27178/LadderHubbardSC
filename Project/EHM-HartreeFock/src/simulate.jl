@@ -8,7 +8,7 @@ if length(ARGS) != 1
 	println("How to use this program?
 Type the following: \$ julia ./simulate.jl --mode
 Where:
-· --mode = --scan / --heatmap / --record-g")
+· --mode = --scan / --heatmap / --single")
 	exit()
 else
 	UserInput = ARGS
@@ -18,10 +18,10 @@ end
 # Includer
 PROJECT_ROOT = @__DIR__
 PROJECT_ROOT *= "/.."   # Up to the effective root
-if in(Mode, ["scan", "heatmap", "record-g"])
+if in(Mode, ["scan", "heatmap", "single"])
 	include(PROJECT_ROOT * "/src/setup/" * Mode * "-simulations-setup.jl")
 else
-	@error "Invalid argument. Use: --mode = --scan / --heatmap / --record-g"
+	@error "Invalid argument. Use: --mode = --scan / --heatmap / --single"
 end
 include(PROJECT_ROOT * "/src/modules/methods-simulating.jl")
 include(PROJECT_ROOT * "/src/modules/methods-processing.jl")
@@ -71,6 +71,7 @@ function RunHFScan(
 	FilePathOut::String="",				# Output file
 	InitializeFile::Bool=true,			# Initialize file at FilePathOut
 	RenormalizeBands::Bool=true,		# Conditional renormalization of t
+	OptimizeBZ::Bool=true,				# Conditional optimization of BZ
 	Optimizeg::Bool=true				# Conditional optimization of g
 )
 
@@ -261,14 +262,10 @@ end
 
 # Main run
 function main()
-	DirPathOut = PROJECT_ROOT * "/simulations/" *
-		Mode * "/Setup=$(Setup)/Phase="
+	DirPathOut = PROJECT_ROOT * "/simulations/" * Mode * "/Setup=$(Setup)/Phase="
 	if in(Mode, ["scan", "heatmap"])
-		if in(Phase, ["SU-Singlet", "FakeSU-Singlet", "SU-Triplet", "FakeSU-Triplet"])
-			FilePathOut = DirPathOut * Phase * "/Syms=$(Syms...).txt"
-		else
-			FilePathOut = DirPathOut * Phase * ".txt"
-		end
+		in(Phase, ["AF", "FakeAF"]) ? Syms=["πAF"] : 0
+		FilePathOut = DirPathOut * Phase * "/Syms=$(Syms...).txt"
 		mkpath(dirname(FilePathOut))
 		RunHFScan(
 			Phase,
@@ -279,16 +276,10 @@ function main()
 			FilePathOut,
 			RenormalizeBands
 		)
-	elseif Mode=="record-g"
-		RunHFRecord(
-			Phase,
-			t,U,V,
-			L,δ,β,
-			p,Δv,Δn,gg;
-			Syms,
-			DirPathOut,
-			RenormalizeBands
-		)
+	elseif Mode=="single"
+		#TODO readline for arguments
+		@error "Under construction."
+		exit()
 	end
 end
 

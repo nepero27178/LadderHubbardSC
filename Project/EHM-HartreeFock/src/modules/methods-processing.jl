@@ -231,3 +231,26 @@ function Addμ(
 
 	return DF
 end
+
+		
+@doc raw"""
+[...]
+"""
+function 
+
+	DF = ImportData(FilePathIn)
+	Phase, Setup = UnpackFilePath(FilePathIn)
+	
+	for row in eachrow(DF)
+		if isnan(row.fMFT) # Not converged?
+			Parameters::Dict{String,Float64} = Dict([
+				"t" => row.t,
+				"U" => row.U,
+				"V" => row.V
+			])
+			v = eval(Meta.parse(row.v))
+			# HFPs = [key for key in keys(v)]
+		end
+	end
+	
+end

@@ -13,45 +13,7 @@ using DelimitedFiles
 PROJECT_METHODS_DIR = @__DIR__
 include(PROJECT_METHODS_DIR * "/methods-physics.jl")
 include(PROJECT_METHODS_DIR * "/methods-optimizations.jl")
-
-@doc raw"""
-function GetHFPs(
-	Phase::String;
-	Syms::Vector{String}=["s"]
-)::Vector{String}
-
-Returns: Hartree Fock Parameters labels for the given Phase.
-"""
-function GetHFPs(
-	Phase::String;						# Mean field phase
-	Syms::Vector{String}=["s"]			# Gap function symmetries
-)::Vector{String}
-
-	AF = false
-	Singlet = false
-	Triplet = false
-	SymErr = "Invalid symmetries. $(Syms) is incoherent with $(Phase)."
-	if in(Phase, ["AF", "FakeAF"])
-		AF = true
-	elseif in(Phase, ["SU-Singlet", "FakeSU-Singlet"])
-		issubset(Syms, ["s", "S", "d"]) ? Singlet = true : throw(SymErr)
-	elseif in(Phase, ["SU-Triplet", "FakeSU-Triplet"])
-		issubset(Syms, ["px", "py", "p+", "p-"]) ? Triplet = true : throw(SymErr)
-	end
-
-	KeysList::Vector{String} = ["Empty"]
-	AF ? KeysList = ["m", "w0", "wp"] : 0
-	Singlet ? KeysList = vcat(["Δ$(Sym)" for Sym in Syms], "gS", "gd") : 0
-	Triplet ? KeysList = vcat(["Δ$(Sym)" for Sym in Syms], "gS", "gd") : 0
-
-	# Pure symmetry drop TODO Extension to Triplet
-	if Singlet && (sort(Syms) == ["S", "s"] || Syms == ["d"])
-		pop!(KeysList) # Pop last: gd
-	end
-
-	return KeysList
-
-end
+include(PROJECT_METHODS_DIR * "/methods-IO.jl")
 
 @doc raw"""
 function FindRootμ(

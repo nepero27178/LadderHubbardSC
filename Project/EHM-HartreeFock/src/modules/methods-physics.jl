@@ -214,39 +214,6 @@ function GetKPopulation(
 end
 
 @doc raw"""
-function GetRMPs(
-	Phase::String,
-	Syms::Vector{String}=["s"]
-)::Vector{String}
-
-Returns: Renormalized Model Parameters labels for the given Phase.
-"""
-function GetRMPs(
-	Phase::String;						# Mean field phase
-	Syms::Vector{String}=["s"]			# Gap function symmetries
-)::Vector{String}
-
-	AF = false
-	Singlet = false
-	Triplet = false
-	SymErr = "Invalid symmetries. $(Syms) is incoherent with $(Phase)."
-	if in(Phase, ["AF", "FakeAF"])
-		AF = true
-	elseif Phase=="SU-Singlet"
-		issubset(Syms, ["s", "S", "d"]) ? Singlet = true : throw(SymErr)
-	elseif Phase=="SU-Triplet"
-		issubset(Syms, ["px", "py", "p+", "p-"]) ? Triplet = true : throw(SymErr)
-	end
-
-	KeysList::Vector{String} = ["Empty"]
-	AF ? KeysList = ["reΔ_tilde", "imΔ_tilde", "t_tilde"] : 0
-	Singlet ? KeysList = ["Δ$(Sym)" for Sym in Syms] : 0
-	Triplet ? KeysList = ["Δ$(Sym)" for Sym in Syms] : 0
-	return KeysList
-
-end
-
-@doc raw"""
 function GetFreeEnergy(
 	Phase::String,
 	Parameters::Dict{String,Float64},

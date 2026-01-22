@@ -1,77 +1,3 @@
-#!/usr/bin/julia
-using DelimitedFiles
-using DataFrames
-using REPL
-
-PROJECT_METHODS_DIR = @__DIR__
-include(PROJECT_METHODS_DIR * "/methods-IO.jl")
-
-@doc raw"""
-function GetLabels(
-	Phase::String
-)::Dict{String,String}
-
-Returns: LaTeX formatted variable labels.
-"""
-function GetLabels(
-	Phase::String
-)::Dict{String,String}
-
-	if in(Phase, ["AF", "FakeAF"])
-		VarLabels = Dict([
-			"t" => "t",
-			"U" => "U",
-			"V" => "V",
-			"Lx" => "L_x",
-			"δ" => "\\delta",
-			"β" => "\\beta",
-			"m" => "m",
-			"w0" => "w^{(\\mathbf{0})}",
-			"wp" => "w^{(\\bm{\\pi})}",
-			"reΔ_tilde" => "\\mathrm{Re}\\{\\tilde{\\Delta}_\\mathbf{k}\\}",
-			"imΔ_tilde" => "\\mathrm{Im}\\{\\tilde{\\Delta}_\\mathbf{k}\\}",
-			"t_tilde" => "\\tilde{t}"
-			# ...
-		])
-	elseif Phase=="Fake"
-		VarLabels = Dict([
-			"g" => "g"
-		])
-	elseif in(Phase, ["SU-Singlet", "FakeSU-Singlet"])
-		VarLabels = Dict([
-			"t" => "t",
-			"U" => "U",
-			"V" => "V",
-			"Lx" => "L_x",
-			"δ" => "\\delta",
-			"β" => "\\beta",
-			"Δs" => "|\\Delta^{(s)}|",
-			"ΔS" => "|\\Delta^{(s^*)}|",
-			"Δd" => "|\\Delta^{(d)}|",
-			"gS" => "g^{(s^*)}",
-			"gd" => "g^{(d)}"
-		])
-	elseif in(Phase, ["SU-Triplet", "FakeSU-Triplet"])
-		VarLabels = Dict([
-			"t" => "t",
-			"U" => "U",
-			"V" => "V",
-			"Lx" => "L_x",
-			"δ" => "\\delta",
-			"β" => "\\beta",
-			"Δpx" => "|\\Delta_{p_x}",
-			"Δpy" => "\\Delta_{p_y}",
-			"Δp+" => "\\Delta_{p_+}",
-			"Δp-" => "\\Delta_{p_-}",
-			"gS" => "g^{(s^*)}",
-			"gd" => "g^{(d)}"
-		])
-	end
-
-	return VarLabels
-
-end
-
 @doc raw"""
 function PlotOrderParameter(
 	Phase::String,
@@ -91,9 +17,9 @@ Returns: none (plots saved at `DirPathOut`).
 phase, the allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"SU-Triplet\"),
 `FilePathIn` (path to the data files), `DirPathOut` (path to the output
 directory). The optional parameters are `xVar` and `pVar` (strings specifying
-respectively the x variable and the parametric variable of the plot, the 
-allowed are \"t\", \"U\", \"V\", \"Lx\", \"δ\", \"β\"), `Skip` (integer 
-indicating how many steps in the parametric variable to be skipped between two 
+respectively the x variable and the parametric variable of the plot, the
+allowed are \"t\", \"U\", \"V\", \"Lx\", \"δ\", \"β\"), `Skip` (integer
+indicating how many steps in the parametric variable to be skipped between two
 plots), `cs` (colorscheme symbol). The boolean option `RenormalizeBands'
 allows for choosing to renormalize or not the hopping parameter. `Extension`
 selects the file extension (the allowed are \"pdf\", \"png\", \"svg\").
@@ -296,8 +222,8 @@ Returns: none (plots saved at `DirPathOut`).
 phase, the allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"SU-Triplet\"), `FilePathIn`
 (path to the data files), `DirPathOut` (path to the output directory). The
 optional parameters are `xVar` and `yVar` (strings specifying respectively the x
-variable and the y variable of the plot, the allowed are \"t\", \"U\", \"V\", 
-\"Lx\", \"δ\", \"β\"), `cs` (colorscheme symbol). `Extension` selects the file 
+variable and the y variable of the plot, the allowed are \"t\", \"U\", \"V\",
+\"Lx\", \"δ\", \"β\"), `cs` (colorscheme symbol). `Extension` selects the file
 extension (the allowed are \"pdf\", \"png\", \"svg\").
 """
 function PlotOrderParameter2D(
@@ -457,110 +383,6 @@ function PlotOrderParameter2D(
 	printstyled("\e[2K\e[1GDone! Plots saved at $(DirPathOut)\n", color=:green)
 end
 
-function PlotHeatmap(
-	FilePathIn::String;					# Data filepath
-	DirPathOut::String="",				# Output directory
-	xVar::String="U",                   # Specify x variable
-	yVar::String="V",                   # Specify y variable
-	zVar::String="fMFT",
-	cs::Symbol=:imola50,                # Custom colorscheme
-	Extension::String="pdf"             # File extension
-)
-
-	Print::Bool=false
-	DirPathOut !== "" ? Print=true : 0
-	xyVars = ["t", "U", "V", "Lx", "δ", "β"]
-	Pars = filter(!=(yVar), filter(!=(xVar), xyVars))
-
-	# Input safecheck
-	!in(xVar, xyVars) ? error("Invalid x variable, choose one of $(xyVars)") : 0
-	!in(yVar, xyVars) ? error("Invalid y variable, choose one of $(xyVars)") : 0
-	xVar==yVar ? error("You have chosen xVar=yVar!") : 0
-
-	# Unpack filepath and load data
-	Setup, Phase, Syms = UnpackFilePath(FilePathIn)
-	DF = ImportData(FilePathIn)
-	EnlargeDF!(DF)
-	zVars = filter(!in(xyVars), names(DF))
-	!in(zVar,zVars) ? error("Invalid z variable, choose one of $(zVars)")
-	
-	if Print
-		# Get LaTeX formatted labels
-		VarLabels = GetLabels(Phase)
-		
-		# Initialize directory structure
-		DirPathOut *= "/Syms=$(Syms...)/xVar=" * xVar * "_yVar=" * yVar * "/"
-		mkpath(DirPathOut)
-	end
-
-	# Import data
-	DF = ImportData(FilePathIn)
-	GroupedDF = groupby(DF,Pars)
-	J = length(GroupedDF)
-
-	# Cycle over simulated points
-	for (j,df) in enumerate(GroupedDF)
-	
-		PltPars = DataFrame(select(df, Symbol.(Pars))[1,:])
-		@info "Heatmap plot $(j)/$(J)" xVar yVar zVar PltPars
-	
-		# Reshape local data
-		xx, yy, zz = ReshapeData(df)
-	
-		HFLabel::String = "\$" * VarLabels[zVar] * "\$"
-		if HF=="m"
-			HFLabel = "Magnetization"
-		end
-
-		# Initialize plot
-		H = plot(size = (600,400))
-		if Print
-			xlabel!(L"$%$(VarLabels[xVar])$")
-			ylabel!(L"$%$(VarLabels[yVar])$")
-		elseif !Print
-			xlabel!(xVar)
-			ylabel!(yVar)
-		end
-		
-		# Create filename
-		FileName = join( ["$(Pars[i])=$(df[!,Pars[i]][1])" for i in 1:length(Pars)], '_' )
-		FileName = zVar * "_" * FileName * "." * Extension
-		FilePathOut = DirPathOut * "/" * FileName
-
-		# Create raw title string
-		rawTitle::String = HFLabel * " ("
-		for Par in Pars
-			RS::String=""
-			if !RenormalizeBands && Par=="t"
-				RS *= "=\\tilde{t}"
-			end
-			ParVal = PltPars[!,Par][1]
-			if Par=="β" && β==Inf
-				ParVal = "\\infty"
- 			end
-			rawTitle *= "\$" * Par * RS * "=$(ParVal)\$, "
-		end
-		
-		# Plot parametrically
-		in(zVar, GetHFPs(Phase;Syms)) ? zz = abs.(zz) : 0
-		heatmap!(
-			xx, yy, zz,
-			color=cs
-		)
-
-		if Print
-			title!(L"%$(rawTitle)")
-			Plots.PGFPlotsX.push_preamble!(
-				backend_object(H).the_plot, "\\usepackage{bm}"
-			)
-			savefig(H, FilePathOut)
-		elseif !Print
-			gr()
-		end
-	end
-	@info "Plots saved at:" DirPathOut # GO ON FROM HERE
-end
-			
 @doc raw"""
 function PlotRMPs(
 	Phase::String,
@@ -574,13 +396,13 @@ function PlotRMPs(
 
 Returns: none (plots saved at `DirPathOut`).
 
-`PlotRMPs` (Renormalized Model Parameters) takes as input `Phase` (string 
+`PlotRMPs` (Renormalized Model Parameters) takes as input `Phase` (string
 specifying the mean-field phase, the allowed are \"AF\", \"SU-Singlet\",
 \"SU-Triplet\"), `FilePathIn` (path to the data files), `DirPathOut` (path to
-the output directory). The optional parameters are `xVar` and `yVar` (strings 
-specifying respectively the x variable and the y variable of the plot, the 
-allowed are \"t\", \"U\", \"V\", \"Lx\", \"δ\", \"β\"), `cs` (colorscheme 
-symbol). `Extension` selects the file extension (the allowed are \"pdf\", 
+the output directory). The optional parameters are `xVar` and `yVar` (strings
+specifying respectively the x variable and the y variable of the plot, the
+allowed are \"t\", \"U\", \"V\", \"Lx\", \"δ\", \"β\"), `cs` (colorscheme
+symbol). `Extension` selects the file extension (the allowed are \"pdf\",
 \"png\", \"svg\").
 """
 function PlotRMPs(
@@ -789,148 +611,6 @@ function PlotRMPs(
 			)
 			savefig(S, FilePathOut)
 		end
-	end
-	printstyled("\e[2K\e[1GDone! Plots saved at $(DirPathOut)\n", color=:green)
-end
-
-
-@doc raw"""
-function PlotRecord(
-	Phase::String,
-	DirPathIn::String,
-	DirPathOut::String;
-	rVar::String=\"g\",
-	cs::Symbol=:imola25,
-	Extension::String="pdf"
-)
-
-Returns: none (plots saved at `DirPathOut`).
-
-`PlotRecord` takes as input `Phase` (string specifying the mean-field phase, the
-allowed are \"AF\", \"FakeAF\", \"SU-Singlet\", \"SU-Triplet\"), `FilePathIn` (path
-to the data files), `DirPathOut` (path to the output directory). The optional 
-parameter is `rVar` (string specifying the recorded variable to plot), `cs`
-(colorscheme symbol). `Extension` selects the file extension (the allowed are 
-\"pdf\", \"png\", \"svg\").
-"""
-function PlotRecord(
-	Phase::String,                      # Mean field phase
-	DirPathIn::String,                  # Data filepath
-	DirPathOut::String;                 # Output directory path
-	rVar::String="g",                   # Recorded variable
-	cs::Symbol=:imola25,                # Custom colorscheme
-	Extension::String="pdf"             # File extension
-)
-
-	Files::Vector{String} = readdir(DirPathIn)
-	rFiles::Dict{Float64,String} = Dict([])
-	DataCols::Vector{String} = [""]
-
-	# Check data structure and extract r values
-	for (j,F) in enumerate(Files)
-		FilePathIn::String = DirPathIn * "/" * F
-		eqIndex::Int64 = findfirst('=', F)
-		if F[1:eqIndex-1]==rVar
-
-			# Read header
-			Header = open(FilePathIn) do io
-				readdlm(FilePathIn, ';', '\n')[1]
-			end
-			Start = findfirst('[',Header)
-			Stop = findfirst(']',Header)
-			if j==1
-				DataCols = eval(Meta.parse( Header[Start:Stop] ))
-			elseif j>1
-				if DataCols != eval(Meta.parse( Header[Start:Stop] ))
-					@error "Bad data structure (DataCols inconsistent). " *
-						"Check data integrity at " * DirPathIn
-					exit()
-				end
-			end
-			r = parse(Float64, F[eqIndex+1:end-4]) # Remove .txt
-			rFiles[r] = FilePathIn
-
-		elseif F[1:eqIndex-1]!=rVar
-			@error "Bad data structure (rVar not found). " *
-				"Check data integrity at " * DirPathIn
-			exit()
-		end
-	end
-
-	# Get LaTeX formatted labels
-	VarLabels = GetLabels(Phase)
-	pVarLabels = GetLabels("Fake")
-
-	for (hf,HF) in enumerate(DataCols)
-
-		HFLabel::String = "\$" * VarLabels[HF] * "\$"
-		if HF=="m"
-			HFLabel = "Magnetization"
-		end
-
-		# Set output filepath
-		FilePathOut::String = DirPathOut * "/" * HF * "_rVar=" * rVar
-		FilePathOut*= "." * Extension
-
-		# Generate raw title
-		rawTitle::String = HFLabel * " (" *
-			"\$t=$(t)\$, " *
-			"\$U=$(U)\$, " *
-			"\$V=$(V)\$, " *
-			"\$L=$(L)\$, " *
-			"\$\\delta=$(δ)\$, "
-
-		if β==Inf
-			rawTitle *= "\$\\beta=\\infty\$)"
-		elseif β!=Inf
-			rawTitle *= "\$\\beta=$(β)\$)"
-		end
-
-		# Initialize plot
-		P = plot(
-			size = (600,400),
-			xlim = (1,25),
-			xlabel = L"\mathrm{Step}",
-			ylabel = L"$%$(VarLabels[HF])$",
-			legend = :outertopright
-		)
-		title!(L"%$(rawTitle)")
-
-		# Cycle over data
-		for (j,r) in enumerate( sort([key for key in keys(rFiles)]) )
-
-			# Generate FilePathIn
-			FilePathIn = rFiles[r]
-
-			# Read and assign variables
-			DataIn = open(FilePathIn) do io
-				readdlm(FilePathIn, ';', comments=true, '\n')
-			end
-
-			yy = DataIn[:,hf]
-			LineStyle = :solid
-			if length(yy)>100
-				yy = yy[1:100]
-				LineStyle = :dash
-			end
-			xx = [x for x in 1:length(yy)]
-			plot!(
-				xx,yy,
-				markershape = :circle,
-				markercolor = colorschemes[cs][j],
-				markersize = 1.5,
-				linestyle = LineStyle,
-				linecolor = colorschemes[cs][j],
-				label = L"$%$(pVarLabels[rVar])=%$(r)$",
-			)
-
-		end
-
-		# Save figure
-		Plots.PGFPlotsX.push_preamble!(
-			backend_object(P).the_plot, "\\usepackage{bm}"
-		)
-		savefig(P, FilePathOut)
 	end
 	printstyled("\e[2K\e[1GDone! Plots saved at $(DirPathOut)\n", color=:green)
 end

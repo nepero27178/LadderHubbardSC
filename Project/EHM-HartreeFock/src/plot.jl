@@ -5,7 +5,7 @@ if length(ARGS) != 1
 	println("How to use this program?
 Type the following: \$ julia ./plot.jl --mode
 Where:
-· mode = --scan / --heatmap / --RMPs / --record-g")
+· mode = --scan / --heatmap / --RMPs")
 	exit()
 else
 	UserInput = ARGS
@@ -16,90 +16,52 @@ InMode::String = Mode
 # Includer
 PROJECT_ROOT = @__DIR__
 PROJECT_ROOT *= "/.."   # Up to the effective root
-if in(Mode, ["scan", "heatmap", "record-g"])
-	include(PROJECT_ROOT * "/src/setup/" * Mode * "-simulations-setup.jl")
+if Mode=="scan"
+	include(PROJECT_ROOT * "/src/setup/scan-simulations-setup.jl")
+	include(PROJECT_ROOT * "/src/modules/methods-2D-plotting.jl")
+if Mode=="heatmap"
+	include(PROJECT_ROOT * "/src/setup/heatmap-simulations-setup.jl")
+	include(PROJECT_ROOT * "/src/modules/methods-3D-plotting.jl")
 elseif Mode=="RMPs" 
 	include(PROJECT_ROOT * "/src/setup/heatmap-simulations-setup.jl")
+	include(PROJECT_ROOT * "/src/modules/methods-3D-plotting.jl")
 	InMode = "heatmap"
 else
-	@error "Invalid argument. Use: mode = --scan / --heatmap / --RMPs " *
-		"/ --Record-g"
+	@error "Invalid argument. Use: mode = --scan / --heatmap / --RMPs "
 end
-include(PROJECT_ROOT * "/src/setup/graphic-setup.jl")
-include(PROJECT_ROOT * "/src/modules/methods-plotting.jl")
 
 function main()
 
 	# Read files
-	DirPathIn = PROJECT_ROOT * "/simulations/" *
-		InMode * "/Setup=$(Setup)/"
-	if in(Phase, ["SU-Singlet","FakeSU-Singlet","SU-Triplet","FakeSU-Triplet"])
-		FilePathIn = DirPathIn * "Phase=$(Phase)/Syms=$(Syms...).txt"
-	else
-		FilePathIn = DirPathIn * Phase * ".txt"
-	end
+	DirPathIn = PROJECT_ROOT * "/simulations/" * InMode *
+		"/Setup=$(Setup)/Phase=$(Phase)/Syms=$(Syms...).csv"
 
 	# Create output directory
-	DirPathOut = PROJECT_ROOT * "/analysis/Phase=" * Phase * "/" *
-		Mode * "/Setup=$(Setup)/"
+	DirPathOut = PROJECT_ROOT * "/analysis/Phase=$(Phase)/" * Mode * "/Setup=$(Setup)/"
 	mkpath(DirPathOut)
 
 	# Run plot modules
 	if Mode=="scan"
-		PlotOrderParameter(
-			Phase,
+		SavePlot2D(
 			FilePathIn,
 			DirPathOut;
-			Syms,
-			xVar="U",
-			pVar="V",
-			cs=:winter,
-			RenormalizeBands,
-			Extension="pdf"
-		)
-		PlotOrderParameter(
-			Phase,
-			FilePathIn,
-			DirPathOut;
-			Syms,
 			xVar="V",
-			pVar="U",
-			Skip=4,
-			cs=:winter,
-			RenormalizeBands,
-			Extension="pdf"
+			yVar=HFP,
+			pVar="δ",
+			cs=:winter
+		)
+		SavePlot2D(
+			FilePathIn,
+			DirPathOut;
+			xVar="δ",
+			yVar=HFP,
+			pVar="V",
+			cs=:winter
 		)
 	elseif Mode=="heatmap"
-		PlotOrderParameter2D(
-			Phase,
-			FilePathIn,
-			DirPathOut;
- 			xVar="δ",
- 			yVar="V",
-			cs=:imola,
-			Extension="png"
-		)
+		@error "Under construction!"
 	elseif Mode=="RMPs"
-		if Phase=="FakeAF"
-			@error "It makes no sense to plot RMPs for Phase=$(Phase)!"
-		else
-			PlotRMPs(
-				Phase,
-				FilePathIn,
-				DirPathOut;
-				xVar="V",
-				yVar="δ",
-				cs=:imola,
-				Extension="pdf"
-			)
-		end
-	elseif Mode=="record-g"
-		PlotRecord(
-			Phase,
-			DirPathIn,
-			DirPathOut;
-			rVar="g"
-		)
+		@error "Under construction!"
 	end
 end
 

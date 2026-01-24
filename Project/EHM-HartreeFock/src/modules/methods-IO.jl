@@ -15,7 +15,7 @@ function ImportData(
 	end
 	DF = DataFrame(DataIn[2:end,:], DataIn[1,:])
     DF = identity.(DF) # Format columns type
-    DF.Lx = Int64.(DF.Lx)
+    # DF.Lx = Int64.(DF.Lx)
 
 	return DF
 end
@@ -103,7 +103,7 @@ function GetHFPs(
 		issubset(Syms, ["px", "py", "p+", "p-"]) ? Triplet = true : throw(SymErr)
 	end
 
-	KeysList::Vector{String} = ["Empty"]
+	KeysList::Vector{String} = []
 	AF ? KeysList = ["m", "w0", "wp"] : 0
 	Singlet ? KeysList = vcat(["Δ$(Sym)" for Sym in Syms], "gS", "gd") : 0
 	Triplet ? KeysList = vcat(["Δ$(Sym)" for Sym in Syms], "gS", "gd") : 0
@@ -163,5 +163,90 @@ function GetRMPs(
 		)
 		return RMPs
 	end
+
+end
+
+@doc raw"""
+function GetLabels(
+	Phase::String
+)::Dict{String,String}
+
+Returns: LaTeX formatted variable labels.
+"""
+function GetLabels(
+	Phase::String
+)::Dict{String,String}
+
+	VarLabels::Dict{String,String} = Dict([
+		# Variables
+		"t" => "t",
+		"U" => "U",
+		"V" => "V",
+		"Lx" => "L_x",
+		"δ" => "\\delta",
+		"β" => "\\beta",
+		# Other
+		"ΔT" => "\\Delta T",
+		"I" => "\\text{Total steps}",
+		"μ" => "\\mu",
+		"g0" => "g_0",
+		"g" => "g",
+		"fMFT" => "f_\\mathrm{MFT}"
+	])
+
+	if in(Phase, ["AF", "FakeAF"])
+		PhaseLabels::Dict{String,String} = Dict([
+			# HFPs
+			"m" => "m",
+			"w0" => "w^{(\\mathbf{0})}",
+			"wp" => "w^{(\\pi)}",
+			# Convergence
+			"Qm" => "Q(m)",
+			"Qw0" => "Q(w^{(\\mathbf{0})})",
+			"Qwp" => "Q(w^{(\\pi)})",
+			# RMPs
+			"RReΔ" => "\\mathrm{Re}\\{\\tilde{\\Delta}_\\mathbf{k}\\}",
+			"RImΔ" => "\\mathrm{Im}\\{\\tilde{\\Delta}_\\mathbf{k}\\}",
+			"Rt" => "\\tilde{t}"
+		])
+	elseif in(Phase, ["SU-Singlet", "FakeSU-Singlet"])
+		PhaseLabels = Dict([
+			# HFPs
+			"Δs" => "|\\Delta^{(s)}|",
+			"ΔS" => "|\\Delta^{(s*)}|",
+			"Δd" => "|\\Delta^{(d)}|",
+			"gS" => "g^{(s*)}",
+			"gd" => "g^{(d)}",
+			# Convergence
+			"QΔs" => "Q(\\Delta^{(s)})",
+			"QΔS" => "Q(\\Delta^{(s*)})",
+			"QΔd" => "Q(\\Delta^{(d)})",
+			"QgS" => "Q(g^{(s*)})",
+			"Qgd" => "Q(g^{(d)})",
+			# RMPs
+			"Rt" => "\\tilde{t}"
+		])
+	elseif in(Phase, ["SU-Triplet", "FakeSU-Triplet"])
+		PhaseLabels = Dict([
+			# HFPs
+			"Δpx" => "|\\Delta_{p_x}",
+			"Δpy" => "\\Delta_{p_y}",
+			"Δp+" => "\\Delta_{p_+}",
+			"Δp-" => "\\Delta_{p_-}",
+			"gS" => "g^{(s^*)}",
+			"gd" => "g^{(d)}",
+			# Convergence
+			"QΔpx" => "Q(|\\Delta_{p_x})",
+			"QΔpy" => "Q(\\Delta_{p_y})",
+			"QΔp+" => "Q(\\Delta_{p_+})",
+			"QΔp-" => "Q(\\Delta_{p_-})",
+			"QgS" => "Q(g^{(s^*)})",
+			"Qgd" => "Q(g^{(d)})",
+			# RMPs
+			"Rt" => "\\tilde{t}"
+		])
+	end
+
+	return merge(VarLabels, PhaseLabels)
 
 end

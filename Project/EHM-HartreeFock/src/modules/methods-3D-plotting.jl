@@ -11,91 +11,6 @@ PROJECT_METHODS_DIR = @__DIR__
 include(PROJECT_METHODS_DIR * "/methods-IO.jl")
 include(PROJECT_METHODS_DIR * "/structs.jl")
 
-@doc raw"""
-function GetLabels(
-	Phase::String
-)::Dict{String,String}
-
-Returns: LaTeX formatted variable labels.
-"""
-function GetLabels(
-	Phase::String
-)::Dict{String,String}
-
-	VarLabels::Dict{String,String} = Dict([
-		# Variables
-		"t" => "t",
-		"U" => "U",
-		"V" => "V",
-		"Lx" => "L_x",
-		"δ" => "\\delta",
-		"β" => "\\beta",
-		# Other
-		"ΔT" => "\\Delta T",
-		"I" => "\\text{Total steps}",
-		"μ" => "\\mu",
-		"g0" => "\\g_0",
-		"g" => "g",
-		"fMFT" => "f_\\mathrm{MFT}"
-	])
-
-	if in(Phase, ["AF", "FakeAF"])
-		PhaseLabels::Dict{String,String} = Dict([
-			# HFPs
-			"m" => "m",
-			"w0" => "w^{(\\mathbf{0})}",
-			"wp" => "w^{(\\bm{\\pi})}",
-			# Convergence
-			"Qm" => "Q(m)",
-			"Qw0" => "Q(w^{(\\mathbf{0})})",
-			"Qwp" => "Q(w^{(\\bm{\\pi})})",
-			# RMPs
-			"reΔ_tilde" => "\\mathrm{Re}\\{\\tilde{\\Delta}_\\mathbf{k}\\}",
-			"imΔ_tilde" => "\\mathrm{Im}\\{\\tilde{\\Delta}_\\mathbf{k}\\}",
-			"t_tilde" => "\\tilde{t}"
-		])
-	elseif in(Phase, ["SU-Singlet", "FakeSU-Singlet"])
-		PhaseLabels = Dict([
-			# HFPs
-			"Δs" => "|\\Delta^{(s)}|",
-			"ΔS" => "|\\Delta^{(s*)}|",
-			"Δd" => "|\\Delta^{(d)}|",
-			"gS" => "g^{(s*)}",
-			"gd" => "g^{(d)}",
-			# Convergence
-			"QΔs" => "Q(\\Delta^{(s)})",
-			"QΔS" => "Q(\\Delta^{(s*)})",
-			"QΔd" => "Q(\\Delta^{(d)})",
-			"QgS" => "Q(g^{(s*)})",
-			"Qgd" => "Q(g^{(d)})",
-			# RMPs
-			"t_tilde" => "\\tilde{t}"
-		])
-	elseif in(Phase, ["SU-Triplet", "FakeSU-Triplet"])
-		PhaseLabels = Dict([
-			# HFPs
-			"Δpx" => "|\\Delta_{p_x}",
-			"Δpy" => "\\Delta_{p_y}",
-			"Δp+" => "\\Delta_{p_+}",
-			"Δp-" => "\\Delta_{p_-}",
-			"gS" => "g^{(s^*)}",
-			"gd" => "g^{(d)}",
-			# Convergence
-			"QΔpx" => "Q(|\\Delta_{p_x})",
-			"QΔpy" => "Q(\\Delta_{p_y})",
-			"QΔp+" => "Q(\\Delta_{p_+})",
-			"QΔp-" => "Q(\\Delta_{p_-})",
-			"QgS" => "Q(g^{(s^*)})",
-			"Qgd" => "Q(g^{(d)})",
-			# RMPs
-			"t_tilde" => "\\tilde{t}"
-		])
-	end
-
-	return merge(VarLabels, PhaseLabels)
-
-end
-
 function Plot3D(
 	FilePathIn::String;					# Data filepath
 	Print::Bool=false,					# Set true to format for savefig
@@ -179,7 +94,7 @@ function Plot3D(
 		end
 
 		# Initialize plot
-		H = Figure()
+		H = Figure(size=(600,400),figure_padding = 1)
 		ax = Axis(H[1, 1])
 		if Print
 			ax.xlabel = L"$%$(VarLabels[xVar])$"
@@ -204,7 +119,7 @@ function Plot3D(
 		rawTitle *= join(ParTitle, ", ") * ")"
 
 		# Include RenormalizeBands specifications
-		if RenormalizeBands && Print
+		if !RenormalizeBands && Print
 			r = split(rawTitle, "t=")
 			rawTitle = r[1] * "t=\\tilde{t}=" * r[2]
 		elseif !Print
@@ -251,7 +166,7 @@ function SavePlot3D(
 
 	# Initialize directory structure
 	Setup, Phase, Syms = UnpackFilePath(FilePathIn)
-	DirPathOut *= "/Syms=$(Syms...)/xVar=" * xVar * "_yVar=" * yVar * "/"
+	DirPathOut *= "/xVar=" * xVar * "_yVar=" * yVar * "/"
 	mkpath(DirPathOut)
 
 	# Save each plot

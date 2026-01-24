@@ -113,11 +113,11 @@ function GetKPopulation(
 	Phase::String,						# Mean field phase
 	Parameters::Dict{String,Float64},	# Model parameters t,U,V
 	K::Matrix{Vector{Float64}},			# BZ grid
-	v::Dict{String,Float64},			# HF parameters
+	v::Dict{String,Float64},				# HF parameters
 	μ::Float64,							# Chemical potential
 	β::Float64;							# Inverse temperature
 	debug::Bool=false,
-	RenormalizeBands::Bool=true,		# Conditional renormalization of t
+	RenormalizeBands::Bool=true,			# Conditional renormalization of t
 	OptimizeBZ::Bool=true				# Conditional BZ optimization
 )::Matrix{Float64}
 
@@ -129,6 +129,14 @@ function GetKPopulation(
 	Nk = zeros(size(K))
 	wk::Int64 = 0
 	Ek::Float64 = 0.0
+
+	# Compute free energy hopping shift
+	# LxLy::Int64 = prod(size(K))
+	# cc::Matrix{Float64} = StructureFactor.("S",K.*pi)
+	# εε::Matrix{Float64} = GetHoppingEnergy.(Parameters["t"],K.*pi)
+	# ff::Matrix{Float64} = FermiDirac.(εε,μ,β)
+	# w::Float64 = sum(cc.*ff)/LxLy # Bare bands correction
+
 	for (i,q) in enumerate(K)
 
 		wk = GetWeight(q; Sym, OptimizeBZ) # Avoid computational redundance
@@ -137,6 +145,10 @@ function GetKPopulation(
 		if Phase=="Free"
 
 			t = Parameters["t"]
+			# if RenormalizeBands
+				# Conditional renormalization of bands
+			# 	t -= w * Parameters["V"]
+			# end
 			εk = GetHoppingEnergy(t,k)
 			Nk[i] = 2*FermiDirac(εk,μ,β)
 
@@ -240,10 +252,11 @@ function GetFreeEnergy(
 	Phase::String,						# Mean field phase
 	Parameters::Dict{String,Float64},	# Model parameters t,U,V
 	K::Matrix{Vector{Float64}},			# BZ grid
-	v::Dict{String,Float64},			# HF parameters
+	v::Dict{String,Float64},				# HF parameters
+	n::Float64,							# Density
 	μ::Float64,							# Chemical potential
 	β::Float64;							# Inverse temperature
-	RenormalizeBands::Bool=true,		# Conditional renormalization of t
+	RenormalizeBands::Bool=true,			# Conditional renormalization of t
 	OptimizeBZ::Bool=true				# Conditional optimization of BZ
 )::Float64
 
@@ -252,8 +265,16 @@ function GetFreeEnergy(
 		Sym *= "-MBZ"
 	end
 
+	# f0MFT::Float64 = 0.0 # TODO Integrate free energy computation
 	fMFT::Float64 = 0.0
 	LxLy::Int64 = prod(size(K))
+
+	# Compute free energy hopping shift
+	# μ0::Float64 = FindRootμ("Free",Parameters,K,v,n,β;RenormalizeBands,OptimizeBZ)
+	# cc::Matrix{Float64} = StructureFactor.("S",K.*pi)
+	# εε::Matrix{Float64} = GetHoppingEnergy.(Parameters["t"],K.*pi)
+	# ff::Matrix{Float64} = FermiDirac.(εε,μ0,β)
+	# w::Float64 = sum(cc.*ff)/LxLy # Bare bands correction
 
 	for (i,q) in enumerate(K)
 
@@ -261,10 +282,15 @@ function GetFreeEnergy(
 		k = q .* pi # Important: multiply k by pi
 
 		if Phase=="Free"
+
 			@error "Under construction"
-			t = Parameters["t"]
-			ξk = GetHoppingEnergy(t,k)-µ
-			Nk[i] = 2*FermiDirac(εk,μ,β)
+			# t = Parameters["t"]
+			# if RenormalizeBands
+				# Conditional renormalization of bands
+			# 	t -= w * Parameters["V"]
+			# end
+			# εk = GetHoppingEnergy(t,k)
+			# f0MFT += 2/β * log( 1-FermiDirac(εk,μ0,β) )
 
 		elseif in(Phase, ["AF", "FakeAF"]) && wk >= 1
 			@error "Under construction"
@@ -309,25 +335,27 @@ function GetFreeEnergy(
 			if Ek!=0.0
 				tk = abs(Δk)^2/Ek * tanh(β*Ek/2)
 			end
-			fMFT += wk * (ξk - Ek + tk + 2/β * log( 1-FermiDirac(Ek,0,β) ))
-
+			fMFT += wk * (ξk - Ek + tk + 2/β * log( 1-FermiDirac(Ek,0.0,β) ))
 
 		elseif Phase=="Su/Triplet"
 			@error "Under construction"
 		end
 	end
 
-	fMFT /= LxLy
-	if Phase=="SU-Singlet"
-		TotalWeight::Float64
+	fMFT = fMFT/LxLy + 2*n*μ
+	if Phase=="Free"
+		fMFT = f0MFT
+
+	elseif Phase=="SU-Singlet"
+		Corr::Float64=0.0
 		for gSym in ["gS", "gd"]
 			try
-				TotalWeight += abs(v[gSym])^2
+				Corr += abs(v[gSym])^2
 			catch
 			end
 		end
 
-		fMFT -= 2 * Parameters["V"] * TotalWeight
+		fMFT -= 2 * Parameters["V"] * Corr # Lagrange correction
 	end
 
 	return fMFT

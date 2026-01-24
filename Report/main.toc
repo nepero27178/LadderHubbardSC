@@ -1,19 +1,53 @@
 \contentsline {part}{\partnumberline {I}Mean-Field-Theory analysis}{1}{part.1}%
-\contentsline {chapter}{\chapternumberline {1}Superconducting instability}{3}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Cooper fluctuations in the EHM}{3}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Cooper fluctuations in the opposite-spin sector}{3}{section.1.2}%
-\contentsline {paragraph}{Local interaction $U$.}{4}{section*.5}%
-\contentsline {paragraph}{Non-local interaction $V$.}{4}{section*.6}%
-\contentsline {subsection}{\numberline {1.2.1}Full gap function and self-consistency equations}{5}{subsection.1.2.1}%
-\contentsline {subsection}{\numberline {1.2.2}Non-local bands renormalization in the same-spin sector}{6}{subsection.1.2.2}%
-\contentsline {section}{\numberline {1.3}Superconducting solution in the Nambu formalism}{7}{section.1.3}%
-\contentsline {subsection}{\numberline {1.3.1}Bogoliubov transform and pseudospins picture}{7}{subsection.1.3.1}%
-\contentsline {subsection}{\numberline {1.3.2}BCS ground state properties}{8}{subsection.1.3.2}%
-\contentsline {paragraph}{Gap function.}{9}{section*.8}%
-\contentsline {paragraph}{System density.}{9}{section*.9}%
-\contentsline {paragraph}{Ground state at zero temperature.}{9}{section*.10}%
-\contentsline {subsection}{\numberline {1.3.3}Renormalization of the bare bands}{10}{subsection.1.3.3}%
-\contentsline {paragraph}{General result.}{11}{section*.11}%
-\contentsline {paragraph}{Pure $x$-wave superconductivity.}{12}{section*.12}%
-\contentsline {subsection}{\numberline {1.3.4}Ground state energy and BCS condensation}{12}{subsection.1.3.4}%
-\contentsline {section}{\numberline {1.4}Results of the HF algorihtm}{13}{section.1.4}%
+\contentsline {chapter}{\chapternumberline {1}Anti-Ferromagnetic instability}{3}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Symmetry considerations for the AF phase}{3}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Antiferromagnetism in the conventional Hubbard model}{3}{section.1.2}%
+\contentsline {section}{\numberline {1.3}EHM model and antiferromagnetic ordering}{4}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Hartree renormalization of chemical potential and gap}{4}{subsection.1.3.1}%
+\contentsline {paragraph}{Density terms.}{5}{section*.5}%
+\contentsline {paragraph}{Magnetization terms.}{6}{section*.6}%
+\contentsline {subsection}{\numberline {1.3.2}Fock renormalization of the hopping amplitude}{6}{subsection.1.3.2}%
+\contentsline {paragraph}{Diagonal terms.}{7}{figure.caption.8}%
+\contentsline {paragraph}{Off-diagonal terms.}{9}{section*.9}%
+\contentsline {subsection}{\numberline {1.3.3}Renormalized hamiltonian behavior}{10}{subsection.1.3.3}%
+\contentsline {section}{\numberline {1.4}Stability of the AF phase}{10}{section.1.4}%
+\contentsline {section}{\numberline {1.5}HF algorithm, computational strategy and results}{11}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Preliminary symmetry considerations}{11}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.2}Results of the HF algorithm at generic doping}{12}{subsection.1.5.2}%
+\contentsline {paragraph}{First HFP: $m$ (magnetization).}{12}{figure.caption.12}%
+\contentsline {paragraph}{Second HFP: $w^{(\mathbf {0})}$ (hopping renormalization coefficient).}{13}{figure.caption.15}%
+\contentsline {paragraph}{Third HFP: $w^{(\bm {\pi })}$ (imaginary gap coefficient).}{14}{section*.18}%
+\contentsline {subsection}{\numberline {1.5.3}Role of hopping renormalization: switching off $w^{(\mathbf {0})}$}{14}{subsection.1.5.3}%
+\contentsline {chapter}{\chapternumberline {2}Superconducting instability}{15}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Cooper fluctuations in the EHM}{15}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Cooper fluctuations in the opposite-spin sector}{15}{section.2.2}%
+\contentsline {paragraph}{Local interaction $U$.}{16}{section*.20}%
+\contentsline {paragraph}{Non-local interaction $V$.}{16}{section*.21}%
+\contentsline {subsection}{\numberline {2.2.1}Full gap function and self-consistency equations}{17}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Non-local bands renormalization in the same-spin sector}{18}{subsection.2.2.2}%
+\contentsline {section}{\numberline {2.3}Superconducting solution in the Nambu formalism}{19}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Bogoliubov transform and pseudospins picture}{19}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}BCS ground state properties}{20}{subsection.2.3.2}%
+\contentsline {paragraph}{Gap function.}{21}{section*.23}%
+\contentsline {paragraph}{System density.}{21}{section*.24}%
+\contentsline {paragraph}{Ground state at zero temperature.}{21}{section*.25}%
+\contentsline {subsection}{\numberline {2.3.3}Renormalization of the bare bands}{22}{subsection.2.3.3}%
+\contentsline {paragraph}{General result.}{23}{section*.26}%
+\contentsline {paragraph}{Pure $x$-wave superconductivity.}{24}{section*.27}%
+\contentsline {subsection}{\numberline {2.3.4}Ground state energy and BCS condensation}{24}{subsection.2.3.4}%
+\contentsline {section}{\numberline {2.4}Results of the HF algorihtm}{25}{section.2.4}%
+\contentsline {appendix}{\chapternumberline {A}Mean-Field Theory in Hubbard lattices}{27}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Symmetries of the Hubbard model and magnetic phase transitions}{27}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Ferromagnetic phase}{27}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Antiferromagnetic phase}{28}{section.A.3}%
+\contentsline {subsection}{\numberline {A.3.1}MFT discussion}{28}{subsection.A.3.1}%
+\contentsline {subsection}{\numberline {A.3.2}Diagonalization and AF ground state}{30}{subsection.A.3.2}%
+\contentsline {subsection}{\numberline {A.3.3}Chemical potential and system density}{31}{subsection.A.3.3}%
+\contentsline {subsection}{\numberline {A.3.4}Self-consistent magnetization}{31}{subsection.A.3.4}%
+\contentsline {paragraph}{Zero temperature solution.}{32}{section*.33}%
+\contentsline {paragraph}{Finite temperature solution.}{33}{section*.34}%
+\contentsline {subsection}{\numberline {A.3.5}The half-filled case}{33}{subsection.A.3.5}%
+\contentsline {subsection}{\numberline {A.3.6}Instability of the commensurate AF solution and atypical metallic bands}{34}{subsection.A.3.6}%
+\contentsline {subsection}{\numberline {A.3.7}Hartree-Fock algorithm results in reciprocal space}{34}{subsection.A.3.7}%
+\contentsline {subsection}{\numberline {A.3.8}An alternative (less efficient) real-space approach}{36}{subsection.A.3.8}%
+\contentsline {section}{\numberline {A.4}(Impossibility of) BCS-like superconducting phase}{38}{section.A.4}%

@@ -6,9 +6,9 @@ using DataFrames
 # Arguments handler
 if length(ARGS) != 1
 	println("How to use this program?
-Type the following: \$ julia ./simulate.jl --mode
+Type the following: \$ julia simulate.jl --mode
 Where:
-· --mode = --scan / --heatmap / --single")
+· mode = hs / rs")
 	exit()
 else
 	UserInput = ARGS
@@ -16,15 +16,16 @@ else
 end
 
 # Includer
-PROJECT_ROOT = @__DIR__
-PROJECT_ROOT *= "/.."   # Up to the effective root
-if in(Mode, ["scan", "heatmap", "single"])
-	include(PROJECT_ROOT * "/src/setup/" * Mode * "-simulations-setup.jl")
+PROJECT_SRC_DIR = @__DIR__
+if in(Mode, ["rs", "hs"])
+	include(PROJECT_SRC_DIR * "/setup/" * Mode * "-setup.jl")
 else
-	@error "Invalid argument. Use: --mode = --scan / --heatmap / --single"
+	@error "Invalid argument. Use: mode = hs / rs"
 end
-include(PROJECT_ROOT * "/src/modules/methods-simulating.jl")
-include(PROJECT_ROOT * "/src/modules/methods-processing.jl")
+include(PROJECT_SRC_DIR * "/modules/methods-simulating.jl")
+include(PROJECT_SRC_DIR * "/modules/methods-physics.jl")
+include(PROJECT_SRC_DIR * "/modules/methods-optimizations.jl")
+include(PROJECT_SRC_DIR * "/modules/methods-IO.jl")
 
 # Routines
 @doc raw"""
@@ -89,7 +90,7 @@ function RunHFScan(
 
 	# File coditional initialization (otherwise, just append)
 	if FilePathOut != "" && InitializeFile
-		Header = "t;U;V;Lx;β;δ;v;Q;ΔT;I;μ;g0;g;fMFT\n"
+		Header = "t;U;V;Lx;β;δ;v;Q;ΔT;I;μ;g0;g;f;f0\n"
 		write(FilePathOut, Header)
 	end
 
@@ -105,12 +106,13 @@ function RunHFScan(
 		δ in δδ,
 		β in ββ
 
+		Uc::Float64 = 0.0
 		if Optimizeg && occursin("SU", Phase)
 			Uc = GetUc(t,[Lx,Lx],δ,β)
 		end
 
 		g = g0
-		for U in UU
+		for U in UU # TODO Evaluate possibility of computing dynamically g with the bare bands
 
 			if U>(2/g0-1)*Uc && Optimizeg && occursin("SU", Phase)
 				Og = GetOptimalg(U,Uc)
@@ -133,15 +135,16 @@ function RunHFScan(
 					color=:yellow
 				)
 				ResultsVector::Matrix{Any} = [0 0]  # Dummy placeholder
-				ResultsVector = hcat(ResultsVector, [t U V Lx β δ])
+				ResultsVector = hcat(ResultsVector, [t U V 0 β δ]) # Lx later
 
 				# Run routine, all positional arguments here must be false
 				Run, Performance = RunHFAlgorithm(
 					Phase,Parameters,L,0.5+δ,β,
 					p,Δv,Δn,g;
-					# v0i=v0, # TODO Processing: find and replace suspect points
+					v0i=v0,
 					Syms,
-					RenormalizeBands
+					RenormalizeBands,
+					OptimizeBZ
 				)
 
 				v::Dict{String,Float64} = Dict([
@@ -152,7 +155,11 @@ function RunHFScan(
 				Qs::Dict{String,Float64} = Dict([
 					key => Performance["Quality"][key] for key in HFPs
 				])
-				ResultsVector = hcat(ResultsVector[:,3:end], [v Qs Performance["Runtime"] Performance["Steps"] Run["ChemicalPotential"] g0 g fMFT])
+				ResultsVector = hcat(
+					ResultsVector[:,3:end],
+					[v Qs Performance["Runtime"] Performance["Steps"] Run["ChemicalPotential"] g0 g fMFT]
+				)
+				ResultsVector[4] = Lx # Add here to get correct Int64 formatting
 
 				i += 1
 
@@ -163,7 +170,12 @@ function RunHFScan(
 					end
 				end
 
-				v0 = copy(v)
+				# Use current step as initializer coherently (no NaN and no 0)
+				if any(isnan.(values(v)) .|| values(v).==0.0)
+					0 # println(v0)
+				else
+					v0 = copy(v)
+				end
 			end
 		end
 	end
@@ -174,99 +186,20 @@ function RunHFScan(
 
 end
 
-@doc raw"""
-...
-"""
-function RunHFRecord(
-	Phase::String,						# Mean field phase
-	t::Float64,							# Hopping amplitude
-	U::Float64,							# Local repulsion
-	V::Float64,							# Non-local attraction
-	Lx::Int64,							# Lattice size
-	δ::Float64,							# Doping
-	β::Float64,							# Inverse temperature
-	p::Int64,							# Number of iterations
-	Δv::Dict{String,Float64},			# Tolerance on magnetization
-	Δn::Float64,						# Tolerance on density
-	gg::Vector{Float64};				# Mixing parameter
-	Syms::Vector{String}=["d"],			# Gap function symmetries
-	DirPathOut::String="",				# Output file
-	RenormalizeBands::Bool=true		# Conditional renormalization of t
-)::Dict{Float64,Dict{String,Vector{Float64}}}
-
-	L = [Lx,Lx]
-
-	# Get Hartree Fock Parameters labels
-	HFPs = GetHFPs(Phase)
-
-	# Initialize model parameters
-	Parameters::Dict{String,Float64} = Dict([
-		"t" => t,
-		"U" => U,
-		"V" => V
-	])
-
-	printstyled(
-		"Recording HF at t=$t\t U=$U\t V=$V\t L=$L\t β=$β\t δ=$δ\n", 
-		color=:yellow
-	)
-
-	Record::Dict{Float64,Dict{String,Vector{Float64}}} = Dict([])
-	for g in gg
-
-		# Record routine
-		HFResults = RunHFAlgorithm(
-			Phase,Parameters,L,0.5+δ,β,
-			p,Δv,Δn,g;
-			verbose=true,
-			record=true,
-			RenormalizeBands
-		)
-		ΔT::Float64 = HFResults[3]
-		gRecord::Dict{String,Vector{Float64}} = Dict([
-			key => HFResults[5][key] for key in HFPs
-		])
-
-		# Write record on matrix
-		RecordMatrix::Matrix{Float64} = zeros(
-			length(values(
-				gRecord[ HFPs[1] ]
-			)),
-			length( keys(HFPs) )
-		)
-		for (k,key) in enumerate(HFPs)
-			RecordMatrix[:,k] = gRecord[key]
-		end
-
-		# Write on file
-		if DirPathOut != ""
-			FilePathOut = DirPathOut * "g=$(g).txt"
-
-			# File initialization
-			Header = "# $(HFPs) [calculated @ $(now())]\n"
-			write(FilePathOut, Header)
-
-			# Append recorded matrix
-			open(FilePathOut, "a") do io
-				writedlm(io, RecordMatrix, ';')
-			end
-			printstyled(
-				"\e[2K\e[1GDone! Data saved at " * FilePathOut *
-				"\n", color=:green
-			)
-		end
-		Record[g] = gRecord
-	end
-	return Record
-end
-
 # Main run
 function main()
-	DirPathOut = PROJECT_ROOT * "/simulations/" * Mode * "/Setup=$(Setup)/Phase="
-	if in(Mode, ["scan", "heatmap"])
-		in(Phase, ["AF", "FakeAF"]) ? Syms=["πAF"] : 0
-		FilePathOut = DirPathOut * Phase * "/Syms=$(Syms...).txt"
-		mkpath(dirname(FilePathOut))
+
+	# Create output directory
+	# For simulations: Setup > Phase > Syms (to make comparable data in the same folder)
+	# For plots: Phase > Setup > Syms (to make same-phase plots in the same folder)
+	DirPathOut = PROJECT_SRC_DIR * "/../simulations/Mode=$(Mode)/Setup=$(Setup)/Phase=$(Phase)"
+	FilePathOut = DirPathOut * "/Syms=$(Syms...).csv"
+	mkpath(dirname(FilePathOut))
+
+	# Filter out non half-filled simulations from AF phase
+	occursin("AF", Phase) ? filter!(==(0),δδ) : 0
+
+	TotalRunTime = @elapsed begin
 		RunHFScan(
 			Phase,
 			tt,UU,VV,
@@ -274,12 +207,17 @@ function main()
 			p,Δv,Δn,g;
 			Syms,
 			FilePathOut,
-			RenormalizeBands
+			RenormalizeBands,
+			OptimizeBZ=false # For now
 		)
-	elseif Mode=="single"
-		#TODO readline for arguments
-		@error "Under construction."
-		exit()
+	end
+
+	LogPathOut = DirPathOut * "/Syms=$(Syms...)_log.txt"
+	Header = "tt;UU;VV;LL;ββ;δδ;p;Δv;Δn;g;TotalRunTime;Machine\n"
+	write(LogPathOut, Header)
+	Log = [[tt] [UU] [VV] [LL] [ββ] [δδ] p Δv Δn TotalRunTime gethostname()]
+	open(LogPathOut, "a") do io
+		writedlm(io, Log, ';')
 	end
 end
 

@@ -7,94 +7,9 @@ using ColorSchemes
 using DataFrames
 using DelimitedFiles
 
-PROJECT_METHODS_DIR = @__DIR__
-include(PROJECT_METHODS_DIR * "/methods-IO.jl")
-include(PROJECT_METHODS_DIR * "/structs.jl")
-
-@doc raw"""
-function GetLabels(
-	Phase::String
-)::Dict{String,String}
-
-Returns: LaTeX formatted variable labels.
-"""
-function GetLabels(
-	Phase::String
-)::Dict{String,String}
-
-	VarLabels::Dict{String,String} = Dict([
-		# Variables
-		"t" => "t",
-		"U" => "U",
-		"V" => "V",
-		"Lx" => "L_x",
-		"δ" => "\\delta",
-		"β" => "\\beta",
-		# Other
-		"ΔT" => "\\Delta T",
-		"I" => "\\text{Total steps}",
-		"μ" => "\\mu",
-		"g0" => "\\g_0",
-		"g" => "g",
-		"fMFT" => "f_\\mathrm{MFT}"
-	])
-
-	if in(Phase, ["AF", "FakeAF"])
-		PhaseLabels::Dict{String,String} = Dict([
-			# HFPs
-			"m" => "m",
-			"w0" => "w^{(\\mathbf{0})}",
-			"wp" => "w^{(\\bm{\\pi})}",
-			# Convergence
-			"Qm" => "Q(m)",
-			"Qw0" => "Q(w^{(\\mathbf{0})})",
-			"Qwp" => "Q(w^{(\\bm{\\pi})})",
-			# RMPs
-			"RReΔ" => "\\mathrm{Re}\\{\\tilde{\\Delta}_\\mathbf{k}\\}",
-			"RImΔ" => "\\mathrm{Im}\\{\\tilde{\\Delta}_\\mathbf{k}\\}",
-			"Rt" => "\\tilde{t}"
-		])
-	elseif in(Phase, ["SU-Singlet", "FakeSU-Singlet"])
-		PhaseLabels = Dict([
-			# HFPs
-			"Δs" => "|\\Delta^{(s)}|",
-			"ΔS" => "|\\Delta^{(s*)}|",
-			"Δd" => "|\\Delta^{(d)}|",
-			"gS" => "g^{(s*)}",
-			"gd" => "g^{(d)}",
-			# Convergence
-			"QΔs" => "Q(\\Delta^{(s)})",
-			"QΔS" => "Q(\\Delta^{(s*)})",
-			"QΔd" => "Q(\\Delta^{(d)})",
-			"QgS" => "Q(g^{(s*)})",
-			"Qgd" => "Q(g^{(d)})",
-			# RMPs
-			"t_tilde" => "\\tilde{t}"
-		])
-	elseif in(Phase, ["SU-Triplet", "FakeSU-Triplet"])
-		PhaseLabels = Dict([
-			# HFPs
-			"Δpx" => "|\\Delta_{p_x}",
-			"Δpy" => "\\Delta_{p_y}",
-			"Δp+" => "\\Delta_{p_+}",
-			"Δp-" => "\\Delta_{p_-}",
-			"gS" => "g^{(s^*)}",
-			"gd" => "g^{(d)}",
-			# Convergence
-			"QΔpx" => "Q(|\\Delta_{p_x})",
-			"QΔpy" => "Q(\\Delta_{p_y})",
-			"QΔp+" => "Q(\\Delta_{p_+})",
-			"QΔp-" => "Q(\\Delta_{p_-})",
-			"QgS" => "Q(g^{(s^*)})",
-			"Qgd" => "Q(g^{(d)})",
-			# RMPs
-			"t_tilde" => "\\tilde{t}"
-		])
-	end
-
-	return merge(VarLabels, PhaseLabels)
-
-end
+PROJECT_MODULES_DIR = @__DIR__
+include(PROJECT_MODULES_DIR * "/methods-IO.jl")
+include(PROJECT_MODULES_DIR * "/structs.jl")
 
 function Plot2D(
 	FilePathIn::String;					# Data filepath
@@ -251,10 +166,12 @@ function Plot2D(
 			LegendLabel = "Simulated " * pVar * ":"
 		end
 
-		MinX = minimum(df[!,xVar])
-		MaxX = maximum(df[!,xVar])
-		MinY = minimum(df[!,yVar])
-		MaxY = maximum(df[!,yVar])
+		XX = filter(!isnan,df[!,xVar])
+		YY = filter(!isnan,df[!,yVar])
+		MinX = minimum(XX)
+		MaxX = maximum(XX)
+		MinY = minimum(YY)
+		MaxY = maximum(YY)
 
 		Pad = 5e-2
 		MinXLim = MinX - Pad*(MaxX-MinX)
@@ -287,7 +204,7 @@ function SavePlot2D(
 
 	# Initialize directory structure
 	Setup, Phase, Syms = UnpackFilePath(FilePathIn)
-	DirPathOut *= "/Syms=$(Syms...)/xVar=" * xVar * "_pVar=" * pVar * "/"
+	DirPathOut *= "/xVar=" * xVar * "_pVar=" * pVar * "/"
 	mkpath(DirPathOut)
 
 	# Save each plot

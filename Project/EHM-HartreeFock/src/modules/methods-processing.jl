@@ -12,8 +12,6 @@ function FindFS(
 )::Tuple{Vector{Float64}, Vector{Float64}}
 
 Returns: list of `x`, `y` coordinates of the Fermi Surface.
-
-[...]
 """
 function FindFS(
 	Phase::String,						# Mean field phase
@@ -102,8 +100,6 @@ function GetPointFS(
 )::DataFrame
 
 Returns: full information on point and relative Fermi Surface.
-
-[...]
 """
 function GetPointFS(
 	Phase::String,						# Mean field phase
@@ -178,8 +174,6 @@ function Addμ(
 )::DataFrame
 
 Returns: new dataframes completed with chemical potential.
-
-[...]
 """
 function Addμ(
 	Phase::String,
@@ -232,25 +226,8 @@ function Addμ(
 	return DF
 end
 
-		
-@doc raw"""
-[...]
-"""
-function 
-
-	DF = ImportData(FilePathIn)
-	Phase, Setup = UnpackFilePath(FilePathIn)
-	
-	for row in eachrow(DF)
-		if isnan(row.fMFT) # Not converged?
-			Parameters::Dict{String,Float64} = Dict([
-				"t" => row.t,
-				"U" => row.U,
-				"V" => row.V
-			])
-			v = eval(Meta.parse(row.v))
-			# HFPs = [key for key in keys(v)]
-		end
-	end
-	
+function FilteredRun(
+	FilePathIn::String
+)
+	[...]
 end

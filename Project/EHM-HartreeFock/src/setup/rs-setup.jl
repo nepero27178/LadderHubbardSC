@@ -91,15 +91,15 @@ if !in(Setup, AvailableSetups)
 elseif Setup=="Test[30]"
 	# TEST-SETUP
 	tt = [1.0]
-	UU = [1.0, 2.0, 3.0]
-	VV = [1.0, 2.0, 3.0]
+	UU = [U for U in 1.0:0.5:6.0]
+	VV = [V for V in 1.0:0.2:2.0]
 	LL = [30]
-	δδ = [0.0, 0.1]
+	δδ = [0.1]
 	ββ = [100.0]
-	p = 200
+	p = 100
 	Δv = TestΔv
 	Δn = 1e-2
-	g = 0.1
+	g = 0.2
 
 # --- MAIN A RUN ---
 elseif Setup=="A[150]"

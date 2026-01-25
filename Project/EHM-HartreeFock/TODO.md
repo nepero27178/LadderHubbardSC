@@ -28,7 +28,7 @@ ALGORITHM
 - [x] New structure for AF simulations
 - [x] Discard record-g mode and implement single mode
 - [x] Test new general plot function
-- [ ] Write new filtered run module
+- [x] Write new filtered run module
 - [ ] Add skip in 2D plot
 - [ ] Add surface interface for RMP 3D plot
 - [ ] Clean up setups
@@ -59,9 +59,9 @@ EHM: FAKEAF
 EHM: SU-SINGLET
 - [x] sanity check: compare optimized weights run vs dummy run => use dummy run for now
 - [ ] filtered run: re-compute the NaN points => write the filtered run module
-- [ ] heatmaps+RMPs s+s*-wave (negative U too)
-- [ ] heatmaps+RMPs d-wave
-- [ ] heatmaps+RMPs s+s*+d-wave
+- [ ] heatmaps+RMPs s+s*-wave (negative U too) => CHANGE COLUMN NAME, f => fMFT
+- [ ] heatmaps+RMPs d-wave => CHANGE COLUMN NAME, f => fMFT
+- [ ] heatmaps+RMPs s+s*+d-wave => CHANGE COLUMN NAME, f => fMFT
 
 EHM: FAKESU-SINGLET
 - [ ] do it later

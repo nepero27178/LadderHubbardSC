@@ -90,7 +90,7 @@ function RunHFScan(
 
 	# File coditional initialization (otherwise, just append)
 	if FilePathOut != "" && InitializeFile
-		Header = "t;U;V;Lx;β;δ;v;Q;ΔT;I;μ;g0;g;f;f0\n"
+		Header = "t;U;V;Lx;β;δ;v;Q;ΔT;I;μ;g0;g;fMFT\n"
 		write(FilePathOut, Header)
 	end
 
@@ -150,8 +150,7 @@ function RunHFScan(
 				v::Dict{String,Float64} = Dict([
 					key => Run["HFPs"][key] for key in HFPs
 				])
-
-				fMFT = Run["FreeEnergy"]
+				fMFT::Float64 = Run["FreeEnergy"]
 				Qs::Dict{String,Float64} = Dict([
 					key => Performance["Quality"][key] for key in HFPs
 				])
@@ -212,8 +211,8 @@ function main()
 		)
 	end
 
-	LogPathOut = DirPathOut * "/Syms=$(Syms...)_log.txt"
-	Header = "tt;UU;VV;LL;ββ;δδ;p;Δv;Δn;g;TotalRunTime;Machine\n"
+	LogPathOut = DirPathOut * "/Syms=$(Syms...).log"
+	Header = "tt;UU;VV;LL;ββ;δδ;p;Δv;Δn;TotalRunTime;Machine\n"
 	write(LogPathOut, Header)
 	Log = [[tt] [UU] [VV] [LL] [ββ] [δδ] p Δv Δn TotalRunTime gethostname()]
 	open(LogPathOut, "a") do io

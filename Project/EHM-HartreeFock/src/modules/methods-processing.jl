@@ -229,5 +229,129 @@ end
 function FilteredRun(
 	FilePathIn::String
 )
-	[...]
+
+	# Unpack path, load data and log
+	Setup, Phase, Syms = UnpackFilePath(FilePathIn)
+	DF = ImportData(FilePathIn)
+	LogPathIn = replace(FilePathIn, ".csv" => ".log")
+	LogDF = ImportData(LogPathIn)
+
+	# Get Hartree Fock Parameters labels
+	HFPs = GetHFPs(Phase;Syms)
+
+	# Set up bands renormalization
+	RenormalizeBands::Bool = true
+	occursin("Fake",Phase) ? RenormalizeBands = false : 0
+
+	# Prepare for filtered run
+	Δv::Dict{String,Float64} = eval(Meta.parse(LogDF.Δv[1]))
+	Δn::Float64 = LogDF.Δn[1]
+	p::Int64 = 3*LogDF.p[1] # Four times as many steps
+
+	# Build output
+	FilePathOut = replace(FilePathIn, "simulations" => "processing")
+	LogPathOut = replace(LogPathIn, "simulations" => "processing")
+	mkpath(dirname(FilePathOut))
+
+	# Assert if working on an already filtered layer
+	if occursin("Layer=",FilePathIn)
+		eval(Meta.parse(
+			split(FilePathIn,'.')[2]
+		))
+		FilePathOut = replace(FilePathOut,"Layer=$(Layer)" => "Layer=$(Layer+1)")
+		LogPathOut = replace(LogPathOut,"Layer=$(Layer)" => "Layer=$(Layer+1)")
+	elseif !occursin("Layer=",FilePathIn)
+		FilePathOut = replace(FilePathOut,".csv" => ".Layer=1.csv")
+		LogPathOut = replace(LogPathOut,".log" => ".Layer=1.log")
+	end
+
+	# Write output header
+	Header = "t;U;V;Lx;β;δ;v;Q;ΔT;I;μ;g0;g;fMFT\n"
+	write(FilePathOut, Header)
+
+	# Write log
+	Header = "p;Δv;Δn;Machine\n"
+	write(LogPathOut, Header)
+	Log = [p Δv Δn gethostname()]
+	open(LogPathOut, "a") do io
+		writedlm(io, Log, ';')
+	end
+
+	j::Int64 = 1 # NaN counter
+	J::Int64 = 0 # Remaining NaN counter
+	Iterations::Int64 = sum(isnan.(DF.fMFT))
+	i0 = findfirst(!isnan,DF.fMFT) # Hopefully i0=1
+	v0i::Dict{String,Float64} = eval(Meta.parse(DF[i0,:].v))
+	for (r,row) in enumerate(eachrow(DF))
+
+		if isnan(row.fMFT) # Check energy to assess convergence
+			printstyled(
+				"\e[2K\e[1GFilter run ($j/$Iterations): " *
+				"$Phase HF at t=$(row.t), U=$(row.U), V=$(row.V), L=$(row.Lx), β=$(row.β), δ=$(row.δ)",
+				color=:yellow
+			)
+			ResultsVector::Matrix{Any} = [0 0]  # Dummy placeholder
+			ResultsVector = hcat(ResultsVector, [row.t row.U row.V 0 row.β row.δ]) # Lx later
+
+			Parameters::Dict{String,Float64} = Dict("t" => row.t, "U" => row.U, "V" => row.V)
+			for (key,val) in v0i
+				v0i[key] = val + 0.1*sign(val) # Avoid 0.0 prolems
+			end
+
+			g::Float64 = row.g * 0.75
+			Run, Performance = RunHFAlgorithm(
+				Phase,Parameters,[row.Lx, row.Lx],0.5+row.δ,Float64(row.β),
+				p,Δv,Δn,g;
+				v0i,
+				Syms,
+				RenormalizeBands,
+				OptimizeBZ=false # More precise
+			)
+
+			v::Dict{String,Float64} = Dict([
+				key => Run["HFPs"][key] for key in HFPs
+			])
+			fMFT::Float64 = Run["FreeEnergy"]
+			Qs::Dict{String,Float64} = Dict([
+				key => Performance["Quality"][key] for key in HFPs
+			])
+			ResultsVector = hcat(
+				ResultsVector[:,3:end],
+				[v Qs Performance["Runtime"] Performance["Steps"] Run["ChemicalPotential"] row.g0 g fMFT]
+			)
+			ResultsVector[4] = row.Lx # Add here to get correct Int64 formatting
+
+			open(FilePathOut, "a") do io
+				writedlm(io, ResultsVector, ';')
+			end
+
+			isnan(fMFT) ? J += 1 : v0i = copy(v) # If converged, advance
+			j += 1
+
+		elseif !isnan(row.fMFT) # Check energy for convergence
+
+			ResultsVector = [0 0]  # Dummy placeholder
+			ResultsVector = hcat(ResultsVector, [row.t row.U row.V 0 row.β row.δ]) # Lx later
+			v = eval(Meta.parse(DF[r,:].v))
+			v0i = copy(v)
+			Qs = eval(Meta.parse(DF[r,:].v))
+			ResultsVector = hcat(
+				ResultsVector[:,3:end],
+				[v Qs row.ΔT row.I row.μ row.g0 row.g row.fMFT]
+			)
+			ResultsVector[4] = row.Lx # Add here to get correct Int64 formatting
+
+			open(FilePathOut, "a") do io
+				writedlm(io, ResultsVector, ';')
+			end
+		end
+	end
+
+	printstyled(
+		"\e[2K\e[1GDone! Data saved at " * FilePathOut * "\n", color=:green
+	)
+	if J>0
+		@warn "Remaining NaNs:" J
+	end
+
 end

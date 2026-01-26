@@ -1,3 +1,16 @@
+function GetKGrid(
+	L::Vector{Int64}
+)::Tuple{Matrix{Vector{Float64}},Vector{Float64},Vector{Float64}}
+
+	# Reciprocal space discretization (normalized to 1)
+	Kx::Vector{Float64} = [kx for kx in -1:2/L[1]:1]
+	popfirst!(Kx)
+	Ky::Vector{Float64} = [ky for ky in -1:2/L[2]:1]
+	popfirst!(Ky)
+
+	return [ [kx,ky] for kx in Kx, ky in Ky ], Kx, Ky
+end
+
 @doc raw"""
 function StructureFactor(
 	Sym::String,

@@ -232,41 +232,10 @@ Expr.~\eqref{eq:af-hartree-renormalization-intermediate-2} is formally identical
 \end{equation}
 This, together with Eq.~\eqref{eq:af-hartree-chemical-potential-renormalization}, concludes the non-local Hartree reparametrization of the hamiltonian. Next section is devoted to analyzing the effect of the Fock term.
 
-\subsection{Fock renormalization of the hopping amplitude}\label{subsec:fock-renormalization-hopping-amplitude}
+\subsection{Fock hopping renormalization in the AF phase}\label{subsec:fock-hopping-renormalization-af}
 
-From Wick's decomposition of $\hat H_V$, the only allowed Fock term comes from the same-spin part due to $\mathrm{SU}(2)$ symmetry selection rules. Said hamiltonian term is
-\begin{equation}\label{eq:real-space-non-local-interaction-fock}
-	V \sum_{\ev{ij}} \sum_\sigma \left[
-	\langle
-	\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
-	\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} + \hc
-	\right]
-\end{equation}
-(note the $+$ sign in front of it). A bond-wise hopping amplitude can be defined,
-\[
-	\tilde{t}_{ij\sigma} \equiv t - V \langle
-	\hat c_{j\sigma}^\dagger \hat c_{i\sigma}
-	\rangle
-\]
-In the AF phase, given some site $i$ and a spin $\sigma$, evidently $\tilde{t}_{ij\sigma}$ must be identical for any NN site $j$. Over the planar square lattice, this implies that the quantity $\langle
-\hat c_{j\sigma}^\dagger \hat c_{i\sigma} \rangle$ exhibits $s^*$-wave symmetry (also referred to as ``Extended $s$-wave symmetry''). Later in the text, different symmetry structures will be discussed thoroughly. For now, the $s^*$-wave symmetry is the one given in Tab.~\ref{tab:x-wave-real-factors} and depicted in Fig.~\ref{subfig:s*-wave-correlator}. These considerations will become useful later. The effective diffusive hamiltonian is given by
-\[
-\begin{aligned}
-	\hat H_{\tilde{t}} &= \hat H_t + V \sum_{\ev{ij}} \sum_\sigma \left[
-	\langle
-	\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
-	\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} + \hc
-	\right] \\
-	&= - \sum_{\ev{ij}} \sum_\sigma 
-	\left[
-	\tilde{t}_{ij\sigma} \hat c_{i\sigma}^\dagger \hat c_{j\sigma} + \hc
-	\right]
-\end{aligned}
-\]
-As will become clear in next section, not only the diffusive part of the hamiltonian actually is affected by the Fock renormalization; also the gap terms are effectively renormalized.
-
-In reciprocal space, the effective hopping must be transformed as well. Consider the Fourier Transform given in Eq.~\eqref{eq:reciprocal-space-non-local-interaction-explicit}, applied to Eq.~\eqref{eq:real-space-non-local-interaction-fock},
-\begin{multline}
+Recall the result of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate},
+\begin{multline*}
 	V \sum_{\ev{ij}} \sum_\sigma \left[
 	\langle
 	\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
@@ -283,9 +252,9 @@ In reciprocal space, the effective hopping must be transformed as well. Consider
 	\hat c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger 
 	\hat c_{\mathbf{K}-\mathbf{k}' \sigma}
 	\rangle
-	\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}+\mathbf{k}'\sigma} \label{eq:reciprocal-space-non-local-interaction-fock-intermediate}
-\end{multline}
-where the $2$ prefactor comes from recognizing that the $\hc$ generates an identical contribution to the full sum. In order to proceed, it is now necessary to understand how the AF phase is realized in reciprocal space. As is exposed in App.~\ref{appendix:mean-field-hubbard}, to impose an AF Ansatz of the form
+	\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}+\mathbf{k}'\sigma}
+\end{multline*}
+In order to proceed, it is now necessary to understand how the AF phase is realized in reciprocal space. As is exposed in App.~\ref{appendix:mean-field-hubbard}, to impose an AF Ansatz of the form
 \[
 \langle \hat n_{\mathbf{r}\sigma} \rangle = n - (-1)^{x+y+\delta_{\sigma=\uparrow}} m
 \]
@@ -383,7 +352,7 @@ being for $\ell=x,y$
 	&= 2k_\ell
 \end{aligned}
 \]
-The form factor $\cos (\delta q_x) + \cos (\delta q_y)$ decomposes in waves as in Eq.~\eqref{eq:coscos-symmetries-decomposition}. In the AF phase, $\langle \hat c_{\mathbf{q}\sigma}^\dagger  \hat c_{\mathbf{q}\sigma} \rangle$ must be $s^*$-wave symmetric, as anticipated in the starting discussion of Sec.~\ref{subsec:fock-renormalization-hopping-amplitude}. This is due to the fact that of the four symmetries listed above, only the first one exhibits both $x$, $y$ reflections symmetry and $\pi/2$ rotational invariance. It follows, only the $s^*$-wave component when coupled to $\langle \hat c_{\mathbf{q}\sigma}^\dagger  \hat c_{\mathbf{q}\sigma} \rangle$ in Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-dd-intermediate} gives a non-null contribution, reducing the latter to
+The form factor $\cos (\delta q_x) + \cos (\delta q_y)$ decomposes in waves as in Eq.~\eqref{eq:coscos-symmetries-decomposition}. In the AF phase, $\langle \hat c_{\mathbf{q}\sigma}^\dagger  \hat c_{\mathbf{q}\sigma} \rangle$ must be $s^*$-wave symmetric, as anticipated in the starting discussion of Sec.~\ref{subsec:fock-hopping-renormalization-af}. This is due to the fact that of the four symmetries listed above, only the first one exhibits both $x$, $y$ reflections symmetry and $\pi/2$ rotational invariance. It follows, only the $s^*$-wave component when coupled to $\langle \hat c_{\mathbf{q}\sigma}^\dagger  \hat c_{\mathbf{q}\sigma} \rangle$ in Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-dd-intermediate} gives a non-null contribution, reducing the latter to
 \begin{multline}
 	\frac{2V}{L_x L_y} \sum_{\mathbf{q}, \mathbf{q}'} \sum_\sigma \left[
 	\cos \left( \delta q_x \right) + \cos \left( \delta q_y \right)	

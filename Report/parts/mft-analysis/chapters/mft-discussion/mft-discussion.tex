@@ -25,7 +25,7 @@ Mean Field Theory (MFT) is a widely used and simple theoretical tool, often suff
 
 \section{Extended Hubbard model symmetries and Wick's theorem}\label{sec:ehm-symmetries}
 
-The general aim is to study the phase diagram of the model by comparing ground-state energies of different phases. The phases we consider in next chapters for the EHM are the Anti-Ferromagnetic ordering (AF), given by a non-uniform distribution of charge in each spin sector, and the Superconducting phase, described by a uniformly distributed charge allowing for Cooper pairing instabilities. The first evident symmetry of the model is a global $\mathrm{U}(2)$ symmetry \cite{arovas2022hubbard} given by the transformation
+The general aim of this project is to study the phase diagram of the EHM by comparing ground-state energies of different phases. The phases we consider in next chapters for the EHM are the normal state (N), the antiferromagnetic ordering (AF), given by a non-uniform distribution of charge in each spin sector, and the (anisotropic) superconducting phase, described by a uniformly distributed charge allowing for Cooper pairing instabilities. The first evident symmetry of the model is a global $\mathrm{U}(2)$ symmetry \cite{arovas2022hubbard} given by the transformation
 \begin{equation}\label{eq:ehm-global-u2-symmetry}
 	\hat c_{i\sigma} \to \sum_{\sigma'} \mathcal{U}_{\sigma \sigma'} \hat c_{i\sigma'}
 	\qq{with}
@@ -70,56 +70,113 @@ The last point is important: for the AF phase, for example, there is no need for
 		$\mathrm{U}^z(1)$ & Reduced two-dimensional rotations around order parameter after SSB \\
 		\midrule
 	\end{tabular}
-	\caption{Model symmetries and relative group operations. Note that $U^\mathrm{c}(1)$ represents the charge conserving group, while $\mathrm{U}^z(1)$ represents the subgroup obtained by breaking the $\mathrm{SU}(2)$ symmetry with a vector order parameter and preserving its amplitude.}
+	\caption{Model symmetries and relative group operations. Note that $\mathrm{U}^\mathrm{c}(1)$ represents the charge conserving group, while $\mathrm{U}^z(1)$ represents the subgroup obtained by breaking the $\mathrm{SU}(2)$ symmetry with a vector order parameter and preserving its amplitude.}
 	\label{tab:symmetry-groups}
 \end{table}
 
 Different phases are described by different order parameters, each one exhibiting a specific symmetry subset from the initial set, while the rest are broken. Ferromagnetic state perform $\mathrm{SU}(2) \to \mathrm{U}^z(1)$ spontaneous symmetry breaking (SSB), through the magnetic order parameter acquiring a specific spatial direction. Such SSB process is graphically depicted in Fig.~\ref{fig:su2-u1-domains}. Anti-ferromagnetic ordering breaks also translational invariance (reducing it to a smaller symmetry, relative to double-sized unitary cells). Basic superconducting models do not break translational invariance and can preserve full $\mathrm{SU}(2)$ symmetry, while breaking $\mathrm{U}^\mathrm{c}(1)$ charge conservation. The three phases hereby considered do not completely break translational invariance: the latter either is left untouched or is reduced to a weaker translational invariance. Because of this, it will be rather useful to move the framework to reciprocal space. We will get there in Sec.~\ref{subsec:mft-discussion-reciprocal-non-local}.
 
-App.~\ref{appendix:mean-field-hubbard} describes in detail the MFT treatment of the pure Hubbard model, $\hat H_t + \hat H_U$ and its AF phase; the key passage is there given by the approximation
+\subsection{Particle-hole symmetry}
+
+\todo For now, let us focus on the non-local term showing how can it break symmetries.
+
+\section{MFT framework and self-consistency}
+
+The Mean Field Theory approach to a fermionic quartic is given by the following procedure: given the hamiltonian made of the quadratic operators $\hat A$ and $\hat B$
+\[
+\hat H = \hat A \hat B
+\]
+we define the fluctuations
+\[
+\delta \hat A = \hat A - \langle \hat A \rangle 
+\qquad
+\delta \hat B = \hat B - \langle \hat B \rangle
+\]
+thus the following chain holds:
+\[
+\begin{aligned}
+	\hat A \hat B &= \langle \hat A \rangle \langle \hat B \rangle + \delta \hat A \langle \hat B \rangle + \langle \hat A \rangle \delta \hat B + \delta \hat A \delta \hat B \\
+	&= - \langle \hat A \rangle \langle \hat B \rangle + \hat A \langle \hat B \rangle + \langle \hat A \rangle \hat B + \underbrace{
+		\delta \hat A \delta \hat B
+	}_{\mathcal{O}(\delta)^2}
+\end{aligned}
+\]
+which implies
+\[
+\langle \hat H \rangle = \langle \hat A \rangle \langle \hat B \rangle + \langle \delta \hat A \delta \hat B \rangle
+\]
+Thus, if $| \langle \hat A \rangle \langle \hat B \rangle | \gg | \langle \delta \hat A \delta \hat B \rangle |$, in a statistical sense we can neglect the $\mathcal{O}(\delta)^2$ part of the hamiltonian and approximate
+\[
+\hat H \simeq \hat A \langle \hat B \rangle + \langle \hat A \rangle \hat B - \langle \hat A \rangle \langle \hat B \rangle
+\]
+Self consistency of MFT procedure is thus embodied by the condition
+\begin{equation}\label{eq:mft-global-self-consistency}
+	\left| \frac{\langle \delta \hat A \delta \hat B \rangle}{\langle \hat A \rangle \langle \hat B \rangle} \right| \ll 1
+	\quad\implies\quad
+	\left| \frac{\langle \hat A \hat B \rangle}{\langle \hat A \rangle \langle \hat B \rangle} - 1 \right| \ll 1
+\end{equation}
+which essentially states that the least the fluctuations, the better the approximation. This rule of thumb is necessary in order to interpret the physical relevance of numerical MFT results. We will come back to this in the end, for now assuming the validity of MFT approximation and deriving the mathematical results.
+
+\subsection{MFT treatment of the pure Hubbard model}\label{subsec-mft-treatment-hm}
+
+The pure Hubbard model, $\hat H_t + \hat H_U$, offers a simple framework for MFT analysis of the AF phase: this is described in detail in App.~\ref{appendix:mean-field-hubbard}. The key passage is there given by the MFT approximation
 \begin{equation}\label{eq:mft-pure-hubbard-wick-decomposition}
 	\hat n_{i\uparrow} \hat n_{i\downarrow} \simeq \hat n_{i\uparrow} \langle \hat n_{i\downarrow} \rangle + \langle \hat n_{i\uparrow} \rangle \hat n_{i\downarrow} + (\mathrm{constants})
 \end{equation}
-from which the AF structure is simply recovered. However, to perform the above approximation coherently, we are implementing Wick's Theorem on the generic term:
+from which the AF structure is simply recovered.
+In terms of the discussion of the above paragraph, we have $\hat A \equiv \hat n_{i\uparrow}$ and $\hat B \simeq \hat n_{i\downarrow}$. However the ``full'' operator is given by
+\[
+	\hat n_{i\uparrow} \hat n_{i\downarrow} = \hat c_{i\uparrow}^\dagger \hat c_{j\downarrow}^\dagger \hat c_{j\downarrow} \hat c_{i\uparrow}
+\]
+which contracts in three different ways following Wick's Theorem:
 \begin{equation}\label{eq:mft-extended-hubbard-wick-decomposition}
 	\langle
-	\hat c_{i\sigma}^\dagger \hat c_{j\sigma'}^\dagger \hat c_{j\sigma'} \hat c_{i\sigma}
+	\hat c_{i\uparrow}^\dagger \hat c_{i\downarrow}^\dagger \hat c_{i\downarrow} \hat c_{i\uparrow}
 	\rangle \simeq \underbrace{
 		\langle 
-		\hat c_{i\sigma}^\dagger \hat c_{j\sigma'}^\dagger
+		\hat c_{i\uparrow}^\dagger \hat c_{i\downarrow}^\dagger
 		\rangle \langle	
-		\hat c_{j\sigma'} \hat c_{i\sigma} 
+		\hat c_{i\downarrow} \hat c_{i\uparrow} 
 		\rangle 
 	}_{\text{Cooper}}
 	- 
 	\underbrace{
 		\langle 
-		\hat c_{i\sigma}^\dagger \hat c_{j\sigma'}
+		\hat c_{i\uparrow}^\dagger \hat c_{i\downarrow}
 		\rangle \langle	
-		\hat c_{j\sigma'}^\dagger \hat c_{i\sigma} 
+		\hat c_{i\downarrow}^\dagger \hat c_{i\uparrow} 
 		\rangle 
 	}_{\text{Fock}}
 	+ 
 	\underbrace{
 		\langle 
-		\hat c_{i\sigma}^\dagger \hat c_{i\sigma}
+		\hat c_{i\uparrow}^\dagger \hat c_{i\uparrow}
 		\rangle \langle	
-		\hat c_{j\sigma'}^\dagger \hat c_{j\sigma'} 
+		\hat c_{i\downarrow}^\dagger \hat c_{i\downarrow} 
 		\rangle
 	}_{\text{Hartree}}
 \end{equation}
-As a first approximation, the theorem is assumed to hold (which, in a $\mathrm{BCS}$-like fashion, is equivalent to assuming for the ground-state to be a coherent state). The AF ground state breaks translational invariance and reduces rotational symmetry, $\mathrm{SU}(2) \to \mathrm{U}^z(1)$. Thus, of the three terms above, when considering the pure Hubbard model: 
+As a first approximation, the theorem is assumed to hold (which, in a $\mathrm{BCS}$-like fashion, is equivalent to assuming for the ground-state to be a coherent state). The AF ground state breaks translational invariance and reduces rotational symmetry, $\mathrm{SU}(2) \to \mathrm{U}^z(1)$. Thus, of the three terms above, when considering the pure Hubbard model in AF phase: 
 \begin{itemize}
 	\item Cooper fluctuations are suppressed, because they break charge conservation;
 	\item Similarly the Fock term is null as well because if $i=j$ and $\sigma'=\overline{\sigma}$ (as is for the local interaction, which contains the operator $\hat n_{i\uparrow} \hat n_{i\downarrow}$) the expectation values involved are describing a process breaking the survivor $\mathrm{U}^z(1)$ spin symmetry. 
 \end{itemize}
-Thus, correctly, the Wick's decomposition of Eq.~\eqref{eq:mft-pure-hubbard-wick-decomposition} only involves Hartree-terms of Eq.~\eqref{eq:mft-extended-hubbard-wick-decomposition}. In general, however, the three terms need to be considered altogether: this is what is done in the next chapters. 
+Thus, correctly, the Wick's decomposition of Eq.~\eqref{eq:mft-pure-hubbard-wick-decomposition} only involves Hartree-terms of Eq.~\eqref{eq:mft-extended-hubbard-wick-decomposition}. The distinction between the normal phase and the AF phase id given by whether the Hartree fluctuations break or not translational symmetry: antiferromagnetism is indeed a specific SDW ordering which weakens the latter. In general the three parts of the decomposition (Hartree, Fock, Cooper) need to be considered altogether: this is what is done in the next chapters. What said here extends naturally to the EHM: the relevant contributions for each phase given by the local repulsion $\hat U$ in the EHM are listed in Tab.~\ref{tab:U-wick-terms-phases}.
 
-\subsection{Particle-hole symmetry}
+\begin{table}
+	\centering
+	\begin{tabular}{c c c c c}\textbf{Term} & \textbf{Normal phase} & \textbf{Antiferromagnet} & \textbf{Superconductor} \\
+		\midrule
+		Hartree & & & \\
+		Fock & Prohibited & Prohibited & Prohibited \\
+		Cooper & Prohibited & Prohibited & \\
+		\midrule
+	\end{tabular}
+	\caption{Summary of Wick's terms selection rules and relevant contributions to the effective hamiltonian for each phase limitedly to $\hat H_U$.}
+	\label{tab:U-wick-terms-phases}
+\end{table}
 
-\todo For now, let us focus on the non-local term showing how can it break symmetries.
-
-\section{The non-local term as a source of symmetry-breaking interactions}\label{sec:mft-discussion-non-local-source}
+\section{The non-local attraction $\hat H_V$ as a source of symmetry-breaking interactions}\label{sec:mft-discussion-non-local-source}
 
 \begin{figure}
 	\centering
@@ -128,7 +185,7 @@ Thus, correctly, the Wick's decomposition of Eq.~\eqref{eq:mft-pure-hubbard-wick
 	\label{fig:square-nearest-neighbors}
 \end{figure}
 
-Consider now the NN non-local term,
+Let us now extend the discussion to the EHM and consider the NN non-local attraction,
 \begin{equation}\label{eq:extended-hubbard-nonlocal-interaction}
 	\hat H_V \equiv - V \sum_{\langle ij \rangle} \sum_{\sigma \sigma'} \hat n_{i\sigma} \hat n_{j\sigma'}
 \end{equation}
@@ -141,7 +198,7 @@ Evidently the hamiltonian can be decomposed in various spin terms,
 		\hat H_V^{\uparrow\downarrow} + \hat H_V^{\downarrow\uparrow}
 	}_\text{Opposite-spin} \label{eq:ehm-non-local-ss-os-terms}
 \end{align}
-The role of said terms is crucial in establishing the pairing channel of the dominating physical phase. As an example, the s.s. terms can be seen as a possible source of triplet pairing superconductivity. Next section are devoted to analyze said terms and derive a simple analytical result in reciprocal space.
+The role of said terms is crucial in establishing the pairing channel of the dominant physical phase. As an example, the s.s. terms can be seen as a possible source of triplet pairing superconductivity. Next section are devoted to analyze said terms and derive a simple analytical result in reciprocal space.
 
 \subsection{Real space description}\label{subsec:mft-discussion-real-non-local}
 
@@ -235,9 +292,9 @@ Identical decompositions are given for all others NNs. Of the three terms above:
 \begin{itemize}
 	\item The Coooper term breaks $\mathrm{U}^\mathrm{c}(1)$ charge symmetry, allowing for supeconducting instabilities;
 	\item The Fock term breaks the $\mathrm{U}^z(1)$ symmetry, because it accounts for a site hop \textit{plus} spin flip process;
-	\item The Hartree term breaks translational invariance, because the mean-field to interact with is given by the local density. $\mathrm{SU}(2)$ symmetry is also broken, because we do not have spin DoF perfect degeneracy anymore, but $\mathrm{U}^z(1$ symmetry still holds.
+	\item The Hartree term can break translational invariance (based on our Ansatz on the expectation value), because the mean-field to interact with is given by the local density. $\mathrm{SU}(2)$ symmetry is also broken, because we do not have spin DoF perfect degeneracy anymore, but $\mathrm{U}^z(1)$ symmetry still holds.
 \end{itemize}
-Then, to look for AF instability only the Hartree term is to be accounted; instead, in superconducting instability only the Cooper term contributes. Note that for superconducting instabilities, due to superexchange mechanism (as explained in App.~\ref{appendix:mean-field-hubbard}) the o.s. term account for singlet pairing as well as zero-spin triplet pairing. Which channel is preferred, is a matter of thermodynamic advantage.
+As a general rule of thumb, throughout this text we will discard the o.s. Fock term eveywhere. For the normal state as well as for the AF instability only the Hartree term is to be accounted; in superconducting instability also the Cooper term contributes. Note that for superconducting instabilities, due to superexchange mechanism (as explained in App.~\ref{appendix:mean-field-hubbard}) the o.s. term account for singlet pairing as well as zero-spin triplet pairing. Which channel is preferred, is a matter of thermodynamic advantage.
 
 \paragraph{Same-spin terms.} Consider then the same-spin terms: take e.g. the term $\hat n_{i\uparrow} \hat n_{i + \delta_x \uparrow}$. As above,
 \[
@@ -273,7 +330,27 @@ Then, to look for AF instability only the Hartree term is to be accounted; inste
 	}_{\text{Hartree}}
 \end{aligned}
 \]
-Identical consideration as in the above paragraph hold for each term. The only difference with the o.s. terms is given by the Fock term: since the spin-flip process is absent, now the Fock fluctuations actually contribute as an effective NN hopping term. In other words, this term does not break $\mathrm{U}^z(1)$ symmetry and thus is perfectly legitimate, say, in AF or superconducting phase. As a final remark, notice that the superconducting instabilities of the s.s. terms account only for triplet pairing. The only possible superconducting ordering established by the means of these terms is odd in real space. Then $s$-wave and $d$-wave superconductivity cannot establish in this channel; $p_\ell$-wave superconductivity, instead, can.
+Identical consideration as in the above paragraph hold for each term. The only difference with the o.s. terms is given by the Fock term: since the spin-flip process is absent, now the Fock fluctuations actually contribute as an effective NN hopping term. In other words, this term does not break $\mathrm{U}^z(1)$ symmetry and thus is perfectly legitimate in each phgase. Tab.~\ref{tab:V-wick-terms-phases} summarizes the selection rules hereby presented.
+
+\begin{table}
+	\centering
+	\begin{tabular}{c c c c c}
+		\textbf{Sector}& \textbf{Term} & \textbf{Normal phase} & \textbf{Antiferromagnet} & \textbf{Superconductor} \\
+		\midrule
+		& Hartree & & & \\
+		o.s. & Fock & Prohibited & Prohibited & Prohibited \\
+		& Cooper & Prohibited & Prohibited & \\
+		\midrule
+		& Hartree & & & \\
+		s.s. & Fock & & & \\
+		& Cooper & Prohibited & Prohibited & \\
+		\midrule
+	\end{tabular}
+	\caption{Summary of Wick's terms selection rules and relevant contributions to the effective hamiltonian for each phase limitedly to $\hat H_V$.}
+	\label{tab:V-wick-terms-phases}
+\end{table}
+
+As a final remark, notice that the superconducting instabilities of the s.s. terms account only for triplet pairing. The only possible superconducting ordering established by the means of these terms is odd in real space. Then $s$-wave and $d$-wave superconductivity cannot establish in this channel; $p_\ell$-wave superconductivity, instead, can.
 
 \subsection{Reciprocal space transform of the model interactions}\label{subsec:mft-discussion-reciprocal-interactions}
 
@@ -457,7 +534,7 @@ For the $2$D square lattice, various spatial symmetries are possible. Let $i$ be
 \[
 	g_{ij} = \sum_\gamma g^{(\gamma)} \varphi_{ij}^{(\gamma)}
 \]
-where $g^{(\gamma)}$ are the $g_{ij}$ symmetries-decomposition coefficients while $\varphi_{ij}^{(\gamma)}$ are the form factors listed in Tab.~\ref{tab:x-wave-real-factors}, a simple orthonormal rearrangement of the harmonics basis.
+where $g^{(\gamma)}$ are the $g_{ij}$ symmetries-decomposition coefficients while $\varphi_{ij}^{(\gamma)}$ are the form factors listed in Tab.~\ref{tab:x-wave-real-factors} and plotted in Fig.~\ref{fig:x-wave-reciprocal-factors}, a simple orthonormal rearrangement of the harmonics basis.
 
 \setlength{\extrarowheight}{0.5em}
 \begin{table}
@@ -486,10 +563,6 @@ Antiferromagnetic ordering considered in this text exhibits a perfect $s \oplus 
 
 When dealing with phases which respect translational symmetry, or at most reduce it to a weaker symmetry by shrinking the Brillouin Zone, it' useful to work in reciprocal space, as discussed in Sec.~\ref{sec:mft-analysis-reciprocal-space}. As said, a particular phase can show specific spatial symmetries, and so will the Hartree Fock parameters. The key point to notice is that self-consistent equations involve sums (or integrals) to be computed over fermionic states, which can be heavily simplified by employing said symmetries. Consider the form factors of Tab.~\ref{tab:x-wave-real-factors}, and their Fourier transforms of Tab.~\ref{tab:x-wave-reciprocal-factors}. If these symmetries are developed by the HFPs, it's of no use to integrate over the entire BZ, since different regions linked by periodicity of the form factors will lead to redundant calculations.
 
-{\color{tabred}[
-	Add: plots of the Brillouin zone cut for different symmetries.
-]}
-
 \setlength{\extrarowheight}{0.5em}
 \begin{table}
 	\centering
@@ -503,10 +576,17 @@ When dealing with phases which respect translational symmetry, or at most reduce
 		$d_{x^2-y^2}$-wave & $\varphi_\mathbf{k}^{(d)}$ & $\cos k_x - \cos k_y$ & Fig.~\ref{subfig:d-wave-correlator} \\[0.5em]
 		\midrule
 	\end{tabular}
-	\caption{Structure factors derived from the correlation structures of Tab.~\ref{tab:x-wave-real-factors}. The functions hereby defined are orthonormal.}
+	\caption{Structure factors derived from the correlation structures of Tab.~\ref{tab:x-wave-real-factors}. The functions hereby defined are orthonormal, and are plotted in Fig-~\ref{fig:x-wave-reciprocal-factors}.}
 	\label{tab:x-wave-reciprocal-factors}
 \end{table}
 \setlength{\extrarowheight}{0em}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.9\linewidth]{../Project/EHM-HartreeFock/src/labs/structure-factors/plot-structure-factors.pdf}
+	\caption{Representation of the various structure factors listed in Tab.~\ref{tab:x-wave-reciprocal-factors} on the BZ. For the $s^*$ and $d_{x^2-y^2}$-wave factors, the real part is plotted; for the $p_\ell$ factors, the imaginary part is plotted.}
+	\label{fig:x-wave-reciprocal-factors}
+\end{figure}
 
 Finally, a very useful detail is given by the following argument. Consider the equation
 \[

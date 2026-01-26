@@ -1,0 +1,358 @@
+\def\GraphicsFolder{parts/mft-analysis/chapters/normal-phase/pictures}
+\chapter{The normal phase}\label{chap:normal-phase}
+
+This chapter is devoted to the MFT analysis of the ``normal phase'', which is, the one where interacting electrons do not develop an antiferromagnetic or superconducting gap, although undergoing an effective non-trivial transformation. What will be derived here, in particular the hopping renormalization effect, constitutes a peculiarity of effective MFT treatment of the EHM and will be the groundwork of following analyses. Note that this chapter is structured in such a way that what is derived here mathematically is recovered and expanded to more complex phases in next chapters.
+
+\section{Theoretical description of the ``normal'' phase}
+
+The normal phase is simply the one where no symmetry is broken, and the many-body ground state preserves the entire $\mathrm{U}(2)$ structure of Eq.~\eqref{eq:ehm-global-u2-symmetry-u1-su2} as well as translational symmetry. Thus, the normal phase is essentially given by the null gap limit of both the antiferromagnetic and superconducting phases. By discussing it separately now, we highlight a MFT feature of the EHM of particular interest. From Tabs.~\ref{tab:U-wick-terms-phases} and \ref{tab:V-wick-terms-phases}, we know that the relevant Wick's contractions (RWCs) for this phase are
+\[
+\begin{aligned}
+	&\hat H_U 
+	&&\text{Hartree contraction} \\
+	&\hat H_V \text{ (o.s. sector)}
+	&&\text{Hartree contraction} \\
+	&\hat H_V \text{ (s.s. sector)}
+	&&\text{Hartree and Fock contractions} \\
+\end{aligned}	
+\]
+and since the phase we are establishing obeys translational symmetry, we also know Hartree terms are essentially chemical potential shifts. Next section derives this effect in detail.
+
+\subsection{Hartree shift of $\mu$}\label{subsec:hartree-shifts-mu}
+
+In the context of numerical simulations at fixed density, the chemical potential is determined self-consistently; thus any net effect that shifts $\mu$ is effectively ignored within the iterative algorithm. For the sake of completeness, we hereby derive the effect analytically.
+
+\paragraph{Local repulsion.}
+
+In the normal phase, the local repulsion $\hat H_U$ only contributes through Hartree-like RWCs,
+\[
+	\hat H_U \simeq
+	U \sum_{i} \left[
+		\langle 
+			\hat n_{i\uparrow}
+		\rangle \hat n_{i\downarrow} + \hat n_{i\uparrow} \langle 
+			\hat n_{i\downarrow}
+		\rangle - \langle 
+			\hat n_{i\downarrow}
+		\rangle \langle 
+			\hat n_{i\uparrow}
+			\rangle
+	\right]
+\]
+For a translationally invariant phase such as the normal phase, it holds
+\begin{equation}\label{eq:normal-density-ansatz}
+	\langle \hat n_{i\sigma} \rangle = n
+\end{equation}
+which gives immediately
+\[
+\begin{aligned}
+	\hat H_U &\simeq
+	nU \sum_i \left[
+		 \hat n_{i\uparrow} + \hat n_{i\downarrow}
+	\right]
+	- U \sum_i n^2 \\
+	&= nU \times \hat N - E_{\mathrm{H}/U}^{(\mathrm{N})}
+\end{aligned}
+\]
+being $\hat N$ the total number operator and $ E_{\mathrm{H}/U}^{(\mathrm{N})}$ the ``contraction energy'' (also known as double counting term) due to the Hartree (H) contraction of the $U$ repulsion,
+\[
+	 E_{\mathrm{H}/U}^{(\mathrm{N})} = nU \times L_x L_y
+\]
+which correctly is a linearly extensive quantity. The chemical potential is corrected by
+\begin{equation}\label{eq:local-hartree-mu-shift}
+	\mu \to \mu - nU
+\end{equation}
+The non-local attraction further corrects $\mu$.
+
+\paragraph{Non-local attraction.}
+
+Let us break down $\hat H_V$ isolating its Hartree RWCs in both o.s. and s.s. sectors:
+\begin{multline*}
+	\hat H_V \simeq 
+	\overbrace{
+		-V \sum_{\ev{ij}} \sum_\sigma \left[
+			\langle 
+			\hat n_{i\sigma}
+			\rangle \hat n_{j\sigma} + \hat n_{i\sigma} \langle 
+			\hat n_{j\sigma}
+			\rangle - \langle 
+			\hat n_{i\sigma}
+			\rangle \langle 
+			\hat n_{j\sigma}
+			\rangle
+		\right]
+	}^{\mathrm{s.s.}} \\
+	\underbrace{
+		-V \sum_{\ev{ij}} \sum_\sigma \left[
+			\langle
+			\hat n_{i\sigma}
+			\rangle \hat n_{j\overline{\sigma}} + \hat n_{i\sigma} \langle 
+			\hat n_{j\overline{\sigma}}
+			\rangle
+			- \langle 
+			\hat n_{i\sigma}
+			\rangle \langle 
+			\hat n_{j\overline{\sigma}}
+			\rangle
+		\right]
+	}_{\mathrm{o.s.}} \, +\, 
+	(\text{all the rest})
+\end{multline*}
+where ``all the rest'' collects all non-Hartree RWCs. Recalling the Ansatz of Eq.~\eqref{eq:normal-density-ansatz}, we get
+\[
+	\hat H_V \simeq  \underbrace{
+		-nV \sum_{\ev{ij}} \sum_\sigma \left[
+		\hat n_{j\sigma} + \hat n_{i\sigma}
+		\right]
+	}_{\mathrm{s.s.}}
+	\underbrace{
+		-nV \sum_{\ev{ij}} \sum_\sigma \left[
+		\hat n_{j\overline{\sigma}} + \hat n_{i\sigma}
+		\right]
+	}_{\mathrm{o.s.}} 
+	- E_{\mathrm{H}/V}^{(\mathrm{N})}
+	+ (\text{all the rest})
+\]
+with $E_{\mathrm{H}/V}^{(\mathrm{N})}$ the normal state shift to energy brought by $\hat H_V$,
+\[
+	E_{\mathrm{H}/V}^{(\mathrm{N})} = 2V \sum_{\ev{ij}} \sum_\sigma n^2 = 4n^2 V \times \frac{z}{2} L_x L_y
+\]
+being $z=4$ the coordination number for the $2$D square lattice. Now, evidently both sums above are just a number operator,
+\[
+	\hat H_V \simeq -2nzV \times \hat N + 
+	(\text{all the rest})
+\]
+This accounts for the final Hartree shift of $\mu$,
+\begin{equation}\label{eq:non-local-hartree-mu-shift}
+	\mu \to \mu + 2znV
+\end{equation}
+Thus, when considering the net shift to $\mu$ due to both interactions, we get
+\begin{equation}\label{eq:total-hartree-mu-shift}
+	\tilde{\mu} \equiv \mu + n(2zV-U)
+\end{equation}
+This result remains valid in all phases discussed in this text: for the AF phase, the SDW character leaves this shift untouched, while the superconducting phase we are discussion is inherently translational invariant.
+
+\subsection{Fock hopping renormalization in the normal phase}\label{subsec:fock-hopping-renormalization-normal}
+
+The most relevant effect brought by the presence of $\hat H_V$ is hopping renormalization. From Wick's decomposition of $\hat H_V$, the only allowed Fock term comes from the same-spin part due to $\mathrm{SU}(2)$ symmetry selection rules. Let us focus only on this term when decomposing $\hat H$:
+\begin{equation}\label{eq:real-space-non-local-interaction-fock}
+	\hat H_V \simeq 
+	V \sum_{\ev{ij}} \sum_\sigma \left[
+		\langle
+		\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+		\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} + 
+		\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+		\langle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} \rangle - \langle \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+		\rangle \langle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} \rangle
+	\right] + (\text{all the rest})
+\end{equation}
+(note the $+$ sign in front of the displayed term). A bond-wise hopping amplitude can be defined,
+\[
+	\tilde{t}_{ij\sigma} \equiv t - V \langle
+	\hat c_{j\sigma}^\dagger \hat c_{i\sigma}
+	\rangle
+\]
+In all phases considered in the present discussion, given some site $i$ and a spin $\sigma$, evidently $\tilde{t}_{ij\sigma}$ must be identical for any NN site $j$. Over the planar square lattice, this implies that the quantity $\langle
+\hat c_{j\sigma}^\dagger \hat c_{i\sigma} \rangle$ exhibits $s^*$-wave symmetry (also referred to as ``Extended $s$-wave symmetry'') given in Tab.~\ref{tab:x-wave-real-factors} and depicted in Fig.~\ref{subfig:s*-wave-correlator}. This gives in turn that the hopping shift is rigid and the bands are rigidly renormalized by a self consistent parameter $w^{(\mathrm{N})}$,
+\[
+	t\to\tilde{t} \equiv t - w^{(\mathrm{N})}V
+	\quad\implies\quad
+	\epsilon_\mathbf{k} \to \tilde{\epsilon}_\mathbf{k} = -2 \tilde{t} \left(
+		\cos k_x + \cos k_y
+	\right)
+\]
+
+The effective diffusive hamiltonian is given by
+\[
+\begin{aligned}
+	\hat H_{\tilde{t}} &= \hat H_t + V \sum_{\ev{ij}} \sum_\sigma \left[
+	\langle
+	\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} + \hc
+	\right] \\
+	&= - \sum_{\ev{ij}} \sum_\sigma 
+	\left[
+	\tilde{t}_{ij\sigma} \hat c_{i\sigma}^\dagger \hat c_{j\sigma} + \hc
+	\right]
+\end{aligned}
+\]
+In reciprocal space, the effective hopping must be transformed as well. Consider the Fourier Transform $\mathcal{F}$ given in Eq.~\eqref{eq:reciprocal-space-non-local-interaction-explicit}, applied to the displayed part of Eq.~\eqref{eq:real-space-non-local-interaction-fock},
+\begin{multline}
+	V \sum_{\ev{ij}} \sum_\sigma \left[
+		\langle
+		\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+		\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} + 
+		\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+		\langle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} \rangle - \langle \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+		\rangle \langle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} \rangle
+	\right] \\
+	\stackrel{\mathcal{F}}{=} \frac{2V}{L_x L_y} \sum_{\mathbf{K}, \mathbf{k}, \mathbf{k}'} \sum_\sigma \left[
+	\cos \left(
+	\delta k_x
+	\right)	+ \cos \left(
+	\delta k_y
+	\right)	
+	\right]	
+	\langle
+	\hat c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger 
+	\hat c_{\mathbf{K}-\mathbf{k}' \sigma}
+	\rangle
+	\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}+\mathbf{k}'\sigma} - E_{\mathrm{F}/V}^{(\mathrm{N})} \label{eq:normal-V-fock-int1}
+\end{multline}
+Here, the $2$ prefactor comes from recognizing that the first two operators in square brackets in the first line generate identical contributions to the full sum; the double counting energy shift is given by
+\begin{equation}\label{eq:reciprocal-space-non-local-interaction-fock-double-couting}
+	E_{\mathrm{F}/V}^{(\mathrm{N})} \equiv \frac{V}{L_x L_y} \sum_{\mathbf{K}, \mathbf{k}, \mathbf{k}'} \sum_\sigma \left[
+		\cos \left(
+			\delta k_x
+		\right)	+ \cos \left(
+			\delta k_y
+		\right)	
+	\right]	
+	\langle
+		\hat c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger 
+	\hat c_{\mathbf{K}-\mathbf{k}' \sigma}
+	\rangle \langle
+		\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}+\mathbf{k}'\sigma} 
+	\rangle
+\end{equation}
+
+Up to this point, this derivation is general and will be re-used in next chapters. Here the specificity of the physical phase settles in: if we assume the normal state to be a free degenerate Fermi gas with renormalized bands, we get
+\[
+	\langle \hat c_{\mathbf{k}_1\sigma_1} \hat c_{\mathbf{k}_2 \sigma_2} \rangle = \delta_{\mathbf{k}_1=\mathbf{k}_2} \delta_{\sigma_1=\sigma_2} f(\tilde{\epsilon}_\mathbf{k};\beta,\tilde{\mu})
+\]
+being $f$ the Fermi-Dirac distribution,
+\[
+	f(\epsilon;\beta,\mu) \equiv \frac{1}{e^{\beta(\epsilon-\mu)}+1}
+\]
+It follows that Eq.~\eqref{eq:normal-V-fock-int1} becomes
+\begin{multline}
+	V \sum_{\ev{ij}} \sum_\sigma \left[
+	\langle
+	\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} + 
+	\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	\langle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} \rangle - \langle \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	\rangle \langle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} \rangle
+	\right] \\
+	\stackrel{\mathcal{F}}{=} \frac{2V}{L_x L_y} \sum_{\mathbf{K}, \mathbf{k}} \sum_\sigma \left[
+	\cos \left(
+	2 k_x
+	\right)	+ \cos \left(
+	2 k_y
+	\right)	
+	\right]	
+	\langle
+	\hat c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger 
+	\hat c_{\mathbf{K}+\mathbf{k} \sigma}
+	\rangle
+	\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}-\mathbf{k}\sigma} - E_{\mathrm{F}/V}^{(\mathrm{N})} \label{eq:normal-V-fock-int2}
+\end{multline}
+since the only contribution comes from $\mathbf{k}'=-\mathbf{k}$. Let now $\mathbf{q}\equiv\mathbf{K}+\mathbf{k}$, $\mathbf{q}'\equiv\mathbf{K}-\mathbf{k}$. Being for $\ell=x,y$
+\[
+\begin{aligned}
+	\delta q_\ell &\equiv q_\ell - q_\ell' \\
+	&= (K_\ell+k_\ell) - (K_\ell-k_\ell) \\
+	&= 2k_\ell
+\end{aligned}
+\]
+we reduce Eq.~\eqref{eq:normal-V-fock-int1} to
+\begin{multline}
+	V \sum_{\ev{ij}} \sum_\sigma \left[
+	\langle
+	\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} + 
+	\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	\langle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} \rangle - \langle \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	\rangle \langle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} \rangle
+	\right] \\
+	\stackrel{\mathcal{F}}{=} \frac{2V}{L_x L_y} \sum_{\mathbf{q}, \mathbf{q}'} \sum_\sigma \left[
+		\cos \left(
+			\delta q_x
+		\right)	+ \cos \left(
+			\delta q_y
+		\right)	
+	\right]	
+	\langle
+		\hat c_{\mathbf{q}\sigma}^\dagger 
+		\hat c_{\mathbf{q}\sigma}
+	\rangle
+	\hat c_{\mathbf{q}'\sigma}^\dagger  \hat c_{\mathbf{q}'\sigma} - E_{\mathrm{F}/V}^{(\mathrm{N})} \label{eq:normal-V-fock-int3}
+\end{multline}
+Recall now the result of Eq.~\eqref{eq:coscos-symmetries-decomposition},
+\[
+	\cos \left( \delta q_x \right)	+ \cos \left( \delta q_y  \right) = \frac 1 2 \sum_\gamma \varphi_\mathbf{q}^{(\gamma)} \varphi_{\mathbf{q}'}^{(\gamma)*}
+	\qq{for $\gamma \in \lbrace s^*, p_x, p_y, d_{x^2-y^2} \rbrace$}
+\]
+Thanks to this handy property, we reduce Eq.~\eqref{eq:normal-V-fock-int3} to
+\begin{multline}
+	V \sum_{\ev{ij}} \sum_\sigma \left[
+	\langle
+	\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} + 
+	\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	\langle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} \rangle - \langle \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	\rangle \langle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} \rangle
+	\right] \\
+	\stackrel{\mathcal{F}}{=} \sum_\gamma \left[
+		\frac{1}{L_x L_y} \sum_\mathbf{q} \varphi_\mathbf{q}^{(\gamma)}
+		\langle
+			\hat c_{\mathbf{q}\sigma}^\dagger 
+			\hat c_{\mathbf{q}\sigma}
+		\rangle
+	\right] \times V
+	\sum_{\mathbf{q}'}
+	\varphi_{\mathbf{q}'}^{(\gamma)*}
+	\hat c_{\mathbf{q}'\sigma}^\dagger
+	\hat c_{\mathbf{q}'\sigma} - E_{\mathrm{F}/V}^{(\mathrm{N})} \label{eq:normal-V-fock-int4}
+\end{multline}
+Now, the bare bands $\epsilon_\mathbf{k}$ as well as their rigidly renormalized version $\tilde{\epsilon}_\mathbf{k}$ are $s^*$-wave symmetric. The expectation value $\langle \hat c_{\mathbf{q}\sigma}^\dagger \hat c_{\mathbf{q}\sigma} \rangle = f(\tilde{\epsilon}_\mathbf{q};\beta,\tilde{\mu})$ thus exhibits the same symmetry. Then, in Eq.~\eqref{eq:normal-V-fock-int4}, due to the presence of the part in square brackets, only $\gamma=s^*$ contributes. Let us define the HFP $w^{(\mathrm{N})}$ as
+\begin{equation}\label{eq:w-normal-sc-equation}
+	w^{(\mathrm{N})} \equiv \frac{1}{2L_x L_y} \sum_{\mathbf{q}\in\mathrm{BZ}} \left(
+		\cos q_x + \cos q_y
+	\right) f(\tilde{\epsilon}_\mathbf{q};\beta,\tilde{\mu})
+\end{equation}
+which finally gives
+\begin{multline}
+	V \sum_{\ev{ij}} \sum_\sigma \left[
+	\langle
+	\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} + 
+	\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	\langle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} \rangle - \langle \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+	\rangle \langle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} \rangle
+	\right] \\
+	\stackrel{\mathcal{F}}{=} 
+	\sum_{\mathbf{q}'}
+	2 w^{(\mathrm{N})} V
+	\left(
+		\cos q_x + \cos q_y
+	\right)
+	\hat c_{\mathbf{q}'\sigma}^\dagger
+	\hat c_{\mathbf{q}'\sigma} - E_{\mathrm{F}/V}^{(\mathrm{N})} \label{eq:normal-V-fock}
+\end{multline}
+As anticipated, hopping gets shifted by an amount
+\begin{equation}\label{eq:normal-V-fock-t-shift}
+	t\to\tilde{t} \equiv t - w^{(\mathrm{N})}V
+\end{equation}
+with $w^{(\mathrm{N})}$ to be self-consistently determined by iteratively solving Eq.~\eqref{eq:w-normal-sc-equation}.
+
+\begin{table}
+	\centering
+	\begin{tabular}{c c c c}
+		\textbf{Operator} & \textbf{Sector} & \textbf{RWCs} & \textbf{Net effect} \\
+		\midrule
+		$\hat H_U$ && Hartree & $\mu$ shift \\
+		$\hat H_V$ & o.s. & Hartree & $\mu$ shift \\
+		\multirow{2}{*}{$\hat H_V$} & \multirow{2}{*}{s.s.} & Hartree & $\mu$ shift\\
+		&& Fock & $t$ shift\\
+		\midrule
+	\end{tabular}
+	\caption{}
+	\label{}
+\end{table}
+
+\section{Free energy density}
+\todo
+
+\section{HF results}
+\todo

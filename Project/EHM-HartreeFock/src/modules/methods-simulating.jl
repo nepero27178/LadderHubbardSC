@@ -292,11 +292,12 @@ function RunHFAlgorithm(
 	end
 
 	# Reciprocal space discretization (normalized to 1)
-	Kx::Vector{Float64} = [kx for kx in -1:2/L[1]:1]
-	popfirst!(Kx)
-	Ky::Vector{Float64} = [ky for ky in -1:2/L[2]:1]
-	popfirst!(Ky)
-	K::Matrix{Vector{Float64}} = [ [kx,ky] for kx in Kx, ky in Ky ]
+	# Kx::Vector{Float64} = [kx for kx in -1:2/L[1]:1]
+	# popfirst!(Kx)
+	# Ky::Vector{Float64} = [ky for ky in -1:2/L[2]:1]
+	# popfirst!(Ky)
+	# K::Matrix{Vector{Float64}} = [ [kx,ky] for kx in Kx, ky in Ky ]
+	K, Kx, Ky = GetKGrid(L)
 
 	# Get Hartree Fock Parameters labels
 	HFPs = GetHFPs(Phase;Syms)

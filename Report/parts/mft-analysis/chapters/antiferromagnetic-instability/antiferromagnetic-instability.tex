@@ -1,15 +1,15 @@
 \def\GraphicsFolder{parts/mft-analysis/chapters/antiferromagnetic-instability/pictures}
 \chapter{Anti-Ferromagnetic instability}\label{chap:mft-af-instability}
 
-In this chapter, the effect of the non-local interaction on the antiferromagnetic phase is discussed. The MFT derivation for the Hubbard Model is discussed in App.~\ref{appendix:mean-field-hubbard}.
+This chapter is devoted to an in-depth discussion of the antiferromagnetic (AF) long-range ordering in the EHM by the means of MFT. In the context of the $2$D Hubbard model (HM), discussed in App.~\ref{appendix:mean-field-hubbard}, AF ordering establishes as an unconventional metallic phase which is only stable at half-filling (as is discussed in Sec.~\mref). The situation for the EHM is similar: the present analysis is carried out based on the argument that, given the symmetry structure of the non-local NN interaction, the fundamental features of the commensurate AF phase of the HM are effectively preserved, while the parameters are redefined by the interaction itself. The two most relevant effects we discuss in this chapter are the ``magnetization boost'' (Sec.~\mref) and the ``hopping renormalization`` (Sec.~\mref), the latter being a general feature of the EHM common to all phases preserving (or, at most, weakening without destroying) the translational invariance, discussed in Sec.~\ref{subsec:fock-hopping-renormalization-normal}.
 
-\section{Symmetry considerations for the AF phase}
-
+\section{Sketch and general features of the MFT solution}
 \todo
+\subsection{Symmetry considerations for the AF phase}
+\todo
+\subsection{Antiferromagnetism in the conventional Hubbard model}
 
-\section{Antiferromagnetism in the conventional Hubbard model}
-
-The Anti-Ferromagnetic phase, specified by the Ansatz \eqref{appeq:af-mean-field-ansatz} (which is explicitly breaking translational invariance in each spin sector, while preserving $\mathrm{U}^z(1)$ and $\mathrm{U}^c(1)$ symmetries) reduces the hamiltonian to the form of Eq.~\eqref{appeq:hubbard-mean-field-hamiltonian}
+Within the Hubbard model, the antiferromagnetic phase (AF) is specified by the Ansatz \eqref{appeq:af-mean-field-ansatz} which is explicitly breaking translational invariance in each spin sector, while preserving $\mathrm{U}^z(1)$ and $\mathrm{U}^c(1)$ symmetries and reduces the hamiltonian to the form of Eq.~\eqref{appeq:hubbard-mean-field-hamiltonian} (ignoring the double-counting terms)
 \[
 	\hat H_t + \hat H_U \stackrel{\mathrm{MFT}}{\simeq} -t \sum_{\langle \mathbf{r}\mathbf{r}' \rangle} \sum_\sigma \hat c_{\mathbf{r}\sigma}^\dagger \hat c_{\mathbf{r}'\sigma}
 	+ nU \sum_\mathbf{r} \left[
@@ -36,9 +36,9 @@ and $\Delta_\uparrow = mU$, $\Delta_\downarrow = -mU$. Nambu spinorial formulati
 \]
 and the free electrons energy is simply the tight binding energy
 \[
-	\epsilon_\mathbf{k} = -2t \left[
-		\cos (k_x) + \cos (k_y)
-	\right]
+	\epsilon_\mathbf{k} = -2t \left(
+		\cos k_x + \cos k_y
+	\right)
 \]
 which is spin-invariant. The MFT description of the model reduces to a gas of free ``$\gamma$-fermions'', described by the Nambu spinor of Eq.~\eqref{appeq:af-diagonalized-nambu-spinor},
 \[
@@ -62,35 +62,36 @@ These fermions populate the two bands $\pm E_\mathbf{k} = \sqrt{\epsilon_\mathbf
 	\langle \hat \Psi_{\mathbf{k}\sigma}^\dagger \tau^z \hat \Psi_{\mathbf{k}\sigma} \rangle &= -\cos \normalfont(2\theta_\mathbf{k}) \langle \hat \Gamma_{\mathbf{k}\sigma}^\dagger \tau^z \hat \Gamma_{\mathbf{k}\sigma} \rangle \label{eq:af-z-expectation}
 \end{align}
 and since the $\gamma$-fermions are free and in the rotated frame the pseudo-field points ``up'',
-\[
+\begin{equation}\label{eq:af-rot-z-expectation}
 	\langle \hat \Gamma_{\mathbf{k}\sigma}^\dagger \tau^z \hat \Gamma_{\mathbf{k}\sigma} \rangle = \frac{1}{2} \left[
 		f\left(
-			-E_\mathbf{k};\beta,\tilde{\mu}
+			-E_\mathbf{k};\beta,\mu
 		\right) - f\left(
-			E_\mathbf{k};\beta,\tilde{\mu}
+			E_\mathbf{k};\beta,\mu
 		\right)
 	\right]
-\]
+\end{equation}
+Of these properties, to pseudospin picture is a simple and powerful tool that our MFT discussion should preserve.
 
-\section{EHM model and antiferromagnetic ordering}
+\subsection{Extension to the EHM}
 
-Consider now the non-local interaction $\hat H_V$: since only translational invariance is broken in the AF phase, the only relevant contributions coming from Wick's decomposition are Hartree terms and the same-spin Fock term. The net effect obtained by including this interaction, as I will explain, is a renormalization of the various quantities,
+Consider now the non-local interaction $\hat H_V$: since only translational invariance is partially broken in the AF phase, the only relevant contributions coming from Wick's decomposition are Hartree terms and the same-spin Fock term. The discussion is thus essentially the same as for the normal phase of Chap.~\ref{chap:normal-phase}, with the only relevant difference being the Ansatz we use in Eq.~\eqref{eq:normal-density-ansatz}, substituted by the commensurate oscillatory Ansatz of Eq.~\eqref{appeq:af-mean-field-ansatz}. As for the normal phase, by design the MFT solution to the model for the given phase is described by a redefinition of the various physical quantities and mathematical objects,
 \[
+	t \to \tilde{t}
+	\qquad
 	\epsilon_\mathbf{k} \to \tilde{\epsilon}_{\mathbf{k}\sigma}
 	\qquad
 	E_\mathbf{k} \to \tilde{E}_{\mathbf{k}\sigma}
 	\qquad
 	\Delta_\sigma \to \tilde{\Delta}_{\mathbf{k}\sigma}
 	\qquad
-	\theta_{\mathbf{k}\sigma} \to \tilde{\theta}_{\mathbf{k}\sigma}
-	\qquad
-	W_{\mathbf{k}\sigma} \to \tilde{W}_{\mathbf{k}\sigma}
+	\mu \to \tilde{\mu}
 \]
 The band energies renormalization is simply
 \[
 	\tilde{E}_{\mathbf{k}\sigma} \equiv \sqrt{\tilde{\epsilon}_{\mathbf{k}\sigma}^2 + |\tilde{\Delta}_{\mathbf{k}\sigma}|^2}
 \]
-and the following relations hold:
+and the following relations hold (the \textit{tilde} sign indicates the renormalized quantity):
 \begin{align}
 	\langle \hat \Psi_{\mathbf{k}\sigma}^\dagger \tau^x \hat \Psi_{\mathbf{k}\sigma} \rangle &= \sin \normalfont(2\tilde{\theta}_\mathbf{k}) \sin \normalfont(2\tilde{\zeta}_\mathbf{k}) \langle \hat \Gamma_{\mathbf{k}\sigma}^\dagger \tau^z \hat \Gamma_{\mathbf{k}\sigma} \rangle \label{eq:af-x-expectation-non-local}\\
 	\langle \hat \Psi_{\mathbf{k}\sigma}^\dagger \tau^y \hat \Psi_{\mathbf{k}\sigma} \rangle &= \sin \normalfont(2\tilde{\theta}_\mathbf{k}) \cos \normalfont(2\tilde{\zeta}_\mathbf{k}) \langle \hat \Gamma_{\mathbf{k}\sigma}^\dagger \tau^z \hat \Gamma_{\mathbf{k}\sigma} \rangle \label{eq:af-y-expectation-non-local}\\
@@ -106,7 +107,7 @@ with:
 	\qquad
 	\cos \normalfont(2\tilde{\theta}_\mathbf{k}) = \frac{\tilde{\epsilon}_\mathbf{k}}{\tilde{E}_\mathbf{k}}
 \end{equation}
-The physical behavior is the same as for the pure Hubbard model. In next sections the different contributions to renormalization are treated.
+The physical behavior is the same as for the pure Hubbard model. In terms of MFT discussion, the AF phase is similar enough to the normal phase of Chap.~\ref{chap:normal-phase}: the RWCs are the same of Sec.~\ref{sec:normal-phase-introduction}, listed in Tabs.~\ref{tab:U-wick-terms-phases} and \ref{tab:V-wick-terms-phases}. All three Hartree contractions, responsible in the normal phase of the chemical potential shift, and the s.s. Fock contraction, that originated the hopping renormalization. Let us start by the Hartree terms: due to the ``staggered'' nature of the commensurate AF phase, their role is here more complex. Then we will move to the Fock term, discussing the MFT approximations effect on bands. Next sections are basically an extension of the calculations of Chap.~\ref{chap:normal-phase}.
 
 \begin{figure}
 	\centering
@@ -115,34 +116,71 @@ The physical behavior is the same as for the pure Hubbard model. In next section
 	\label{fig:pseudo-magnetic-field}
 \end{figure}
 
-\subsection{Hartree renormalization of chemical potential and gap}
+\section{Hartree effects: renormalization of chemical potential and gap}
 
-The same-spin and opposite-spin non-local Hartree terms are
+As in Eq.~\eqref{eq:normal-V-wick-decomposition}, the same-spin and opposite-spin non-local Hartree terms are
+\begin{multline*}
+	\hat H_V \simeq
+	\overbrace{
+		-V \sum_{\ev{ij}} \sum_\sigma \left[
+			\langle
+			\hat n_{i\sigma}
+			\rangle \hat n_{j\sigma} + \hat n_{i\sigma} \langle
+			\hat n_{j\sigma}
+			\rangle - \langle
+			\hat n_{i\sigma}
+			\rangle \langle
+			\hat n_{j\sigma}
+			\rangle
+		\right]
+	}^{\mathrm{s.s.}} \\
+	\underbrace{
+		-V \sum_{\ev{ij}} \sum_\sigma \left[
+			\langle
+			\hat n_{i\sigma}
+			\rangle \hat n_{j\overline{\sigma}} + \hat n_{i\sigma} \langle
+			\hat n_{j\overline{\sigma}}
+			\rangle
+			- \langle
+			\hat n_{i\sigma}
+			\rangle \langle
+			\hat n_{j\overline{\sigma}}
+			\rangle
+		\right]
+	}_{\mathrm{o.s.}} \, +\,
+	(\text{all the rest})
+\end{multline*}
+Let $i \to \mathbf{r} = (x,y)$ and $j \to \mathbf{r}' = (x',y')$. The key difference in the present derivation, with respect to the normal phase, is the single-site density Ansatz: instead of Eq.~\eqref{eq:normal-density-ansatz}, we use Eq.~\eqref{appeq:af-mean-field-ansatz}, which describes an oscillatory density for each spin sector,
 \[
-\underbrace{
-	-V \sum_{\ev{ij}} \sum_\sigma \left[
-	\langle 
-	\hat n_{i\sigma}
-	\rangle \hat n_{j\sigma} + \hat n_{i\sigma} \langle 
-	\hat n_{j\sigma}
-	\rangle
-	\right]
-}_{\mathrm{s.s.}}
-\underbrace{
-	-V \sum_{\ev{ij}} \sum_\sigma \left[
-	\langle
-	\hat n_{i\sigma}
-	\rangle \hat n_{j\overline{\sigma}} + \hat n_{i\sigma} \langle 
-	\hat n_{j\overline{\sigma}}
-	\rangle
-	\right]
-}_{\mathrm{o.s.}}
+	\langle \hat n_{\mathbf{r}\sigma} \rangle = n - (-1)^{x+y+\delta_{\sigma=\uparrow}} m
 \]
-Let $i \to \mathbf{r} = (x,y)$ and $j \to \mathbf{r}' = (x',y')$. Then, using the Ansatz of Eq.~\eqref{appeq:af-mean-field-ansatz}, summarized as
-\[
-\langle \hat n_{\mathbf{r}\sigma} \rangle = n - (-1)^{x+y+\delta_{\sigma=\uparrow}} m
-\]
-we get
+This Ansatz is composed of two parts: the offset $n$, and the oscillatory part $m$. The algebraic derivation relative to the $n$ part is, of course, the same as for the normal phase. We now treat separately the ``operatorial'' part of the braced terms of Eq.~\eqref{eq:normal-V-wick-decomposition},
+\begin{equation}\label{eq:af-V-wick-decomposition-operatorial}
+	-V \sum_{\ev{ij}} \sum_\sigma \left[
+		\langle
+		\hat n_{i\sigma}
+		\rangle \hat n_{j\sigma} + \hat n_{i\sigma} \langle
+		\hat n_{j\sigma}
+		\rangle
+		\right] -V \sum_{\ev{ij}} \sum_\sigma \left[
+		\langle
+		\hat n_{i\sigma}
+		\rangle \hat n_{j\overline{\sigma}} + \hat n_{i\sigma} \langle
+		\hat n_{j\overline{\sigma}}
+		\rangle
+	\right]
+\end{equation}
+as well as the its scalar counterpart
+\begin{equation}\label{eq:af-V-wick-decomposition-double-counting}
+	V \sum_{\ev{ij}} \sum_\sigma
+	\langle \hat n_{i\sigma} \rangle \langle \hat n_{j\sigma} \rangle + V \sum_{\ev{ij}} \sum_\sigma
+	\langle \hat n_{i\sigma} \rangle \langle \hat n_{j\overline{\sigma}} \rangle
+\end{equation}
+which accounts for the energy shift to be accounted when performing Wick's contractions.
+
+\subsection{Operatorial part and mapping on the gapped AF hamiltonian}
+
+Let us start from the operator of Expr.~\eqref{eq:af-V-wick-decomposition-operatorial}. By inserting the Ansatz of Eq.~\eqref{appeq:af-mean-field-ansatz}, we get
 \begin{multline*}
 	\overbrace{
 		-nV \sum_{\ev{\mathbf{r}\mathbf{r}'}} \sum_\sigma \left[
@@ -159,13 +197,13 @@ we get
 		\right]
 	}_{\mathrm{o.s.}}
 \end{multline*}
-For a square lattice, if $\mathbf{r} = (x,y)$ and $\mathbf{r}' = (x',y')$ are NNs evidently
+For a square lattice, if $\mathbf{r} = (x,y)$ and $\mathbf{r}' = (x',y')$ are NNs, evidently
 \[
-(-1)^{x'+y'} = (-1)^{x+y+1}
+	(-1)^{x'+y'} = (-1)^{x+y+1}
 \]
 Moreover,
 \[
-(-1)^{\delta_{\overline{\sigma}=\uparrow}} = (-1)^{\delta_{\sigma=\uparrow}+1}
+	(-1)^{\delta_{\overline{\sigma}=\uparrow}} = (-1)^{\delta_{\sigma=\uparrow}+1}
 \]
 We obtain
 \begin{multline}
@@ -189,22 +227,23 @@ We obtain
 	}_{\text{o.s. (magnetization)}}
 	\label{eq:af-hartree-renormalization-intermediate}
 \end{multline}
-In the above expressions the various contribution have been separated in ``density'' contributions and ``magnetization'' contributions. Let me deal with these separately.
+In the above expressions the various contribution have been separated in ``density'' contributions and ``magnetization'' contributions. Let us deal with these separately.
 
 \paragraph{Density terms.}
 
-Consider the $s.s.$ and $o.s.$ (density) terms of Expr.~\eqref{eq:af-hartree-renormalization-intermediate}. Since
-\[
-\sum_{\ev{\mathbf{r}\mathbf{r}'}} \sum_\sigma \left[
-\hat n_{\mathbf{r}\sigma} + \hat n_{\mathbf{r}'\sigma}
-\right] = \sum_{\ev{\mathbf{r}\mathbf{r}'}} \sum_\sigma \left[
-\hat n_{\mathbf{r}\sigma} + \hat n_{\mathbf{r}'\overline{\sigma}}
-\right] = z \hat N
-\]
-with $z=4$ the lattice coordination factor, indicating the number of NNs per site, then the first and third terms of Expr.~\eqref{eq:af-hartree-renormalization-intermediate} contribute to a pure chemical potential shift. The renormalized chemical potential is:
-\begin{equation}\label{eq:af-hartree-chemical-potential-renormalization}
-	\tilde{\mu} \equiv \mu + 2znV
+Consider the s.s. and o.s. (density) terms of Expr.~\eqref{eq:af-hartree-renormalization-intermediate}, reintronducing the double counting energy shift
+\begin{equation}\label{eq:af-hartree-renormalization-density}
+	-nV \sum_{\ev{\mathbf{r}\mathbf{r}'}} \sum_\sigma \left[
+	\hat n_{\mathbf{r}\sigma} + \hat n_{\mathbf{r}'\sigma}
+	\right] -nV \sum_{\ev{\mathbf{r}\mathbf{r}'}} \sum_\sigma \left[
+	\hat n_{\mathbf{r}\sigma} + \hat n_{\mathbf{r}'\overline{\sigma}}
+	\right]
 \end{equation}
+The discussion is identical to the one of Sec.~\ref{subsec:hartree-shifts-mu} for the normal phase, with the renormalization of $\mu$ being the same of Eq.~\eqref{eq:total-hartree-mu-shift}.
+\begin{equation}\label{eq:af-hartree-chemical-potential-renormalization}
+	\tilde{\mu} \equiv \mu + n(2zV-U)
+\end{equation}
+Within this equation we are also already implicitly considering the $\mu$ shift effect due to $\hat H_U$.
 
 \paragraph{Magnetization terms.}
 
@@ -221,58 +260,150 @@ The $\mathrm{s.s.}$ and $\mathrm{o.s.}$ (magnetization) terms of Expr.~\eqref{eq
 \end{multline}
 Consider now the last term of the pure Hubbard model under MFT approximations of Eq.~\eqref{appeq:hubbard-mean-field-hamiltonian},
 \[
-- mU \sum_\mathbf{r} (-1)^{x+y} \left[
-\hat n_{\mathbf{r}\uparrow} - \hat n_{\mathbf{r}\downarrow}
-\right]
-\qq{(Local gap)}
+	- mU \sum_\mathbf{r} (-1)^{x+y} \left[
+	\hat n_{\mathbf{r}\uparrow} - \hat n_{\mathbf{r}\downarrow}
+	\right]
+	\qq{(Local gap)}
 \]
 Expr.~\eqref{eq:af-hartree-renormalization-intermediate-2} is formally identical, thus we obtain a contribution to the renormalization of the AF gap,
 \begin{equation}\label{eq:af-hartree-gap-os-renormalization}
 	\Delta \to \Delta + 2zmV + (\text{s.s. contribution})
 \end{equation}
-This, together with Eq.~\eqref{eq:af-hartree-chemical-potential-renormalization}, concludes the non-local Hartree reparametrization of the hamiltonian. Next section is devoted to analyzing the effect of the Fock term.
+Let us now move to the last part of the Hartree effects on the AF phase originated by $\hat H_V$, which is, the energy shift due to double counting terms originated by MFT decomposition of the quartic interactions $\hat H_U$ and $\hat H_V$.
 
-\subsection{Fock hopping renormalization in the AF phase}\label{subsec:fock-hopping-renormalization-af}
+\subsection{Double counting terms: energy shift due to contractions}
 
-Recall the result of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate},
+Let us now focus on the scalar Expr.~\eqref{eq:af-V-wick-decomposition-double-counting}: it's the sum of two parts, the first coming from s.s. sector, the second from o.s. sector.
+
+\paragraph{s.s. sector double counting energy.}
+
+For the s.s. part, explicitating the two spin sectors, we get
 \begin{multline*}
-	V \sum_{\ev{ij}} \sum_\sigma \left[
-	\langle
-	\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
-	\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} + \hc
-	\right] \\
-	= \frac{2V}{L_x L_y} \sum_{\mathbf{K}, \mathbf{k}, \mathbf{k}'} \sum_\sigma \left[
-	\cos \left(
-	\delta k_x
-	\right)	+ \cos \left(
-	\delta k_y
-	\right)	
-	\right]	
-	\langle
-	\hat c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger 
-	\hat c_{\mathbf{K}-\mathbf{k}' \sigma}
-	\rangle
-	\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}+\mathbf{k}'\sigma}
+	V \sum_{\ev{ij}} \sum_\sigma \langle
+		\hat n_{i\sigma}
+	\rangle \langle
+		\hat n_{j\sigma}
+	\rangle = \overbrace{
+		V \sum_{\ev{\mathbf{r}\mathbf{r}'}} \left[
+			(
+				n - (-1)^{x+y} m
+			) (
+				n - (-1)^{x'+y'} m
+			)
+		\right]
+	}^{\sigma=\uparrow} \\
+	+ \underbrace{
+		V \sum_{\ev{\mathbf{r}\mathbf{r}'}} \left[
+			(
+				n + (-1)^{x+y} m
+			) (
+				n + (-1)^{x'+y'} m
+			)
+		\right]
+	}_{\sigma=\downarrow}
 \end{multline*}
-In order to proceed, it is now necessary to understand how the AF phase is realized in reciprocal space. As is exposed in App.~\ref{appendix:mean-field-hubbard}, to impose an AF Ansatz of the form
+Evidently the mixed terms (those of order $\mathcal{O}(n)\times\mathcal{O}(m)$) cancel out, and considering that the sign factor is necessarily alternating on neighboiring site, the remainder is just
 \[
-\langle \hat n_{\mathbf{r}\sigma} \rangle = n - (-1)^{x+y+\delta_{\sigma=\uparrow}} m
+	V \sum_{\ev{ij}} \sum_\sigma \langle
+		\hat n_{i\sigma}
+	\rangle \langle
+		\hat n_{j\sigma}
+	\rangle = V \sum_{\ev{\mathbf{r}\mathbf{r}'}} 2(
+		n^2-m^2
+	)
+\]
+
+\paragraph{o.s. sector double counting energy.}
+
+Proceeding identically on the o.s. sector, we get
+\begin{multline*}
+	V \sum_{\ev{ij}} \sum_\sigma \langle
+		\hat n_{i\sigma}
+	\rangle \langle
+		\hat n_{j\overline{\sigma}}
+	\rangle = \overbrace{
+		V \sum_{\ev{\mathbf{r}\mathbf{r}'}} \left[
+			(
+				n - (-1)^{x+y} m
+			) (
+				n + (-1)^{x'+y'} m
+			)
+		\right]
+	}^{\sigma=\uparrow} \\
+	+ \underbrace{
+		V \sum_{\ev{\mathbf{r}\mathbf{r}'}} \left[
+			(
+				n + (-1)^{x+y} m
+			) (
+				n - (-1)^{x'+y'} m
+			)
+		\right]
+	}_{\sigma=\downarrow}
+\end{multline*}
+which gives immediately
+\[
+	V \sum_{\ev{ij}} \sum_\sigma \langle
+		\hat n_{i\sigma}
+	\rangle \langle
+		\hat n_{j\overline{\sigma}}
+	\rangle = V \sum_{\ev{\mathbf{r}\mathbf{r}'}} 2(
+		n^2+m^2
+	)
+\]
+Hence, the total ``contraction energy'', given by the sum of both contributions, is identical to the normal one of Eq.~\eqref{eq:normal-V-contraction-energy} indeed:
+\begin{equation}\label{eq:af-hartree-V-contraction-energy}
+	E_{\mathrm{H}/V}^{(\mathrm{AF})} = 2V \sum_{\ev{ij}} \sum_\sigma n^2 = 4n^2 V \times \frac{z}{2} L_x L_y
+\end{equation}
+This implies that, when comparing normal and AF phase, we can rule out this energy contribution, being equal for both free energy densities.
+
+\section{Fock effects: renormalization of the hopping parameter}\label{subsec:fock-hopping-renormalization-af}
+
+Let us now move to the effects originated by Fock contractions. We can use the derivation of Sec.~\ref{subsec:fock-hopping-renormalization-normal} up to Eq.~\eqref{eq:normal-V-fock-int2},
+\begin{multline}
+	V \sum_{\ev{ij}} \sum_\sigma \left[
+		\langle
+		\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+		\rangle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} +
+		\hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+		\langle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} \rangle - \langle \hat c_{i\sigma}^\dagger \hat c_{j\sigma}
+		\rangle \langle \hat c_{j\sigma}^\dagger  \hat c_{i\sigma} \rangle
+	\right] \\
+	\stackrel{\mathcal{F}}{=} \frac{2V}{L_x L_y} \sum_{\mathbf{K}, \mathbf{k}} \sum_\sigma \left[
+		\cos \left(
+			2 k_x
+		\right)	+ \cos \left(
+			2 k_y
+		\right)
+	\right]
+	\langle
+		\hat c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger
+		\hat c_{\mathbf{K}+\mathbf{k} \sigma}
+	\rangle
+	\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}-\mathbf{k}\sigma} - E_{\mathrm{F}/V}^{(\mathrm{AF})} \label{eq:af-V-fock-int1}
+\end{multline}
+where $E_{\mathrm{F}/V}^{(\mathrm{AF})}$ is defined as in Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-double-couting}, with the expecatation value being computed on the AF (thermal) ground-state. As before, we discuss the operatorial part and the scalar part separately.
+
+\subsection{Operatorial part and mapping on the gapped AF hamiltonian}
+
+In order to proceed from Eq.~\eqref{eq:af-V-fock-int1}, it is necessary to understand how the AF phase is realized in reciprocal space. As is exposed in App.~\ref{appendix:mean-field-hubbard}, to impose an AF Ansatz of the form
+\[
+	\langle \hat n_{\mathbf{r}\sigma} \rangle = n - (-1)^{x+y+\delta_{\sigma=\uparrow}} m
 \]
 leads to an AF ground-state of free fermions at temperature $\beta$ described by the Nambu spinor of Eq.~\eqref{appeq:af-diagonalized-nambu-spinor}. All parameters are renormalized, thus we must account for renormalized band energies $\pm \tilde{E}_{\mathbf{k}\sigma}$ as well. The ground-state is realized by simply populating the two bands $\pm \tilde{E}_{\mathbf{k}\sigma}$ as
 \[
-\bigotimes_{\mathbf{k}\in\mathrm{MBZ}} \bigotimes_\sigma \left[
-\left(\hat \gamma_{\mathbf{k}\sigma}^{(-)}\right)^\dagger f(-\tilde{E}_\mathbf{k};\beta,\mu) + \left(\hat \gamma_{\mathbf{k}\sigma}^{(+)}\right)^\dagger f(\tilde{E}_\mathbf{k};\beta,\mu)
-\right] \ket{\Omega}
+	\bigotimes_{\mathbf{k}\in\mathrm{MBZ}} \bigotimes_\sigma \left[
+	\left(\hat \gamma_{\mathbf{k}\sigma}^{(-)}\right)^\dagger f(-\tilde{E}_\mathbf{k};\beta,\mu) + \left(\hat \gamma_{\mathbf{k}\sigma}^{(+)}\right)^\dagger f(\tilde{E}_\mathbf{k};\beta,\mu)
+	\right] \ket{\Omega}
 \]
 The $\hat\gamma$ operators are normalized superpositions of two $\hat c$ operators at points in reciprocal space separated by a $\bm{\pi}$ shift. It follows that the above state is ultimately a superposition of many-body pure states, each of which has either the $\mathbf{k}\sigma$ state occupied \textit{or} the $\mathbf{k}+\bm{\pi}\sigma$ state for each $\mathbf{k}\in\mathrm{MBZ}$, $\sigma\in\lbrace\uparrow,\downarrow\rbrace$. It follows that, when computing generically $\langle \hat c_{\mathbf{k}_1\sigma}^\dagger \hat c_{\mathbf{k}_2\sigma} \rangle$, such expectation value can be non-zero if and only if $\mathbf{k}_1 = \mathbf{k}_2 + n\bm{\pi}$, being $n \in \mathbb{Z}$. Going back to Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate}, this implies only two contributions are non-zero:
 \[
-\mathbf{k} = -\mathbf{k}'
-\qq{or}
-\mathbf{k}+\bm{\pi} = -\mathbf{k}'
+	\mathbf{k} = -\mathbf{k}'
+	\qq{or}
+	\mathbf{k}+\bm{\pi} = -\mathbf{k}'
 \]
-Then Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate} is reduced to:
+Then Eq.~\eqref{eq:af-V-fock-int1} is reduced to:
 \begin{multline}
-	\frac{2V}{L_x L_y} \sum_{\mathbf{K}, \mathbf{k}} \sum_\sigma \left[
+	(\cdots) \stackrel{\mathcal{F}}{=} \frac{2V}{L_x L_y} \sum_{\mathbf{K}, \mathbf{k}} \sum_\sigma \left[
 	\cos \left(
 	2k_x
 	\right)	+ \cos \left(
@@ -295,9 +426,9 @@ Then Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate} is 
 		\rangle
 		\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}-\mathbf{k}-\bm{\pi}\sigma}
 	}_\text{Off-diagonal terms}
-	\Big] \label{eq:reciprocal-space-non-local-interaction-fock-intermediate-2}
+	\Big] \label{eq:af-V-fock-int2}
 \end{multline}
-Now, the above equation presents \textit{diagonal} and \textit{off-diagonal} terms. Let me discuss them separately.
+Now, the above equation presents \textit{diagonal} and \textit{off-diagonal} terms.
 
 \paragraph{Diagonal terms.}
 
@@ -323,36 +454,133 @@ Now, the above equation presents \textit{diagonal} and \textit{off-diagonal} ter
 	\label{fig:af-bz-fock-terms}
 \end{figure}
 
-The diagonal terms of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate-2} are simple density interactions with the mean density field. Consider Fig.~\ref{subfig:af-bz-fock-terms-generic}: density at vector $\mathbf{q}\equiv\mathbf{K}+\mathbf{k}$ interacts with the mean density at vector $\mathbf{q}'\equiv\mathbf{K}-\mathbf{k}$. These variables are depicted in Fig.~\ref{subfig:af-bz-fock-terms-newvariables}. Apply the variable change in the diagonal part of Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-intermediate-2},
-\begin{multline}
+The diagonal terms of Eq.~\eqref{eq:af-V-fock-int2} are simple density interactions with the mean density field. Consider Fig.~\ref{subfig:af-bz-fock-terms-generic}: density at vector $\mathbf{q}\equiv\mathbf{K}+\mathbf{k}$ interacts with the mean density at vector $\mathbf{q}'\equiv\mathbf{K}-\mathbf{k}$. These variables are depicted in Fig.~\ref{subfig:af-bz-fock-terms-newvariables}. Apply in the diagonal part of Eq.~\eqref{eq:af-V-fock-int2} this variables change (which is the same of Eq.~\eqref{eq:normal-V-fock-int3})
+\begin{align}
 	\frac{2V}{L_x L_y} \sum_{\mathbf{q}, \mathbf{q}'} \sum_\sigma \left[
 	\cos \left(
 	2k_x
-	\right)	+ \cos \left(
+	\right)	+ &\cos \left(
 	2k_y
 	\right)	
 	\right] \langle
 	\hat c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger 
 	\hat 	c_{\mathbf{K}+\mathbf{k} \sigma}
 	\rangle
-	\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}-\mathbf{k}\sigma} \\
-	= \frac{2V}{L_x L_y} \sum_{\mathbf{q}, \mathbf{q}'} \sum_\sigma \left[
+	\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}-\mathbf{k}\sigma} \nonumber \\
+	&= \frac{2V}{L_x L_y} \sum_{\mathbf{q}, \mathbf{q}'} \sum_\sigma \left[
 	\cos \left( \delta q_x \right) + \cos \left( \delta q_y \right)	
 	\right] \langle
 	\hat c_{\mathbf{q}\sigma}^\dagger  \hat c_{\mathbf{q}\sigma}
 	\rangle
 	\hat c_{\mathbf{q}'\sigma}^\dagger  \hat c_{\mathbf{q}'\sigma}
-	\label{eq:reciprocal-space-non-local-interaction-fock-dd-intermediate}
-\end{multline}
-being for $\ell=x,y$
+	\nonumber \\
+	&\stackrel{\mathcal{*}}{=} \sum_{\gamma,\sigma} \left[
+		\frac{1}{L_x L_y} \sum_\mathbf{q} \varphi_\mathbf{q}^{(\gamma)}
+		\langle
+			\hat c_{\mathbf{q}\sigma}^\dagger
+			\hat c_{\mathbf{q}\sigma}
+		\rangle
+	\right] \times V
+	\sum_{\mathbf{q}'}
+	\varphi_{\mathbf{q}'}^{(\gamma)*}
+	\hat c_{\mathbf{q}'\sigma}^\dagger
+	\hat c_{\mathbf{q}'\sigma} \label{eq:af-V-fock-int3}
+\end{align}
+where the sign $\stackrel{*}{=}$ indicates that we have substituted the decomposition of Eq.~\eqref{eq:coscos-symmetries-decomposition}. Define the expectation value
+\[
+	g_{\mathbf{q}\sigma} \equiv \langle
+		\hat c_{\mathbf{q}\sigma}^\dagger
+		\hat c_{\mathbf{q}\sigma}
+	\rangle
+\]
+The expression in square brackets of Eq.~\eqref{eq:af-V-fock-int3} is just its $\gamma$ component, and is expanded in
 \[
 \begin{aligned}
-	\delta q_\ell &\equiv q_\ell - q_\ell' \\
-	&= (K_\ell+k_\ell) - (K_\ell-k_\ell) \\
-	&= 2k_\ell
+	g^{(\gamma)} &= \frac{1}{L_x L_y} \sum_{\mathbf{q}\in\mathrm{BZ}} \varphi_\mathbf{q}^{(\gamma)}
+	\langle
+		\hat c_{\mathbf{q}\sigma}^\dagger
+		\hat c_{\mathbf{q}\sigma}
+	\rangle \\
+	&= \frac{1}{L_x L_y} \sum_{\mathbf{q}\in\mathrm{MBZ}} \left[
+		\varphi_\mathbf{q}^{(\gamma)}
+		\langle
+			\hat c_{\mathbf{q}\sigma}^\dagger
+			\hat c_{\mathbf{q}\sigma}
+		\rangle
+		+
+		\varphi_{\mathbf{q}+\bm{\pi}}^{(\gamma)}
+		\langle
+			\hat c_{\mathbf{q}+\bm{\pi}\sigma}^\dagger
+			\hat c_{\mathbf{q}+\bm{\pi}\sigma}
+		\rangle
+	\right] \\
+	&= \frac{1}{L_x L_y} \sum_{\mathbf{q}\in\mathrm{MBZ}} \varphi_\mathbf{q}^{(\gamma)} \left[
+		\langle
+			\hat c_{\mathbf{q}\sigma}^\dagger
+			\hat c_{\mathbf{q}\sigma}
+		\rangle
+		-
+		\langle
+			\hat c_{\mathbf{q}+\bm{\pi}\sigma}^\dagger
+			\hat c_{\mathbf{q}+\bm{\pi}\sigma}
+		\rangle
+	\right] \\
+	&= \frac{1}{L_x L_y} \sum_{\mathbf{q}\in\mathrm{MBZ}} \varphi_\mathbf{q}^{(\gamma)}
+	\langle
+		\hat \Psi_{\mathbf{q}\sigma}^\dagger \tau^z \hat \Psi_{\mathbf{q}\sigma}
+	\rangle \\
+	&= -\frac{1}{2L_x L_y} \sum_{\mathbf{q}\in\mathrm{MBZ}} \varphi_\mathbf{q}^{(\gamma)}
+	\frac{\tilde{\epsilon}_\mathbf{q}}{\tilde{E}_\mathbf{q}} \left[
+		f\left(
+			-\tilde{E}_\mathbf{q};\beta,\tilde{\mu}
+		\right) - f\left(
+			\tilde{E}_\mathbf{q};\beta,\tilde{\mu}
+		\right)
+	\right]
 \end{aligned}
 \]
-The form factor $\cos (\delta q_x) + \cos (\delta q_y)$ decomposes in waves as in Eq.~\eqref{eq:coscos-symmetries-decomposition}. In the AF phase, $\langle \hat c_{\mathbf{q}\sigma}^\dagger  \hat c_{\mathbf{q}\sigma} \rangle$ must be $s^*$-wave symmetric, as anticipated in the starting discussion of Sec.~\ref{subsec:fock-hopping-renormalization-af}. This is due to the fact that of the four symmetries listed above, only the first one exhibits both $x$, $y$ reflections symmetry and $\pi/2$ rotational invariance. It follows, only the $s^*$-wave component when coupled to $\langle \hat c_{\mathbf{q}\sigma}^\dagger  \hat c_{\mathbf{q}\sigma} \rangle$ in Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-dd-intermediate} gives a non-null contribution, reducing the latter to
+where, in the last passage, Eqns.~\eqref{eq:af-z-expectation} and \eqref{eq:af-rot-z-expectation} have been used. Now, the AF phase does not break inversion symmetry: this implies that, whatever the shape of the renormalized bands, it must be
+\[
+	\tilde{\epsilon}_\mathbf{q} = \tilde{\epsilon}_{-\mathbf{q}}
+	\quad\implies\quad
+	g^{(p_\ell)} = 0
+	\qq{with}
+	\ell\in\lbrace x,y \rbrace
+\]
+The renormalized bands need to be a symmetric function of the moment. Hence for $\gamma\in\lbrace p_x, p_y \rbrace$ the above sum vanishes. Thus, Eq.~\eqref{eq:af-V-fock-int3} becomes
+\begin{multline}
+		\frac{2V}{L_x L_y} \sum_{\mathbf{q}, \mathbf{q}'} \sum_\sigma \left[
+			\cos \left(
+				2k_x
+		\right)	+ \cos \left(
+				2k_y
+		\right)
+	\right] \langle
+	\hat c_{\mathbf{K}+\mathbf{k} \sigma}^\dagger
+	\hat c_{\mathbf{K}+\mathbf{k} \sigma}
+	\rangle
+	\hat c_{\mathbf{K}-\mathbf{k} \sigma}^\dagger  \hat c_{\mathbf{K}-\mathbf{k}\sigma} \nonumber \\
+	= V \sum_{\mathbf{q},\sigma} \left[
+		g^{(s^*)} (\cos q_x + \cos q_y) + g^{(d)} (\cos q_x - \cos q_y)
+	\right] \hat c_{\mathbf{q} \sigma}^\dagger
+	\hat c_{\mathbf{q}\sigma}
+\end{multline}
+These two factors, together, define the full bands renormalization
+\[
+	\tilde{\epsilon}_\mathbf{k} \equiv \epsilon_\mathbf{k} + g^{(s^*)} V (\cos q_x + \cos q_y) + g^{(d)} V (\cos q_x - \cos q_y)
+\]
+The $s^*$-wave component is particularly handy, because if we let:
+\begin{align}
+	w^{(\mathrm{AF})} \equiv \frac{g^{(s^*)}}{2}
+\end{align}
+we can interpret part of the bands renormalization as a rigid hopping shift,
+\[
+	t \to \tilde{t} = t - w^{(\mathrm{AF})} V
+\]
+\todo
+
+\color{tabred}
+In the AF phase, $\langle \hat c_{\mathbf{q}\sigma}^\dagger  \hat c_{\mathbf{q}\sigma} \rangle$ must be $s^*$-wave symmetric, as anticipated in the starting discussion of Sec.~\ref{subsec:fock-hopping-renormalization-af}. This is due to the fact that of the four symmetries listed above, only the first one exhibits both $x$, $y$ reflections symmetry and $\pi/2$ rotational invariance. It follows, only the $s^*$-wave component when coupled to $\langle \hat c_{\mathbf{q}\sigma}^\dagger  \hat c_{\mathbf{q}\sigma} \rangle$ in Eq.~\eqref{eq:reciprocal-space-non-local-interaction-fock-dd-intermediate} gives a non-null contribution, reducing the latter to
 \begin{multline}
 	\frac{2V}{L_x L_y} \sum_{\mathbf{q}, \mathbf{q}'} \sum_\sigma \left[
 	\cos \left( \delta q_x \right) + \cos \left( \delta q_y \right)	
@@ -561,6 +789,9 @@ This result, together with Eqns.~\eqref{eq:af-hartree-chemical-potential-renorma
 	\right] \label{eq:af-renormalized-self-consistent-equation-wpi}
 \end{align}
 Notice that this expression is purely real, as promised, and contributes to the $y$ component of the pseudo-field of Fig.~\ref{fig:pseudo-magnetic-field}.
+
+\subsection{Double counting terms: energy shift due to contractions}
+\todo
 
 \subsection{Renormalized hamiltonian behavior}
 

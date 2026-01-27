@@ -3,7 +3,7 @@
 
 This chapter is devoted to the MFT analysis of the ``normal phase'', which is, the one where interacting electrons do not develop an antiferromagnetic or superconducting gap, although undergoing an effective non-trivial transformation. What will be derived here, in particular the hopping renormalization effect, constitutes a peculiarity of effective MFT treatment of the EHM and will be the groundwork of following analyses. Note that this chapter is structured in such a way that what is derived here mathematically is recovered and expanded to more complex phases in next chapters.
 
-\section{Theoretical description of the ``normal'' phase}
+\section{Theoretical description of the ``normal'' phase}\label{sec:normal-phase-introduction}
 
 The normal phase is simply the one where no symmetry is broken, and the many-body ground state preserves the entire $\mathrm{U}(2)$ structure of Eq.~\eqref{eq:ehm-global-u2-symmetry-u1-su2} as well as translational symmetry. Thus, the normal phase is essentially given by the null gap limit of both the antiferromagnetic and superconducting phases. By discussing it separately now, we highlight a MFT feature of the EHM of particular interest. From Tabs.~\ref{tab:U-wick-terms-phases} and \ref{tab:V-wick-terms-phases}, we know that the relevant Wick's contractions (RWCs) for this phase are
 \[
@@ -55,9 +55,9 @@ which gives immediately
 \end{aligned}
 \]
 being $\hat N$ the total number operator and $ E_{\mathrm{H}/U}^{(\mathrm{N})}$ the ``contraction energy'' (also known as double counting term) due to the Hartree (H) contraction of the $U$ repulsion,
-\[
+\begin{equation}\label{eq:normal-U-contraction-energy}
 	 E_{\mathrm{H}/U}^{(\mathrm{N})} = nU \times L_x L_y
-\]
+\end{equation}
 which correctly is a linearly extensive quantity. The chemical potential is corrected by
 \begin{equation}\label{eq:local-hartree-mu-shift}
 	\mu \to \mu - nU
@@ -67,7 +67,7 @@ The non-local attraction further corrects $\mu$.
 \paragraph{Non-local attraction.}
 
 Let us break down $\hat H_V$ isolating its Hartree RWCs in both o.s. and s.s. sectors:
-\begin{multline*}
+\begin{multline}
 	\hat H_V \simeq 
 	\overbrace{
 		-V \sum_{\ev{ij}} \sum_\sigma \left[
@@ -81,7 +81,7 @@ Let us break down $\hat H_V$ isolating its Hartree RWCs in both o.s. and s.s. se
 			\hat n_{j\sigma}
 			\rangle
 		\right]
-	}^{\mathrm{s.s.}} \\
+	}^{\mathrm{s.s.}} \nonumber \\
 	\underbrace{
 		-V \sum_{\ev{ij}} \sum_\sigma \left[
 			\langle
@@ -97,7 +97,8 @@ Let us break down $\hat H_V$ isolating its Hartree RWCs in both o.s. and s.s. se
 		\right]
 	}_{\mathrm{o.s.}} \, +\, 
 	(\text{all the rest})
-\end{multline*}
+	\label{eq:normal-V-wick-decomposition}
+\end{multline}
 where ``all the rest'' collects all non-Hartree RWCs. Recalling the Ansatz of Eq.~\eqref{eq:normal-density-ansatz}, we get
 \[
 	\hat H_V \simeq  \underbrace{
@@ -114,9 +115,9 @@ where ``all the rest'' collects all non-Hartree RWCs. Recalling the Ansatz of Eq
 	+ (\text{all the rest})
 \]
 with $E_{\mathrm{H}/V}^{(\mathrm{N})}$ the normal state shift to energy brought by $\hat H_V$,
-\[
+\begin{equation}\label{eq:normal-V-contraction-energy}
 	E_{\mathrm{H}/V}^{(\mathrm{N})} = 2V \sum_{\ev{ij}} \sum_\sigma n^2 = 4n^2 V \times \frac{z}{2} L_x L_y
-\]
+\end{equation}
 being $z=4$ the coordination number for the $2$D square lattice. Now, evidently both sums above are just a number operator,
 \[
 	\hat H_V \simeq -2nzV \times \hat N + 
@@ -126,7 +127,7 @@ This accounts for the final Hartree shift of $\mu$,
 \begin{equation}\label{eq:non-local-hartree-mu-shift}
 	\mu \to \mu + 2znV
 \end{equation}
-Thus, when considering the net shift to $\mu$ due to both interactions, we get
+Thus, when considering the net shift to $\mu$ due to both interactions combining Eqns.~\eqref{eq:local-hartree-mu-shift}, \eqref{eq:non-local-hartree-mu-shift}, we get
 \begin{equation}\label{eq:total-hartree-mu-shift}
 	\tilde{\mu} \equiv \mu + n(2zV-U)
 \end{equation}
